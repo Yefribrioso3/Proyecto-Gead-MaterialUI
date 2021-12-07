@@ -1,0 +1,183 @@
+
+// ================== Tipografia de Rubik =========================
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap');
+
+//-----------------------------------------------------------------
+
+
+
+
+
+legend {
+   float: unset !important;
+}
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Rubik', sans-serif; //Tipografia rubik
+}
+
+$light: #ffffff;
+$gray: #e7e9eb;
+$info: #0dcaf0;
+$azulDar: #14205f;
+$azulDark: #131d55;
+
+//=============================== Navbar =====================================
+
+.navbar{
+    background-color: $light;
+    padding: 5px 2rem !important;
+    border-bottom: 1px solid $gray;
+    font-size: large;
+    
+    
+}
+
+
+// ============================== SideBar =====================================
+
+.sidebar{
+    
+    background-color: $azulDark;
+    border-right: 1px solid $gray;
+    min-height: calc(100vh - 157px);  
+    width: 18rem;
+    
+    
+
+    ul{
+        list-style: none;
+        padding: 1rem 2rem;
+        li{
+            margin-bottom: 1rem;
+           
+
+            // === Quitar subrayado de los links ===
+            a{
+                text-decoration: none!important;
+                
+                &.active{  //Mostrar link de pagina activo
+                    background-color: $info;   
+                    
+                    //Azul #56baed
+                }
+            }
+        }
+    }
+}
+
+// =================================== content Body ======================================
+
+.content{
+    width: 100%;
+}
+
+
+.techInfor{
+    align-items: center;
+      
+}
+
+// ============================= COLOR TEXTO AZUL OSCURO =======================  
+.h1Color{
+    color: $azulDark;
+    font-family: 'Rubik', sans-serif;
+}
+
+.navbarText{
+    font-weight: bold;
+    font-family: 'Rubik', sans-serif;
+   
+}
+
+
+// .botonesSave {
+//     display: flex;
+//     align-content: center;
+//     justify-content: center;
+//     flex-direction: row;
+//     flex-wrap: nowrap;
+//     align-items: flex-start;
+// }
+
+
+.botonesSave {
+    display: flex;
+    align-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: flex-end;
+    
+}
+
+// ========================== MAESTRO EQUIPO BOTON GUARDAR ====================================
+// .botonesSave {
+//     display: flex;
+//     flex-direction: row;
+//     flex-wrap: nowrap;
+//     align-content: center;
+//     justify-content: space-evenly;
+//     align-items: flex-end;
+// }
+
+// .botonesSave {
+//     display: flex;
+//     align-content: center;
+//     flex-direction: row;
+//     flex-wrap: nowrap;
+//     align-items: flex-start;
+//     justify-content: space-around;
+// }
+
+.boton{
+    width: 180px;
+    height: 50px;
+}
+
+// =================================================================================
+
+// .boton_personalizado{
+//     text-decoration: none;
+//     padding: 10px;
+//     font-weight: 600;
+//     font-size: 20px;
+//     color: #ffffff;
+//     background-color: #131d55;
+//     border-radius: 6px;
+//     border: 2px solid #0016b0;
+// }
+// .boton_personalizado:hover{
+//     color: #1883ba; 
+//     background-color: #ffffff;
+// }
+
+
+.boton_pers{
+    background-color: #18256d;
+    border: none;
+    color: white;
+    padding: 13px 80px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
+    -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 10px 60px 0 rgba(0,0,0,0.3);
+    border-radius: 5px 5px 5px 5px;
+    margin: 5px 20px 40px 20px;
+    transition: all 0.3s ease-in-out;
+}
+.boton_pers:hover{
+    color: #131d55; 
+    background-color: #56baed;
+}

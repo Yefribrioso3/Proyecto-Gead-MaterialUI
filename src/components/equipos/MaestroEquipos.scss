@@ -1,0 +1,81 @@
+// .bg-colorBody{
+//     background-color: azure;
+// }
+
+
+.menu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-list {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+.menu-list li {
+    display: inline-block;
+    padding-right: 1.5rem;
+}
+
+.menu-list a { 
+    display: block;
+    color: white !important;       
+    text-decoration: none !important;
+    transition: all 100ms ease-in;
+}
+
+.menu-list a:hover {
+    transform: scale(1.1);
+}
+
+.button_icon{
+    font-size: 1rem;
+    padding-left: .5rem;    
+    padding-right: .5rem;
+}
+
+
+//=========================== Paginacion ===============================
+.menu-pagination{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.menu-pagination li{
+    display: inline-block;
+    padding-right: 1.3rem;
+    border: 1px solid rgb(95, 94, 94);
+    text-align: center;
+    
+}
+
+
+.azul{
+    color: #56baed;
+}
+
+
+//------   Boton pegajoso   -----
+
+
+.botonPegajoso{
+    background: #56baed;
+    border: none;
+    padding: 10px 40 px;
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+}
+
+#imagen {
+    margin-left: auto;
+    margin-right: auto;
+}

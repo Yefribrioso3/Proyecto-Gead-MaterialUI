@@ -1,0 +1,172 @@
+
+.menuTable{
+    padding: 40px;
+    background-color: rgb(244, 246, 249);
+    height: 100%;
+    min-height: 10vh;
+}
+
+.botones {
+    display: flex;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-end;
+    align-items: stretch;
+}
+
+.shadowM{
+    -webkit-box-shadow: 0 30px 60px 0 rgb(233, 10, 10);
+    box-shadow: 0 20px 20px 0 rgba(16, 121, 170, 0.3);
+}
+
+.botones > .btn {
+    margin-left: 0.5rem;
+}
+
+.divStyle{
+    height: 200px;
+}
+
+.sections{
+    display: flex;
+}
+
+
+.divTechnicalInfo{
+    align-items: center;
+    
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    /* background: rgb(77, 100, 231); */
+    background: hsl(240, 100%, 50%);
+    background-color: h;
+    padding: 30px;
+    width: 90%;
+    max-width: 1050px;
+    position: relative;
+    left: 50%;
+    top: 80%;
+    padding: 20px;
+    -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 10px 60px 0 rgba(0,0,0,0.3);
+    transform: translate(-50%, -50%);
+}
+
+.h1{
+    color: hsl(240, 3%, 40%);
+}
+
+
+.sectionBorder{
+    border-left: 6px solid red;
+    background-color: hsla(194, 81%, 51%, 0.61);
+}
+/* //#131d55 */
+.headerTechnicalInfo{
+    border: 2px solid blue;
+    border-radius: 5px;
+}
+
+
+.appStyle{
+    text-align: center;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form input{
+    width: 300px;
+    height: 20px;
+}
+
+
+
+
+/* ==================== PRUEBA CRUD API ============================ */
+
+/* .form-register {
+    width: 400px;
+    background: #ffffff;
+    padding: 30px !important;
+    margin: auto !important; 
+    margin-top: 40px !important;
+    border-radius: 10px !important;
+    color: rgb(8, 8, 8) !important;
+    -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3) !important;
+    box-shadow: 0 10px 60px 0 rgba(0,0,0,0.3) !important;
+}
+
+.form-register p {
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 40px;
+    
+}
+  
+.form-register a {
+    color: white;
+    text-decoration: none;
+}
+  
+.form-register a:hover {
+    color: white;
+    text-decoration: underline;
+}
+  
+.form-register .botons {
+    width: 100%;
+    background: #1f53c5;
+    border: none;
+    padding: 12px;
+    color: white;
+    margin: 16px 0;
+    font-size: 16px;
+} */
+
+
+.tablasApi{
+    /* text-align: center !important;  */
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+
+
+
+/* ------------------------------   Boton Flotante   --------------------------- */
+
+
+.contenedor-botones {
+    width:90px;
+    height:240px;
+    position:fixed;
+    right:196px;
+    bottom:82% !important;
+
+}
+.botonF1{
+    width:221px !important;
+    height:50px !important;
+    /* border-radius:100%; */
+    background:#F44336;
+    right:0;
+    bottom:0;
+    position:absolute;
+    margin-right:16px;
+    margin-bottom:16px;
+    border:none;
+    outline:none;
+    color:#FFF;
+    font-size:36px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    transition:.3s;  
+  }
+  span{
+    transition:.5s;  
+  }
