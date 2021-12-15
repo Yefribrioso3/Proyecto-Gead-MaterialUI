@@ -4,7 +4,10 @@ import '../styles/styles.scss'
 import Controls from './controls/Controls';
 import Axios from 'axios';
 
-// withStyles & makeStyles
+
+import manual from "../assets/Manual.pdf";
+import { ArrowDownward, FontDownload, FontDownloadTwoTone } from '@material-ui/icons';
+
 
 const style = {
     sideMenu: {
@@ -161,6 +164,12 @@ const SideMenu = ({ getAllList, classes, filtrarBUList }) => {
                 </Controls.Button>
 
             </div>
+
+            <div className="">
+                <a href='src/assets/Manual.pdf' className='btn' download="Manual.pdf" title='descargar proyecto'><ArrowDownward/></a>
+            
+            </div>
+
 
         </div>
     )

@@ -118,10 +118,11 @@ const ConsultaEquipos = () => {
 
     const [ExcelGet, setExcelGet] = useState([]);
 
-
+    
+    // http://localhost:3001
 
     const allAquipmentRelation = async () => {
-        await Axios.get('http://localhost:3001/api/AllequipmentRelation')
+        await Axios.get('https://node-gead.herokuapp.com/api/AllequipmentRelation')
             .then((response) => {
                 setGetAllList(response.data.equipment)
             })
