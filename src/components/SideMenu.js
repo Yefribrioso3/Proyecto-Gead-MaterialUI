@@ -66,7 +66,7 @@ const SideMenu = ({ getAllList, classes, filtrarBUList }) => {
 
 
         const allAquipmentRelation = async () => {
-            await Axios.get('http://localhost:3001/api/AllequipmentRelation')
+            await Axios.get('https://node-gead.herokuapp.com/api/AllequipmentRelation')
                 .then((response) => {
                     setListAll(response.data.equipment)
                 })

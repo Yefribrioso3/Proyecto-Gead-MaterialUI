@@ -27,20 +27,20 @@ const Formulario = ({ addEquipos, dataInfo }) => {
 
 
     useEffect(() => {
-        Axios.get('http://localhost:3001/bu').then((response) => {
+        Axios.get('https://node-gead.herokuapp.com/bu').then((response) => {
             // console.log(response.data);
             setBuList(response.data)
         });
-        Axios.get('http://localhost:3001/planta').then((response) => {
+        Axios.get('https://node-gead.herokuapp.com/planta').then((response) => {
             setOperationsList(response.data)
         });
-        Axios.get('http://localhost:3001/countries').then((response) => {
+        Axios.get('https://node-gead.herokuapp.com/countries').then((response) => {
             setPaisLis(response.data)
         });
-        Axios.get('http://localhost:3001/area').then((response) => {
+        Axios.get('https://node-gead.herokuapp.com/area').then((response) => {
             setAreaList(response.data)
         });
-        Axios.get('http://localhost:3001/lineType').then((response) => {
+        Axios.get('https://node-gead.herokuapp.com/lineType').then((response) => {
             setLineTypeList(response.data)
         });
 

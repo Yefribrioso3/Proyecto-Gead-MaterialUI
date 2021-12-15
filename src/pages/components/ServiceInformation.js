@@ -72,14 +72,14 @@ const ServiceInformation = ({ casoServInfo, id, editingNewServInfo, setnewservIn
     };
 
     const sendNewServInfo = async (valorInsertar) => {
-        await Axios.post("http://localhost:3001/api/newServInfo", {
+        await Axios.post("https://node-gead.herokuapp.com/api/newServInfo", {
             Id_NewServInfo: valorInsertar.Id_NewServInfo,
             Id_ServicesInformation: valorInsertar.Id_ServicesInformation,
             Name: valorInsertar.Name,
             Value: valorInsertar.Value
         })
 
-        await Axios.post("http://localhost:3001/api/selectNewServInfo", {
+        await Axios.post("https://node-gead.herokuapp.com/api/selectNewServInfo", {
             Id_SelectNewServInfo: valorInsertar.SelectNewServicesInfo.Id_SelectNewServInfo,
             Id_ServicesInformation: valorInsertar.Id_ServicesInformation,
             Id_NewServInfo: valorInsertar.Id_NewServInfo
@@ -143,8 +143,8 @@ const ServiceInformation = ({ casoServInfo, id, editingNewServInfo, setnewservIn
     }
 
     const deleteNewServInfo = async (id, idSelectNewServInfo) => {
-        await Axios.delete(`http://localhost:3001/api/selectNewServInfo/${idSelectNewServInfo}`)
-        await Axios.delete(`http://localhost:3001/api/newServInfo/${id}`)
+        await Axios.delete(`https://node-gead.herokuapp.com/api/selectNewServInfo/${idSelectNewServInfo}`)
+        await Axios.delete(`https://node-gead.herokuapp.com/api/newServInfo/${id}`)
             .then((id) => {
                 console.log(id)
                 alert("successfully removed");
