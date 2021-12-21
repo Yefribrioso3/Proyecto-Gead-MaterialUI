@@ -96,7 +96,7 @@ const SideMenu = ({ getAllList, classes, filtrarBUList }) => {
                         onClick={(e) => filtrarBUList("MEX", 'total')}
 
                         style={{ fontSize: 20, fontWeight: '600' }}
-                        text={`Middle America: ${contador}`}
+                        text={`Middle Americas: ${contador}`}
                     // Add New
                     >
                     </Controls.Button>
@@ -165,10 +165,10 @@ const SideMenu = ({ getAllList, classes, filtrarBUList }) => {
 
             </div>
 
-            <div className="">
+            {/* <div className="">
                 <a href='src/assets/Manual.pdf' className='btn' download="Manual.pdf" title='descargar proyecto'><ArrowDownward/></a>
             
-            </div>
+            </div> */}
 
 
         </div>

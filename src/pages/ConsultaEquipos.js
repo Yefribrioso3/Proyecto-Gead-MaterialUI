@@ -38,6 +38,8 @@ import Header from '../components/Header';
 // import UsesTable from './components/UsesTable';
 // import Autocomplete from '@mui/material/Autocomplete';
 
+import planning from '../assets/planning.jpeg'
+
 //----------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -59,7 +61,7 @@ const useStyles = makeStyles(theme => ({
     fecha: {
         color: theme.palette.primary.main,
         fontWeight: '300',
-        fontSize: 20
+        fontSize: 20,
     }
 }))
 
@@ -67,10 +69,10 @@ const useStyles = makeStyles(theme => ({
 const headCells = [
     { id: 'Name', label: 'Equipment' },
     { id: 'bu', label: 'BU' },
-    { id: 'pais', label: 'country' },
+    { id: 'pais', label: 'Country' },
     { id: 'area', label: 'Area' },
     { id: 'subarea', label: 'Subarea' },
-    { id: 'planta', label: 'plant' },
+    { id: 'planta', label: 'Plant' },
     { id: 'equipmentType', label: 'Equipment Type' },
     { id: 'acciones', label: 'Actions', disableSorting: true },
 ];
@@ -118,7 +120,7 @@ const ConsultaEquipos = () => {
 
     const [ExcelGet, setExcelGet] = useState([]);
 
-    
+
     // http://localhost:3001
 
     const allAquipmentRelation = async () => {
@@ -196,7 +198,7 @@ const ConsultaEquipos = () => {
     // } = useTable(getAllList, headCells );
     // filterFn
 
-    
+
 
 
 
@@ -232,8 +234,8 @@ const ConsultaEquipos = () => {
     // }
     //----------------------------------------      EXCEL   -------------------------------------------
 
-    
-    
+
+
 
 
 
@@ -1527,9 +1529,9 @@ const ConsultaEquipos = () => {
             setContador(++counter)
         } else {
             setGetAllList(List.filter((equipo) => equipo.Procedencia.areas.operations.countries.bu.Name === bu))
-        }   
-        
-        if ( n === 'total') {
+        }
+
+        if (n === 'total') {
             setGetAllList(List)
         }
     }
@@ -1551,14 +1553,14 @@ const ConsultaEquipos = () => {
                         x.Procedencia.areas.operations.Name.toLowerCase().includes(target.value.toLowerCase()) ||
                         x.Procedencia.line.lineTypes.Name.toLowerCase().includes(target.value.toLowerCase())
                     )
-                    
-                }
-            })
+
+            }
+        })
 
         let TotalEncontrado = filterFn.fn(getAllList).length;
         setTotalEncontrados(TotalEncontrado);
-        console.log(TotalEncontrado);      
-        console.log(TotalEncontrado);          
+        console.log(TotalEncontrado);
+        console.log(TotalEncontrado);
     }
 
 
@@ -1661,7 +1663,7 @@ const ConsultaEquipos = () => {
                 <Toolbar >
                     <PageHeader
                         contador={`${totalEncontrados} results`}
-                        style={{fontSize: 12 }}
+                        style={{ fontSize: 12 }}
                     />
                     <Grid item sm></Grid>
                     <Grid item sm></Grid>
@@ -1875,7 +1877,20 @@ const ConsultaEquipos = () => {
 
             {/* -----------------------------       FOOTER      ---------------------------- */}
             <footer className="footer mt-5 ml-5 p-4">
-                <h4>GEAD</h4>
+                <div className='d-flex'>
+                    <div>
+                        <h4>GEAD</h4>
+
+                    </div>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div>
+
+                        <img src={planning} style={{ width: '380px' }} />
+                    </div>
+
+                </div>
+
             </footer>
 
 
