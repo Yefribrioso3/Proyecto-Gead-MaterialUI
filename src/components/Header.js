@@ -63,7 +63,8 @@ export default function Header() {
                 <Grid item sm></Grid>
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 <PageHeader
-                    title="Consulta de Equipos"
+                    title="Gestor de archivos en desuso - GEAD"
+                    // title="Consulta de Equipos"
                     // subTitle="Middle America"
                 // subTitle="Form design with validation"
                 // icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
