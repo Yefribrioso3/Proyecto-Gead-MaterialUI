@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "../components/equipos/MaestroEquipos.scss"
 import '../index.css';
-
-// import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-
 import { v4 as uuidv4 } from 'uuid';
 import {
     Button,
@@ -13,13 +10,9 @@ import {
     ModalFooter,
     FormGroup,
 } from 'reactstrap';
-// import { dataEquipos } from './components/Data';
-
 import Axios from "axios";
 import { useForm } from 'react-hook-form';
 import EditAddServInfo from './components/EditAddServInfo';
-// import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-// import { CSVLink } from "react-csv";
 
 import ServiceInformation from './components/ServiceInformation';
 import EditAddTechInfo from './components/EditAddTechInfo';
@@ -28,7 +21,6 @@ import EditAddTechInfo from './components/EditAddTechInfo';
 //----------------------------------------------------------------------------------------------------------------------------------------
 
 import PageHeader from "../components/PageHeader";
-// import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
 import { Paper, makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Grid, TextField } from '@material-ui/core';
 import useTable from "../components/useTable";
 import Controls from "../components/controls/Controls";
@@ -37,10 +29,6 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import IconButton from '@material-ui/core/IconButton';
 import SideMenu from '../components/SideMenu';
 import Header from '../components/Header';
-// import UsesTable from './components/UsesTable';
-// import Autocomplete from '@mui/material/Autocomplete';
-
-
 
 import planning from '../assets/planning.jpeg'
 
@@ -1679,6 +1667,7 @@ const ConsultaEquipos = () => {
                         }
                     </TableBody>
                 </TblContainer>
+
                 <Toolbar >
                     <PageHeader
                         contador={`${totalEncontrados} results`}
@@ -1687,6 +1676,7 @@ const ConsultaEquipos = () => {
                     <Grid item sm></Grid>
                     <Grid item sm></Grid>
 
+                        {/* --------------------------      FECHA ACTUAL    --------------------------- */}
                     <PageHeader
                         // title="Consulta de Equipos"
                         subTitle="Date Updated:"
@@ -1697,12 +1687,8 @@ const ConsultaEquipos = () => {
                     <PageHeader
                         subTitle={fecha}
                     />
+                        {/* -------------------------------------------------------------------------- */}
 
-                    {/* <h4 className={`mt-4 ${classes.fecha}`}>{fecha}</h4> */}
-
-                    {/* <h4 className={`mt-4 ${classes.fecha}`}>Updated day</h4> */}
-                    {/* <button onClick={fechaActual} className="btn"></button> */}
-                    {/* className={classes.btnAddNew} */}
                     <Grid item sm></Grid>
 
                     <TblPagination />
@@ -1714,208 +1700,34 @@ const ConsultaEquipos = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            {/* <EmployeeForm /> */}
-
-            {/* <PageHeader
-                title="New Employee"
-                subTitle="Form design with validation"
-                icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
-            />
-            <Paper className={classes.pageContent}>
-                <Toolbar >
-                    <Controls.txt
-                        label="Search Equipment"
-                        id="outlined-basic"
-                        className={classes.searchInput}
-                        InputProps={{
-                            startAdornment: (<InputAdornment position="start">
-                                <Search />
-                            </InputAdornment>)
-                        }}
-                        onChange={handleSearch}
-                    />
-
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                    <Controls.Button
-                        variant="outlined"
-                        size={"large"}
-                        color={"primary"}
-                        className={classes.btnAddNew}
-                        onClick={() => abrirModalInsertar()}
-                        text={"Add New"}
-                    >
-
-                    </Controls.Button>
-
-
-                </Toolbar>
-
-                <TblContainer>
-                    <TblHead />
-                    <TableBody>
-                        {
-                            getAllList.map(item =>
-                            (<TableRow key={item.Id_Equipment}>
-                                <TableCell>{item.Name}</TableCell>
-                                <TableCell>{item.Procedencia.areas.operations.countries.bu.Name}</TableCell>
-                                <TableCell>{item.Procedencia.areas.operations.countries.Name}</TableCell>
-                                <TableCell>{item.Procedencia.areas.Name}</TableCell>
-                                <TableCell>{item.Procedencia.areas.SubArea.Name}</TableCell>
-                                <TableCell>{item.Procedencia.areas.operations.Name}</TableCell>
-                                <TableCell>{item.Procedencia.line.lineTypes.Name}</TableCell>
-                                <TableCell>
-
-
-                                    
-
-                                    <label htmlFor="icon-button-file" >
-                                        <IconButton color="primary" aria-label="edit"
-                                            onClick={() => seleccionarEquipo(item, 'Editar')}
-                                            component="span">
-
-                                            <Edit />
-
-                                        </IconButton>
-                                    </label>
-
-                                    &nbsp;&nbsp;
-
-                                    <label htmlFor="icon-button-file" >
-                                        <IconButton color="secondary" aria-label="edit"
-                                            onClick={() => seleccionarEquipo(item, 'Eliminar')}
-                                            component="span">
-
-                                            <Delete />
-
-                                        </IconButton>
-                                    </label>
-
-                                </TableCell>
-                            </TableRow>)
-                            )
-                        }
-                    </TableBody>
-                </TblContainer>
-                <TblPagination />
-            </Paper> */}
-
-
-
-
-
-
-
-
-
-            {/* <Grid item xs={1}>
-                    </Grid> */}
-            {/* Intentionally Empty */}
-
-
-
-
-            {/* <Button color="outline-primary"
-                        className={classes.btnAddNew}
-                        onClick={() => abrirModalInsertar()}>
-                        <i className="fas fa-plus button_icon"></i>
-                        Add New <i className="mr-2"></i></Button> {" "} */}
-
-
-
-            {/* <Controls.Button
-                                        variant="contained"
-                                        size={"large"}
-                                        color={"primary"}
-                                        onClick={() => seleccionarEquipo(item, 'Editar')}
-
-                                        text={"Editar"}
-                                    >
-
-                                    </Controls.Button> */}
-
-
-
-
-            {/* <Controls.Button
-                variant="contained"
-                size={"large"}
-                color={"secondary"}
-                onClick={() => seleccionarEquipo(item, 'Eliminar')}
-
-                text={"Eliminar"}
-            >
-                <i className="fas fa-plus button_icon"></i>
-
-            </Controls.Button> */}
-
-
-            {/* <Button color="primary" onClick={() => seleccionarEquipo(item, 'Editar')} >
-                                                                <i className="far fa-edit button_icon"></i></Button> {"  "}
-                                                            &nbsp;&nbsp;
-                        
-                                                            <Button color="danger" onClick={() => seleccionarEquipo(item, 'Eliminar')}>
-                                                                <i className="fas fa-trash-alt button_icon"></i> </Button> */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             {/* -----------------------------       FOOTER      ---------------------------- */}
             <footer className="footer mt-5 ml-5 p-4">
                 <div className='d-flex'>
                     <div>
                         <h4>GEAD</h4>
-
                     </div>
 
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <div>
-
                         <img src={planning} style={{ width: '380px' }} />
                     </div>
-
                 </div>
-
             </footer>
+            {/* --------------------------------------------------------------------------- */}
+
+
+
+
+
+
+
+
 
 
             {/* =================================== Modal Editar ================================= */}
+            {/* ================================================================================== */}
+
             <Modal isOpen={modalEditar} style={{ maxWidth: 800 }}  >
-                {/* style={{ maxWidth: 800 }} */}
 
                 <ModalHeader>
                     <div>
@@ -1923,7 +1735,7 @@ const ConsultaEquipos = () => {
                     </div>
                 </ModalHeader>
 
-                { // Condicional para mostros un formulaio u otro
+                { // Condicional para mostrar un formulaio u otro
                     editing ? (
                         // ---------------------------------- Modal ---------------------------------
                         <div>
@@ -2264,35 +2076,24 @@ const ConsultaEquipos = () => {
                     ) : (
 
                         <div>
-                            {/* -----------------------------------------           Editar Registros        ------------------------------------------- */}
+                            {/* -----------------------------------------        ** Editar Registros **       ------------------------------------------- */}
 
                             <ModalBody className="row text-align-center  animate__animated animate__fadeIn" >
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                {/* //-------------------------------------   BTN  Descargar PDF   ------------------------------ */}
+                                {/* //-------------------------------------   BOTON DE VISUALIZAR Y Descargar PDF   ------------------------------ */}
                                 <FormGroup >
 
+                                    {/* -------------------------   BOTON PARA VISUALIZAR PDF    ----------------------------- */}
                                     <Button color='primary' className="mr-2" onClick={()=> {
                                         setdescargarPdf(!descargarPdf)
                                     }} > { descargarPdf ? "Ocultar PDF" : "Visualizar PDF" } </Button>
-                                    {/* onClick={() => editar()} */}
+                                    {/* -------------------------------------------------------------------------------------- */}
 
 
+
+                                    {/* -------------------------   BOTON PARA DESCARGAR PDF    ----------------------------- */}
                                     <PDFDownloadLink document={ <DocPDF equipoSeleccionado={equipoSeleccionado} line={line}
                                                     operations={operations} lineTypes={lineTypes} countries={countries} bu={bu} areas={areas} SubArea={SubArea}
                                                     loading={loading} uploadImage={uploadImage} handleChangeLine={handleChangeLine}  handleChangeOperations={handleChangeOperations}
@@ -2302,10 +2103,10 @@ const ConsultaEquipos = () => {
                                                     />
                                                 }
                                                 fileName='GEAD.pdf'
-                                    >
-                                    <Button color='primary'>Descargar PDF</Button>
-
+                                            >
+                                            <Button color='primary'>Descargar PDF</Button>
                                     </PDFDownloadLink>
+                                    {/* -------------------------------------------------------------------------------------- */}
 
                                 </FormGroup>
 
@@ -2340,6 +2141,7 @@ const ConsultaEquipos = () => {
 
                                     </>
                                 ) : (
+                                    // ------------------------------    Editar Registro  -----------------------------------
                                     <>
                                         <ModalBody className="row text-align-center  animate__animated animate__fadeIn" >
                                             {/* ---------------------------------------------       Subir Imagen        --------------------------------------------- */}
@@ -2711,17 +2513,12 @@ const ConsultaEquipos = () => {
                                 )
 
                                 }
-
-
-
-
                             </ModalBody>
-
-
 
                         </div>
                     )
                 }
+                            {/* -------------------------    BOTONES ACEPTAR Y CANCELAR    ------------------------------- */}
 
                 <ModalFooter>
                     <Button color='primary' onClick={() => editar()} >Aceptar</Button>
@@ -2738,6 +2535,8 @@ const ConsultaEquipos = () => {
                 </ModalFooter>
 
             </Modal >
+
+
 
 
 

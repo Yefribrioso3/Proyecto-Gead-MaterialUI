@@ -23,6 +23,7 @@ import {
     // NavbarText
 } from 'reactstrap';
 import PageHeader from './PageHeader';
+import { ArrowDownward } from '@material-ui/icons';
 // import { LinkContainer } from 'react-router-bootstrap';
 
 
@@ -59,31 +60,38 @@ export default function Header() {
 
             <Navbar className={classes.root} light expand="md">
                 <img src={abinbev} />
-                
+
                 <Grid item sm></Grid>
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 <PageHeader
-                    title="Gestor de archivos en desuso - GEAD"
-                    // title="Consulta de Equipos"
-                    // subTitle="Middle America"
+                    title="Gestor de Activos en Desuso - GEAD"
+                // title="Consulta de Equipos"
+                // subTitle="Middle America"
                 // subTitle="Form design with validation"
                 // icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
                 />
-                
+
                 <Grid item sm></Grid>
+
+
 
 
                 <NavbarToggler onClick={toggle} />
 
+
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ms-auto" navbar>
+                        <div className="">
+                            <a href='../assets/Manual.pdf' className='btn' style={{color: "blue"}} download="Manual.pdf" title='Descargar proyecto'> Manual <ArrowDownward /></a>
+                            {/* src/assets/Manual.pdf */}
+                        </div>
 
                         <UncontrolledDropdown nav inNavbar>
                             <DropdownToggle nav caret className="text-black">
                                 Admin@admin
                             </DropdownToggle>
                             <DropdownMenu right>
-{/* 
+                                {/* 
                                 <DropdownItem>
                                     Mi perfil
                                 </DropdownItem> */}
@@ -98,16 +106,10 @@ export default function Header() {
 
 
                                 {/* <LinkContainer to='/coach/addClassroom'>
-<DropdownItem>
-<button color='primary' className='btn-block'> Add Class </button>
-</DropdownItem>
-</LinkContainer> */}
-
-
-
-
-
-
+                                <DropdownItem>
+                                <button color='primary' className='btn-block'> Add Class </button>
+                                </DropdownItem>
+                                </LinkContainer> */}
 
                             </DropdownMenu>
 
@@ -117,12 +119,6 @@ export default function Header() {
                 </Collapse>
 
             </Navbar>
-
-
-
-
-
-
 
         </AppBar>
     )

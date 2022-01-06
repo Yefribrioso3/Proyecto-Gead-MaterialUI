@@ -163,12 +163,21 @@ const SideMenu = ({ getAllList, classes, filtrarBUList }) => {
                 >
                 </Controls.Button>
 
-            </div>
+                <Controls.Button
+                    variant="outlined"
+                    size={"large"}
+                    color={"secondary"}
+                    className={` text-white py-2 mt-5 mx-4 px-5 w-75`}
+                    // startIcon={<Add style={{ fontSize: 34, fontWeight: '800' }} />}
+                    // onClick={() => filtrado("COL")}
+                    // onClick={(e) => filtrarBUList("COL")}
+                    style={{ fontSize: 20, fontWeight: '600' }}
+                    text={`Power BI`}
+                // Add New
+                >
+                </Controls.Button>
 
-            {/* <div className="">
-                <a href='src/assets/Manual.pdf' className='btn' download="Manual.pdf" title='descargar proyecto'><ArrowDownward/></a>
-            
-            </div> */}
+            </div>
 
 
         </div>
