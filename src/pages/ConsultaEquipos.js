@@ -34,6 +34,10 @@ import planning from '../assets/planning.jpeg'
 
 import { DocPDF } from './components/DocPDF';
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
+// import Excel from './components/Excel';
+
+import * as XLSX from 'xlsx';
+import { Excel } from './components/Excel';
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------
@@ -92,7 +96,9 @@ const ConsultaEquipos = () => {
     const [modalEditar, setModalEditar] = useState(false); //Hook para abrir y cerrar el modalEditar
     const [modalEliminar, setModalEliminar] = useState(false); //Hook para abrir y cerrar el modal Eliminar
     const [modalInsertar, setModalInsertar] = useState(false); //Hook para abrir y cerrar el modal Insertar
-    const [modalConsultaAv, setModalConsultaAv] = useState(false); //Hook para abrir y cerrar el modal Consulta Avanzada
+    const [modalInsertarExcel, setModalInsertarExcel] = useState(false)
+    
+    // const [modalConsultaAv, setModalConsultaAv] = useState(false); //Hook para abrir y cerrar el modal Consulta Avanzada
 
 
     // ----------------   Request API consultar   --------------------------
@@ -113,7 +119,7 @@ const ConsultaEquipos = () => {
 
     // const [readExcel, setReadExcel] = useState([]);
 
-    const [ExcelGet, setExcelGet] = useState([]);
+    // const [ExcelGet, setExcelGet] = useState([]);
 
 
     // http://localhost:3001
@@ -138,7 +144,7 @@ const ConsultaEquipos = () => {
         // Axios.get('http://localhost:3001/api/AllequipmentRelation').then((response) => {
         //     setGetAllList(response.data.equipment)
         // })
-        // Axios.get('http://localhost:3001/readExcel')
+        // Axios.get('http://localhost:3001/api/readExcel')
         //     .then((response) => {
         //         setReadExcel(response.data)
         //     })
@@ -920,6 +926,8 @@ const ConsultaEquipos = () => {
     // }
 
 
+
+
     //  ----------------------------------     insertar    -----------------------------
     const insertar = async () => {
 
@@ -1562,11 +1570,45 @@ const ConsultaEquipos = () => {
 
 
 
-
+    //  ------------------------    PDF     ----------------------------------
 
     const [descargarPdf, setdescargarPdf] = useState(false)
 
+    //  ------------------------    EXCEL   ----------------------------------
 
+    const [item, setItem] = useState([])
+
+    const readExcels = (file) => {
+        const promise = new Promise((resolve, reject) => {
+
+            const fileReader = new FileReader();
+            fileReader.readAsArrayBuffer(file)
+
+            fileReader.onload = (e) => {
+                const bufferArray = e.target.result;
+
+                const workbook = XLSX.read(bufferArray, { type: 'buffer' });
+
+                const workbookSheetsName = workbook.SheetNames[0];
+
+                const workbookSheet = workbook.Sheets[workbookSheetsName];
+
+                const data = XLSX.utils.sheet_to_json(workbookSheet);
+                resolve(data);
+            };
+
+            fileReader.onerror = ((error) => {
+                reject(error);
+            });
+
+            // setEditTableExcel(true);
+        });
+
+        promise.then((d) => {
+            setItem(d)
+        })
+        
+    };
 
 
 
@@ -1619,6 +1661,69 @@ const ConsultaEquipos = () => {
                         text={"Add New"}
                     >
                     </Controls.Button>
+
+
+                    {/* <Controls.Button
+                            id="icon-button-file"
+                            type="file"
+                            variant="outlined"
+                            size={"large"}
+                            color={"primary"}
+                            className={classes.btnAddNew}
+                            startIcon={<Add style={{ fontSize: 34, fontWeight: '800' }} />}
+                            onChange={(e) => {
+                                const file = e.target.files[0];
+                                readExcels(file)
+                            }}
+                            style={{ fontSize: 20, fontWeight: '600', width: 150 }}
+                            text={"Excel"}
+                        >
+                        </Controls.Button> */}
+
+
+
+                    {/* console.log(Excel(`C:\\DBStructure\\MAZ–LTS–DBStructure-210830.xlsx`)) */}
+
+
+
+                    {/* id="imagen" */}
+                    {/* className="mt-2 animate__animated animate__fadeInLeft" style={{ maxWidth: 60, alignContent: 'center' }} */}
+                    
+                    
+                        {/* -----------------------  Boton para insertar datos desde Excel   ----------------------------------- */}
+                    
+                    {/* <div id="imagen">
+
+                        <input
+                            id="icon-button-file"
+                            type="file"
+                            style={{ display: 'none' }}
+                            onChange={(e) => {
+                                const file = e.target.files[0];
+
+                                readExcels(file);
+                                setModalInsertarExcel(true);
+                            }}
+                            
+                        />
+
+                        <label htmlFor="icon-button-file">
+                            <IconButton color="primary" aria-label="upload picture"
+                                component="span">
+
+                                <Add style={{ fontSize: 34, fontWeight: '800' }} />
+                            </IconButton>
+                        </label>
+
+                    </div> */}
+
+
+
+
+
+
+
+
 
                 </Toolbar>
 
@@ -1676,23 +1781,63 @@ const ConsultaEquipos = () => {
                     <Grid item sm></Grid>
                     <Grid item sm></Grid>
 
-                        {/* --------------------------      FECHA ACTUAL    --------------------------- */}
+                    {/* --------------------------      FECHA ACTUAL    --------------------------- */}
                     <PageHeader
-                        // title="Consulta de Equipos"
                         subTitle="Date Updated:"
-                    // subTitle="Form design with validation"
-                    // icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
+                        // title="Consulta de Equipos"
+                        // subTitle="Form design with validation"
+                        // icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
                     />
 
                     <PageHeader
                         subTitle={fecha}
                     />
-                        {/* -------------------------------------------------------------------------- */}
+
+                    {/* -------------------------------------------------------------------------- */}
 
                     <Grid item sm></Grid>
 
                     <TblPagination />
                 </Toolbar>
+{/* 
+                <div className="table-responsive mt-5">
+                            <table className="table table-hover align-middle table-sm animate__animated animate__fadeIn " >
+                                <thead>
+
+                                    <tr>
+                                        <th className="table-active" scope="col">#</th>
+                                        <th className="table-active" scope="col">BU</th>
+                                        <th className="table-active" scope="col">País</th>
+                                        <th className="table-active" scope="col">Planta</th>
+                                        <th className="table-active" scope="col">Area</th>
+                                        <th className="table-active" scope="col">Subarea</th>
+                                        <th className="table-active" scope="col">Equipo</th>
+
+                                        <th className="table-active">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {item.map((element) => (
+                                        <tr key={element.No}>
+                                            <td scope="row">{element.No}</td>
+                                            <td >{element.BU}</td>
+                                            <td>{element.Country}</td>
+                                            <td>{element.Plant}</td>
+                                            <td>{element.Area}</td>
+                                            <td>{element.Subarea}</td>
+                                            <td>{element.Equipment_Name}</td>
+
+                                            <td><Button color="primary" onClick={() => seleccionarEquipo(element, 'Editar')} >
+                                                <i className="far fa-edit button_icon"></i></Button> {"  "}
+
+                                                <Button color="danger" onClick={() => seleccionarEquipo(element, 'Eliminar')}>
+                                                    <i className="fas fa-trash-alt button_icon"></i> </Button> </td>
+                                        </tr>
+                                    ))
+                                    }
+                                </tbody>
+                            </table>
+                        </div> */}
 
             </Paper>
 
@@ -2086,36 +2231,36 @@ const ConsultaEquipos = () => {
                                 <FormGroup >
 
                                     {/* -------------------------   BOTON PARA VISUALIZAR PDF    ----------------------------- */}
-                                    <Button color='primary' className="mr-2" onClick={()=> {
+                                    <Button color='primary' className="mr-2" onClick={() => {
                                         setdescargarPdf(!descargarPdf)
-                                    }} > { descargarPdf ? "Ocultar PDF" : "Visualizar PDF" } </Button>
+                                    }} > {descargarPdf ? "Ocultar PDF" : "Visualizar PDF"} </Button>
                                     {/* -------------------------------------------------------------------------------------- */}
 
 
 
                                     {/* -------------------------   BOTON PARA DESCARGAR PDF    ----------------------------- */}
-                                    <PDFDownloadLink document={ <DocPDF equipoSeleccionado={equipoSeleccionado} line={line}
-                                                    operations={operations} lineTypes={lineTypes} countries={countries} bu={bu} areas={areas} SubArea={SubArea}
-                                                    loading={loading} uploadImage={uploadImage} handleChangeLine={handleChangeLine}  handleChangeOperations={handleChangeOperations}
-                                                    handleChangeLineTypes={handleChangeLineTypes} handleChangeCountries={handleChangeCountries}
-                                                    handleChangeBu={handleChangeBu} handleChangeAreas={handleChangeAreas} handleChangeSubArea={handleChangeSubArea}
-                                                    handleChange={handleChange} technicalInformation={technicalInformation} servicesInformation={servicesInformation}
-                                                    />
-                                                }
-                                                fileName='GEAD.pdf'
-                                            >
-                                            <Button color='primary'>Descargar PDF</Button>
+                                    <PDFDownloadLink document={<DocPDF equipoSeleccionado={equipoSeleccionado} line={line}
+                                        operations={operations} lineTypes={lineTypes} countries={countries} bu={bu} areas={areas} SubArea={SubArea}
+                                        loading={loading} uploadImage={uploadImage} handleChangeLine={handleChangeLine} handleChangeOperations={handleChangeOperations}
+                                        handleChangeLineTypes={handleChangeLineTypes} handleChangeCountries={handleChangeCountries}
+                                        handleChangeBu={handleChangeBu} handleChangeAreas={handleChangeAreas} handleChangeSubArea={handleChangeSubArea}
+                                        handleChange={handleChange} technicalInformation={technicalInformation} servicesInformation={servicesInformation}
+                                    />
+                                    }
+                                        fileName='GEAD.pdf'
+                                    >
+                                        <Button color='primary'>Descargar PDF</Button>
                                     </PDFDownloadLink>
                                     {/* -------------------------------------------------------------------------------------- */}
 
                                 </FormGroup>
 
-                                        {/* //-------------------------------------   Visualizar PDF   ------------------------------ */}
+                                {/* //-------------------------------------   Visualizar PDF   ------------------------------ */}
                                 {descargarPdf ? (
                                     <>
                                         <ModalBody className="row text-align-center  animate__animated animate__fadeIn" >
-                                        
-                                        <PDFViewer style={{ width: "100%", height: "90vh"}}>
+
+                                            <PDFViewer style={{ width: "100%", height: "90vh" }}>
                                                 <DocPDF equipoSeleccionado={equipoSeleccionado}
                                                     line={line}
                                                     operations={operations}
@@ -2390,7 +2535,7 @@ const ConsultaEquipos = () => {
                                                     <option value="Cocimientos">Cocimientos</option>
                                                     <option value="BAGAZO/SYE">BAGAZO/SYE</option>
                                                     <option value="Bloque Frio">Bloque Frio</option>
-
+                                                    <option value="Bloque Frio">NaN</option>
                                                 </select>
                                             </FormGroup>
 
@@ -2518,7 +2663,7 @@ const ConsultaEquipos = () => {
                         </div>
                     )
                 }
-                            {/* -------------------------    BOTONES ACEPTAR Y CANCELAR    ------------------------------- */}
+                {/* -------------------------    BOTONES ACEPTAR Y CANCELAR    ------------------------------- */}
 
                 <ModalFooter>
                     <Button color='primary' onClick={() => editar()} >Aceptar</Button>
@@ -2555,6 +2700,35 @@ const ConsultaEquipos = () => {
                     </Button>
                     <Button className="btn btn-secondary"
                         onClick={() => setModalEliminar(false)}
+                    >
+                        No
+                    </Button>
+                </ModalFooter>
+
+            </Modal >
+
+
+
+
+
+
+
+
+            {/*============================= Modal Insertar por excel =========================================*/}
+
+            < Modal isOpen={modalInsertarExcel} >
+                <ModalBody className="text-center">
+                   Guardar?
+                </ModalBody>
+
+                <ModalFooter>
+                    <Button className="btn btn-danger" onClick={() => Excel(item)}
+                    >
+                        Sí
+                    </Button>
+
+                    <Button className="btn btn-secondary"
+                        onClick={() => setModalInsertarExcel(false)}
                     >
                         No
                     </Button>
@@ -3262,7 +3436,7 @@ const ConsultaEquipos = () => {
                                             <option value="Cocimientos">Cocimientos</option>
                                             <option value="BAGAZO/SYE">BAGAZO/SYE</option>
                                             <option value="Bloque Frio">Bloque Frio</option>
-
+                                            <option value="Bloque Frio">NaN</option> 
                                         </select>
                                     </FormGroup>
 

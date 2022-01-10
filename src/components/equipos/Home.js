@@ -24,7 +24,7 @@ const Home = () => {
 
                 const workbook = XLSX.read(bufferArray, { type: 'buffer' });
 
-                const workbookSheetsName = workbook.SheetNames[4];
+                const workbookSheetsName = workbook.SheetNames[0];
 
                 const workbookSheet = workbook.Sheets[workbookSheetsName];
 
@@ -42,6 +42,7 @@ const Home = () => {
         promise.then((d) => {
             setItem(d)
         })
+        console.log(item);
     };
 
 

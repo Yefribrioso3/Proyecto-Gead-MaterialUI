@@ -63,6 +63,7 @@ const LoginScreen = ({ history }) => {
     const [editing, setEditing] = useState(false)
 
     const onSubmit = (e) => {
+        console.log(e.password);
 
         setTimeout(() => {
             if (e.password === "12345678") {
@@ -154,6 +155,7 @@ const LoginScreen = ({ history }) => {
 
             <Grid>
                 <Paper elevation={10} style={style.paper}>
+                <form onSubmit={handleSubmit(onSubmit)}   >
                     <Grid>
                         {/* <img src={Gead} /> */}
                         <img src={Gead} style={style.logo} />
@@ -164,14 +166,38 @@ const LoginScreen = ({ history }) => {
                     <Typography style={style.txt}>Inicia sesión con tu cuenta asignada por tu administrador.</Typography>
 
                     <TextField label="Nombre de usuario" placeholder='Name@example.com' variant="outlined" style={style.TextField} fullWidth required />
-                    <TextField label="Contraseña" placeholder='password' variant="outlined" type='password' style={style.TextField} fullWidth required />
+                    <TextField label="Contraseña"
+                               name='password'
+                               placeholder='password'
+                               variant="outlined"
+                               type='password'
+                               style={style.TextField}
+                               fullWidth
+                               required 
+                               {...register("password", {
+                                required: {
+                                    value: true,
+                                    message: 'Campo requerido'
+                                }
+                            })}
+                    />
 
-                    <Button type='submit' color="primary" variant='contained' fullWidth style={style.btn} >Iniciar sesión</Button>
+                    <Button type='submit'
+                            color="primary"
+                            variant='contained'
+                            fullWidth
+                            style={style.btn}
+                        >
+                            Iniciar sesión
+                        </Button>
+
 
                     {/* <Grid style={style.link}> */}
                     <Typography style={style.link}> Si aún no tienes cuenta,
                         <Link href='#' style={style.linkColor} color="#14149A"> comunícate con tu administrador</Link>  para asistencia.
                     </Typography>
+
+                </form>
 
                 </Paper>
 
