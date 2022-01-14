@@ -21,63 +21,81 @@ const style = {
     }
 };
 
-const SideMenu = ({ getAllList, classes, filtrarBUList }) => {
+const SideMenu = ({ getAllList, classes, filtrarBUList, setListAll, listAll }) => {
 
     const [mexCounter, setMexCounter] = useState(0);
     const [pecCounter, setPecCounter] = useState(0);
     const [cacCounter, setCacCounter] = useState(0);
     const [colCounter, setColCounter] = useState(0);
-    const [contador, setContador] = useState(0);
+    const [contador, setCont] = useState(0);
 
-    const [listAll, setListAll] = useState([])
+
+    const AllEquipment = getAllList
 
     useEffect(() => {
-        
-        const counter = () => {
-            let ColCounter = 0;
-            let CacCounter = 0;
-            let PecCounter = 0;
-            let MexCounter = 0;
-    
-            getAllList.map((E) => {
-                if (E.Procedencia.areas.operations.countries.bu.Name === 'COL') {
-                    setColCounter(++ColCounter)
-                }
-            })
-    
-            getAllList.map((E) => {
-                if (E.Procedencia.areas.operations.countries.bu.Name === 'CAC') {
-                    setCacCounter(++CacCounter)
-                }
-            })
-    
-            getAllList.map((E) => {
-                if (E.Procedencia.areas.operations.countries.bu.Name === 'PEC') {
-                    setPecCounter(++PecCounter)
-                }
-            })
-    
-            getAllList.map((E) => {
-                if (E.Procedencia.areas.operations.countries.bu.Name === 'MEX') {
-                    setMexCounter(++MexCounter)
-                }
-            })
-        };
-
-
-        const allAquipmentRelation = async () => {
-            await Axios.get('https://node-gead.herokuapp.com/api/AllequipmentRelation')
-                .then((response) => {
-                    setListAll(response.data.equipment)
-                })
-            setContador(listAll.length)
-        }
-        
 
         allAquipmentRelation();
         counter();
 
     }, [getAllList]);
+
+    const counter = () => {
+        let ColCounter = 0;
+        let CacCounter = 0;
+        let PecCounter = 0;
+        let MexCounter = 0;
+        let Counter = 0;
+
+        getAllList.map((E) => {
+            if (E.Procedencia.areas.operations.countries.bu.Name === 'COL') {
+                setColCounter(++ColCounter)
+            }
+        })
+
+        getAllList.map((E) => {
+            if (E.Procedencia.areas.operations.countries.bu.Name === 'CAC') {
+                setCacCounter(++CacCounter)
+            }
+        })
+
+        getAllList.map((E) => {
+            if (E.Procedencia.areas.operations.countries.bu.Name === 'PEC') {
+                setPecCounter(++PecCounter)
+            }
+        })
+
+        getAllList.map((E) => {
+            if (E.Procedencia.areas.operations.countries.bu.Name === 'MEX') {
+                setMexCounter(++MexCounter)
+            }
+        })
+
+        // AllEquipment.map((E) => {
+        //     if (E.Procedencia.areas.operations.countries.bu.Id_BU) {
+        //         setContador(++Counter)
+        //     }
+        // })
+    };
+
+    const [List, setList] = useState([]);
+    const [contar, setContar] = useState(0);
+
+    const allAquipmentRelation = async () => {
+
+        await Axios.get('https://node-gead.herokuapp.com/api/AllequipmentRelation')
+            .then((response) => {
+                setListAll(response.data.equipment)
+            })
+        setCont(listAll.length)
+
+        // let counter = 1
+        // for (let i = 0; i <= 1; i++) {
+            // setContar(++counter)
+
+        //  }
+
+    }
+
 
     // const { classes } = props;
 
@@ -93,7 +111,7 @@ const SideMenu = ({ getAllList, classes, filtrarBUList }) => {
                         // startIcon={<Add style={{ fontSize: 34, fontWeight: '800' }} />}
                         // onClick={() => filtrado("MEX")}
                         // onChange={(e) => filtrado( e,"MEX" )}
-                        onClick={(e) => filtrarBUList("MEX", 'total')}
+                        onClick={(e) => filtrarBUList("total", 'total', setListAll)}
 
                         style={{ fontSize: 20, fontWeight: '600' }}
                         text={`Middle Americas: ${contador}`}

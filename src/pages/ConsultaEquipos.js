@@ -37,7 +37,7 @@ import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 // import Excel from './components/Excel';
 
 import * as XLSX from 'xlsx';
-import { Excel } from './components/Excel';
+import { Excel, send } from './components/Excel';
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ const ConsultaEquipos = () => {
     const [modalEliminar, setModalEliminar] = useState(false); //Hook para abrir y cerrar el modal Eliminar
     const [modalInsertar, setModalInsertar] = useState(false); //Hook para abrir y cerrar el modal Insertar
     const [modalInsertarExcel, setModalInsertarExcel] = useState(false)
-    
+
     // const [modalConsultaAv, setModalConsultaAv] = useState(false); //Hook para abrir y cerrar el modal Consulta Avanzada
 
 
@@ -131,7 +131,7 @@ const ConsultaEquipos = () => {
             })
     }
 
-    useEffect(() => {
+    useEffect( () => {
         allAquipmentRelation();
         // getLine();
         // getProcedencia();
@@ -1075,7 +1075,7 @@ const ConsultaEquipos = () => {
     const sendOperations = async (valorInsertar) => {
         await Axios.post('https://node-gead.herokuapp.com/api/planta', {
             Id_Operations: valorInsertar.Procedencia.areas.operations.Id_Operations,
-            Name: valorInsertar.Procedencia.areas.operations.countries.Name,
+            Name: valorInsertar.Procedencia.areas.operations.Name,
             Id_Countries: valorInsertar.Procedencia.areas.operations.Id_Countries,
         })
     };
@@ -1518,11 +1518,15 @@ const ConsultaEquipos = () => {
 
 
     const [casoServInfo, setCasoServInfo] = useState('Edit');
+    
     const [List, setList] = useState([]);
     const [contador, setContador] = useState(0);
 
-    const filtrarBUList = async (bu, n) => {
+    const [listAll, setListAll] = useState([])
+
+    const filtrarBUList = async (bu, n, setCont) => {
         const list = getAllList;
+
         let counter = 0
 
         if (contador === 0) {
@@ -1535,7 +1539,11 @@ const ConsultaEquipos = () => {
 
         if (n === 'total') {
             setGetAllList(List)
+            console.log(getAllList)
+            // allAquipmentRelation()
+            // setListAll(List.length)
         }
+
     }
 
     const [totalEncontrados, setTotalEncontrados] = useState(getAllList.length)
@@ -1579,36 +1587,138 @@ const ConsultaEquipos = () => {
     const [item, setItem] = useState([])
 
     const readExcels = (file) => {
-        const promise = new Promise((resolve, reject) => {
+        setItem([]);
 
-            const fileReader = new FileReader();
-            fileReader.readAsArrayBuffer(file)
+        const promise = file === undefined ? ("undefined") : (
+            new Promise((resolve, reject) => {
 
-            fileReader.onload = (e) => {
-                const bufferArray = e.target.result;
+                const fileReader = new FileReader();
+                fileReader.readAsArrayBuffer(file)
 
-                const workbook = XLSX.read(bufferArray, { type: 'buffer' });
+                fileReader.onload = (e) => {
+                    const bufferArray = e.target.result;
 
-                const workbookSheetsName = workbook.SheetNames[0];
+                    const workbook = XLSX.read(bufferArray, { type: 'buffer' });
 
-                const workbookSheet = workbook.Sheets[workbookSheetsName];
+                    const workbookSheetsName = workbook.SheetNames[0];
 
-                const data = XLSX.utils.sheet_to_json(workbookSheet);
-                resolve(data);
-            };
+                    const workbookSheet = workbook.Sheets[workbookSheetsName];
 
-            fileReader.onerror = ((error) => {
-                reject(error);
-            });
+                    const data = XLSX.utils.sheet_to_json(workbookSheet);
 
-            // setEditTableExcel(true);
-        });
+                    const jData = [];
+                    for (let i = 0; i < data.length; i++) {
+                        const dato = data[i];
 
-        promise.then((d) => {
-            setItem(d)
-        })
+                        jData.push({
+                            ...dato,
+                            Date_of_Installation: formatearFechaExcel(dato.Date_of_Installation),
+                            Date_of_Desintallation: formatearFechaExcel(dato.Date_of_Desintallation)
+                        });
+                    }
+
+                    resolve(jData);
+                };
+                fileReader.onerror = ((error) => {
+                    reject(error);
+                })
+
+            }
+
+        ))
+
+        promise === "undefined" ? (console.log("undefined")) : (
+            promise.then((d) => {
+                setItem(d)
+                setModalInsertarExcel(true);
+            })
+
+
+        )
+
         
+
+
+
+        // const promise = new Promise((resolve, reject) => {
+
+        //         const fileReader = new FileReader();
+        //         fileReader.readAsArrayBuffer(file)
+
+        //         fileReader.onload = (e) => {
+        //             const bufferArray = e.target.result;
+
+        //             const workbook = XLSX.read(bufferArray, { type: 'buffer' });
+
+        //             const workbookSheetsName = workbook.SheetNames[0];
+
+        //             const workbookSheet = workbook.Sheets[workbookSheetsName];
+
+        //             const data = XLSX.utils.sheet_to_json(workbookSheet);
+
+        //             const jData = [];
+        //             for (let i = 0; i < data.length; i++) {
+        //                 const dato = data[i];
+
+        //                 jData.push({
+        //                     ...dato,
+        //                     Date_of_Installation: formatearFechaExcel(dato.Date_of_Installation),
+        //                     Date_of_Desintallation: formatearFechaExcel(dato.Date_of_Desintallation)
+        //                 });
+        //             }
+
+        //             resolve(jData);
+        //         };
+
+        //         fileReader.onerror = ((error) => {
+        //             reject(error);
+        //         });
+
+        //         // setEditTableExcel(true);
+        //     });
+
+        // promise.then((d) => {
+        //     setItem(d)
+        // })
+         
     };
+
+    function formatearFechaExcel(fechaExcel) {
+        const diasUTC = Math.floor(fechaExcel - 25569);
+        const valorUTC = diasUTC * 86400;
+        let infoFecha = new Date(valorUTC * 1000);
+
+        const diaFraccionado = fechaExcel - Math.floor(fechaExcel) + 0.0000001;
+        let totalSegundosDia = Math.floor(86400 * diaFraccionado);
+        const segundos = totalSegundosDia % 60;
+        totalSegundosDia -= segundos;
+
+        const horas = Math.floor(totalSegundosDia / (60 * 60));
+        const minutos = Math.floor(totalSegundosDia / 60) % 60;
+
+        // Convertidos a 2 dígitos
+        infoFecha.setDate(infoFecha.getDate() + 1);
+        const dia = ('0' + infoFecha.getDate()).slice(-2);
+        const mes = ('0' + (infoFecha.getMonth() + 1)).slice(-2);
+        const anio = infoFecha.getFullYear();
+
+        const fecha = `${dia}/${mes}/${anio}`;
+
+        return fecha;
+    }
+
+
+
+
+    const [pruebaExcel, setpruebaExcel] = useState([])
+
+    
+    const actualizarTabla = (Excel) => {
+        Excel.map((Equipo) => {
+            setGetAllList([...getAllList, Equipo])
+            // console.log(Equipo)
+        });
+    }
 
 
 
@@ -1626,6 +1736,8 @@ const ConsultaEquipos = () => {
             <SideMenu
                 getAllList={getAllList}
                 filtrarBUList={filtrarBUList}
+                listAll={listAll}
+                setListAll={setListAll}
             />
             <Header />
 
@@ -1662,49 +1774,23 @@ const ConsultaEquipos = () => {
                     >
                     </Controls.Button>
 
+                    {/* -----------------------  Boton para insertar datos desde Excel   ----------------------------------- */}
 
-                    {/* <Controls.Button
-                            id="icon-button-file"
-                            type="file"
-                            variant="outlined"
-                            size={"large"}
-                            color={"primary"}
-                            className={classes.btnAddNew}
-                            startIcon={<Add style={{ fontSize: 34, fontWeight: '800' }} />}
-                            onChange={(e) => {
-                                const file = e.target.files[0];
-                                readExcels(file)
-                            }}
-                            style={{ fontSize: 20, fontWeight: '600', width: 150 }}
-                            text={"Excel"}
-                        >
-                        </Controls.Button> */}
-
-
-
-                    {/* console.log(Excel(`C:\\DBStructure\\MAZ–LTS–DBStructure-210830.xlsx`)) */}
-
-
-
-                    {/* id="imagen" */}
-                    {/* className="mt-2 animate__animated animate__fadeInLeft" style={{ maxWidth: 60, alignContent: 'center' }} */}
-                    
-                    
-                        {/* -----------------------  Boton para insertar datos desde Excel   ----------------------------------- */}
-                    
-                    {/* <div id="imagen">
+                    <div id="imagen">
 
                         <input
                             id="icon-button-file"
                             type="file"
                             style={{ display: 'none' }}
                             onChange={(e) => {
-                                const file = e.target.files[0];
+                                setItem([]);
+                                setModalInsertarExcel(false);
+                                let file = e.target.files[0];
 
                                 readExcels(file);
-                                setModalInsertarExcel(true);
+                                file = null;
                             }}
-                            
+
                         />
 
                         <label htmlFor="icon-button-file">
@@ -1715,7 +1801,7 @@ const ConsultaEquipos = () => {
                             </IconButton>
                         </label>
 
-                    </div> */}
+                    </div>
 
 
 
@@ -1784,9 +1870,9 @@ const ConsultaEquipos = () => {
                     {/* --------------------------      FECHA ACTUAL    --------------------------- */}
                     <PageHeader
                         subTitle="Date Updated:"
-                        // title="Consulta de Equipos"
-                        // subTitle="Form design with validation"
-                        // icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
+                    // title="Consulta de Equipos"
+                    // subTitle="Form design with validation"
+                    // icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
                     />
 
                     <PageHeader
@@ -1799,45 +1885,45 @@ const ConsultaEquipos = () => {
 
                     <TblPagination />
                 </Toolbar>
-{/* 
-                <div className="table-responsive mt-5">
-                            <table className="table table-hover align-middle table-sm animate__animated animate__fadeIn " >
-                                <thead>
 
-                                    <tr>
-                                        <th className="table-active" scope="col">#</th>
-                                        <th className="table-active" scope="col">BU</th>
-                                        <th className="table-active" scope="col">País</th>
-                                        <th className="table-active" scope="col">Planta</th>
-                                        <th className="table-active" scope="col">Area</th>
-                                        <th className="table-active" scope="col">Subarea</th>
-                                        <th className="table-active" scope="col">Equipo</th>
+                {/* <div className="table-responsive mt-5">
+                    <table className="table table-hover align-middle table-sm animate__animated animate__fadeIn " >
+                        <thead>
 
-                                        <th className="table-active">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {item.map((element) => (
-                                        <tr key={element.No}>
-                                            <td scope="row">{element.No}</td>
-                                            <td >{element.BU}</td>
-                                            <td>{element.Country}</td>
-                                            <td>{element.Plant}</td>
-                                            <td>{element.Area}</td>
-                                            <td>{element.Subarea}</td>
-                                            <td>{element.Equipment_Name}</td>
+                            <tr>
+                                <th className="table-active" scope="col">#</th>
+                                <th className="table-active" scope="col">BU</th>
+                                <th className="table-active" scope="col">País</th>
+                                <th className="table-active" scope="col">Planta</th>
+                                <th className="table-active" scope="col">Area</th>
+                                <th className="table-active" scope="col">Subarea</th>
+                                <th className="table-active" scope="col">Equipo</th>
 
-                                            <td><Button color="primary" onClick={() => seleccionarEquipo(element, 'Editar')} >
-                                                <i className="far fa-edit button_icon"></i></Button> {"  "}
+                                <th className="table-active">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {pruebaExcel.map((element) => (
+                                <tr key={element.Id_Equipment}>
+                                    <td scope="row">{element.Id_Equipment}</td>
+                                    <td >{element.Procedencia.areas.operations.countries.bu.Name}</td>
+                                    <td>{element.Procedencia.areas.operations.countries.Name}</td>
+                                    <td>{element.Procedencia.areas.operations.Name}</td>
+                                    <td>{element.Procedencia.areas.Name}</td>
+                                    <td>{element.Procedencia.areas.SubArea.Name}</td>
+                                    <td>{element.Name}</td>
 
-                                                <Button color="danger" onClick={() => seleccionarEquipo(element, 'Eliminar')}>
-                                                    <i className="fas fa-trash-alt button_icon"></i> </Button> </td>
-                                        </tr>
-                                    ))
-                                    }
-                                </tbody>
-                            </table>
-                        </div> */}
+                                    <td><Button color="primary" onClick={() => seleccionarEquipo(element, 'Editar')} >
+                                        <i className="far fa-edit button_icon"></i></Button> {"  "}
+
+                                        <Button color="danger" onClick={() => seleccionarEquipo(element, 'Eliminar')}>
+                                            <i className="fas fa-trash-alt button_icon"></i> </Button> </td>
+                                </tr>
+                            ))
+                            }
+                        </tbody>
+                    </table>
+                </div> */}
 
             </Paper>
 
@@ -2717,22 +2803,16 @@ const ConsultaEquipos = () => {
             {/*============================= Modal Insertar por excel =========================================*/}
 
             < Modal isOpen={modalInsertarExcel} >
-                <ModalBody className="text-center">
-                   Guardar?
-                </ModalBody>
-
-                <ModalFooter>
-                    <Button className="btn btn-danger" onClick={() => Excel(item)}
-                    >
-                        Sí
-                    </Button>
-
-                    <Button className="btn btn-secondary"
-                        onClick={() => setModalInsertarExcel(false)}
-                    >
-                        No
-                    </Button>
-                </ModalFooter>
+                <Excel setModalInsertarExcel={setModalInsertarExcel}
+                    item={item}
+                    setItem={setItem}
+                    setpruebaExcel={setpruebaExcel}
+                    setModalInsertarExcel={setModalInsertarExcel}
+                    setGetAllList={setGetAllList}
+                    getAllList={getAllList}
+                    actualizarTabla={actualizarTabla}
+                    setListAll={setListAll}
+                />
 
             </Modal >
 
@@ -3436,7 +3516,7 @@ const ConsultaEquipos = () => {
                                             <option value="Cocimientos">Cocimientos</option>
                                             <option value="BAGAZO/SYE">BAGAZO/SYE</option>
                                             <option value="Bloque Frio">Bloque Frio</option>
-                                            <option value="Bloque Frio">NaN</option> 
+                                            <option value="Bloque Frio">NaN</option>
                                         </select>
                                     </FormGroup>
 
