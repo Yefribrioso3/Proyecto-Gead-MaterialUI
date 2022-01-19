@@ -70,22 +70,28 @@ const LoginScreen = ({ history }) => {
     }
 
     const [cuentas, setCuentas] = useState(
-        {usuario1: "claudio.zastrow@ab-inbev.com", 
-        usuario2: "francisco.lopez-ext@ab-inbev.com", 
-        usuario3: "maria.menab@ab-inbev.com", 
-        usuario4: "carlos.ortiz.rubio@ab-inbev.com",
-        usuario5: "alejandro.rojo@ab-inbev.com", 
-        usuario6: "roberto.avilam@ab-inbev.com", 
-        usuario7: "martin.pulidoc@ab-inbev.com", 
-        usuario8: "isai.torres@ab-inbev.com",
-        usuario9: "gabriel.rivero-ext@ab-inbev.com", 
-        usuario10: "carlos.razo-ext@ab-inbev.com",
-        password: "prueba@12345"},
+        {
+            usuario1: "claudio.zastrow@ab-inbev.com",
+            usuario2: "francisco.lopez-ext@ab-inbev.com",
+            usuario3: "maria.menab@ab-inbev.com",
+            usuario4: "carlos.ortiz.rubio@ab-inbev.com",
+            usuario5: "alejandro.rojo@ab-inbev.com",
+            usuario6: "roberto.avilam@ab-inbev.com",
+            usuario7: "martin.pulidoc@ab-inbev.com",
+            usuario8: "isai.torres@ab-inbev.com",
+            usuario9: "gabriel.rivero-ext@ab-inbev.com",
+            usuario10: "carlos.razo-ext@ab-inbev.com",
+            password: "prueba@12345"
+        },
     )
     const [user, setUser] = useState(null)
-    const [editing, setEditing] = useState(false)
+    const [editing, setEditing] = useState(false) // Para usuario incorrecto 
+    const [passwordEditing, setPasswordEditing] = useState(false)
 
     const onSubmit = (e) => {
+        setEditing(false)
+        setPasswordEditing(false)
+
         console.log(e);
 
         // if (e.password === "12345678") {
@@ -100,6 +106,8 @@ const LoginScreen = ({ history }) => {
                     // history.push('/');      //Redireccion a la url indicada y se puede volver al login.
                     history.replace('/consultaEquipos');   //Redireccion a la url indicada, No se puede volver al login.
 
+                } else {
+                    setPasswordEditing(true)
                 }
 
             } else {
@@ -124,6 +132,20 @@ const LoginScreen = ({ history }) => {
             height: '496px',
             width: '384px',
             margin: '230px auto',
+            borderRadius: '24px'
+        },
+        validation: {
+            padding: 20,
+            height: '60px',
+            width: '160px',
+            margin: '2rem auto',
+            borderRadius: '24px'
+        },
+        validationPassword: {
+            padding: 20,
+            height: '60px',
+            width: '190px',
+            margin: '2rem auto',
             borderRadius: '24px'
         },
         logo: {
@@ -186,48 +208,48 @@ const LoginScreen = ({ history }) => {
 
             <Grid>
                 <Paper elevation={10} style={style.paper}>
-                <form onSubmit={handleSubmit(onSubmit)}   >
-                    <Grid>
-                        {/* <img src={Gead} /> */}
-                        <img src={Gead} style={style.logo} />
-                    </Grid>
+                    <form onSubmit={handleSubmit(onSubmit)}   >
+                        <Grid>
+                            {/* <img src={Gead} /> */}
+                            <img src={Gead} style={style.logo} />
+                        </Grid>
 
-                    <Grid > </Grid>
-                    <Typography style={style.h4}>¡Bienvenido!</Typography>
-                    <Typography style={style.txt}>Inicia sesión con tu cuenta asignada por tu administrador.</Typography>
+                        <Grid > </Grid>
+                        <Typography style={style.h4}>¡Bienvenido!</Typography>
+                        <Typography style={style.txt}>Inicia sesión con tu cuenta asignada por tu administrador.</Typography>
 
-                    <TextField label="Nombre de usuario"
-                               name='user'
-                               placeholder='Name@example.com'
-                               variant="outlined"
-                               style={style.TextField}
-                               fullWidth
-                               required
-                               {...register("user", {
+                        <TextField label="Nombre de usuario"
+                            name='user'
+                            placeholder='Name@example.com'
+                            variant="outlined"
+                            style={style.TextField}
+                            fullWidth
+                            required
+                            {...register("user", {
                                 required: {
                                     value: true,
                                     message: 'Campo requerido'
                                 }
                             })}
-                               
-                    />
-                    <TextField label="Contraseña"
-                               name='password'
-                               placeholder='password'
-                               variant="outlined"
-                               type='password'
-                               style={style.TextField}
-                               fullWidth
-                               required 
-                               {...register("password", {
+                        />
+
+                        <TextField label="Contraseña"
+                            name='password'
+                            placeholder='password'
+                            variant="outlined"
+                            type='password'
+                            style={style.TextField}
+                            fullWidth
+                            required
+                            {...register("password", {
                                 required: {
                                     value: true,
                                     message: 'Campo requerido'
                                 }
                             })}
-                    />
+                        />
 
-                    <Button type='submit'
+                        <Button type='submit'
                             color="primary"
                             variant='contained'
                             fullWidth
@@ -237,14 +259,53 @@ const LoginScreen = ({ history }) => {
                         </Button>
 
 
-                    {/* <Grid style={style.link}> */}
-                    <Typography style={style.link}> Si aún no tienes cuenta,
-                        <Link href='#' style={style.linkColor} color="#14149A"> comunícate con tu administrador</Link>  para asistencia.
-                    </Typography>
+                        {/* <Grid style={style.link}> */}
+                        <Typography style={style.link}> Si aún no tienes cuenta,
+                            <Link href='#' style={style.linkColor} color="#14149A"> comunícate con tu administrador</Link>  para asistencia.
+                        </Typography>
 
-                </form>
+                    </form>
+
+                    {
+                        editing ? (
+                            <>
+                                <Paper elevation={10} style={style.validation} >
+                                    <span className="text-danger text-small d-block mb-2">
+                                        {/* {errors?.equipos?.message} */}
+                                        Usuario incorrecto
+                                    </span>
+                                </Paper>
+                            </>
+                        ) : (
+                            <>
+                            </>
+                        )
+                    }
+
+                    {
+                        passwordEditing ? (
+                            <>
+                                <Paper elevation={10} style={style.validationPassword} >
+                                    <span className="text-danger text-small d-block mb-2">
+                                        {/* {errors?.equipos?.message} */}
+                                        Contraseña incorrecta
+                                    </span>
+                                </Paper>
+                            </>
+                        ) : (
+                            <>
+                            </>
+                        )
+                    }
+
 
                 </Paper>
+
+
+            </Grid>
+
+
+            <Grid>
 
             </Grid>
 
