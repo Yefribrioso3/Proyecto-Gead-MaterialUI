@@ -52,6 +52,16 @@ const LoginScreen = ({ history }) => {
 
     // const user = [
     //     {id: 1, usuario: "admin@admin", password: "admin12345"}
+    // "claudio.zastrow@ab-inbev.com"
+    // "francisco.lopez-ext@ab-inbev.com"
+    // "maria.menab@ab-inbev.com"
+    // "carlos.ortiz.rubio@ab-inbev.com"
+    // "alejandro.rojo@ab-inbev.com"
+    // "roberto.avilam@ab-inbev.com"
+    // "martin.pulidoc@ab-inbev.com"
+    // "isai.torres@ab-inbev.com"
+    // "gabriel.rivero-ext@ab-inbev.com"
+    // "carlos.razo-ext@ab-inbev.com"
     // ]
 
 
@@ -59,21 +69,42 @@ const LoginScreen = ({ history }) => {
 
     }
 
+    const [cuentas, setCuentas] = useState(
+        {usuario1: "claudio.zastrow@ab-inbev.com", 
+        usuario2: "francisco.lopez-ext@ab-inbev.com", 
+        usuario3: "maria.menab@ab-inbev.com", 
+        usuario4: "carlos.ortiz.rubio@ab-inbev.com",
+        usuario5: "alejandro.rojo@ab-inbev.com", 
+        usuario6: "roberto.avilam@ab-inbev.com", 
+        usuario7: "martin.pulidoc@ab-inbev.com", 
+        usuario8: "isai.torres@ab-inbev.com",
+        usuario9: "gabriel.rivero-ext@ab-inbev.com", 
+        usuario10: "carlos.razo-ext@ab-inbev.com",
+        password: "prueba@12345"},
+    )
     const [user, setUser] = useState(null)
     const [editing, setEditing] = useState(false)
 
     const onSubmit = (e) => {
-        console.log(e.password);
+        console.log(e);
+
+        // if (e.password === "12345678") {
 
         setTimeout(() => {
-            if (e.password === "12345678") {
-                setUser(e)
-                setEditing(false)
-                console.log(user)
+            if (e.user === cuentas.usuario1 || e.user === cuentas.usuario2 || e.user === cuentas.usuario3 || e.user === cuentas.usuario4 || e.user === cuentas.usuario5 || e.user === cuentas.usuario6 || e.user === cuentas.usuario7 || e.user === cuentas.usuario8 || e.user === cuentas.usuario9 || e.user === cuentas.usuario10) {
+                console.log(e.user)
+                if (e.password === cuentas.password) {
+                    setUser(e)
+                    setEditing(false)
+                    console.log(e.password)
+                    // history.push('/');      //Redireccion a la url indicada y se puede volver al login.
+                    history.replace('/consultaEquipos');   //Redireccion a la url indicada, No se puede volver al login.
 
-                // history.push('/');      //Redireccion a la url indicada y se puede volver al login.
-                history.replace('/consultaEquipos');   //Redireccion a la url indicada, No se puede volver al login.
+                }
+
             } else {
+                console.log("No funciona")
+
                 setUser(null)
                 setEditing(true)
             }
@@ -165,7 +196,21 @@ const LoginScreen = ({ history }) => {
                     <Typography style={style.h4}>¡Bienvenido!</Typography>
                     <Typography style={style.txt}>Inicia sesión con tu cuenta asignada por tu administrador.</Typography>
 
-                    <TextField label="Nombre de usuario" placeholder='Name@example.com' variant="outlined" style={style.TextField} fullWidth required />
+                    <TextField label="Nombre de usuario"
+                               name='user'
+                               placeholder='Name@example.com'
+                               variant="outlined"
+                               style={style.TextField}
+                               fullWidth
+                               required
+                               {...register("user", {
+                                required: {
+                                    value: true,
+                                    message: 'Campo requerido'
+                                }
+                            })}
+                               
+                    />
                     <TextField label="Contraseña"
                                name='password'
                                placeholder='password'

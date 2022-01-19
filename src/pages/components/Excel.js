@@ -115,7 +115,6 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
     const send = async (item) => {
 
         const Excel = item.map((equipo) => {
-
             return (
                 equipo = {
                     Id_Equipment: uuidv4(),
@@ -216,13 +215,14 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
             equipo.ServicesInformation.Id_Equipment = equipo.Id_Equipment
             equipo.TechnicalSpecification.Id_Equipment = equipo.Id_Equipment
 
-            // newTechSpec = equipo.TechnicalSpecification.newTechnicalSpecification
+            newTechSpec = equipo.TechnicalSpecification.newTechnicalSpecification
 
-            // newTechSpec.Id_TechnicalSpecification = equipo.TechnicalSpecification.Id_TechnicalSpecification
-
-            // if ( !equipo.TechnicalSpecification.newTechnicalSpecification === [] ) {
+            // if (newTechSpec.Id_NewTechSpec !== []) {
+            //     newTechSpec.Id_TechnicalSpecification = equipo.TechnicalSpecification.Id_TechnicalSpecification
             //     equipo.TechnicalSpecification.newTechnicalSpecification = newTechSpec
+
             // }
+
             // !equipo.TechnicalSpecification.newTechnicalSpecification.Id_NewTechSpec ? (equipo.TechnicalSpecification.newTechnicalSpecification.Id_TechnicalSpecification = []) : ( equipo.TechnicalSpecification.newTechnicalSpecification.Id_TechnicalSpecification = equipo.TechnicalSpecification.Id_TechnicalSpecification )
 
             // equipo.TechnicalSpecification.newTechnicalSpecification.Id_NewTechSpec ? equipo.TechnicalSpecification.newTechnicalSpecification.SelectNewTechSpec.Id_NewTechSpec =  equipo.TechnicalSpecification.newTechnicalSpecification.Id_NewTechSpec : null
@@ -234,6 +234,10 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
             // equipo.TechnicalSpecification.newTechnicalSpecification.SelectNewTechSpec.Id_TechnicalSpecification =  equipo.TechnicalSpecification.Id_TechnicalSpecification
 
         });
+
+
+
+
 
         // console.log(Excel)
 
@@ -269,143 +273,128 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
 
     const insertar = async (Excel) => {
 
+        Excel.map((async (Equipment) => {
 
-        Excel.map((async (equipo) => {
-            
-
-            await Axios.post("https://node-gead.herokuapp.com/api/createEquipos", {
-                Id_Equipment: equipo.Id_Equipment,
-                Name: equipo.Name,
-                code: equipo.code,
-                Id_Procedencia: equipo.Procedencia.Id_Procedencia,
-                Estado: equipo.Estado,
-                img: equipo.img,
-                procedencia: {
-                    Id_Procedencia: equipo.Procedencia.Id_Procedencia,
-                    Id_Line: equipo.Procedencia.Id_Line,
-                    Id_Areas: equipo.Procedencia.Id_Areas
-                }
-
-            })
-
-
-
-
-            // await Axios.post("https://node-gead.herokuapp.com/api/bu", {
-            //     Id_BU: equipo.Procedencia.areas.operations.countries.bu.Id_BU,
-            //     Name: equipo.Procedencia.areas.operations.countries.bu.Name
-            // })
-            // // .then(() => {
-            // //     alert("Successful insert");
-            // // });
-
-            // await Axios.post('https://node-gead.herokuapp.com/api/countries', {
-            //     Id_Countries: equipo.Procedencia.areas.operations.countries.Id_Countries,
-            //     Name: equipo.Procedencia.areas.operations.countries.Name,
-            //     Id_BU: equipo.Procedencia.areas.operations.countries.bu.Id_BU,
-            // })
-
-            // await Axios.post('https://node-gead.herokuapp.com/api/planta', {
-            //     Id_Operations: equipo.Procedencia.areas.operations.Id_Operations,
-            //     Name: equipo.Procedencia.areas.operations.countries.Name,
-            //     Id_Countries: equipo.Procedencia.areas.operations.countries.Id_Countries,
-            // })
-
-            // await Axios.post('https://node-gead.herokuapp.com/api/area', {
-            //     Id_Areas: equipo.Procedencia.areas.Id_Areas,
-            //     Name: equipo.Procedencia.areas.Name,
-            //     Id_Operations: equipo.Procedencia.areas.operations.Id_Operations,
-            // })
-
-            // await Axios.post('https://node-gead.herokuapp.com/api/SubArea', {
-            //     Id_SubAreas: equipo.Procedencia.areas.SubArea.Id_SubAreas,
-            //     Name: equipo.Procedencia.areas.SubArea.Name,
-            //     Id_Areas: equipo.Procedencia.areas.Id_Areas,
-            // })
-
-            // await Axios.post("https://node-gead.herokuapp.com/api/line", {
-            //     Id_Line: equipo.Procedencia.line.Id_Line,
-            //     number: equipo.Procedencia.line.number,
-            //     Id_LineTypes: equipo.Procedencia.line.lineTypes.Id_LineTypes
-            // });
-
-            // await Axios.post("https://node-gead.herokuapp.com/api/lineType", {
-            //     Id_LineTypes: equipo.Procedencia.line.lineTypes.Id_LineTypes,
-            //     Name: equipo.Procedencia.line.lineTypes.Name
-            // });
-
-            // await Axios.post("https://node-gead.herokuapp.com/api/procedencia", {
-            //     Id_Procedencia: equipo.Procedencia.Id_Procedencia,
-            //     Id_Line: equipo.Procedencia.line.Id_Line,
-            //     Id_Areas: equipo.Procedencia.areas.Id_Areas
-            // });
-
-            // await Axios.post("https://node-gead.herokuapp.com/api/equipment", {
-            //     Id_Equipment: equipo.Id_Equipment,
-            //     Name: equipo.Name,
-            //     code: equipo.code,
-            //     Id_Procedencia: equipo.Procedencia.Id_Procedencia,
-            //     Estado: equipo.Estado,
-            //     img: equipo.img
-            // });
-
-            // await Axios.post("https://node-gead.herokuapp.com/api/servicesInformation", {
-            //     Id_ServicesInformation: equipo.ServicesInformation.Id_ServicesInformation,
-            //     DateOfInstallation: equipo.ServicesInformation.DateOfInstallation,
-            //     DateOfDesintallation: equipo.ServicesInformation.DateOfDesintallation,
-            //     DesuseReason: equipo.ServicesInformation.DesuseReason,
-            //     DesinstallationReason: equipo.ServicesInformation.DesinstallationReason,
-            //     ProcurementOrder: equipo.ServicesInformation.ProcurementOrder,
-            //     Id_Equipment: equipo.Id_Equipment
-            // })
-
-            // equipo.ServicesInformation.newServicesInformation.map(async (NSI) => {
-            //     await Axios.post("https://node-gead.herokuapp.com/api/newServInfo", {
-            //         Id_NewServInfo: NSI.Id_NewServInfo,
-            //         Id_ServicesInformation: equipo.ServicesInformation.Id_ServicesInformation,
-            //         Name: NSI.Name,
-            //         Value: NSI.Value
-            //     })
-
-            //     await Axios.post("https://node-gead.herokuapp.com/api/selectNewServInfo", {
-            //         Id_SelectNewServInfo: NSI.SelectNewServicesInfo.Id_SelectNewServInfo,
-            //         Id_ServicesInformation: equipo.ServicesInformation.Id_ServicesInformation,
-            //         Id_NewServInfo: NSI.Id_NewServInfo
-            //     })
-            // })
-
-
-            // await Axios.post("https://node-gead.herokuapp.com/api/technicalSpecification", {
-            //     Id_TechnicalSpecification: equipo.TechnicalSpecification.Id_TechnicalSpecification,
-            //     EquipmentType: equipo.TechnicalSpecification.EquipmentType,
-            //     CurrentConditions: equipo.TechnicalSpecification.CurrentConditions,
-            //     Weight: equipo.TechnicalSpecification.Weight,
-            //     OEM: equipo.TechnicalSpecification.OEM,
-            //     Description: equipo.TechnicalSpecification.Description,
-            //     ModelNumber: equipo.TechnicalSpecification.ModelNumber,
-            //     SerialNumber: equipo.TechnicalSpecification.SerialNumber,
-            //     vendor: equipo.TechnicalSpecification.vendor,
-            //     currentWorking: equipo.TechnicalSpecification.currentWorking,
-            //     Id_Equipment: equipo.Id_Equipment
-            // })
-
-
-            // equipo.TechnicalSpecification.newTechnicalSpecification.map(async (NTS) => {
-            //     await Axios.post("https://node-gead.herokuapp.com/api/NewTechInfo", {
-            //         Id_NewTechSpec: NTS.Id_NewTechSpec,
-            //         Id_TechnicalSpecification: equipo.TechnicalSpecification.Id_TechnicalSpecification,
-            //         Name: NTS.Name,
-            //         Value: NTS.Value
-            //     })
-
-            //     await Axios.post("https://node-gead.herokuapp.com/api/selectNewTechSpec", {
-            //         Id_SelectNewTechSpec: NTS.SelectNewTechSpec.Id_SelectNewTechSpec,
-            //         Id_TechnicalSpecification: equipo.TechnicalSpecification.Id_TechnicalSpecification,
-            //         Id_NewTechSpec: NTS.Id_NewTechSpec
-            //     })
-            // })
+            await Axios.post("https://node-gead.herokuapp.com/api/createEquipos", Equipment)
 
         }))
+
+
+        // await Axios.post("https://node-gead.herokuapp.com/api/bu", {
+        //     Id_BU: equipo.Procedencia.areas.operations.countries.bu.Id_BU,
+        //     Name: equipo.Procedencia.areas.operations.countries.bu.Name
+        // })
+        // // .then(() => {
+        // //     alert("Successful insert");
+        // // });
+
+        // await Axios.post('https://node-gead.herokuapp.com/api/countries', {
+        //     Id_Countries: equipo.Procedencia.areas.operations.countries.Id_Countries,
+        //     Name: equipo.Procedencia.areas.operations.countries.Name,
+        //     Id_BU: equipo.Procedencia.areas.operations.countries.bu.Id_BU,
+        // })
+
+        // await Axios.post('https://node-gead.herokuapp.com/api/planta', {
+        //     Id_Operations: equipo.Procedencia.areas.operations.Id_Operations,
+        //     Name: equipo.Procedencia.areas.operations.countries.Name,
+        //     Id_Countries: equipo.Procedencia.areas.operations.countries.Id_Countries,
+        // })
+
+        // await Axios.post('https://node-gead.herokuapp.com/api/area', {
+        //     Id_Areas: equipo.Procedencia.areas.Id_Areas,
+        //     Name: equipo.Procedencia.areas.Name,
+        //     Id_Operations: equipo.Procedencia.areas.operations.Id_Operations,
+        // })
+
+        // await Axios.post('https://node-gead.herokuapp.com/api/SubArea', {
+        //     Id_SubAreas: equipo.Procedencia.areas.SubArea.Id_SubAreas,
+        //     Name: equipo.Procedencia.areas.SubArea.Name,
+        //     Id_Areas: equipo.Procedencia.areas.Id_Areas,
+        // })
+
+        // await Axios.post("https://node-gead.herokuapp.com/api/line", {
+        //     Id_Line: equipo.Procedencia.line.Id_Line,
+        //     number: equipo.Procedencia.line.number,
+        //     Id_LineTypes: equipo.Procedencia.line.lineTypes.Id_LineTypes
+        // });
+
+        // await Axios.post("https://node-gead.herokuapp.com/api/lineType", {
+        //     Id_LineTypes: equipo.Procedencia.line.lineTypes.Id_LineTypes,
+        //     Name: equipo.Procedencia.line.lineTypes.Name
+        // });
+
+        // await Axios.post("https://node-gead.herokuapp.com/api/procedencia", {
+        //     Id_Procedencia: equipo.Procedencia.Id_Procedencia,
+        //     Id_Line: equipo.Procedencia.line.Id_Line,
+        //     Id_Areas: equipo.Procedencia.areas.Id_Areas
+        // });
+
+        // await Axios.post("https://node-gead.herokuapp.com/api/equipment", {
+        //     Id_Equipment: equipo.Id_Equipment,
+        //     Name: equipo.Name,
+        //     code: equipo.code,
+        //     Id_Procedencia: equipo.Procedencia.Id_Procedencia,
+        //     Estado: equipo.Estado,
+        //     img: equipo.img
+        // });
+
+        // await Axios.post("https://node-gead.herokuapp.com/api/servicesInformation", {
+        //     Id_ServicesInformation: equipo.ServicesInformation.Id_ServicesInformation,
+        //     DateOfInstallation: equipo.ServicesInformation.DateOfInstallation,
+        //     DateOfDesintallation: equipo.ServicesInformation.DateOfDesintallation,
+        //     DesuseReason: equipo.ServicesInformation.DesuseReason,
+        //     DesinstallationReason: equipo.ServicesInformation.DesinstallationReason,
+        //     ProcurementOrder: equipo.ServicesInformation.ProcurementOrder,
+        //     Id_Equipment: equipo.Id_Equipment
+        // })
+
+        // equipo.ServicesInformation.newServicesInformation.map(async (NSI) => {
+        //     await Axios.post("https://node-gead.herokuapp.com/api/newServInfo", {
+        //         Id_NewServInfo: NSI.Id_NewServInfo,
+        //         Id_ServicesInformation: equipo.ServicesInformation.Id_ServicesInformation,
+        //         Name: NSI.Name,
+        //         Value: NSI.Value
+        //     })
+
+        //     await Axios.post("https://node-gead.herokuapp.com/api/selectNewServInfo", {
+        //         Id_SelectNewServInfo: NSI.SelectNewServicesInfo.Id_SelectNewServInfo,
+        //         Id_ServicesInformation: equipo.ServicesInformation.Id_ServicesInformation,
+        //         Id_NewServInfo: NSI.Id_NewServInfo
+        //     })
+        // })
+
+
+        // await Axios.post("https://node-gead.herokuapp.com/api/technicalSpecification", {
+        //     Id_TechnicalSpecification: equipo.TechnicalSpecification.Id_TechnicalSpecification,
+        //     EquipmentType: equipo.TechnicalSpecification.EquipmentType,
+        //     CurrentConditions: equipo.TechnicalSpecification.CurrentConditions,
+        //     Weight: equipo.TechnicalSpecification.Weight,
+        //     OEM: equipo.TechnicalSpecification.OEM,
+        //     Description: equipo.TechnicalSpecification.Description,
+        //     ModelNumber: equipo.TechnicalSpecification.ModelNumber,
+        //     SerialNumber: equipo.TechnicalSpecification.SerialNumber,
+        //     vendor: equipo.TechnicalSpecification.vendor,
+        //     currentWorking: equipo.TechnicalSpecification.currentWorking,
+        //     Id_Equipment: equipo.Id_Equipment
+        // })
+
+
+        // equipo.TechnicalSpecification.newTechnicalSpecification.map(async (NTS) => {
+        //     await Axios.post("https://node-gead.herokuapp.com/api/NewTechInfo", {
+        //         Id_NewTechSpec: NTS.Id_NewTechSpec,
+        //         Id_TechnicalSpecification: equipo.TechnicalSpecification.Id_TechnicalSpecification,
+        //         Name: NTS.Name,
+        //         Value: NTS.Value
+        //     })
+
+        //     await Axios.post("https://node-gead.herokuapp.com/api/selectNewTechSpec", {
+        //         Id_SelectNewTechSpec: NTS.SelectNewTechSpec.Id_SelectNewTechSpec,
+        //         Id_TechnicalSpecification: equipo.TechnicalSpecification.Id_TechnicalSpecification,
+        //         Id_NewTechSpec: NTS.Id_NewTechSpec
+        //     })
+        // })
+
+
 
 
 
