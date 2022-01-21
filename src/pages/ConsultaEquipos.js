@@ -67,12 +67,12 @@ const useStyles = makeStyles(theme => ({
 
 const headCells = [
     { id: 'Name', label: 'Equipment' },
-    { id: 'bu', label: 'BU' },
-    { id: 'pais', label: 'Country' },
-    { id: 'area', label: 'Area' },
-    { id: 'subarea', label: 'Subarea' },
-    { id: 'planta', label: 'Plant' },
-    { id: 'equipmentType', label: 'Equipment Type' },
+    { id: 'bu', label: 'BU', disableSorting: true },
+    { id: 'pais', label: 'Country', disableSorting: true },
+    { id: 'area', label: 'Area', disableSorting: true },
+    { id: 'subarea', label: 'Subarea', disableSorting: true },
+    { id: 'planta', label: 'Plant', disableSorting: true },
+    { id: 'equipmentType', label: 'Equipment Type', disableSorting: true },
     { id: 'acciones', label: 'Actions', disableSorting: true },
 ];
 
