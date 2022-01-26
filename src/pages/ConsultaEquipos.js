@@ -131,7 +131,7 @@ const ConsultaEquipos = () => {
             })
     }
 
-    useEffect( () => {
+    useEffect(() => {
         allAquipmentRelation();
         // getLine();
         // getProcedencia();
@@ -1518,7 +1518,7 @@ const ConsultaEquipos = () => {
 
 
     const [casoServInfo, setCasoServInfo] = useState('Edit');
-    
+
     const [List, setList] = useState([]);
     const [contador, setContador] = useState(0);
 
@@ -1625,7 +1625,7 @@ const ConsultaEquipos = () => {
 
             }
 
-        ))
+            ))
 
         promise === "undefined" ? (console.log("undefined")) : (
             promise.then((d) => {
@@ -1636,7 +1636,7 @@ const ConsultaEquipos = () => {
 
         )
 
-        
+
 
 
 
@@ -1680,7 +1680,7 @@ const ConsultaEquipos = () => {
         // promise.then((d) => {
         //     setItem(d)
         // })
-         
+
     };
 
     function formatearFechaExcel(fechaExcel) {
@@ -1712,7 +1712,7 @@ const ConsultaEquipos = () => {
 
     const [pruebaExcel, setpruebaExcel] = useState([])
 
-    
+
     const actualizarTabla = (Excel) => {
         Excel.map((Equipo) => {
             setGetAllList([...getAllList, Equipo])
@@ -1775,8 +1775,9 @@ const ConsultaEquipos = () => {
                     </Controls.Button>
 
                     {/* -----------------------  Boton para insertar datos desde Excel   ----------------------------------- */}
+                    {/* ---------------------------------------------------------------------------------------------------- */}
 
-                    <div id="imagen">
+                    {/* <div id="imagen">
 
                         <input
                             id="icon-button-file"
@@ -1801,7 +1802,7 @@ const ConsultaEquipos = () => {
                             </IconButton>
                         </label>
 
-                    </div>
+                    </div> */}
 
 
 
@@ -2024,32 +2025,60 @@ const ConsultaEquipos = () => {
 
                                             <FormGroup className="col-4">
                                                 <label>Current Working:</label>
-                                                <input
-                                                    className="form-control"
-                                                    type="text text-align=center"
+                                                <select
+                                                    className="form-select "
+                                                    style={{ margin: "0px !important" }}
                                                     name="currentWorking"
                                                     value={technicalInformation && technicalInformation.currentWorking}
-                                                    onChange={handleChange} />
+                                                    onChange={handleChange}
+                                                >
+                                                    <option value="">Select Current Working</option>
+                                                    <option value="Installed and is working">Installed and is working</option>
+                                                    <option value="Installed and is not working">Installed and is not working</option>
+                                                    <option value="Not Installed and is not working">Not Installed and is not working</option>
+                                                </select>
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
-                                                <label>Current Condition:</label>
-                                                <input
-                                                    className="form-control"
-                                                    type="text text-align=center"
+                                                <label htmlFor="CurrentConditions">Current Condition:</label>
+                                                <select
+                                                    className="form-select "
                                                     name="CurrentConditions"
                                                     value={technicalInformation && technicalInformation.CurrentConditions}
-                                                    onChange={handleChange} />
+                                                    onChange={handleChange}
+                                                >
+                                                    <option value="">Select Current Condition</option>
+                                                    <option value="Excellent">Excellent</option>
+                                                    <option value="Very Good">Very Good</option>
+                                                    <option value="Good">Good</option>
+                                                    <option value="Regular">Regular</option>
+                                                    <option value="Bad">Bad</option>
+                                                    <option value="Very Bad">Very Bad</option>
+                                                    <option value="To be disposed">To be disposed</option>
+                                                </select>
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
                                                 <label>Equipment Type:</label>
-                                                <input
+                                                {/* <input
                                                     className="form-control"
                                                     type="text text-align=center"
                                                     name="EquipmentType"
                                                     value={technicalInformation && technicalInformation.EquipmentType}
-                                                    onChange={handleChange} />
+                                                    onChange={handleChange} /> */}
+
+
+                                                <select
+                                                    className="form-select "
+                                                    name="EquipmentType"
+                                                    value={technicalInformation && technicalInformation.EquipmentType}
+                                                    onChange={handleChange}
+                                                >
+                                                    <option value="">Select Equipment Type</option>
+                                                    <option value="Automation / Electronic">Automation / Electronic</option>
+                                                    <option value="Electrical">Electrical</option>
+                                                    <option value="Mechanical">Mechanical</option>
+                                                </select>
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
@@ -2901,7 +2930,7 @@ const ConsultaEquipos = () => {
                                                     onChange={handleChange} />
                                             </FormGroup>
 
-                                            <FormGroup className="col-4">
+                                            {/* <FormGroup className="col-4">
                                                 <label>Current Working:</label>
                                                 <input
                                                     className="form-control"
@@ -2909,10 +2938,26 @@ const ConsultaEquipos = () => {
                                                     name="currentWorking"
                                                     value={technicalInformation && technicalInformation.currentWorking}
                                                     onChange={handleChange} />
-                                            </FormGroup>
-
+                                            </FormGroup> */}
 
                                             <FormGroup className="col-4">
+                                                <label>Current Working:</label>
+                                                <select
+                                                    className="form-select "
+                                                    style={{ margin: "0px !important" }}
+                                                    name="currentWorking"
+                                                    value={technicalInformation && technicalInformation.currentWorking}
+                                                    onChange={handleChange}
+                                                >
+                                                    <option value="">Select Current Working</option>
+                                                    <option value="Yes, it is working">Yes, it is working</option>
+                                                    <option value="No, it is not working">No, it is not working</option>
+                                                    <option value="Instalado">Instalado</option>
+                                                    <option value="No instalado">No instalado</option>
+                                                </select>
+                                            </FormGroup>
+
+                                            {/* <FormGroup className="col-4">
                                                 <label>Current Condition:</label>
                                                 <input
                                                     className="form-control"
@@ -2920,17 +2965,49 @@ const ConsultaEquipos = () => {
                                                     name="CurrentConditions"
                                                     value={technicalInformation && technicalInformation.CurrentConditions}
                                                     onChange={handleChange} />
+                                            </FormGroup> */}
+
+                                            <FormGroup className="col-4">
+                                                <label htmlFor="CurrentConditions">Current Condition:</label>
+                                                <select
+                                                    className="form-select "
+                                                    name="CurrentConditions"
+                                                    value={technicalInformation && technicalInformation.CurrentConditions}
+                                                    onChange={handleChange}
+                                                >
+                                                    <option value="">Select Current Condition</option>
+                                                    <option value="Excellent">Excellent</option>
+                                                    <option value="Very Good">Very Good</option>
+                                                    <option value="Good">Good</option>
+                                                    <option value="Regular">Regular</option>
+                                                    <option value="Bad">Bad</option>
+                                                    <option value="Very Bad">Very Bad</option>
+                                                    <option value="To be disposed">To be disposed</option>
+                                                </select>
                                             </FormGroup>
+
 
                                             <FormGroup className="col-4">
                                                 <label>Equipment Type:</label>
-                                                <input
+                                                {/* <input
                                                     className="form-control"
                                                     type="text text-align=center"
                                                     name="EquipmentType"
                                                     value={technicalInformation && technicalInformation.EquipmentType}
-                                                    onChange={handleChange} />
-                                                {/* ============== onChange =============== Captura los cambios, lo que el usuario escriba*/}
+                                                    onChange={handleChange} /> */}
+
+
+                                                <select
+                                                    className="form-select "
+                                                    name="EquipmentType"
+                                                    value={technicalInformation && technicalInformation.EquipmentType}
+                                                    onChange={handleChange}
+                                                >
+                                                    <option value="">Select Equipment Type</option>
+                                                    <option value="Automation / Electronic">Automation / Electronic</option>
+                                                    <option value="Electrical">Electrical</option>
+                                                    <option value="Mechanical">Mechanical</option>
+                                                </select>
                                             </FormGroup>
 
                                             <FormGroup className="col-4">

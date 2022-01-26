@@ -96,6 +96,10 @@ const SideMenu = ({ getAllList, classes, filtrarBUList, setListAll, listAll }) =
 
     }
 
+    // const powerBi = () => {
+    //     history.push('https://app.powerbi.com/links/Fmp5PhWZi8?ctid=cef04b19-7776-4a94-b89b-375c77a8f936&pbi_source=linkShare'); 
+    // }
+
 
     // const { classes } = props;
 
@@ -189,15 +193,15 @@ const SideMenu = ({ getAllList, classes, filtrarBUList, setListAll, listAll }) =
                     // startIcon={<Add style={{ fontSize: 34, fontWeight: '800' }} />}
                     // onClick={() => filtrado("COL")}
                     // onClick={(e) => filtrarBUList("COL")}
+                    // onClick={() =>}
                     style={{ fontSize: 20, fontWeight: '600' }}
+                    href='https://anheuserbuschinbev.sharepoint.com/sites/MAZGEAD/GEAD%20manuales/Forms/AllItems.aspx'
                     text={`Power BI`}
                 // Add New
                 >
                 </Controls.Button>
-
+                
             </div>
-
-
         </div>
     )
 }
