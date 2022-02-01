@@ -25,7 +25,7 @@ const EditAddServInfo = ({ techInfoEditado, updateAddServInfo}) => {
         <section className="pb-4 pt-4">
 
             <form onSubmit={handleSubmit(onSubmit)} className="animate__animated animate__fadeIn"  >
-                <label htmlFor="technical" bold> <h5 className="text-muted">Editing Technical Information:</h5></label>
+                <label htmlFor="technical" bold> <h5 className="text-muted">Edición de Información de Servicio:</h5></label>
                 <select
                     className="form-select"
                     name="Name"
@@ -37,7 +37,7 @@ const EditAddServInfo = ({ techInfoEditado, updateAddServInfo}) => {
                         }
                     })}
                 >
-                    <option value="">Seleciona</option>
+                    <option value="">Seleciona información de servicio</option>
                     <option value="Available warranty">Available warranty</option>
                     <option value="Notes about equipment">Notes</option>
                 </select>
@@ -47,7 +47,7 @@ const EditAddServInfo = ({ techInfoEditado, updateAddServInfo}) => {
                 </span>
 
 
-                <label htmlFor="value">Value <b className="text-danger">*</b></label>
+                <label htmlFor="value">Valor <b className="text-danger">*</b></label>
 
                 <div className="row ">
                     <div className="col-10">

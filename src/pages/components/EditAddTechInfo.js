@@ -25,7 +25,7 @@ const EditAddTechInfo = ({ technicalSpecEditado, updateAddTechInfo }) => {
         <section className="pb-4 pt-4">
 
             <form onSubmit={handleSubmit(onSubmit)} className="animate__animated animate__fadeIn"  >
-                <label htmlFor="technical" bold> <h5 className="text-muted">Editing Technical Information:</h5></label>
+                <label htmlFor="technical" bold> <h5 className="text-muted">Edición de Información Técnica:</h5></label>
                 <select
                     className="form-select"
                     name="Name"
@@ -37,7 +37,7 @@ const EditAddTechInfo = ({ technicalSpecEditado, updateAddTechInfo }) => {
                         }
                     })}
                 >
-                    <option value="">Seleciona</option>
+                    <option value="">Seleciona Información Técnica</option>
                     <option value="Available warranty">Available warranty</option>
                     <option value="Year of construction">Year of construction</option>
                     <option value="Sanitary Grade">Sanitary Grade</option>
@@ -63,7 +63,7 @@ const EditAddTechInfo = ({ technicalSpecEditado, updateAddTechInfo }) => {
                 </span>
 
 
-                <label htmlFor="value">Value <b className="text-danger">*</b></label>
+                <label htmlFor="value">Valor <b className="text-danger">*</b></label>
 
                 <div className="row ">
                     <div className="col-10">

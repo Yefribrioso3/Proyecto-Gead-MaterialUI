@@ -156,12 +156,12 @@ const ServiceInformation = ({ casoServInfo, id, editingNewServInfo, setnewservIn
     return (
         <>
             <div className="p-3">
-                <h4 className="text-muted">Services Information</h4>
+                <h4 className="text-muted">Información de Servicios</h4>
             </div>
 
             <ModalBody className="row animate__animated animate__fadeIn">
                 <FormGroup className="col-4">
-                    <label>Date Of Installation:</label>
+                    <label>Fecha de Instalación:</label>
                     <input
                         className="form-control"
                         type="text text-align=center"
@@ -171,7 +171,7 @@ const ServiceInformation = ({ casoServInfo, id, editingNewServInfo, setnewservIn
                 </FormGroup>
 
                 <FormGroup className="col-4">
-                    <label>Date Of Desinstallation:</label>
+                    <label>Fecha de Desinstalación:</label>
                     <input
                         className="form-control"
                         type="text text-align=center"
@@ -181,7 +181,7 @@ const ServiceInformation = ({ casoServInfo, id, editingNewServInfo, setnewservIn
                 </FormGroup>
 
                 <FormGroup className="col-4">
-                    <label>Desuse Reason:</label>
+                    <label>Razón de Desuso:</label>
                     <input
                         className="form-control"
                         type="text text-align=center"
@@ -192,7 +192,7 @@ const ServiceInformation = ({ casoServInfo, id, editingNewServInfo, setnewservIn
                 </FormGroup>
 
                 <FormGroup className="col-4">
-                    <label>Desinstallation Reason:</label>
+                    <label>Motivo de Desinstalación:</label>
                     <input
                         className="form-control"
                         type="text text-align=center"
@@ -231,7 +231,7 @@ const ServiceInformation = ({ casoServInfo, id, editingNewServInfo, setnewservIn
                             <section className="pb-4 pt-4">
 
                                 <form onSubmit={handleSubmit(onSubmit)} className="animate__animated animate__fadeIn" >
-                                    <label htmlFor="Name" > <h5 className="text-muted">Add Service Information:</h5> </label>
+                                    <label htmlFor="Name" > <h5 className="text-muted">Agregar más información de servicio:</h5> </label>
                                     <select
                                         className="form-select SelectBoostrap"
                                         name="Name"
@@ -243,7 +243,7 @@ const ServiceInformation = ({ casoServInfo, id, editingNewServInfo, setnewservIn
                                             }
                                         })}
                                     >
-                                        <option value="">Select</option>
+                                        <option value="">Seleccione información de servicio</option>
                                         <option value="Available warranty">Available warranty</option>
                                     </select>
 
@@ -252,7 +252,7 @@ const ServiceInformation = ({ casoServInfo, id, editingNewServInfo, setnewservIn
                                     </span>
 
 
-                                    <label htmlFor="Value">Value <b className="text-danger">*</b></label>
+                                    <label htmlFor="Value">Valor <b className="text-danger">*</b></label>
                                     <div className="row ">
                                         <div className="col-10">
                                             <input
@@ -296,8 +296,8 @@ const ServiceInformation = ({ casoServInfo, id, editingNewServInfo, setnewservIn
                             <table className="table display table-hover table-bordered table-striped animate__animated animate__fadeIn">
                                 <thead>
                                     <tr>
-                                        <th>Others Information</th>
-                                        <th>Value</th>
+                                        <th>Información de servicio</th>
+                                        <th>Valor</th>
                                         <th>Acciones</th>
                                     </tr>
 
