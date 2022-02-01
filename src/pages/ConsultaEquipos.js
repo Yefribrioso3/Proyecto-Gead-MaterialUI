@@ -10,6 +10,7 @@ import {
     ModalFooter,
     FormGroup,
 } from 'reactstrap';
+import { DataGrid } from "@mui/x-data-grid";
 import Axios from "axios";
 import { useForm } from 'react-hook-form';
 import EditAddServInfo from './components/EditAddServInfo';
@@ -126,8 +127,9 @@ const ConsultaEquipos = () => {
 
     const allAquipmentRelation = async () => {
         await Axios.get('https://node-gead.herokuapp.com/api/AllequipmentRelation')
-            .then((response) => {
-                setGetAllList(response.data.equipment)
+            .then(async (response) => {
+                let a = await Promise.all(response.data.equipment.map(z => ({...z, id: z.Id_Equipment})))
+                setGetAllList(a)
             })
     }
 
@@ -1721,7 +1723,115 @@ const ConsultaEquipos = () => {
     }
 
 
+    const columns = [
+        {
+          field: "Name",
+          headerName: "Equipment",
+          width: 400,
+        },
+        {
+          field: "serial",
+          headerName: "Serial Number",
+          width: 200,
+          valueGetter: (params) => {
+            return params.row.TechnicalSpecification.SerialNumber;
+          }
+        },
+        {
+          field: "bu",
+          headerName: "BU",
+          flex: 1,
+          valueGetter: (params) => {
+            return params.row.Procedencia.areas.operations.countries.bu.Name;
+          },
+          /* width: 150, */
+        },
+        {
+          field: "country",
+          headerName: "Country",
+          width: 210,
+          valueGetter: (params) => {
+            return params.row.Procedencia.areas.operations.countries.Name;
+          },
+        },
+        {
+          field: "area",
+          headerName: "Area",
+          width: 210,
+          valueGetter: (params) => {
+            return params.row.Procedencia.areas.Name
+          },
+        },
+        {
+          field: "subarea",
+          headerName: "Subarea",
+          width: 210,
+          valueGetter: (params) => {
+            return params.row.Procedencia.areas.SubArea.Name
+          },
+        },
+        {
+          field: "plant",
+          headerName: "Plant",
+          width: 210,
+          valueGetter: (params) => {
+            return params.row.Procedencia.areas.operations.Name
+          },
+        },
+        {
+          field: "equipType",
+          headerName: "Equipment Type",
+          width: 210,
+          valueGetter: (params) => {
+            return params.row.TechnicalSpecification.EquipmentType
+          },
+        },
+        {
+          field: "actions",
+          headerName: "Actions",
+          width: 210,
+          sortable: false,
+          disableColumnMenu: true,
+          renderCell: (params) => (
+            <div className="d-flex justify-content-between">
+                <div color="primary" aria-label="edit"
+                    onClick={() => seleccionarEquipo(params.row, 'Editar')}
+                    component="span"
+                >
+                    <IconButton>
+                        <Edit />
+                    </IconButton>
+                </div>
 
+                <div color="secondary" aria-label="delete"
+                    onClick={() => seleccionarEquipo(params.row, 'Eliminar')}
+                    component="span"
+                >
+                    <IconButton>
+                        <Delete />
+                    </IconButton>
+                </div>
+            </div>
+          ),
+        },
+        /* {
+          field: "a",
+          headerName: "Actions",
+          width: 100,
+          sortable: false,
+          align: "center",
+          disableColumnMenu: true,
+          renderCell: (params) => (
+            <div onClick={(e) => deleteGts(e, params.id)}>
+              <Tooltip title="Delete">
+                <IconButton>
+                  <Delete />
+                </IconButton>
+              </Tooltip>
+            </div>
+          ),
+        }, */
+      ];
 
     return (
         <div >
@@ -1814,53 +1924,17 @@ const ConsultaEquipos = () => {
 
                 </Toolbar>
 
-                <TblContainer>
-                    <TblHead />
-                    <TableBody>
-                        {
-                            recordsAfterPagingAndSorting().map(item =>
-                            (<TableRow key={item.Id_Equipment}>
-                                <TableCell style={{ fontWeight: '600' }} >{item.Name}</TableCell>
-                                <TableCell>{item.Procedencia.areas.operations.countries.bu.Name}</TableCell>
-                                <TableCell>{item.Procedencia.areas.operations.countries.Name}</TableCell>
-                                <TableCell>{item.Procedencia.areas.Name}</TableCell>
-                                <TableCell>{item.Procedencia.areas.SubArea.Name}</TableCell>
-                                <TableCell>{item.Procedencia.areas.operations.Name}</TableCell>
-                                <TableCell>{item.TechnicalSpecification.EquipmentType}</TableCell>
+                <div style={{ height: 450, width: "100%", backgroundColor: "white" }}>
+                    <DataGrid
+                        rows={getAllList}
+                        columns={columns}
+                        pageSize={6}
+                        rowsPerPageOptions={[6]}
+                        
+                    />
+                </div>
 
-                                {/* <TableCell>{item.Procedencia.line.lineTypes.Name}</TableCell>   */}
-
-                                <TableCell>
-                                    <label htmlFor="icon-button-file" >
-                                        <IconButton color="primary" aria-label="edit"
-                                            onClick={() => seleccionarEquipo(item, 'Editar')}
-                                            component="span">
-
-                                            <Edit />
-
-                                        </IconButton>
-                                    </label>
-
-                                    &nbsp;&nbsp;
-
-                                    <label htmlFor="icon-button-file" >
-                                        <IconButton color="secondary" aria-label="edit"
-                                            onClick={() => seleccionarEquipo(item, 'Eliminar')}
-                                            component="span">
-
-                                            <Delete />
-
-                                        </IconButton>
-                                    </label>
-                                </TableCell>
-
-                            </TableRow>)
-                            )
-                        }
-                    </TableBody>
-                </TblContainer>
-
-                <Toolbar >
+                {/* <Toolbar >
                     <PageHeader
                         contador={`${totalEncontrados} results`}
                         style={{ fontSize: 12 }}
@@ -1868,7 +1942,6 @@ const ConsultaEquipos = () => {
                     <Grid item sm></Grid>
                     <Grid item sm></Grid>
 
-                    {/* --------------------------      FECHA ACTUAL    --------------------------- */}
                     <PageHeader
                         subTitle="Date Updated:"
                     // title="Consulta de Equipos"
@@ -1880,12 +1953,10 @@ const ConsultaEquipos = () => {
                         subTitle={fecha}
                     />
 
-                    {/* -------------------------------------------------------------------------- */}
-
                     <Grid item sm></Grid>
 
                     <TblPagination />
-                </Toolbar>
+                </Toolbar> */}
 
                 {/* <div className="table-responsive mt-5">
                     <table className="table table-hover align-middle table-sm animate__animated animate__fadeIn " >
