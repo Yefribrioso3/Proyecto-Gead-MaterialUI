@@ -67,14 +67,14 @@ const useStyles = makeStyles(theme => ({
 
 
 const headCells = [
-    { id: 'Name', label: 'Equipment' },
+    { id: 'Name', label: 'Equipo' },
     { id: 'bu', label: 'BU', disableSorting: true },
-    { id: 'pais', label: 'Country', disableSorting: true },
+    { id: 'pais', label: 'País', disableSorting: true },
     { id: 'area', label: 'Area', disableSorting: true },
-    { id: 'subarea', label: 'Subarea', disableSorting: true },
-    { id: 'planta', label: 'Plant', disableSorting: true },
-    { id: 'equipmentType', label: 'Equipment Type', disableSorting: true },
-    { id: 'acciones', label: 'Actions', disableSorting: true },
+    { id: 'subarea', label: 'Subárea', disableSorting: true },
+    { id: 'planta', label: 'Planta', disableSorting: true },
+    { id: 'equipmentType', label: 'Tipo de Equipo', disableSorting: true },
+    { id: 'acciones', label: 'Acciones', disableSorting: true },
 ];
 
 //----------------------------------------------------------------------------------------------------------------------------------------
@@ -1880,7 +1880,7 @@ const ConsultaEquipos = () => {
                         startIcon={<Add style={{ fontSize: 34, fontWeight: '800' }} />}
                         onClick={() => abrirModalInsertar()}
                         style={{ fontSize: 20, fontWeight: '600' }}
-                        text={"Add New"}
+                        text={"Nuevo"}
                     >
                     </Controls.Button>
 
@@ -2079,13 +2079,13 @@ const ConsultaEquipos = () => {
                                     // ------------------------     Technical Information   -------------------------------
                                     <>
                                         <div className="p-3">
-                                            <h4 className="text-muted">Technical Information</h4>
+                                            <h4 className="text-muted">Información técnica</h4>
                                         </div>
 
                                         <ModalBody className="row animate__animated animate__fadeIn">
 
                                             <FormGroup className="col-4">
-                                                <label>Equipment:</label>
+                                                <label>Equipo:</label>
                                                 <input
                                                     className="form-control"
                                                     type="text text-align=center"
@@ -2095,7 +2095,7 @@ const ConsultaEquipos = () => {
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
-                                                <label>Current Working:</label>
+                                                <label>Trabajo actual:</label>
                                                 <select
                                                     className="form-select "
                                                     style={{ margin: "0px !important" }}
@@ -2104,14 +2104,14 @@ const ConsultaEquipos = () => {
                                                     onChange={handleChange}
                                                 >
                                                     <option value="">Select Current Working</option>
-                                                    <option value="Installed and is working">Installed and is working</option>
-                                                    <option value="Installed and is not working">Installed and is not working</option>
-                                                    <option value="Not Installed and is not working">Not Installed and is not working</option>
+                                                    <option value="Installed and is working">Instalado y funcionando</option>
+                                                    <option value="Installed and is not working">Instalado y no funciona</option>
+                                                    <option value="Not Installed and is not working">No esta instalado</option>
                                                 </select>
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
-                                                <label htmlFor="CurrentConditions">Current Condition:</label>
+                                                <label htmlFor="CurrentConditions">Condición actual:</label>
                                                 <select
                                                     className="form-select "
                                                     name="CurrentConditions"
@@ -2119,18 +2119,18 @@ const ConsultaEquipos = () => {
                                                     onChange={handleChange}
                                                 >
                                                     <option value="">Select Current Condition</option>
-                                                    <option value="Excellent">Excellent</option>
-                                                    <option value="Very Good">Very Good</option>
-                                                    <option value="Good">Good</option>
+                                                    <option value="Excellent">Excelente</option>
+                                                    <option value="Very Good">Muy bueno</option>
+                                                    <option value="Good">Bueno</option>
                                                     <option value="Regular">Regular</option>
-                                                    <option value="Bad">Bad</option>
-                                                    <option value="Very Bad">Very Bad</option>
-                                                    <option value="To be disposed">To be disposed</option>
+                                                    <option value="Bad">Malo</option>
+                                                    <option value="Very Bad">Muy malo</option>
+                                                    <option value="To be disposed">Para ser desechado</option>
                                                 </select>
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
-                                                <label>Equipment Type:</label>
+                                                <label>Tipo de equipo:</label>
                                                 {/* <input
                                                     className="form-control"
                                                     type="text text-align=center"
@@ -2146,14 +2146,14 @@ const ConsultaEquipos = () => {
                                                     onChange={handleChange}
                                                 >
                                                     <option value="">Select Equipment Type</option>
-                                                    <option value="Automation / Electronic">Automation / Electronic</option>
-                                                    <option value="Electrical">Electrical</option>
-                                                    <option value="Mechanical">Mechanical</option>
+                                                    <option value="Automation / Electronic">Automatización / Electrónico</option>
+                                                    <option value="Electrical">Electrico</option>
+                                                    <option value="Mechanical">Mecánico</option>
                                                 </select>
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
-                                                <label>Serial Number:</label>
+                                                <label>Número de serial:</label>
                                                 <input
                                                     className="form-control"
                                                     type="text text-align=center"
@@ -2163,7 +2163,7 @@ const ConsultaEquipos = () => {
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
-                                                <label>Model Number:</label>
+                                                <label>Número de modelo:</label>
                                                 <input
                                                     className="form-control"
                                                     type="text text-align=center"
@@ -2173,7 +2173,7 @@ const ConsultaEquipos = () => {
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
-                                                <label>weight:</label>
+                                                <label>Peso:</label>
                                                 <input
                                                     className="form-control"
                                                     type="text text-align=center"
@@ -2193,7 +2193,7 @@ const ConsultaEquipos = () => {
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
-                                                <label>Vendor:</label>
+                                                <label>Vendedor:</label>
                                                 <input
                                                     className="form-control"
                                                     type="text text-align=center"
@@ -2203,7 +2203,7 @@ const ConsultaEquipos = () => {
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
-                                                <label>Description:</label>
+                                                <label>Descripción:</label>
                                                 <input
                                                     className="form-control"
                                                     type="text text-align=center"
@@ -2231,7 +2231,7 @@ const ConsultaEquipos = () => {
                                                         <section className="pb-4 pt-4">
 
                                                             <form onSubmit={handleSubmit(onSubmitTechSpech)} className="animate__animated animate__fadeIn"  >
-                                                                <label htmlFor="Name" > <h5 className="text-muted">Add Technical Information:</h5> </label>
+                                                                <label htmlFor="Name" > <h5 className="text-muted">Agregar más información técnica:</h5> </label>
                                                                 <select
                                                                     className="form-select SelectBoostrap"
                                                                     name="Name"
@@ -2243,12 +2243,12 @@ const ConsultaEquipos = () => {
                                                                         }
                                                                     })}
                                                                 >
-                                                                    <option value="">Select</option>
-                                                                    <option value="Available warranty">Available warranty</option>
-                                                                    <option value="Year of construction">Year of construction</option>
-                                                                    <option value="Sanitary Grade">Sanitary Grade</option>
+                                                                    <option value="">Seleccione información técnica</option>
+                                                                    <option value="Available warranty">Garantía disponible</option>
+                                                                    <option value="Year of construction">Año de construcción</option>
+                                                                    <option value="Sanitary Grade">Grado sanitario</option>
                                                                     <option value="Emplazam">Emplazam</option>
-                                                                    <option value="Protection Grade">Protection Grade</option>
+                                                                    <option value="Protection Grade">Grado de protección</option>
                                                                     <option value="Electrical Consumption">Electrical Consumption</option>
                                                                     <option value="Measurement variable">Measurement variable</option>
                                                                     <option value="Plant Technical Information Contact">Plant Technical Information Contact</option>
@@ -2269,7 +2269,7 @@ const ConsultaEquipos = () => {
                                                                 </span>
 
 
-                                                                <label htmlFor="Value">Value <b className="text-danger">*</b></label>
+                                                                <label htmlFor="Value">Valor <b className="text-danger">*</b></label>
                                                                 <div className="row ">
                                                                     <div className="col-10">
                                                                         <input
@@ -2308,9 +2308,9 @@ const ConsultaEquipos = () => {
                                                 <table className="table display table-hover table-bordered table-striped">
                                                     <thead>
                                                         <tr>
-                                                            <th>Others Technical Information</th>
-                                                            <th>Value</th>
-                                                            <th>Actions</th>
+                                                            <th>Información Técnica</th>
+                                                            <th>Valor</th>
+                                                            <th>Acciones</th>
                                                         </tr>
 
                                                     </thead>
@@ -2518,7 +2518,7 @@ const ConsultaEquipos = () => {
 
                                             <FormGroup className="col-6">
 
-                                                <label>Line Number:</label>
+                                                <label>Número de línea:</label>
                                                 <input
                                                     className="form-control"
                                                     type="text text-align=center"
@@ -2539,7 +2539,7 @@ const ConsultaEquipos = () => {
                                                 {/* ============== onChange =============== Captura los cambios, lo que el usuario escriba*/}
 
 
-                                                <label>Plant <b className="text-danger">*</b></label>
+                                                <label>Planta:<b className="text-danger">*</b></label>
                                                 <select
                                                     className="form-select SelectBoostrap"
                                                     name="Name"
@@ -2547,7 +2547,7 @@ const ConsultaEquipos = () => {
                                                     value={operations && operations.Name}
                                                     onChange={handleChangeOperations}
                                                 >
-                                                    <option value="">Select Plant</option>
+                                                    <option value="">Seleccionar planta</option>
                                                     <option value="Barbados">Barbados</option>
                                                     <option value="Barranquilla">Barranquilla</option>
                                                     <option value="Boyaca">Boyaca</option>
@@ -2599,14 +2599,14 @@ const ConsultaEquipos = () => {
                                             </FormGroup>
 
                                             <FormGroup className="col-6">
-                                                <label htmlFor="lineType">Line Type <b className="text-danger">*</b></label>
+                                                <label htmlFor="lineType">Tipo de línea:<b className="text-danger">*</b></label>
                                                 <select
                                                     className="form-select SelectBoostrap"
                                                     name="Name"
                                                     value={lineTypes && lineTypes.Name}
                                                     onChange={handleChangeLineTypes}
                                                 >
-                                                    <option value="">Select Line Type</option>
+                                                    <option value="">Seleccionar tipo de línea</option>
                                                     <option value="Brewline">Brewline</option>
                                                     <option value="Bottle">Bottle</option>
                                                     <option value="Can">Can</option>
@@ -2617,7 +2617,7 @@ const ConsultaEquipos = () => {
                                             </FormGroup>
 
                                             <FormGroup className="col-6">
-                                                <label>Country <b className="text-danger">*</b></label>
+                                                <label>País:<b className="text-danger">*</b></label>
                                                 <select
                                                     className="form-select SelectBoostrap"
                                                     name="Name"
@@ -2625,7 +2625,7 @@ const ConsultaEquipos = () => {
                                                     required
                                                     onChange={handleChangeCountries}
                                                 >
-                                                    <option value="">Selec Country</option>
+                                                    <option value="">Seleccionar País</option>
                                                     <option value="Barbados">Barbados</option>
                                                     <option value="Colombia">Colombia</option>
                                                     <option value="Cuba">Cuba</option>
@@ -2642,7 +2642,7 @@ const ConsultaEquipos = () => {
                                             </FormGroup>
 
                                             <FormGroup className="col-6">
-                                                <label>BU <b className="text-danger">*</b></label>
+                                                <label>BU:<b className="text-danger">*</b></label>
                                                 <select
                                                     className="form-select SelectBoostrap"
                                                     name="Name"
@@ -2650,7 +2650,7 @@ const ConsultaEquipos = () => {
                                                     onChange={handleChangeBu}
                                                 >
                                                     {/* ------------------------------------------------   SELECT DESDE LA BASE DE DATOS   ------------------------------------ */}
-                                                    <option value="">Select BU</option>
+                                                    <option value="">Seleccionar BU</option>
                                                     <option value="CAC">CAC</option>
                                                     <option value="COL">COL</option>
                                                     <option value="PEC">PEC</option>
@@ -2660,14 +2660,14 @@ const ConsultaEquipos = () => {
 
 
                                             <FormGroup className="col-6">
-                                                <label htmlFor="area">Area <b className="text-danger">*</b></label>
+                                                <label htmlFor="area">Área:<b className="text-danger">*</b></label>
                                                 <select
                                                     className="form-select SelectBoostrap"
                                                     name="Name"
                                                     value={areas && areas.Name}
                                                     onChange={handleChangeAreas}
                                                 >
-                                                    <option value="">Select Area</option>
+                                                    <option value="">Seleccionar Área</option>
                                                     <option value="General Services">General Services</option>
                                                     <option value="Silos">Silos</option>
                                                     <option value="Milling">Milling</option>
@@ -2708,27 +2708,27 @@ const ConsultaEquipos = () => {
 
 
                                             <FormGroup className="col-6">
-                                                <label htmlFor="Subarea">Subarea <b className="text-danger">*</b></label>
+                                                <label htmlFor="Subarea">Subárea <b className="text-danger">*</b></label>
                                                 <select
                                                     className="form-select SelectBoostrap"
                                                     name="Name"
                                                     value={SubArea && SubArea.Name}
                                                     onChange={handleChangeSubArea}
                                                 >
-                                                    <option value="">Select Subarea</option>
+                                                    <option value="">Seleccionar Subárea</option>
                                                     <option value="Wort Kettle">Wort Kettle</option>
                                                     <option value="Torre de Molienda ">Torre de Molienda </option>
                                                     <option value="Cocimientos">Cocimientos</option>
                                                     <option value="BAGAZO/SYE">BAGAZO/SYE</option>
                                                     <option value="Bloque Frio">Bloque Frio</option>
-                                                    <option value="Bloque Frio">NaN</option>
+                                                    <option value="No data available">No data available</option>
                                                 </select>
                                             </FormGroup>
 
                                             <FormGroup className="col-12">
                                                 {/* Para obtener el correo */}
                                                 <TextField
-                                                    label="Plant Mail"
+                                                    label="Correo de la Planta"
                                                     className="form-control"
                                                     variant="outlined"
                                                     name="code"
@@ -2985,13 +2985,13 @@ const ConsultaEquipos = () => {
                                 ) : (
                                     <>
                                         <div className="p-3">
-                                            <h4 className="text-muted">Technical Information</h4>
+                                            <h4 className="text-muted">Información técnica</h4>
                                         </div>
 
                                         <ModalBody className="row animate__animated animate__fadeIn">
 
                                             <FormGroup className="col-4">
-                                                <label htmlFor="url_input">Equipment:</label>
+                                                <label htmlFor="url_input">Equipo:</label>
                                                 <input
                                                     className="form-control"
                                                     required
@@ -3012,7 +3012,7 @@ const ConsultaEquipos = () => {
                                             </FormGroup> */}
 
                                             <FormGroup className="col-4">
-                                                <label>Current Working:</label>
+                                                <label>Trabajo actual:</label>
                                                 <select
                                                     className="form-select "
                                                     style={{ margin: "0px !important" }}
@@ -3020,11 +3020,10 @@ const ConsultaEquipos = () => {
                                                     value={technicalInformation && technicalInformation.currentWorking}
                                                     onChange={handleChange}
                                                 >
-                                                    <option value="">Select Current Working</option>
-                                                    <option value="Yes, it is working">Yes, it is working</option>
-                                                    <option value="No, it is not working">No, it is not working</option>
-                                                    <option value="Instalado">Instalado</option>
-                                                    <option value="No instalado">No instalado</option>
+                                                    <option value="">Seleccione Trabajo actual</option>
+                                                    <option value="Installed and is working">Instalado y funcionando</option>
+                                                    <option value="Installed and is not working">Instalado y no trabajando</option>
+                                                    <option value="Not Installed and is not working">No instalado</option>
                                                 </select>
                                             </FormGroup>
 
@@ -3039,14 +3038,14 @@ const ConsultaEquipos = () => {
                                             </FormGroup> */}
 
                                             <FormGroup className="col-4">
-                                                <label htmlFor="CurrentConditions">Current Condition:</label>
+                                                <label htmlFor="CurrentConditions">Condición actual:</label>
                                                 <select
                                                     className="form-select "
                                                     name="CurrentConditions"
                                                     value={technicalInformation && technicalInformation.CurrentConditions}
                                                     onChange={handleChange}
                                                 >
-                                                    <option value="">Select Current Condition</option>
+                                                    <option value="">Seleccione Condición actual</option>
                                                     <option value="Excellent">Excellent</option>
                                                     <option value="Very Good">Very Good</option>
                                                     <option value="Good">Good</option>
@@ -3059,7 +3058,7 @@ const ConsultaEquipos = () => {
 
 
                                             <FormGroup className="col-4">
-                                                <label>Equipment Type:</label>
+                                                <label>Tipo de equipo:</label>
                                                 {/* <input
                                                     className="form-control"
                                                     type="text text-align=center"
@@ -3074,7 +3073,7 @@ const ConsultaEquipos = () => {
                                                     value={technicalInformation && technicalInformation.EquipmentType}
                                                     onChange={handleChange}
                                                 >
-                                                    <option value="">Select Equipment Type</option>
+                                                    <option value="">Seleccione Tipo de Equipo</option>
                                                     <option value="Automation / Electronic">Automation / Electronic</option>
                                                     <option value="Electrical">Electrical</option>
                                                     <option value="Mechanical">Mechanical</option>
@@ -3082,7 +3081,7 @@ const ConsultaEquipos = () => {
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
-                                                <label>Serial Number:</label>
+                                                <label>Número de serial:</label>
                                                 <input
                                                     className="form-control"
                                                     type="text text-align=center"
@@ -3092,7 +3091,7 @@ const ConsultaEquipos = () => {
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
-                                                <label>Model Number:</label>
+                                                <label>Número de modelo:</label>
                                                 <input
                                                     className="form-control"
                                                     type="text text-align=center"
@@ -3102,7 +3101,7 @@ const ConsultaEquipos = () => {
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
-                                                <label>Weight:</label>
+                                                <label>Peso:</label>
                                                 <input
                                                     className="form-control"
                                                     type="text text-align=center"
@@ -3122,7 +3121,7 @@ const ConsultaEquipos = () => {
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
-                                                <label>Vendor:</label>
+                                                <label>Vendedor:</label>
                                                 <input
                                                     className="form-control"
                                                     type="text text-align=center"
@@ -3132,7 +3131,7 @@ const ConsultaEquipos = () => {
                                             </FormGroup>
 
                                             <FormGroup className="col-4">
-                                                <label>Description:</label>
+                                                <label>Descripción:</label>
                                                 <input
                                                     className="form-control"
                                                     type="text text-align=center"
@@ -3166,7 +3165,7 @@ const ConsultaEquipos = () => {
                                                         <section className="pb-4 pt-4">
 
                                                             <form onSubmit={handleSubmit(onSubmit)} className="animate__animated animate__fadeIn" >
-                                                                <label htmlFor="Name" > <h5 className="text-muted">Add Technical Information:</h5> </label>
+                                                                <label htmlFor="Name" > <h5 className="text-muted">Agregar más información técnica:</h5> </label>
                                                                 <select
                                                                     className="form-select SelectBoostrap"
                                                                     name="Name"
@@ -3178,7 +3177,7 @@ const ConsultaEquipos = () => {
                                                                         }
                                                                     })}
                                                                 >
-                                                                    <option value="">Select</option>
+                                                                    <option value="">Selecione información técnica</option>
                                                                     <option value="Available warranty">Available warranty</option>
                                                                     <option value="Year of construction">Year of construction</option>
                                                                     <option value="Sanitary Grade">Sanitary Grade</option>
@@ -3202,7 +3201,7 @@ const ConsultaEquipos = () => {
                                                                 </span>
 
 
-                                                                <label htmlFor="Value">Value <b className="text-danger">*</b></label>
+                                                                <label htmlFor="Value">Valor <b className="text-danger">*</b></label>
                                                                 <div className="row ">
                                                                     <div className="col-10">
                                                                         <input
@@ -3242,8 +3241,8 @@ const ConsultaEquipos = () => {
                                                 <table className="table display table-hover table-bordered table-striped">
                                                     <thead>
                                                         <tr>
-                                                            <th>Others Technical Information</th>
-                                                            <th>Value</th>
+                                                            <th>Información Técnica</th>
+                                                            <th>Valor</th>
                                                             <th>Acciones</th>
                                                         </tr>
 
@@ -3401,7 +3400,7 @@ const ConsultaEquipos = () => {
 
                                     <FormGroup className="col-6">
 
-                                        <label>Line Number:</label>
+                                        <label>Número de línea:</label>
                                         <input
                                             className="form-control"
                                             type="text text-align=center"
@@ -3440,14 +3439,14 @@ const ConsultaEquipos = () => {
 
 
 
-                                        <label>Plant <b className="text-danger">*</b></label>
+                                        <label>Planta <b className="text-danger">*</b></label>
                                         <select
                                             className="form-select SelectBoostrap"
                                             name="Name"
                                             required
                                             onChange={handleChangeOperations}
                                         >
-                                            <option value="">Select Plant</option>
+                                            <option value="">Seleccione Planta</option>
                                             {/* {
                                                 operationsList.map((elemento) => (
                                                     <option value={elemento.Id_Operations}>{elemento.Name}</option>
@@ -3519,13 +3518,13 @@ const ConsultaEquipos = () => {
 
 
 
-                                        <label htmlFor="lineType">Line Type <b className="text-danger">*</b></label>
+                                        <label htmlFor="lineType">Tipo de línea <b className="text-danger">*</b></label>
                                         <select
                                             className="form-select SelectBoostrap"
                                             name="Name"
                                             onChange={handleChangeLineTypes}
                                         >
-                                            <option value="">Select Line Type</option>
+                                            <option value="">Seleccione Tipo de línea</option>
                                             <option value="Brewline">Brewline</option>
                                             <option value="Bottle">Bottle</option>
                                             <option value="Can">Can</option>
@@ -3544,14 +3543,14 @@ const ConsultaEquipos = () => {
                                     </FormGroup>
 
                                     <FormGroup className="col-6">
-                                        <label>Country <b className="text-danger">*</b></label>
+                                        <label>País <b className="text-danger">*</b></label>
                                         <select
                                             className="form-select SelectBoostrap"
                                             name="Name"
                                             required
                                             onChange={handleChangeCountries}
                                         >
-                                            <option value="">Select Country</option>
+                                            <option value="">Seleccione país</option>
                                             {/* {paisLis.map((elemento) => (
                                                 <option value={elemento.Id_Countries}>{elemento.Name}</option>
                                             ))
@@ -3581,7 +3580,7 @@ const ConsultaEquipos = () => {
                                             onChange={handleChangeBu}
                                         >
                                             {/* ------------------------------------------------   SELECT DESDE LA BASE DE DATOS   ------------------------------------ */}
-                                            <option value="">Select BU</option>
+                                            <option value="">Seleccione BU</option>
                                             {/* {
                                                 buList.map((elemento) => (
                                                     <option value={elemento.Id_BU}>{elemento.Name}</option>
@@ -3602,7 +3601,7 @@ const ConsultaEquipos = () => {
                                             name="Name"
                                             onChange={handleChangeAreas}
                                         >
-                                            <option value="">Select Area</option>
+                                            <option value="">Seleccione Area</option>
                                             {/* {
                                                 areaList.map((elemento) => (
                                                     <option value={elemento.Id_Areas}>{elemento.Name}</option>
@@ -3648,13 +3647,13 @@ const ConsultaEquipos = () => {
                                     </FormGroup>
 
                                     <FormGroup className="col-6">
-                                        <label htmlFor="Subarea">Subarea <b className="text-danger">*</b></label>
+                                        <label htmlFor="Subarea">Subárea <b className="text-danger">*</b></label>
                                         <select
                                             className="form-select SelectBoostrap"
                                             name="Name"
                                             onChange={handleChangeSubArea}
                                         >
-                                            <option value="">Select Subarea</option>
+                                            <option value="">Seleccione Subárea</option>
                                             {/* {subareaList.map((elemento) => (
                                                 <option value={elemento.Id_SubAreas}>{elemento.Name}</option>
                                             ))
@@ -3664,7 +3663,7 @@ const ConsultaEquipos = () => {
                                             <option value="Cocimientos">Cocimientos</option>
                                             <option value="BAGAZO/SYE">BAGAZO/SYE</option>
                                             <option value="Bloque Frio">Bloque Frio</option>
-                                            <option value="Bloque Frio">NaN</option>
+                                            <option value="No data available">No data available</option>
                                         </select>
                                     </FormGroup>
 
@@ -3682,7 +3681,7 @@ const ConsultaEquipos = () => {
                                     <FormGroup className="col-12">
                                         {/* Para obtener el correo */}
                                         <TextField
-                                            label="Plant Mail"
+                                            label="Correo de la planta"
                                             className="form-control"
                                             variant="outlined"
                                             name="code"

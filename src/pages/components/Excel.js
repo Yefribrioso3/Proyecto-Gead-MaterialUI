@@ -153,7 +153,7 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
                         },
                         line: {
                             Id_Line: uuidv4(),
-                            number: equipo.Line_Number === undefined ? "" : equipo.Line_Number,
+                            number: equipo.Line_Number === "No data available" ? "" : equipo.Line_Number,
                             Id_LineTypes: null,
                             lineTypes: {
                                 Id_LineTypes: uuidv4(),
