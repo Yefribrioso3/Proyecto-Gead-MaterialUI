@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 // import { Button, Input, Label } from 'reactstrap';
 import { useForm } from "react-hook-form";
 // import '../../index.css';
-
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import '../equipos/MaestroEquipos.scss';
 import {
@@ -17,8 +16,7 @@ import {
   ThemeProvider,
   Typography,
 } from "@material-ui/core";
-import Switch from "@mui/material/Switch";
-
+import SwitchModeButton from "../controls/SwitchModeButton";
 import Gead from "../../assets/Gead.jpeg";
 
 //import Button from 'react-bootstrap/Button';
@@ -141,7 +139,6 @@ const LoginScreen = ({ history }) => {
   const style = createTheme({
     paper: {
       padding: 40,
-      height: "496px",
       width: "384px",
       margin: "230px auto",
       borderRadius: "24px",
@@ -219,13 +216,18 @@ const LoginScreen = ({ history }) => {
       <Grid>
         <Paper elevation={10} style={style.paper}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid container>
+            <Grid
+              container
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+            >
               {/* <img src={Gead} /> */}
               <Grid xs={8}>
                 <img src={Gead} style={style.logo} />
               </Grid>
               <Grid xs={4}>
-                <Switch {...label} defaultChecked />
+                <SwitchModeButton />
               </Grid>
             </Grid>
 
