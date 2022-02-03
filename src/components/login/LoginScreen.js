@@ -18,7 +18,9 @@ import {
 } from "@material-ui/core";
 import SwitchModeButton from "../controls/SwitchModeButton";
 import Gead from "../../assets/Gead.jpeg";
-
+import Switch from "@mui/material/Switch";
+import Brightness2Icon from "@material-ui/icons/Brightness2";
+import { WbSunny } from "@material-ui/icons";
 //import Button from 'react-bootstrap/Button';
 //import Container from 'react-bootstrap/Container';
 
@@ -29,9 +31,11 @@ const LoginScreen = ({ history }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const [light, setLight] = useState(false);
   const theme = createTheme({
     palette: {
+      type: light ? "light" : "dark",
+
       primary: {
         main: "#333996",
         light: "#3c44b126",
@@ -142,6 +146,7 @@ const LoginScreen = ({ history }) => {
       width: "384px",
       margin: "230px auto",
       borderRadius: "24px",
+      dark: "red",
     },
     validation: {
       padding: 20,
@@ -223,11 +228,17 @@ const LoginScreen = ({ history }) => {
               alignItems="center"
             >
               {/* <img src={Gead} /> */}
-              <Grid xs={8}>
+              <Grid xs={7}>
                 <img src={Gead} style={style.logo} />
               </Grid>
-              <Grid xs={4}>
-                <SwitchModeButton />
+              <Grid xs={5}>
+                <Brightness2Icon />
+                <Switch
+                  checked={light}
+                  defaultChecked
+                  onChange={() => setLight(!light)}
+                />
+                <WbSunny />
               </Grid>
             </Grid>
 
