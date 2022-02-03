@@ -48,7 +48,9 @@ import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 
 import * as XLSX from "xlsx";
 import { Excel, send } from "./components/Excel";
-
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import { Pagination } from "@material-ui/lab";
 //----------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2435,30 +2437,48 @@ const ConsultaEquipos = () => {
                     </FormGroup>
 
                     {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
-                    <FormGroup>
-                      <Button
-                        color="secundary"
-                        onClick={() => {
-                          setEditing(false);
-                          setEditingTechInfo(false);
-                          setId(null);
-                        }}
-                      >
-                        <i className="fas fa-arrow-left"></i>
-                      </Button>
 
-                      <Button
-                        color="secundary"
-                        onClick={() => {
-                          setEditing(true);
-                          setEditingServiceInfo(true);
-                          setCasoServInfo("Edit");
-                          setEditingTechInfo(false);
-                          setId(null);
-                        }}
-                      >
-                        <i className="fas fa-arrow-right"></i>
-                      </Button>
+                    <FormGroup className="row align-items-center justify-content-between">
+                      <Grid xs={4} className="d-flex justify-content-start ">
+                        <Button
+                          color="secundary"
+                          onClick={() => {
+                            setEditing(false);
+                            setEditingTechInfo(false);
+                            setId(null);
+                          }}
+                        >
+                          <ArrowBackIcon />
+                          Consulta Equipos
+                        </Button>
+                      </Grid>
+                      <Grid xs={4} className="d-flex justify-content-center">
+                        {" "}
+                        <Pagination
+                          count={3}
+                          hidePrevButton
+                          hideNextButton
+                          defaultPage={2}
+                          size="small"
+                          color="primary"
+                          disabled
+                        />
+                      </Grid>
+                      <Grid xs={4} className="d-flex justify-content-end ">
+                        <Button
+                          color="secundary"
+                          onClick={() => {
+                            setEditing(true);
+                            setEditingServiceInfo(true);
+                            setCasoServInfo("Edit");
+                            setEditingTechInfo(false);
+                            setId(null);
+                          }}
+                        >
+                          Services Information
+                          <ArrowForwardIcon />
+                        </Button>
+                      </Grid>
                       {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
                     </FormGroup>
                   </ModalBody>
@@ -2960,23 +2980,42 @@ const ConsultaEquipos = () => {
                                         </FormGroup> */}
 
                       {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
-                      <FormGroup>
-                        <Button
-                          color="secundary"
-                          onClick={() => setEditing(false)}
-                        >
-                          <i className="fas fa-arrow-left"></i>
-                        </Button>
+                      <FormGroup className="row justify-content-between align-items-center">
+                        <Grid xs={4} className="d-flex justify-content-start">
+                          <Button
+                            color="secundary"
+                            className="d-none"
+                            onClick={() => setEditing(false)}
+                          >
+                            Consulta de Equipos
+                            <ArrowBackIcon />
+                          </Button>
+                        </Grid>
+                        <Grid xs={4} className="d-flex justify-content-center">
+                          {" "}
+                          <Pagination
+                            count={3}
+                            hidePrevButton
+                            hideNextButton
+                            defaultPage={1}
+                            size="small"
+                            color="primary"
+                            disabled
+                          />
+                        </Grid>
+                        <Grid xs={4} className="d-flex justify-content-end">
+                          <Button
+                            color="secundary"
+                            onClick={() => {
+                              setEditing(true);
+                              setEditingTechInfo(false);
+                            }}
+                          >
+                            Technical Information
+                            <ArrowForwardIcon />
+                          </Button>
+                        </Grid>
 
-                        <Button
-                          color="secundary"
-                          onClick={() => {
-                            setEditing(true);
-                            setEditingTechInfo(false);
-                          }}
-                        >
-                          <i className="fas fa-arrow-right"></i>
-                        </Button>
                         {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
                       </FormGroup>
                     </ModalBody>
@@ -2989,9 +3028,6 @@ const ConsultaEquipos = () => {
         {/* -------------------------    BOTONES ACEPTAR Y CANCELAR    ------------------------------- */}
 
         <ModalFooter>
-          <Button color="primary" onClick={() => editar()}>
-            Aceptar
-          </Button>
           <Button
             color="danger"
             onClick={() => {
@@ -3002,6 +3038,9 @@ const ConsultaEquipos = () => {
             }}
           >
             Cancelar
+          </Button>
+          <Button color="primary" onClick={() => editar()}>
+            Guardar Registro
           </Button>
         </ModalFooter>
       </Modal>
@@ -3434,24 +3473,48 @@ const ConsultaEquipos = () => {
                     </FormGroup>
 
                     {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
-                    <FormGroup>
-                      <Button
-                        color="secundary"
-                        onClick={() => setEditing(false)}
+                    <FormGroup className="row align-items-center justify-content-between">
+                      <Grid
+                        xs={4}
+                        className="d-flex justify-content-start align-items-center"
                       >
-                        <i className="fas fa-arrow-left"></i>
-                      </Button>
+                        <Button
+                          color="secundary"
+                          onClick={() => setEditing(false)}
+                        >
+                          <ArrowBackIcon />
+                          Consulta Equipos
+                        </Button>
+                      </Grid>
+                      <Grid xs={4} className="d-flex justify-content-center">
+                        {" "}
+                        <Pagination
+                          count={3}
+                          hidePrevButton
+                          hideNextButton
+                          defaultPage={2}
+                          size="small"
+                          color="primary"
+                          disabled
+                        />
+                      </Grid>
+                      <Grid
+                        xs={4}
+                        className="d-flex justify-content-end align-items-center"
+                      >
+                        <Button
+                          color="secundary"
+                          onClick={() => {
+                            setEditing(true);
+                            setEditingServiceInfo(true);
+                            setCasoServInfo("Add");
+                          }}
+                        >
+                          Services Information
+                          <ArrowForwardIcon />
+                        </Button>
+                      </Grid>
 
-                      <Button
-                        color="secundary"
-                        onClick={() => {
-                          setEditing(true);
-                          setEditingServiceInfo(true);
-                          setCasoServInfo("Add");
-                        }}
-                      >
-                        <i className="fas fa-arrow-right"></i>
-                      </Button>
                       {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
                     </FormGroup>
                   </ModalBody>
@@ -3875,20 +3938,45 @@ const ConsultaEquipos = () => {
                                     </FormGroup> */}
 
                   {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
-                  <FormGroup>
-                    <Button color="secundary" onClick={() => setEditing(false)}>
-                      <i className="fas fa-arrow-left"></i>
-                    </Button>
-
-                    <Button
-                      color="secundary"
-                      onClick={() => {
-                        setEditing(true);
-                        setEditingTechInfo(false);
-                      }}
+                  <FormGroup className="row align-items-center justify-content-between">
+                    <Grid xs={4}>
+                      <Button
+                        className="d-none"
+                        color="secundary"
+                        onClick={() => setEditing(false)}
+                      >
+                        <ArrowBackIcon />
+                      </Button>
+                    </Grid>
+                    <Grid xs={4} className="d-flex justify-content-center">
+                      {" "}
+                      <Pagination
+                        count={3}
+                        hidePrevButton
+                        hideNextButton
+                        defaultPage={1}
+                        size="small"
+                        color="primary"
+                        disabled
+                      />
+                    </Grid>
+                    <Grid
+                      xs={4}
+                      className="d-flex justify-content-end align-items-center"
                     >
-                      <i className="fas fa-arrow-right"></i>
-                    </Button>
+                      <Button
+                        color="secundary"
+                        onClick={() => {
+                          setEditing(true);
+                          setEditingTechInfo(false);
+                        }}
+                      >
+                        {" "}
+                        Technical Information
+                        <ArrowForwardIcon />
+                      </Button>
+                    </Grid>
+
                     {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
                   </FormGroup>
 
@@ -3910,9 +3998,6 @@ const ConsultaEquipos = () => {
         }
 
         <ModalFooter>
-          <Button color="primary" type="submit" onClick={() => insertar()}>
-            Aceptar
-          </Button>
           <Button
             color="danger"
             onClick={() => {
@@ -3925,6 +4010,9 @@ const ConsultaEquipos = () => {
             }}
           >
             Cancelar
+          </Button>
+          <Button color="primary" type="submit" onClick={() => insertar()}>
+            Crear Equipo
           </Button>
         </ModalFooter>
 
