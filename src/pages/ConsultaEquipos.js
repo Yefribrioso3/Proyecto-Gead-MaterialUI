@@ -3,13 +3,13 @@ import "../components/equipos/MaestroEquipos.scss";
 import "../index.css";
 import { v4 as uuidv4 } from "uuid";
 import {
-  Button,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
   FormGroup,
 } from "reactstrap";
+import Button from "@material-ui/core/Button";
 import Axios from "axios";
 import { useForm } from "react-hook-form";
 import EditAddServInfo from "./components/EditAddServInfo";
@@ -3084,10 +3084,11 @@ const ConsultaEquipos = () => {
 
       {/*======================================================= Modal Insertar =======================================================*/}
 
-      <Modal isOpen={modalInsertar} style={{ maxWidth: 800 }}>
+      <Modal isOpen={modalInsertar} style={{ maxWidth: 700 }}>
         <ModalHeader>
           <div>
-            <h1>Insertar Registro</h1>
+            <h1>Nuevo Registro</h1>
+            <h6>Detalles Generales</h6>
           </div>
         </ModalHeader>
 
@@ -3525,25 +3526,19 @@ const ConsultaEquipos = () => {
             <div>
               {/* -----------------------------------           Insertar Registros        ------------------------------------------- */}
               <form>
-                <ModalBody className="row text-align-center animate__animated animate__fadeIn">
+                <ModalBody className="row text-align-center justify-content-center animate__animated animate__fadeIn">
                   <FormGroup>
                     {/* -------------------------       Subir Imagen        ------------------ */}
                     <div
                       id="imagen"
-                      className=" animate__animated animate__fadeInLeft"
+                      className="justify-content-center text-center animate__animated animate__fadeInLeft agregar-imagen"
                       style={{ maxWidth: 380, alignContent: "center" }}
                     >
                       {loading ? (
-                        <h3>
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; Loading...
-                        </h3>
+                        <h3 className="aling-items-center">Loading...</h3>
                       ) : (
                         <>
-                          <h4 className="">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; Agregar imagen
-                          </h4>
+                          <h4 className="aling-items-center">Agregar imagen</h4>
                           <img
                             src={equipoSeleccionado.img}
                             style={{ width: "380px" }}
@@ -3554,8 +3549,8 @@ const ConsultaEquipos = () => {
 
                     <div
                       id="imagen"
-                      className="mt-2 animate__animated animate__fadeInLeft"
-                      style={{ maxWidth: 60, alignContent: "center" }}
+                      className="mt-2 justify-content-center text-center animate__animated animate__fadeInLeft"
+                      style={{ alignContent: "center" }}
                     >
                       {/* ms-5 */}
 
@@ -3568,13 +3563,15 @@ const ConsultaEquipos = () => {
                       />
 
                       <label htmlFor="icon-button-file">
-                        <IconButton
-                          color="primary"
+                        <Button
                           aria-label="upload picture"
+                          variant="outlined"
+                          color="primary"
+                          size="large"
                           component="span"
                         >
-                          <PhotoCamera fontSize="large" />
-                        </IconButton>
+                          <PhotoCamera fontSize="large" /> Subir imagen
+                        </Button>
                       </label>
 
                       {/* <input
@@ -3999,6 +3996,7 @@ const ConsultaEquipos = () => {
 
         <ModalFooter>
           <Button
+            variant="outlined"
             color="danger"
             onClick={() => {
               setModalInsertar(false);
@@ -4011,7 +4009,12 @@ const ConsultaEquipos = () => {
           >
             Cancelar
           </Button>
-          <Button color="primary" type="submit" onClick={() => insertar()}>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            onClick={() => insertar()}
+          >
             Crear Equipo
           </Button>
         </ModalFooter>
