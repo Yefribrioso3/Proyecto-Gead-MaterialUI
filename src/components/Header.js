@@ -32,6 +32,8 @@ import {
 } from "reactstrap";
 import PageHeader from "./PageHeader";
 import { ArrowDownward } from "@material-ui/icons";
+
+import geadlogo from "../assets/Gead.jpeg";
 // import { LinkContainer } from 'react-router-bootstrap';
 
 const useStyles = makeStyles((theme) => ({
@@ -61,13 +63,15 @@ export default function Header() {
   return (
     <AppBar position="static" className={classes.root}>
       <Navbar className={classes.root} light expand="md">
+        <img src={geadlogo} />
         <PageHeader
-          title="Gestor de Activos en Desuso - GEAD"
+          title="Consulta de equipos"
           // title="Consulta de Equipos"
           // subTitle="Middle America"
           // subTitle="Form design with validation"
           // icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
         />
+
         <Grid item sm></Grid>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
@@ -87,9 +91,8 @@ export default function Header() {
             </div>
 
             <UncontrolledDropdown nav inNavbar>
-              Bienvenid@
               <DropdownToggle nav caret className="text-black">
-                Admin@admin
+                Bienvenid@ Admin@admin
               </DropdownToggle>
               <DropdownMenu right>
                 {/* 
