@@ -87,6 +87,7 @@ export default function Header() {
             </div>
 
             <UncontrolledDropdown nav inNavbar>
+              Bienvenid@
               <DropdownToggle nav caret className="text-black">
                 Admin@admin
               </DropdownToggle>

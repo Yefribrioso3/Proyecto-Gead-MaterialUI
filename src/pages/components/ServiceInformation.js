@@ -7,6 +7,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { Grid } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
+import AddIcon from "@material-ui/icons/Add";
 //
 const ServiceInformation = ({
   casoServInfo,
@@ -329,7 +330,7 @@ const ServiceInformation = ({
                     {/* -----------------------------    BOtON AGREGAR TECHNICAL INFORMATION    -----------------------  */}
                     <div className="col-2">
                       <button className="btn btn-primary">
-                        <span className=" fas fa-save fa-lg"></span>
+                        <AddIcon />
                       </button>
                     </div>
                   </div>

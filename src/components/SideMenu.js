@@ -113,12 +113,10 @@ const SideMenu = ({
           onClick={(e) => filtrarBUList("total", "total", setListAll)}
         >
           <div>
-            <h6>
-              <strong>Middle America</strong>
-            </h6>
+            <h5>Middle America</h5>
             <h6>
               {" "}
-              Equipos: <strong>{`${contador}`}</strong>
+              Equipos: <strong className="counter">{`${contador}`}</strong>
             </h6>
           </div>
         </Button>
@@ -127,12 +125,10 @@ const SideMenu = ({
           onClick={(e) => filtrarBUList("MEX")}
         >
           <div>
-            <h6>
-              <strong>MEX</strong>
-            </h6>
+            <h5>MEX</h5>
             <h6>
               {" "}
-              Equipos: <strong>{`${mexCounter}`}</strong>
+              Equipos: <strong className="counter">{`${mexCounter}`}</strong>
             </h6>
           </div>
         </Button>
@@ -141,12 +137,10 @@ const SideMenu = ({
           onClick={(e) => filtrarBUList("CAC")}
         >
           <div>
-            <h6>
-              <strong>CAC</strong>
-            </h6>
+            <h5>CAC</h5>
             <h6>
               {" "}
-              Equipos: <strong>{`${cacCounter}`}</strong>
+              Equipos: <strong className="counter">{`${cacCounter}`}</strong>
             </h6>
           </div>
         </Button>
@@ -156,12 +150,9 @@ const SideMenu = ({
           onClick={(e) => filtrarBUList("PEC")}
         >
           <div>
+            <h5>PEC</h5>
             <h6>
-              <strong>PEC</strong>
-            </h6>
-            <h6>
-              {" "}
-              Equipos: <strong>{`${pecCounter}`}</strong>
+              Equipos: <strong className="counter">{`${pecCounter}`}</strong>
             </h6>
           </div>
         </Button>
@@ -170,12 +161,9 @@ const SideMenu = ({
           onClick={(e) => filtrarBUList("COL")}
         >
           <div>
+            <h5>COL</h5>
             <h6>
-              <strong>COL</strong>
-            </h6>
-            <h6>
-              {" "}
-              Equipos: <strong>{`${colCounter}`}</strong>
+              Equipos: <strong className="counter">{`${colCounter}`}</strong>
             </h6>
           </div>
         </Button>
@@ -184,9 +172,7 @@ const SideMenu = ({
           onClick={(e) => filtrarBUList("PEC")}
         >
           <div>
-            <h6>
-              <strong>Power BI</strong>
-            </h6>
+            <h5>Power BI</h5>
           </div>
         </Button>
       </div>

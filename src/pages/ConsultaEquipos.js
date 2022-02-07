@@ -13,24 +13,26 @@ import Button from "@material-ui/core/Button";
 import Axios from "axios";
 import { useForm } from "react-hook-form";
 import EditAddServInfo from "./components/EditAddServInfo";
-
+import { withStyles, makeStyles } from "@material-ui/core/styles";
 import ServiceInformation from "./components/ServiceInformation";
 import EditAddTechInfo from "./components/EditAddTechInfo";
-
+import AddIcon from "@material-ui/icons/Add";
 //----------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------
 
 import PageHeader from "../components/PageHeader";
 import {
   Paper,
-  makeStyles,
   TableBody,
   TableRow,
   TableCell,
+  TableHead,
   Toolbar,
   InputAdornment,
   Grid,
   TextField,
+  TableContainer,
+  Table,
 } from "@material-ui/core";
 import useTable from "../components/useTable";
 import Controls from "../components/controls/Controls";
@@ -51,6 +53,7 @@ import { Excel, send } from "./components/Excel";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { Pagination } from "@material-ui/lab";
+
 //----------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -74,6 +77,24 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 20,
   },
 }));
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
 
 const headCells = [
   { id: "Name", label: "Equipment" },
@@ -1909,79 +1930,80 @@ const ConsultaEquipos = () => {
           </div>
         </Toolbar>
 
-        <TblContainer>
-          <TblHead />
-          <TableBody>
-            {recordsAfterPagingAndSorting().map((item) => (
-              <TableRow key={item.Id_Equipment}>
-                <TableCell style={{ fontWeight: "600" }}>{item.Name}</TableCell>
-                <TableCell>
-                  {item.Procedencia.areas.operations.countries.bu.Name}
-                </TableCell>
-                <TableCell>
-                  {item.Procedencia.areas.operations.countries.Name}
-                </TableCell>
-                <TableCell>{item.Procedencia.areas.Name}</TableCell>
-                <TableCell>{item.Procedencia.areas.SubArea.Name}</TableCell>
-                <TableCell>{item.Procedencia.areas.operations.Name}</TableCell>
-                <TableCell>
-                  {item.TechnicalSpecification.EquipmentType}
-                </TableCell>
+        <TableContainer>
+          <Table aria-label="simple table">
+            <TblHead />
+            <TableBody>
+              {recordsAfterPagingAndSorting().map((item) => (
+                <StyledTableRow key={item.Id_Equipment}>
+                  <StyledTableCell style={{ fontWeight: "600" }}>
+                    {item.Name}
+                  </StyledTableCell>
+                  <TableCell>
+                    {item.Procedencia.areas.operations.countries.bu.Name}
+                  </TableCell>
+                  <TableCell>
+                    {item.Procedencia.areas.operations.countries.Name}
+                  </TableCell>
+                  <TableCell>{item.Procedencia.areas.Name}</TableCell>
+                  <TableCell>{item.Procedencia.areas.SubArea.Name}</TableCell>
+                  <TableCell>
+                    {item.Procedencia.areas.operations.Name}
+                  </TableCell>
+                  <TableCell>
+                    {item.TechnicalSpecification.EquipmentType}
+                  </TableCell>
 
-                {/* <TableCell>{item.Procedencia.line.lineTypes.Name}</TableCell>   */}
+                  {/* <TableCell>{item.Procedencia.line.lineTypes.Name}</TableCell>   */}
 
-                <TableCell>
-                  <label htmlFor="icon-button-file">
-                    <IconButton
-                      color="primary"
-                      aria-label="edit"
-                      onClick={() => seleccionarEquipo(item, "Editar")}
-                      component="span"
-                    >
-                      <Edit />
-                    </IconButton>
-                  </label>
-                  &nbsp;&nbsp;
-                  <label htmlFor="icon-button-file">
-                    <IconButton
-                      color="secondary"
-                      aria-label="edit"
-                      onClick={() => seleccionarEquipo(item, "Eliminar")}
-                      component="span"
-                    >
-                      <Delete />
-                    </IconButton>
-                  </label>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </TblContainer>
+                  <TableCell>
+                    <label htmlFor="icon-button-file">
+                      <IconButton
+                        color="primary"
+                        aria-label="edit"
+                        onClick={() => seleccionarEquipo(item, "Editar")}
+                        component="span"
+                      >
+                        <Edit />
+                      </IconButton>
+                    </label>
+                    &nbsp;&nbsp;
+                    <label htmlFor="icon-button-file">
+                      <IconButton
+                        color="secondary"
+                        aria-label="edit"
+                        onClick={() => seleccionarEquipo(item, "Eliminar")}
+                        component="span"
+                      >
+                        <Delete />
+                      </IconButton>
+                    </label>
+                  </TableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <Toolbar>
+            <PageHeader
+              contador={`${totalEncontrados} results`}
+              style={{ fontSize: 12 }}
+            />
 
-        <Toolbar>
-          <PageHeader
-            contador={`${totalEncontrados} results`}
-            style={{ fontSize: 12 }}
-          />
-          <Grid item sm></Grid>
-          <Grid item sm></Grid>
+            {/* --------------------------      FECHA ACTUAL    --------------------------- */}
+            <PageHeader
+              subTitle="Date Updated:"
+              // title="Consulta de Equipos"
+              // subTitle="Form design with validation"
+              // icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
+            />
 
-          {/* --------------------------      FECHA ACTUAL    --------------------------- */}
-          <PageHeader
-            subTitle="Date Updated:"
-            // title="Consulta de Equipos"
-            // subTitle="Form design with validation"
-            // icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
-          />
+            <PageHeader subTitle={fecha} />
 
-          <PageHeader subTitle={fecha} />
+            {/* -------------------------------------------------------------------------- */}
 
-          {/* -------------------------------------------------------------------------- */}
-
-          <Grid item sm></Grid>
-
-          <TblPagination />
-        </Toolbar>
+            <TblPagination />
+          </Toolbar>
+        </TableContainer>
 
         {/* <div className="table-responsive mt-5">
                     <table className="table table-hover align-middle table-sm animate__animated animate__fadeIn " >
@@ -2244,12 +2266,9 @@ const ConsultaEquipos = () => {
                               onSubmit={handleSubmit(onSubmitTechSpech)}
                               className="animate__animated animate__fadeIn"
                             >
-                              <label htmlFor="Name">
-                                {" "}
-                                <h5 className="text-muted">
-                                  Add Technical Information:
-                                </h5>{" "}
-                              </label>
+                              <h5 className="text-muted">
+                                Add Technical Information:
+                              </h5>{" "}
                               <select
                                 className="form-select SelectBoostrap"
                                 name="Name"
@@ -2314,11 +2333,9 @@ const ConsultaEquipos = () => {
                                   Notes about equipment
                                 </option>
                               </select>
-
                               <span className="text-danger text-small d-block mb-2">
                                 {errors.Name && errors.Name.message}
                               </span>
-
                               <label htmlFor="Value">
                                 Value <b className="text-danger">*</b>
                               </label>
@@ -3084,7 +3101,11 @@ const ConsultaEquipos = () => {
 
       {/*======================================================= Modal Insertar =======================================================*/}
 
-      <Modal isOpen={modalInsertar} style={{ maxWidth: 700 }}>
+      <Modal
+        isOpen={modalInsertar}
+        style={{ maxWidth: 700 }}
+        className="modalForm"
+      >
         <ModalHeader>
           <div>
             <h1>Nuevo Registro</h1>
@@ -3290,9 +3311,7 @@ const ConsultaEquipos = () => {
                             >
                               <label htmlFor="Name">
                                 {" "}
-                                <h5 className="text-muted">
-                                  Add Technical Information:
-                                </h5>{" "}
+                                <h5>Add Technical Information:</h5>{" "}
                               </label>
                               <select
                                 className="form-select SelectBoostrap"
@@ -3385,7 +3404,7 @@ const ConsultaEquipos = () => {
                                 {/* -----------------------------    BOtON AGREGAR TECHNICAL INFORMATION    -----------------------  */}
                                 <div className="col-2">
                                   <button className="btn btn-primary">
-                                    <span className=" fas fa-save fa-lg"></span>
+                                    <AddIcon />{" "}
                                   </button>
                                 </div>
                               </div>
@@ -3538,7 +3557,6 @@ const ConsultaEquipos = () => {
                         <h3 className="aling-items-center">Loading...</h3>
                       ) : (
                         <>
-                          <h4 className="aling-items-center">Agregar imagen</h4>
                           <img
                             src={equipoSeleccionado.img}
                             style={{ width: "380px" }}
@@ -3570,7 +3588,7 @@ const ConsultaEquipos = () => {
                           size="large"
                           component="span"
                         >
-                          <PhotoCamera fontSize="large" /> Subir imagen
+                          <PhotoCamera fontSize="large" /> Agregar imagen
                         </Button>
                       </label>
 
@@ -3584,36 +3602,36 @@ const ConsultaEquipos = () => {
                   </FormGroup>
 
                   <FormGroup className="col-6">
-                    <label>Id:</label>
-                    <input
+                    <TextField
+                      label="ID Number"
                       className="form-control"
-                      readOnly
-                      type="text text-align=center"
+                      variant="outlined"
                       name="Id_Equipment"
-                      value={getAllList.length + 1}
+                      value={
+                        equipoSeleccionado && equipoSeleccionado.Id_Equipment
+                      }
                     />
                   </FormGroup>
 
                   <FormGroup className="col-6">
-                    <label>Line Number:</label>
-                    <input
+                    <TextField
+                      label="Line Number"
                       className="form-control"
-                      type="text text-align=center"
+                      variant="outlined"
                       name="number"
                       value={line ? line.number : ""}
                       onChange={handleChangeLine}
                     />
 
                     {/* <TextField
-                                            label="Line Number"
-                                            className="form-control"
-                                            id="outlined-basic"
-                                            variant="outlined"
-                                            name="number"
-                                            value={line ? line.number : ''}
-                                            onChange={handleChangeLine}
-
-                                        /> */}
+                        label="Line Number"
+                        className="form-control"
+                        id="outlined-basic"
+                        variant="outlined"
+                        name="number"
+                        value={line ? line.number : ''}
+                        onChange={handleChangeLine}
+                    /> */}
                   </FormGroup>
 
                   <FormGroup className="col-6">
@@ -3720,15 +3738,15 @@ const ConsultaEquipos = () => {
 
                   <FormGroup className="col-6">
                     {/* <Autocomplete
-                                            disablePortal
-                                            id="combo-box-demo"
-                                            name="Name"
-                                            onChange={handleChangeLineTypes}
-                                            options={lineTypesSelect}
-                                            sx={{ width: 370 }}
-                                            renderInput={(params) => 
-                                                <TextField {...params} label="Line Type" variant='outlined' />}
-                                        /> */}
+                        disablePortal
+                        id="combo-box-demo"
+                        name="Name"
+                        onChange={handleChangeLineTypes}
+                        options={lineTypesSelect}
+                        sx={{ width: 370 }}
+                        renderInput={(params) => 
+                        <TextField {...params} label="Line Type" variant='outlined' />}
+                    /> */}
 
                     <label htmlFor="lineType">
                       Line Type <b className="text-danger">*</b>
@@ -3939,7 +3957,7 @@ const ConsultaEquipos = () => {
                     <Grid xs={4}>
                       <Button
                         className="d-none"
-                        color="secundary"
+                        color="secondary"
                         onClick={() => setEditing(false)}
                       >
                         <ArrowBackIcon />
@@ -3962,7 +3980,7 @@ const ConsultaEquipos = () => {
                       className="d-flex justify-content-end align-items-center"
                     >
                       <Button
-                        color="secundary"
+                        color="muted"
                         onClick={() => {
                           setEditing(true);
                           setEditingTechInfo(false);
@@ -4015,7 +4033,7 @@ const ConsultaEquipos = () => {
             type="submit"
             onClick={() => insertar()}
           >
-            Crear Equipo
+            <AddIcon /> Crear Equipo
           </Button>
         </ModalFooter>
 
