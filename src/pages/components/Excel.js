@@ -114,10 +114,12 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
 
     const send = async (item) => {
 
+        console.log(item);
+
         const Excel = item.map((equipo) => {
             return (
                 equipo = {
-                    Id_Equipment: uuidv4(),
+                    Id_Equipment: equipo.ID_GEAD,
                     Name: equipo.Equipment_Name === undefined ? "" : equipo.Equipment_Name,
                     code: '',
                     img: '',
@@ -196,7 +198,40 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
                                 }
                             }]
                         )
-                    }
+                    },
+                    FinancialInformation: {
+                        EquipmentValueInUSD: equipo.Current_equipment_value_in_USD === undefined ? "" : equipo.Current_equipment_value_in_USD,
+                        Activo_fijo: equipo.Activo_fijo === undefined ? "" : equipo.Activo_fijo,
+                        Soc: equipo.Soc === undefined ? "" : equipo.Soc,
+                        Concatenar: equipo.Concatenar === undefined ? "" : equipo.Concatenar,
+                        Clase: equipo.Clase === undefined ? "" : equipo.Concatenar,
+                        Centro: equipo.Centro === undefined ? "" : equipo.Centro,
+                        CodPM: equipo.CodPM === undefined ? "" : equipo.CodPM,
+                        Centro_de_costos: equipo.Centro_de_costos === undefined ? "" : equipo.Centro_de_costos,
+                        Fecha_de_capitalizacion: equipo.Fecha_de_capitalizacion === undefined ? "" : equipo.Fecha_de_capitalizacion,
+                        Valor_Adquirido: equipo.Valor_Adquirido === undefined ? "" : equipo.Valor_Adquirido,
+                        Amortizacion_acumulada: equipo.Amortizacion_acumulada === undefined ? "" : equipo.Amortizacion_acumulada,
+                        Valor_Contable: equipo.Valor_Contable === undefined ? "" : equipo.Valor_Contable, 
+                        Cantidad: equipo.Cantidad === undefined ? "" : equipo.Cantidad,
+                        Moneda: equipo.Moneda === undefined ? "" : equipo.Moneda,
+                        Tipo: equipo.Tipo === undefined ? "" : equipo.Tipo,
+                        Screen: equipo.Screen === undefined ? "" : equipo.Screen,
+                        Nom_Clase: equipo.Nom_Clase === undefined ? "" : equipo.Nom_Clase,
+                        Nom_Ce: equipo.Nom_Ce === undefined ? "" : equipo.Nom_Ce,
+                        Encontrado_SI_NO: equipo.Encontrado_SI_NO === undefined ? "" : equipo.Encontrado_SI_NO,
+                        Estado_del_Activo: equipo.Estado_del_Activo === undefined ? "" : equipo.Estado_del_Activo,
+                        Categoria: equipo.Categoria === undefined ? "" : equipo.Categoria,
+                        Gerencia: equipo.Gerencia === undefined ? "" : equipo.Gerencia,
+                        Codigo_De_Barras: equipo.Codigo_De_Barras === undefined ? "" : equipo.Codigo_De_Barras,
+                        DI: equipo.DI === undefined ? "" : equipo.DI,
+                        SN: equipo.SN === undefined ? "" : equipo.SN,
+                        Depreciacion_acumulada_ajustada: equipo.Depreciacion_acumulada_ajustada === undefined ? "" : equipo.Depreciacion_acumulada_ajustada,
+                        Tasa_Cambio_contra_dolar: equipo.Tasa_Cambio_contra_dolar === undefined ? "" : equipo.Tasa_Cambio_contra_dolar,
+                        Latitud: equipo.Latitud === undefined ? "" : equipo.Latitud,
+                        Longitud: equipo.Longitud === undefined ? "" : equipo.Longitud,
+                        Period_Time: equipo.Period_Time === undefined ? "" : equipo.Period_Time,
+                        Id_Equipment: null
+                    },
                 }
             )
         })
@@ -214,24 +249,9 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
             equipo.Procedencia.line.Id_LineTypes = equipo.Procedencia.line.lineTypes.Id_LineTypes
             equipo.ServicesInformation.Id_Equipment = equipo.Id_Equipment
             equipo.TechnicalSpecification.Id_Equipment = equipo.Id_Equipment
+            equipo.FinancialInformation.Id_Equipment = equipo.Id_Equipment
 
             newTechSpec = equipo.TechnicalSpecification.newTechnicalSpecification
-
-            // if (newTechSpec.Id_NewTechSpec !== []) {
-            //     newTechSpec.Id_TechnicalSpecification = equipo.TechnicalSpecification.Id_TechnicalSpecification
-            //     equipo.TechnicalSpecification.newTechnicalSpecification = newTechSpec
-
-            // }
-
-            // !equipo.TechnicalSpecification.newTechnicalSpecification.Id_NewTechSpec ? (equipo.TechnicalSpecification.newTechnicalSpecification.Id_TechnicalSpecification = []) : ( equipo.TechnicalSpecification.newTechnicalSpecification.Id_TechnicalSpecification = equipo.TechnicalSpecification.Id_TechnicalSpecification )
-
-            // equipo.TechnicalSpecification.newTechnicalSpecification.Id_NewTechSpec ? equipo.TechnicalSpecification.newTechnicalSpecification.SelectNewTechSpec.Id_NewTechSpec =  equipo.TechnicalSpecification.newTechnicalSpecification.Id_NewTechSpec : null
-
-
-            // equipo.TechnicalSpecification.Id_TechnicalSpecification
-
-
-            // equipo.TechnicalSpecification.newTechnicalSpecification.SelectNewTechSpec.Id_TechnicalSpecification =  equipo.TechnicalSpecification.Id_TechnicalSpecification
 
         });
 
@@ -262,7 +282,7 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
 
         // actualizarTabla(Excel)
 
-        await insertar(Excel);
+        // await insertar(Excel);
 
         setItem([]);
         setModalInsertarExcel(false);
