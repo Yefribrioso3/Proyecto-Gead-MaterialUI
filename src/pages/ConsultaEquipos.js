@@ -10,7 +10,6 @@ import {
     ModalFooter,
     FormGroup,
 } from 'reactstrap';
-import { DataGrid } from "@mui/x-data-grid";
 import Axios from "axios";
 import { useForm } from 'react-hook-form';
 import EditAddServInfo from './components/EditAddServInfo';
@@ -127,9 +126,8 @@ const ConsultaEquipos = () => {
 
     const allAquipmentRelation = async () => {
         await Axios.get('https://node-gead.herokuapp.com/api/AllequipmentRelation')
-            .then(async (response) => {
-                let a = await Promise.all(response.data.equipment.map(z => ({ ...z, id: z.Id_Equipment })))
-                setGetAllList(a)
+            .then((response) => {
+                setGetAllList(response.data.equipment)
             })
     }
 
@@ -1550,8 +1548,6 @@ const ConsultaEquipos = () => {
 
     const [totalEncontrados, setTotalEncontrados] = useState(getAllList.length)
 
-    // -------------------- Input de busqueda o filtrado    --------------------------
-
     const handleSearch = e => {
         let target = e.target;
         setFilterFn({
@@ -1565,9 +1561,9 @@ const ConsultaEquipos = () => {
                         x.Procedencia.areas.Name.toLowerCase().includes(target.value.toLowerCase()) ||
                         x.Procedencia.areas.SubArea.Name.toLowerCase().includes(target.value.toLowerCase()) ||
                         x.Procedencia.areas.operations.Name.toLowerCase().includes(target.value.toLowerCase()) ||
-                        x.Procedencia.line.lineTypes.Name.toLowerCase().includes(target.value.toLowerCase()) ||
-                        x.TechnicalSpecification.SerialNumber.toLowerCase().includes(target.value.toLowerCase())
+                        x.Procedencia.line.lineTypes.Name.toLowerCase().includes(target.value.toLowerCase())
                     )
+
             }
         })
 
@@ -1576,6 +1572,11 @@ const ConsultaEquipos = () => {
         console.log(TotalEncontrado);
         console.log(TotalEncontrado);
     }
+
+
+
+
+
 
     //  ------------------------    PDF     ----------------------------------
 
@@ -1599,7 +1600,7 @@ const ConsultaEquipos = () => {
 
                     const workbook = XLSX.read(bufferArray, { type: 'buffer' });
 
-                    const workbookSheetsName = workbook.SheetNames[4];
+                    const workbookSheetsName = workbook.SheetNames[0];
 
                     const workbookSheet = workbook.Sheets[workbookSheetsName];
 
@@ -1621,14 +1622,18 @@ const ConsultaEquipos = () => {
                 fileReader.onerror = ((error) => {
                     reject(error);
                 })
+
             }
+
             ))
 
         promise === "undefined" ? (console.log("undefined")) : (
             promise.then((d) => {
-                setModalInsertarExcel(true);
                 setItem(d)
+                setModalInsertarExcel(true);
             })
+
+
         )
 
 
@@ -1704,7 +1709,9 @@ const ConsultaEquipos = () => {
 
 
 
+
     const [pruebaExcel, setpruebaExcel] = useState([])
+
 
     const actualizarTabla = (Excel) => {
         Excel.map((Equipo) => {
@@ -1714,118 +1721,7 @@ const ConsultaEquipos = () => {
     }
 
 
-    const columns = [
-        {
-            field: "Name",
-            // fontWeight: '800',
-            headerName: "Equipo",
-            width: 400,
-            fontWeight: 100,
-            // fontSize: "20px"
-        },
-        {
-            field: "serial",
-            headerName: "Número de serie",
-            width: 200,
-            valueGetter: (params) => {
-                return params.row.TechnicalSpecification.SerialNumber;
-            }
-        },
-        {
-            field: "bu",
-            headerName: "BU",
-            flex: 1,
-            valueGetter: (params) => {
-                return params.row.Procedencia.areas.operations.countries.bu.Name;
-            },
-            /* width: 150, */
-        },
-        {
-            field: "country",
-            headerName: "País",
-            width: 150,
-            valueGetter: (params) => {
-                return params.row.Procedencia.areas.operations.countries.Name;
-            },
-        },
-        {
-            field: "area",
-            headerName: "Área",
-            width: 210,
-            valueGetter: (params) => {
-                return params.row.Procedencia.areas.Name
-            },
-        },
-        {
-            field: "subarea",
-            headerName: "Subárea",
-            width: 210,
-            valueGetter: (params) => {
-                return params.row.Procedencia.areas.SubArea.Name
-            },
-        },
-        {
-            field: "plant",
-            headerName: "Planta",
-            width: 210,
-            valueGetter: (params) => {
-                return params.row.Procedencia.areas.operations.Name
-            },
-        },
-        {
-            field: "equipType",
-            headerName: "Tipo de Equipo",
-            width: 210,
-            valueGetter: (params) => {
-                return params.row.TechnicalSpecification.EquipmentType
-            },
-        },
-        {
-            field: "actions",
-            headerName: "Acciones",
-            width: 210,
-            sortable: false,
-            disableColumnMenu: true,
-            renderCell: (params) => (
-                <div className="d-flex justify-content-between">
-                    <div
-                        onClick={() => seleccionarEquipo(params.row, 'Editar')}
-                        component="span"
-                    >
-                        <IconButton color="primary" aria-label="edit" component="span">
-                            <Edit />
-                        </IconButton>
-                    </div>
 
-                    <div color="secondary" aria-label="delete"
-                        onClick={() => seleccionarEquipo(params.row, 'Eliminar')}
-                        component="span"
-                    >
-                        <IconButton color="secondary" aria-label="delete">
-                            <Delete />
-                        </IconButton>
-                    </div>
-                </div>
-            ),
-        },
-        /* {
-          field: "a",
-          headerName: "Actions",
-          width: 100,
-          sortable: false,
-          align: "center",
-          disableColumnMenu: true,
-          renderCell: (params) => (
-            <div onClick={(e) => deleteGts(e, params.id)}>
-              <Tooltip title="Delete">
-                <IconButton>
-                  <Delete />
-                </IconButton>
-              </Tooltip>
-            </div>
-          ),
-        }, */
-    ];
 
     return (
         <div >
@@ -1848,7 +1744,7 @@ const ConsultaEquipos = () => {
 
             <Paper className={classes.pageContent}>
                 {/* <EmployeeForm /> */}
-                <Toolbar className='mb-1'>
+                <Toolbar >
                     <Controls.txt
                         label="Search Equipment"
                         id="outlined-basic"
@@ -1912,31 +1808,59 @@ const ConsultaEquipos = () => {
 
 
 
+
+
+
+
                 </Toolbar>
 
+                <TblContainer>
+                    <TblHead />
+                    <TableBody>
+                        {
+                            recordsAfterPagingAndSorting().map(item =>
+                            (<TableRow key={item.Id_Equipment}>
+                                <TableCell style={{ fontWeight: '600' }} >{item.Name}</TableCell>
+                                <TableCell>{item.Procedencia.areas.operations.countries.bu.Name}</TableCell>
+                                <TableCell>{item.Procedencia.areas.operations.countries.Name}</TableCell>
+                                <TableCell>{item.Procedencia.areas.Name}</TableCell>
+                                <TableCell>{item.Procedencia.areas.SubArea.Name}</TableCell>
+                                <TableCell>{item.Procedencia.areas.operations.Name}</TableCell>
+                                <TableCell>{item.TechnicalSpecification.EquipmentType}</TableCell>
 
+                                {/* <TableCell>{item.Procedencia.line.lineTypes.Name}</TableCell>   */}
 
+                                <TableCell>
+                                    <label htmlFor="icon-button-file" >
+                                        <IconButton color="primary" aria-label="edit"
+                                            onClick={() => seleccionarEquipo(item, 'Editar')}
+                                            component="span">
 
+                                            <Edit />
 
+                                        </IconButton>
+                                    </label>
 
+                                    &nbsp;&nbsp;
 
+                                    <label htmlFor="icon-button-file" >
+                                        <IconButton color="secondary" aria-label="edit"
+                                            onClick={() => seleccionarEquipo(item, 'Eliminar')}
+                                            component="span">
 
+                                            <Delete />
 
+                                        </IconButton>
+                                    </label>
+                                </TableCell>
 
+                            </TableRow>)
+                            )
+                        }
+                    </TableBody>
+                </TblContainer>
 
-                {/* ----------------------------------------------   Tabla de datos     -------------------------------------------- */}
-
-                <div style={{ height: 740, width: "100%", backgroundColor: "white" }}>
-                    <DataGrid
-                        rows={filterFn.fn(getAllList)}
-                        columns={columns}
-                        pageSize={12}
-                        rowsPerPageOptions={[6]}
-
-                    />
-                </div>
-
-                <Toolbar>
+                <Toolbar >
                     <PageHeader
                         contador={`${totalEncontrados} results`}
                         style={{ fontSize: 12 }}
@@ -1944,19 +1868,63 @@ const ConsultaEquipos = () => {
                     <Grid item sm></Grid>
                     <Grid item sm></Grid>
 
+                    {/* --------------------------      FECHA ACTUAL    --------------------------- */}
                     <PageHeader
                         subTitle="Date Updated:"
+                    // title="Consulta de Equipos"
+                    // subTitle="Form design with validation"
+                    // icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
                     />
 
                     <PageHeader
                         subTitle={fecha}
                     />
 
-                    <Grid item sm></Grid>
-                    <Grid item sm></Grid>
+                    {/* -------------------------------------------------------------------------- */}
+
                     <Grid item sm></Grid>
 
+                    <TblPagination />
                 </Toolbar>
+
+                {/* <div className="table-responsive mt-5">
+                    <table className="table table-hover align-middle table-sm animate__animated animate__fadeIn " >
+                        <thead>
+
+                            <tr>
+                                <th className="table-active" scope="col">#</th>
+                                <th className="table-active" scope="col">BU</th>
+                                <th className="table-active" scope="col">País</th>
+                                <th className="table-active" scope="col">Planta</th>
+                                <th className="table-active" scope="col">Area</th>
+                                <th className="table-active" scope="col">Subarea</th>
+                                <th className="table-active" scope="col">Equipo</th>
+
+                                <th className="table-active">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {pruebaExcel.map((element) => (
+                                <tr key={element.Id_Equipment}>
+                                    <td scope="row">{element.Id_Equipment}</td>
+                                    <td >{element.Procedencia.areas.operations.countries.bu.Name}</td>
+                                    <td>{element.Procedencia.areas.operations.countries.Name}</td>
+                                    <td>{element.Procedencia.areas.operations.Name}</td>
+                                    <td>{element.Procedencia.areas.Name}</td>
+                                    <td>{element.Procedencia.areas.SubArea.Name}</td>
+                                    <td>{element.Name}</td>
+
+                                    <td><Button color="primary" onClick={() => seleccionarEquipo(element, 'Editar')} >
+                                        <i className="far fa-edit button_icon"></i></Button> {"  "}
+
+                                        <Button color="danger" onClick={() => seleccionarEquipo(element, 'Eliminar')}>
+                                            <i className="fas fa-trash-alt button_icon"></i> </Button> </td>
+                                </tr>
+                            ))
+                            }
+                        </tbody>
+                    </table>
+                </div> */}
 
             </Paper>
 
@@ -1966,11 +1934,12 @@ const ConsultaEquipos = () => {
 
             {/* -----------------------------       FOOTER      ---------------------------- */}
             <footer className="footer mt-5 ml-5 p-4">
-                <div className='d-flex justify-content-between'>
+                <div className='d-flex'>
                     <div>
                         <h4>GEAD</h4>
                     </div>
 
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <div>
                         <img src={planning} style={{ width: '380px' }} />
                     </div>
@@ -2860,7 +2829,7 @@ const ConsultaEquipos = () => {
 
 
 
-            {/*=============================  Modal Insertar por excel =========================================*/}
+            {/*============================= Modal Insertar por excel =========================================*/}
 
             < Modal isOpen={modalInsertarExcel} >
                 <Excel setModalInsertarExcel={setModalInsertarExcel}
