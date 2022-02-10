@@ -325,6 +325,22 @@ const ConsultaEquipos = () => {
                 }
             }
         },
+        FinancialInformation: {
+            EquipmentValueInUSD: null,  Activo_fijo:null,
+            Soc:null, Concatenar: null,
+            Clase:null, Centro: null,
+            CodPM: null,  Centro_de_costos: null,
+            Fecha_de_capitalizacion: null,  Valor_Adquirido: null,
+            Amortizacion_acumulada: null, Valor_Contable: null, 
+            Cantidad: null, Moneda: null,
+            Tipo: null, Screen: null,  Nom_Clase: null,
+            Nom_Ce: null, Encontrado_SI_NO: null,  Estado_del_Activo: null, Categoria: null,
+            Gerencia: null, Codigo_De_Barras: null,
+            DI: null, SN: null,
+            Depreciacion_acumulada_ajustada: null,
+            Tasa_Cambio_contra_dolar: null,
+            Latitud: null, Longitud:null, Period_Time: null, Id_Equipment: null
+        },
         ServicesInformation: {
             Id_ServicesInformation: null,
             DateOfInstallation: '',
@@ -863,7 +879,16 @@ const ConsultaEquipos = () => {
                         countries: { Id_Countries: null, Name: '', Id_BU: null, bu: { Id_BU: null, Name: '' } }
                     }, SubArea: { Id_SubAreas: null, Name: '', Id_Areas: null }
                 }, line: { Id_Line: null, number: '', Id_LineTypes: null, lineTypes: { Id_LineTypes: null, Name: '' } }
-            }, ServicesInformation: {
+            },
+            FinancialInformation: {
+                EquipmentValueInUSD: null,  Activo_fijo:null, Soc:null, Concatenar: null, Clase:null, Centro: null,
+                CodPM: null,  Centro_de_costos: null, Fecha_de_capitalizacion: null,  Valor_Adquirido: null,
+                Amortizacion_acumulada: null, Valor_Contable: null, Cantidad: null, Moneda: null, Tipo: null, Screen: null,  Nom_Clase: null,
+                Nom_Ce: null, Encontrado_SI_NO: null,  Estado_del_Activo: null, Categoria: null,  Gerencia: null, Codigo_De_Barras: null,
+                DI: null, SN: null, Depreciacion_acumulada_ajustada: null, Tasa_Cambio_contra_dolar: null,
+                Latitud: null, Longitud:null, Period_Time: null, Id_Equipment: null
+            }, 
+            ServicesInformation: {
                 Id_ServicesInformation: null, DateOfInstallation: '', DateOfDesintallation: '', DesuseReason: '', DesinstallationReason: '', ProcurementOrder: '', Id_Equipment: '',
                 newServicesInformation: []
             }, TechnicalSpecification: {
@@ -993,6 +1018,7 @@ const ConsultaEquipos = () => {
 
         valorInsertar.TechnicalSpecification.newTechnicalSpecification = newTechicInformationAll;
         valorInsertar.ServicesInformation = servicesInformation;
+        valorInsertar.FinancialInformation.Id_Equipment = valorInsertar.Id_Equipment;
 
         let ns = newservInformation
 
@@ -1565,15 +1591,15 @@ const ConsultaEquipos = () => {
                         x.Procedencia.areas.Name.toLowerCase().includes(target.value.toLowerCase()) ||
                         x.Procedencia.areas.SubArea.Name.toLowerCase().includes(target.value.toLowerCase()) ||
                         x.Procedencia.areas.operations.Name.toLowerCase().includes(target.value.toLowerCase()) ||
-                        x.Procedencia.line.lineTypes.Name.toLowerCase().includes(target.value.toLowerCase()) ||
-                        x.TechnicalSpecification.SerialNumber.toLowerCase().includes(target.value.toLowerCase())
+                        // x.TechnicalSpecification.OEM.toLowerCase().includes(target.value.toLowerCase()) ||
+                        x.TechnicalSpecification.SerialNumber.toLowerCase().includes(target.value.toLowerCase()) ||
+                        x.TechnicalSpecification.EquipmentType.toLowerCase().includes(target.value.toLowerCase()) 
                     )
             }
         })
 
         let TotalEncontrado = filterFn.fn(getAllList).length;
         setTotalEncontrados(TotalEncontrado);
-        console.log(TotalEncontrado);
         console.log(TotalEncontrado);
     }
 
@@ -1931,7 +1957,7 @@ const ConsultaEquipos = () => {
                         rows={filterFn.fn(getAllList)}
                         columns={columns}
                         pageSize={12}
-                        rowsPerPageOptions={[6]}
+                        rowsPerPageOptions={[12]}
 
                     />
                 </div>

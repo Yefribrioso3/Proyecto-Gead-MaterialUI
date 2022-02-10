@@ -24,6 +24,22 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
             },
             line: { Id_Line: null, number: '', Id_LineTypes: null, lineTypes: { Id_LineTypes: null, Name: '' } }
         },
+        FinancialInformation: {
+            EquipmentValueInUSD: null,  Activo_fijo:null,
+            Soc:null, Concatenar: null,
+            Clase:null, Centro: null,
+            CodPM: null,  Centro_de_costos: null,
+            Fecha_de_capitalizacion: null,  Valor_Adquirido: null,
+            Amortizacion_acumulada: null, Valor_Contable: null, 
+            Cantidad: null, Moneda: null,
+            Tipo: null, Screen: null,  Nom_Clase: null,
+            Nom_Ce: null, Encontrado_SI_NO: null,  Estado_del_Activo: null, Categoria: null,
+            Gerencia: null, Codigo_De_Barras: null,
+            DI: null, SN: null,
+            Depreciacion_acumulada_ajustada: null,
+            Tasa_Cambio_contra_dolar: null,
+            Latitud: null, Longitud:null, Period_Time: null, Id_Equipment: null
+        },
         ServicesInformation: {
             Id_ServicesInformation: null, DateOfInstallation: '',
             DateOfDesintallation: '', DesuseReason: '', DesinstallationReason: '', ProcurementOrder: '', Id_Equipment: null,
@@ -119,62 +135,96 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
         const Excel = item.map((equipo) => {
             return (
                 equipo = {
-                    Id_Equipment: equipo.ID_GEAD,
+                    Id_Equipment: equipo.ID_GEAD.toString(),
+                    // id: equipo.ID_GEAD,
                     Name: equipo.Equipment_Name === undefined ? "" : equipo.Equipment_Name,
                     code: '',
                     img: '',
-                    Id_Procedencia: "",
+                    Id_Procedencia: equipo.ID_GEAD.toString(),
                     Estado: true,
                     createdAt: '',
                     updatedAt: '',
                     Procedencia: {
-                        Id_Procedencia: uuidv4(), Id_Line: "", Id_Areas: "",
+                        Id_Procedencia: equipo.ID_GEAD.toString(), Id_Line: equipo.ID_GEAD.toString(), Id_Areas: equipo.ID_GEAD.toString(),
                         areas: {
-                            Id_Areas: uuidv4(),
+                            Id_Areas: equipo.ID_GEAD.toString(),
                             Name: equipo.Area === undefined ? "" : equipo.Area,
-                            Id_Operations: null,
+                            Id_Operations: equipo.ID_GEAD.toString(),
                             operations: {
-                                Id_Operations: uuidv4(),
+                                Id_Operations: equipo.ID_GEAD.toString(),
                                 Name: equipo.Plant === undefined ? "" : equipo.Plant,
-                                Id_Countries: null,
+                                Id_Countries: equipo.ID_GEAD.toString(),
                                 countries: {
-                                    Id_Countries: uuidv4(),
+                                    Id_Countries: equipo.ID_GEAD.toString(),
                                     Name: equipo.Country === undefined ? "" : equipo.Country,
-                                    Id_BU: null,
+                                    Id_BU: equipo.ID_GEAD.toString(),
                                     bu: {
-                                        Id_BU: uuidv4(),
+                                        Id_BU: equipo.ID_GEAD.toString(),
                                         Name: equipo.BU === undefined ? "" : equipo.BU
                                     }
                                 }
                             },
                             SubArea: {
-                                Id_SubAreas: uuidv4(),
+                                Id_SubAreas: equipo.ID_GEAD.toString(),
                                 Name: equipo.Subarea === undefined ? "" : equipo.Subarea,
-                                Id_Areas: null
+                                Id_Areas: equipo.ID_GEAD.toString()
                             }
                         },
                         line: {
-                            Id_Line: uuidv4(),
+                            Id_Line: equipo.ID_GEAD.toString(),
                             number: equipo.Line_Number === "No data available" ? "" : equipo.Line_Number,
-                            Id_LineTypes: null,
+                            Id_LineTypes: equipo.ID_GEAD.toString(),
                             lineTypes: {
-                                Id_LineTypes: uuidv4(),
+                                Id_LineTypes: equipo.ID_GEAD.toString(),
                                 Name: equipo.Line_Type === undefined ? "" : equipo.Line_Type
                             }
                         }
                     },
+                    FinancialInformation: {
+                        EquipmentValueInUSD: equipo.Current_equipment_value_in_USD === undefined ? null : equipo.Current_equipment_value_in_USD,
+                        Activo_fijo: equipo.Activo_fijo === undefined ? null : equipo.Activo_fijo,
+                        Soc: equipo[" Soc "] === undefined ? null : equipo[" Soc "],
+                        Concatenar: equipo[" Concatenar "] === undefined ? null : equipo[" Concatenar "],
+                        Clase: equipo[" Clase "] === undefined ? null : equipo[" Clase "].toString(),
+                        Centro: equipo[" Centro "] === undefined ? null : equipo[" Centro "],
+                        CodPM: equipo[" CodPM "] === undefined ? null : equipo[" CodPM "].toString(),
+                        Centro_de_costos: equipo[" Centro_de_costos "] === undefined ? null : equipo[" Centro_de_costos "].toString(),
+                        Fecha_de_capitalizacion: equipo[" Fecha_de_capitalizacion "] === undefined ? null : equipo[" Fecha_de_capitalizacion "],
+                        Valor_Adquirido: equipo[" Valor_Adquirido "] === undefined ? null : equipo[" Valor_Adquirido "],
+                        Amortizacion_acumulada: equipo[" Amortizacion_acumulada "] === undefined ? null : equipo[" Amortizacion_acumulada "],
+                        Valor_Contable: equipo[" Valor_Contable "] === undefined ? null : equipo[" Valor_Contable "], 
+                        Cantidad: equipo[" Cantidad "] === undefined ? null : equipo[" Cantidad "],
+                        Moneda: equipo[" Moneda "] === undefined ? null : equipo[" Moneda "],
+                        Tipo: equipo[" Tipo "] === undefined ? null : equipo[" Tipo "],
+                        Screen: equipo[ " Screen "] === undefined ? null : equipo[ " Screen "],
+                        Nom_Clase: equipo[" Nom_Clase "] === undefined ? null : equipo[" Nom_Clase "],
+                        Nom_Ce: equipo[" Nom_Ce. "] === undefined ? null : equipo[" Nom_Ce. "],
+                        Encontrado_SI_NO: equipo[" Encontrado_SI_NO "] === undefined ? null : equipo[" Encontrado_SI_NO "],
+                        Estado_del_Activo: equipo[" Estado_del_Activo "] === undefined ? null : equipo[" Estado_del_Activo "],
+                        Categoria: equipo[" Categoria "] === undefined ? null : equipo[" Categoria "],
+                        Gerencia: equipo[" Gerencia "] === undefined ? null : equipo[" Gerencia "],
+                        Codigo_De_Barras: equipo[" Codigo_De_Barras "] === undefined ? null : equipo[" Codigo_De_Barras "].toString(),
+                        DI: equipo[" DI "] === undefined ? null : equipo[" DI "].toString(),
+                        SN: equipo[" SN "] === undefined ? null : equipo[" SN "],
+                        Depreciacion_acumulada_ajustada: equipo[" Depreciacion_acumulada_ajustada "] === undefined ? null : equipo[" Depreciacion_acumulada_ajustada "],
+                        Tasa_Cambio_contra_dolar: equipo.Tasa_Cambio_contra_dolar === undefined ? null : equipo.Tasa_Cambio_contra_dolar,
+                        Latitud: equipo.Latitud === undefined ? null : equipo.Latitud,
+                        Longitud: equipo.Longitud === undefined ? null : equipo.Longitud,
+                        Period_Time: equipo.Period_Time === undefined ? null : equipo.Period_Time,
+                        Id_Equipment: equipo.ID_GEAD.toString()
+                    },
                     ServicesInformation: {
-                        Id_ServicesInformation: uuidv4(),
+                        Id_ServicesInformation: equipo.ID_GEAD.toString(),
                         DateOfInstallation: equipo.Date_of_Installation === undefined ? "" : equipo.Date_of_Installation,
                         DateOfDesintallation: equipo.Date_of_Desintallation === undefined ? "" : equipo.Date_of_Desintallation,
                         DesuseReason: equipo.Desuse_reason === undefined ? "" : equipo.Desuse_reason,
                         DesinstallationReason: equipo.Desinstallation_reason === undefined ? "" : equipo.Desinstallation_reason,
                         ProcurementOrder: '',
-                        Id_Equipment: null,
+                        Id_Equipment: equipo.ID_GEAD.toString(),
                         newServicesInformation: []
                     },
                     TechnicalSpecification: {
-                        Id_TechnicalSpecification: uuidv4(),
+                        Id_TechnicalSpecification: equipo.ID_GEAD.toString(),
                         EquipmentType: equipo.Equipment_Type === undefined ? "" : equipo.Equipment_Type,
                         CurrentConditions: equipo.Equipment_Current_Conditions === undefined ? "" : equipo.Equipment_Current_Conditions,
                         Weight: equipo.Weight === undefined ? "" : equipo.Weight,
@@ -183,78 +233,52 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
                         ModelNumber: equipo.Model_Number === undefined ? "" : equipo.Model_Number,
                         SerialNumber: equipo.Serial_Number === undefined ? "" : equipo.Serial_Number,
                         vendor: equipo["Vendor / Integrator name"] === undefined ? "" : equipo["Vendor / Integrator name"],
-                        currentWorking: equipo.Currently_working === undefined ? "" : equipo.Currently_working,
-                        Id_Equipment: null,
+                        currentWorking: equipo["Equipment_currently_working_(Installed,_connected_on_process_line,)"] === undefined ? "" : equipo["Equipment_currently_working_(Installed,_connected_on_process_line,)"],
+                        Id_Equipment: equipo.ID_GEAD.toString(),
                         newTechnicalSpecification: equipo.Notes_about_equipment === undefined ? ([]) : (
                             [{
-                                Id_NewTechSpec: uuidv4(),
-                                Id_TechnicalSpecification: '',
+                                Id_NewTechSpec: equipo.ID_GEAD.toString(),
+                                Id_TechnicalSpecification: equipo.ID_GEAD.toString(),
                                 Name: "Notes_about_equipment",
                                 Value: equipo.Notes_about_equipment,
                                 SelectNewTechSpec: {
-                                    Id_SelectNewTechSpec: uuidv4(),
-                                    Id_TechnicalSpecification: '',
-                                    Id_NewTechSpec: ''
+                                    Id_SelectNewTechSpec: equipo.ID_GEAD.toString(),
+                                    Id_TechnicalSpecification: equipo.ID_GEAD.toString(),
+                                    Id_NewTechSpec: equipo.ID_GEAD.toString()
                                 }
                             }]
                         )
-                    },
-                    FinancialInformation: {
-                        EquipmentValueInUSD: equipo.Current_equipment_value_in_USD === undefined ? "" : equipo.Current_equipment_value_in_USD,
-                        Activo_fijo: equipo.Activo_fijo === undefined ? "" : equipo.Activo_fijo,
-                        Soc: equipo.Soc === undefined ? "" : equipo.Soc,
-                        Concatenar: equipo.Concatenar === undefined ? "" : equipo.Concatenar,
-                        Clase: equipo.Clase === undefined ? "" : equipo.Concatenar,
-                        Centro: equipo.Centro === undefined ? "" : equipo.Centro,
-                        CodPM: equipo.CodPM === undefined ? "" : equipo.CodPM,
-                        Centro_de_costos: equipo.Centro_de_costos === undefined ? "" : equipo.Centro_de_costos,
-                        Fecha_de_capitalizacion: equipo.Fecha_de_capitalizacion === undefined ? "" : equipo.Fecha_de_capitalizacion,
-                        Valor_Adquirido: equipo.Valor_Adquirido === undefined ? "" : equipo.Valor_Adquirido,
-                        Amortizacion_acumulada: equipo.Amortizacion_acumulada === undefined ? "" : equipo.Amortizacion_acumulada,
-                        Valor_Contable: equipo.Valor_Contable === undefined ? "" : equipo.Valor_Contable, 
-                        Cantidad: equipo.Cantidad === undefined ? "" : equipo.Cantidad,
-                        Moneda: equipo.Moneda === undefined ? "" : equipo.Moneda,
-                        Tipo: equipo.Tipo === undefined ? "" : equipo.Tipo,
-                        Screen: equipo.Screen === undefined ? "" : equipo.Screen,
-                        Nom_Clase: equipo.Nom_Clase === undefined ? "" : equipo.Nom_Clase,
-                        Nom_Ce: equipo.Nom_Ce === undefined ? "" : equipo.Nom_Ce,
-                        Encontrado_SI_NO: equipo.Encontrado_SI_NO === undefined ? "" : equipo.Encontrado_SI_NO,
-                        Estado_del_Activo: equipo.Estado_del_Activo === undefined ? "" : equipo.Estado_del_Activo,
-                        Categoria: equipo[" Categoria "] === undefined ? "" : equipo[" Categoria "],
-                        Gerencia: equipo.Gerencia === undefined ? "" : equipo.Gerencia,
-                        Codigo_De_Barras: equipo.Codigo_De_Barras === undefined ? "" : equipo.Codigo_De_Barras,
-                        DI: equipo.DI === undefined ? "" : equipo.DI,
-                        SN: equipo.SN === undefined ? "" : equipo.SN,
-                        Depreciacion_acumulada_ajustada: equipo.Depreciacion_acumulada_ajustada === undefined ? "" : equipo.Depreciacion_acumulada_ajustada,
-                        Tasa_Cambio_contra_dolar: equipo.Tasa_Cambio_contra_dolar === undefined ? "" : equipo.Tasa_Cambio_contra_dolar,
-                        Latitud: equipo.Latitud === undefined ? "" : equipo.Latitud,
-                        Longitud: equipo.Longitud === undefined ? "" : equipo.Longitud,
-                        Period_Time: equipo.Period_Time === undefined ? "" : equipo.Period_Time,
-                        Id_Equipment: null
-                    },
+                    }
                 }
             )
         })
 
-        let newTechSpec = []
 
-        Excel.map(equipo => {
-            equipo.Id_Procedencia = equipo.Procedencia.Id_Procedencia
-            equipo.Procedencia.Id_Line = equipo.Procedencia.line.Id_Line
-            equipo.Procedencia.Id_Areas = equipo.Procedencia.areas.Id_Areas
-            equipo.Procedencia.areas.Id_Operations = equipo.Procedencia.areas.operations.Id_Operations
-            equipo.Procedencia.areas.operations.Id_Countries = equipo.Procedencia.areas.operations.countries.Id_Countries
-            equipo.Procedencia.areas.operations.countries.Id_BU = equipo.Procedencia.areas.operations.countries.bu.Id_BU
-            equipo.Procedencia.areas.SubArea.Id_Areas = equipo.Procedencia.areas.Id_Areas
-            equipo.Procedencia.line.Id_LineTypes = equipo.Procedencia.line.lineTypes.Id_LineTypes
-            equipo.ServicesInformation.Id_Equipment = equipo.Id_Equipment
-            equipo.TechnicalSpecification.Id_Equipment = equipo.Id_Equipment
-            equipo.FinancialInformation.Id_Equipment = equipo.Id_Equipment
+        
 
-            newTechSpec = equipo.TechnicalSpecification.newTechnicalSpecification
 
-        });
 
+        //  -------------------------------   Asignar ID      ------------------------------------
+        // let newTechSpec = []
+
+        // Excel.map(equipo => {
+        //     equipo.Id_Procedencia = equipo.Procedencia.Id_Procedencia
+        //     equipo.Procedencia.Id_Line = equipo.Procedencia.line.Id_Line
+        //     equipo.Procedencia.Id_Areas = equipo.Procedencia.areas.Id_Areas
+        //     equipo.Procedencia.areas.Id_Operations = equipo.Procedencia.areas.operations.Id_Operations
+        //     equipo.Procedencia.areas.operations.Id_Countries = equipo.Procedencia.areas.operations.countries.Id_Countries
+        //     equipo.Procedencia.areas.operations.countries.Id_BU = equipo.Procedencia.areas.operations.countries.bu.Id_BU
+        //     equipo.Procedencia.areas.SubArea.Id_Areas = equipo.Procedencia.areas.Id_Areas
+        //     equipo.Procedencia.line.Id_LineTypes = equipo.Procedencia.line.lineTypes.Id_LineTypes
+        //     equipo.ServicesInformation.Id_Equipment = equipo.Id_Equipment
+        //     equipo.TechnicalSpecification.Id_Equipment = equipo.Id_Equipment
+        //     equipo.FinancialInformation.Id_Equipment = equipo.Id_Equipment
+
+        //     newTechSpec = equipo.TechnicalSpecification.newTechnicalSpecification
+
+        // });
+
+        //  --------------------------------------------------------------------------------------
 
 
 
@@ -267,22 +291,50 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
         // console.log(equipo);
         // } ))
 
-        // const agregar = getAllList;
 
-        // console.log(Excel);
+
+
+        // let agregar = getAllList;
+
+        // console.log(Object.isExtensible(agregar));
+        // console.log(agregar);
+
+
+
 
         // setDatos(agregar);
 
+        
+
+
+
         // Excel.map((Equipo) => {
-        //     agregar.push(Equipo);
+        //     // agregar.push(Equipo);
+
+        //     agregar.push(Equipo)
+        
+        //     // setDatos([
+        //     //     ...Datos,
+        //     //     Equipo
+        //     // ])
+
+        //     // setGetAllList([
+        //     //     ...getAllList,
+        //     //     Equipo
+        //     // ])
         // });
 
+        // setGetAllList(
+        //     Excel
+        // )
+
         // setListAll(agregar)
+        
+        // actualizarTabla(Excel)
+        
         // console.log(getAllList);
 
-        // actualizarTabla(Excel)
-
-        // await insertar(Excel);
+        await insertar(Excel);
 
         setItem([]);
         setModalInsertarExcel(false);
