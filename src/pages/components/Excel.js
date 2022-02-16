@@ -148,35 +148,35 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
                         Id_Procedencia: equipo.ID_GEAD.toString(), Id_Line: equipo.ID_GEAD.toString(), Id_Areas: equipo.ID_GEAD.toString(),
                         areas: {
                             Id_Areas: equipo.ID_GEAD.toString(),
-                            Name: equipo.Area === undefined ? "" : equipo.Area,
+                            Name: equipo.Area === undefined ? "" : equipo.Area.toUpperCase(),
                             Id_Operations: equipo.ID_GEAD.toString(),
                             operations: {
                                 Id_Operations: equipo.ID_GEAD.toString(),
-                                Name: equipo.Plant === undefined ? "" : equipo.Plant,
+                                Name: equipo.Plant === undefined ? "" : equipo.Plant.toUpperCase(),
                                 Id_Countries: equipo.ID_GEAD.toString(),
                                 countries: {
                                     Id_Countries: equipo.ID_GEAD.toString(),
-                                    Name: equipo.Country === undefined ? "" : equipo.Country,
+                                    Name: equipo.Country === undefined ? "" : equipo.Country.toUpperCase(),
                                     Id_BU: equipo.ID_GEAD.toString(),
                                     bu: {
                                         Id_BU: equipo.ID_GEAD.toString(),
-                                        Name: equipo.BU === undefined ? "" : equipo.BU
+                                        Name: equipo.BU === undefined ? "" : equipo.BU.toUpperCase()
                                     }
                                 }
                             },
                             SubArea: {
                                 Id_SubAreas: equipo.ID_GEAD.toString(),
-                                Name: equipo.Subarea === undefined ? "" : equipo.Subarea,
+                                Name: equipo.Subarea === undefined ? "" : equipo.Subarea.toUpperCase(),
                                 Id_Areas: equipo.ID_GEAD.toString()
                             }
                         },
                         line: {
                             Id_Line: equipo.ID_GEAD.toString(),
-                            number: equipo.Line_Number === "No data available" ? "" : equipo.Line_Number,
+                            number: equipo.Line_Number === undefined ? null : equipo.Line_Number,
                             Id_LineTypes: equipo.ID_GEAD.toString(),
                             lineTypes: {
                                 Id_LineTypes: equipo.ID_GEAD.toString(),
-                                Name: equipo.Line_Type === undefined ? "" : equipo.Line_Type
+                                Name: equipo.Line_Type === undefined ? "" : equipo.Line_Type.toUpperCase()
                             }
                         }
                     },
@@ -184,7 +184,7 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
                         EquipmentValueInUSD: equipo.Current_equipment_value_in_USD === undefined ? null : equipo.Current_equipment_value_in_USD,
                         Activo_fijo: equipo.Activo_fijo === undefined ? null : equipo.Activo_fijo,
                         Soc: equipo[" Soc "] === undefined ? null : equipo[" Soc "],
-                        Concatenar: equipo[" Concatenar "] === undefined ? null : equipo[" Concatenar "],
+                        Concatenar: equipo[" Concatenar "] === undefined ? null : equipo[" Concatenar "].toUpperCase(),
                         Clase: equipo[" Clase "] === undefined ? null : equipo[" Clase "].toString(),
                         Centro: equipo[" Centro "] === undefined ? null : equipo[" Centro "],
                         CodPM: equipo[" CodPM "] === undefined ? null : equipo[" CodPM "].toString(),
@@ -199,10 +199,10 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
                         Screen: equipo[ " Screen "] === undefined ? null : equipo[ " Screen "],
                         Nom_Clase: equipo[" Nom_Clase "] === undefined ? null : equipo[" Nom_Clase "],
                         Nom_Ce: equipo[" Nom_Ce. "] === undefined ? null : equipo[" Nom_Ce. "],
-                        Encontrado_SI_NO: equipo[" Encontrado_SI_NO "] === undefined ? null : equipo[" Encontrado_SI_NO "],
+                        Encontrado_SI_NO: equipo[" Encontrado_SI_NO "] === undefined ? null : equipo[" Encontrado_SI_NO "].toUpperCase(),
                         Estado_del_Activo: equipo[" Estado_del_Activo "] === undefined ? null : equipo[" Estado_del_Activo "],
-                        Categoria: equipo[" Categoria "] === undefined ? null : equipo[" Categoria "],
-                        Gerencia: equipo[" Gerencia "] === undefined ? null : equipo[" Gerencia "],
+                        Categoria: equipo[" Categoria "] === undefined ? null : equipo[" Categoria "].toUpperCase(),
+                        Gerencia: equipo[" Gerencia "] === undefined ? null : equipo[" Gerencia "].toUpperCase(),
                         Codigo_De_Barras: equipo[" Codigo_De_Barras "] === undefined ? null : equipo[" Codigo_De_Barras "].toString(),
                         DI: equipo[" DI "] === undefined ? null : equipo[" DI "].toString(),
                         SN: equipo[" SN "] === undefined ? null : equipo[" SN "],
@@ -217,41 +217,70 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
                         Id_ServicesInformation: equipo.ID_GEAD.toString(),
                         DateOfInstallation: equipo.Date_of_Installation === undefined ? "" : equipo.Date_of_Installation,
                         DateOfDesintallation: equipo.Date_of_Desintallation === undefined ? "" : equipo.Date_of_Desintallation,
-                        DesuseReason: equipo.Desuse_reason === undefined ? "" : equipo.Desuse_reason,
-                        DesinstallationReason: equipo.Desinstallation_reason === undefined ? "" : equipo.Desinstallation_reason,
+                        DesuseReason: equipo.Desuse_reason === undefined ? "" : equipo.Desuse_reason.toUpperCase(),
+                        DesinstallationReason: equipo.Desinstallation_reason === undefined ? "" : equipo.Desinstallation_reason.toUpperCase(),
                         ProcurementOrder: '',
                         Id_Equipment: equipo.ID_GEAD.toString(),
                         newServicesInformation: []
                     },
                     TechnicalSpecification: {
                         Id_TechnicalSpecification: equipo.ID_GEAD.toString(),
-                        EquipmentType: equipo.Equipment_Type === undefined ? "" : equipo.Equipment_Type,
-                        CurrentConditions: equipo.Equipment_Current_Conditions === undefined ? "" : equipo.Equipment_Current_Conditions,
-                        Weight: equipo.Weight === undefined ? "" : equipo.Weight,
-                        OEM: equipo.OEM === undefined ? "" : equipo.OEM,
+                        EquipmentType: equipo.Equipment_Type === undefined ? "" : equipo.Equipment_Type.toUpperCase(),
+                        CurrentConditions: equipo.Equipment_Current_Conditions === undefined ? "" : equipo.Equipment_Current_Conditions.toUpperCase(),
+                        Weight: equipo.Weight === undefined ? "" : equipo.Weight.toUpperCase(),
+                        OEM: equipo.OEM === undefined ? "" : equipo.OEM.toUpperCase(),
                         Description: equipo.Equipment_description === undefined ? "" : equipo.Equipment_description,
                         ModelNumber: equipo.Model_Number === undefined ? "" : equipo.Model_Number,
                         SerialNumber: equipo.Serial_Number === undefined ? "" : equipo.Serial_Number,
-                        vendor: equipo["Vendor / Integrator name"] === undefined ? "" : equipo["Vendor / Integrator name"],
+                        vendor: equipo["Vendor / Integrator name"] === undefined ? "" : equipo["Vendor / Integrator name"].toUpperCase(),
                         currentWorking: equipo["Equipment_currently_working_(Installed,_connected_on_process_line,)"] === undefined ? "" : equipo["Equipment_currently_working_(Installed,_connected_on_process_line,)"],
                         Id_Equipment: equipo.ID_GEAD.toString(),
-                        newTechnicalSpecification: equipo.Notes_about_equipment === undefined ? ([]) : (
-                            [{
-                                Id_NewTechSpec: equipo.ID_GEAD.toString(),
-                                Id_TechnicalSpecification: equipo.ID_GEAD.toString(),
-                                Name: "Notes_about_equipment",
-                                Value: equipo.Notes_about_equipment,
-                                SelectNewTechSpec: {
-                                    Id_SelectNewTechSpec: equipo.ID_GEAD.toString(),
-                                    Id_TechnicalSpecification: equipo.ID_GEAD.toString(),
-                                    Id_NewTechSpec: equipo.ID_GEAD.toString()
-                                }
-                            }]
-                        )
-                    }
+                        newTechnicalSpecification: [],
+                        OptionalTechInfo: {
+                            Id_OptionalTechInfo: equipo.ID_GEAD.toString(),
+                            NominalCapacity: equipo.Nominal_Capacity === undefined ? "" : equipo.Nominal_Capacity,
+                            YearOfConstruction: equipo.Year_of_construction === undefined ? "" : equipo.Year_of_construction,
+                            EquipmentCurrentConditionsComments: equipo.Equipment_current_conditions_comments === undefined ? "" : equipo.Equipment_current_conditions_comments,
+                            NotesAboutEquipment: equipo.Notes_about_equipment === undefined ? "" : equipo.Notes_about_equipment,
+                            AssambledDissambled: equipo[ "Assambled / Dissambled" ] === undefined ? "" : equipo[ "Assambled / Dissambled" ],
+                            PlantTechnicalInformationContact: equipo.Plant_Technical_Information_Contact === undefined ? "" : equipo.Plant_Technical_Information_Contact,
+                            PlantFinancialInformationContact: equipo.Plant_Financial_Information_Contact === undefined ? "" : equipo.Plant_Financial_Information_Contact,
+                            Width: equipo["Equipment_Dimensions - Width"] === undefined ? "" : equipo["Equipment_Dimensions - Width"],
+                            Height: equipo["Equipment_Dimensions - Height"] === undefined ? "" : equipo["Equipment_Dimensions - Height"],
+                            Depth: equipo["Equipment_Dimensions - Depth"] === undefined ? "" : equipo["Equipment_Dimensions - Depth"],
+                            ConstructionMaterials: equipo.Construction_materials === undefined ? "" : equipo.Construction_materials,
+                            ExternalCoating: equipo.External_coating === undefined ? "" : equipo.External_coating,
+                            CommunicationProtocol: equipo.Communication_protocol === undefined ? "" : equipo.Communication_protocol,
+                            MeasurementVariable: equipo.Measurement_variable === undefined ? "" : equipo.Measurement_variable,
+                            ElectricalConsumption: equipo.Electrical_Consumption === undefined ? "" : equipo.Electrical_Consumption,
+                            ProtectionGrade: equipo.Protection_Grade === undefined ? "" : equipo.Protection_Grade,
+                            SanitaryGrade: equipo.Sanitary_Grade === undefined ? "" : equipo.Sanitary_Grade,
+                            AvailableWarranty: equipo.Available_warranty === undefined ? "" : equipo.Available_warranty,
+                            RemainingWarrantyYears: equipo.Remaining_warranty_years === undefined ? "" : equipo.Remaining_warranty_years,
+                            PeripheralDevicesAccesories: equipo["Peripheral Devices / Accesories"] === undefined ? "" : equipo["Peripheral Devices / Accesories"],
+                            WorkingHours: equipo.Working_Hours === undefined ? "" : equipo.Working_Hours,
+                            LaboratoryEquipment: equipo.Laboratory_Equipment === undefined ? "" : equipo.Laboratory_Equipment,
+                            Id_TechnicalSpecification: equipo.ID_GEAD.toString(),
+                        }
+                    }                    
                 }
             )
         })
+
+
+        // newTechnicalSpecification: equipo.Notes_about_equipment === undefined ? ([]) : (
+        //     [{
+        //         Id_NewTechSpec: equipo.ID_GEAD.toString(),
+        //         Id_TechnicalSpecification: equipo.ID_GEAD.toString(),
+        //         Name: "Notes_about_equipment",
+        //         Value: equipo.Notes_about_equipment,
+        //         SelectNewTechSpec: {
+        //             Id_SelectNewTechSpec: equipo.ID_GEAD.toString(),
+        //             Id_TechnicalSpecification: equipo.ID_GEAD.toString(),
+        //             Id_NewTechSpec: equipo.ID_GEAD.toString()
+        //         }
+        //     }]
+        // )
 
 
         
@@ -259,24 +288,24 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
 
 
         //  -------------------------------   Asignar ID      ------------------------------------
-        // let newTechSpec = []
+        let newTechSpec = []
 
-        // Excel.map(equipo => {
-        //     equipo.Id_Procedencia = equipo.Procedencia.Id_Procedencia
-        //     equipo.Procedencia.Id_Line = equipo.Procedencia.line.Id_Line
-        //     equipo.Procedencia.Id_Areas = equipo.Procedencia.areas.Id_Areas
-        //     equipo.Procedencia.areas.Id_Operations = equipo.Procedencia.areas.operations.Id_Operations
-        //     equipo.Procedencia.areas.operations.Id_Countries = equipo.Procedencia.areas.operations.countries.Id_Countries
-        //     equipo.Procedencia.areas.operations.countries.Id_BU = equipo.Procedencia.areas.operations.countries.bu.Id_BU
-        //     equipo.Procedencia.areas.SubArea.Id_Areas = equipo.Procedencia.areas.Id_Areas
-        //     equipo.Procedencia.line.Id_LineTypes = equipo.Procedencia.line.lineTypes.Id_LineTypes
-        //     equipo.ServicesInformation.Id_Equipment = equipo.Id_Equipment
-        //     equipo.TechnicalSpecification.Id_Equipment = equipo.Id_Equipment
-        //     equipo.FinancialInformation.Id_Equipment = equipo.Id_Equipment
+        Excel.map(equipo => {
+            // equipo.Id_Procedencia = equipo.Procedencia.Id_Procedencia
+            // equipo.Procedencia.Id_Line = equipo.Procedencia.line.Id_Line
+            // equipo.Procedencia.Id_Areas = equipo.Procedencia.areas.Id_Areas
+            // equipo.Procedencia.areas.Id_Operations = equipo.Procedencia.areas.operations.Id_Operations
+            // equipo.Procedencia.areas.operations.Id_Countries = equipo.Procedencia.areas.operations.countries.Id_Countries
+            // equipo.Procedencia.areas.operations.countries.Id_BU = equipo.Procedencia.areas.operations.countries.bu.Id_BU
+            // equipo.Procedencia.areas.SubArea.Id_Areas = equipo.Procedencia.areas.Id_Areas
+            // equipo.Procedencia.line.Id_LineTypes = equipo.Procedencia.line.lineTypes.Id_LineTypes
+            // equipo.ServicesInformation.Id_Equipment = equipo.Id_Equipment
+            // equipo.TechnicalSpecification.Id_Equipment = equipo.Id_Equipment
+            // equipo.FinancialInformation.Id_Equipment = equipo.Id_Equipment
 
-        //     newTechSpec = equipo.TechnicalSpecification.newTechnicalSpecification
+            newTechSpec = equipo.TechnicalSpecification.newTechnicalSpecification
 
-        // });
+        });
 
         //  --------------------------------------------------------------------------------------
 
@@ -347,7 +376,7 @@ export const Excel = ({ item, setItem, setModalInsertarExcel, setGetAllList, get
 
         Excel.map((async (Equipment) => {
 
-            await Axios.post("https://node-gead.herokuapp.com/api/createEquipos", Equipment)
+            await Axios.post("http://localhost:3001/api/createEquipos", Equipment)
 
         }))
 

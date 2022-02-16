@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AppBar, Toolbar, Grid, InputBase, IconButton, Badge, makeStyles } from '@material-ui/core'
+import { AppBar, Toolbar, Grid, InputBase, IconButton, Badge, makeStyles, Typography } from '@material-ui/core'
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
@@ -58,7 +58,7 @@ export default function Header() {
 
 
 
-            <Navbar className={classes.root} light expand="md">
+            <Navbar className={classes.root} style={{ height: "4rem" }} light expand="md">
                 <img src={abinbev} />
 
                 <Grid item sm></Grid>
@@ -70,10 +70,8 @@ export default function Header() {
                 // subTitle="Form design with validation"
                 // icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
                 />
-
+               
                 <Grid item sm></Grid>
-
-
 
 
                 <NavbarToggler onClick={toggle} />
@@ -83,7 +81,7 @@ export default function Header() {
                     <Nav className="ms-auto" navbar>
                         <div className="">
                             {/* <a href='../assets/Manual.pdf' className='btn' style={{color: "blue"}} download="Manual.pdf" title='Descargar proyecto'> Manual <ArrowDownward /></a> */}
-                            <a href='https://anheuserbuschinbev.sharepoint.com/sites/MAZGEAD/GEAD%20manuales/Forms/AllItems.aspx' className='btn' style={{color: "blue"}} title='Descargar proyecto'> Manual </a>
+                            <a href='https://anheuserbuschinbev.sharepoint.com/sites/MAZGEAD/GEAD%20manuales/Forms/AllItems.aspx' className='btn' style={{ color: "blue" }} title='Descargar proyecto'> Manual </a>
                             {/* src/assets/Manual.pdf */}
                         </div>
 

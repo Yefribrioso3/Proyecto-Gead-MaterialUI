@@ -15,7 +15,7 @@ const style = {
         flexDirection: 'column',
         position: 'absolute',
         left: '0px',
-        width: '250px',
+        width: '12.5rem',
         height: '100%',
         backgroundColor: '#253053'
     }
@@ -90,7 +90,7 @@ const SideMenu = ({ getAllList, classes, filtrarBUList, setListAll, listAll }) =
 
         // let counter = 1
         // for (let i = 0; i <= 1; i++) {
-            // setContar(++counter)
+        // setContar(++counter)
 
         //  }
 
@@ -106,7 +106,7 @@ const SideMenu = ({ getAllList, classes, filtrarBUList, setListAll, listAll }) =
     return (
         <div className={`container ${classes.sideMenu}`}>
             <div className={'p-2 mt-5'}>
-                <div>
+                <div style={{ width: "9rem" }}>
                     <Controls.Button
                         variant="outlined"
                         size={"large"}
@@ -117,30 +117,32 @@ const SideMenu = ({ getAllList, classes, filtrarBUList, setListAll, listAll }) =
                         // onChange={(e) => filtrado( e,"MEX" )}
                         onClick={(e) => filtrarBUList("total", 'total', setListAll)}
 
-                        style={{ fontSize: 20, fontWeight: '600' }}
+                        style={{ fontSize: 16, fontWeight: '600' }}
                         text={`Middle Americas: ${contador}`}
                     // Add New
                     >
                     </Controls.Button>
                 </div>
 
-                <Controls.Button
-                    variant="outlined"
-                    size={"large"}
-                    color={"secondary"}
-                    className={` text-white py-2 mt-5 mx-4 px-5 w-75 navbarText`}
-                    // startIcon={<Add style={{ fontSize: 34, fontWeight: '800' }} />}
-                    // onClick={() => filtrado("MEX")}
-                    // onChange={(e) => filtrado( e,"MEX" )}
-                    onClick={(e) => filtrarBUList("MEX")}
+                <div style={{ width: "9rem" }}>
+                    <Controls.Button
+                        variant="outlined"
+                        size={"large"}
+                        color={"secondary"}
+                        className={` text-white py-2 mt-5 mx-4 px-5 w-75 navbarText`}
+                        // startIcon={<Add style={{ fontSize: 34, fontWeight: '800' }} />}
+                        // onClick={() => filtrado("MEX")}
+                        // onChange={(e) => filtrado( e,"MEX" )}
+                        onClick={(e) => filtrarBUList("MEX")}
 
-                    style={{ fontSize: 20, fontWeight: '600' }}
-                    text={`MEX: ${mexCounter}`}
-                // Add New
-                >
-                </Controls.Button>
+                        style={{ fontSize: 20, fontWeight: '600' }}
+                        text={`MEX: ${mexCounter}`}
+                    // Add New
+                    >
+                    </Controls.Button>
+                </div>
 
-
+                <div style={{ width: "9rem" }}> 
                 <Controls.Button
                     variant="outlined"
                     size={"large"}
@@ -157,7 +159,9 @@ const SideMenu = ({ getAllList, classes, filtrarBUList, setListAll, listAll }) =
                 >
                 </Controls.Button>
                 {/* <h4 className={` text-white px-4  w-100 d-inline-block navbarText`}>{mex}</h4> */}
+                </div>
 
+                <div style={{ width: "9rem" }}>
                 <Controls.Button
                     variant="outlined"
                     size={"large"}
@@ -170,7 +174,9 @@ const SideMenu = ({ getAllList, classes, filtrarBUList, setListAll, listAll }) =
                 // Add New
                 >
                 </Controls.Button>
+                </div>
 
+                <div style={{ width: "9rem" }}>
                 <Controls.Button
                     variant="outlined"
                     size={"large"}
@@ -184,7 +190,9 @@ const SideMenu = ({ getAllList, classes, filtrarBUList, setListAll, listAll }) =
                 // Add New
                 >
                 </Controls.Button>
+                </div>
 
+                <div style={{ width: "9rem" }}>
                 <Controls.Button
                     variant="outlined"
                     size={"large"}
@@ -200,7 +208,8 @@ const SideMenu = ({ getAllList, classes, filtrarBUList, setListAll, listAll }) =
                 // Add New
                 >
                 </Controls.Button>
-                
+                </div>
+
             </div>
         </div>
     )

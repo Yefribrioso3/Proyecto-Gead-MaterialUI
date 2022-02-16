@@ -53,7 +53,7 @@ const theme = createTheme({
 
 const useStyles = makeStyles({
     appMain: {
-        paddingLeft: '250px',
+        paddingLeft: '12.5rem',
         width: '100%'
     }
 })

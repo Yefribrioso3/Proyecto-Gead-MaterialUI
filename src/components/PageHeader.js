@@ -43,13 +43,13 @@ export default function PageHeader(props) {
                         >
                         {title}</Typography>
                     <Typography
-                        className={"mt-3"}
+                        // className={"mt-3"}
                         style={{fontSize: 20}}
                         variant="subtitle2"
                         component="div">
                         {subTitle}</Typography>
                     <Typography
-                        className={"mt-3"}
+                        // className={"mt-3"}
                         style={{fontSize: 15}}
                         variant="subtitle2"
                         component="div">

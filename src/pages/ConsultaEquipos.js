@@ -326,20 +326,20 @@ const ConsultaEquipos = () => {
             }
         },
         FinancialInformation: {
-            EquipmentValueInUSD: null,  Activo_fijo:null,
-            Soc:null, Concatenar: null,
-            Clase:null, Centro: null,
-            CodPM: null,  Centro_de_costos: null,
-            Fecha_de_capitalizacion: null,  Valor_Adquirido: null,
-            Amortizacion_acumulada: null, Valor_Contable: null, 
+            EquipmentValueInUSD: null, Activo_fijo: null,
+            Soc: null, Concatenar: null,
+            Clase: null, Centro: null,
+            CodPM: null, Centro_de_costos: null,
+            Fecha_de_capitalizacion: null, Valor_Adquirido: null,
+            Amortizacion_acumulada: null, Valor_Contable: null,
             Cantidad: null, Moneda: null,
-            Tipo: null, Screen: null,  Nom_Clase: null,
-            Nom_Ce: null, Encontrado_SI_NO: null,  Estado_del_Activo: null, Categoria: null,
+            Tipo: null, Screen: null, Nom_Clase: null,
+            Nom_Ce: null, Encontrado_SI_NO: null, Estado_del_Activo: null, Categoria: null,
             Gerencia: null, Codigo_De_Barras: null,
             DI: null, SN: null,
             Depreciacion_acumulada_ajustada: null,
             Tasa_Cambio_contra_dolar: null,
-            Latitud: null, Longitud:null, Period_Time: null, Id_Equipment: null
+            Latitud: null, Longitud: null, Period_Time: null, Id_Equipment: null
         },
         ServicesInformation: {
             Id_ServicesInformation: null,
@@ -378,7 +378,19 @@ const ConsultaEquipos = () => {
             newTechnicalSpecification: [{
                 Id_NewTechSpec: '', Id_TechnicalSpecification: '', Name: "", Value: "",
                 SelectNewTechSpec: { Id_SelectNewTechSpec: '', Id_TechnicalSpecification: '', Id_NewTechSpec: '' }
-            }]
+            }],
+            OptionalTechInfo: {
+                Id_OptionalTechInfo: null, NominalCapacity: null, YearOfConstruction: null,
+                EquipmentCurrentConditionsComments: null,
+                NotesAboutEquipment: null, AssambledDissambled: null,
+                PlantTechnicalInformationContact: null,
+                PlantFinancialInformationContact: null, Width: null, Height: null, Depth: null,
+                ConstructionMaterials: null, ExternalCoating: null, CommunicationProtocol: null,
+                MeasurementVariable: null, ElectricalConsumption: null, ProtectionGrade: null,
+                SanitaryGrade: null, AvailableWarranty: null, RemainingWarrantyYears: null,
+                PeripheralDevicesAccesories: null, WorkingHours: null, LaboratoryEquipment: null,
+                Id_TechnicalSpecification: null
+            }
         }
     })
 
@@ -403,6 +415,19 @@ const ConsultaEquipos = () => {
             }
         ]
     });
+
+    const [optionalTechInfo, setOptionalTechInfo] = useState({
+        Id_OptionalTechInfo: null, NominalCapacity: null, YearOfConstruction: null,
+        EquipmentCurrentConditionsComments: null,
+        NotesAboutEquipment: null, AssambledDissambled: null,
+        PlantTechnicalInformationContact: null,
+        PlantFinancialInformationContact: null, Width: null, Height: null, Depth: null,
+        ConstructionMaterials: null, ExternalCoating: null, CommunicationProtocol: null,
+        MeasurementVariable: null, ElectricalConsumption: null, ProtectionGrade: null,
+        SanitaryGrade: null, AvailableWarranty: null, RemainingWarrantyYears: null,
+        PeripheralDevicesAccesories: null, WorkingHours: null, LaboratoryEquipment: null,
+        Id_TechnicalSpecification: null
+    })
 
     const [areas, setareas] = useState({
         Id_Areas: '', Name: '', Id_Operations: '',
@@ -469,6 +494,7 @@ const ConsultaEquipos = () => {
         // });
         setEditing(false);
         setTechnicalInformation(elemento.TechnicalSpecification)
+        setOptionalTechInfo(elemento.TechnicalSpecification.OptionalTechInfo)
         setServicesInformation(elemento.ServicesInformation)
         setareas(elemento.Procedencia.areas)
 
@@ -881,20 +907,29 @@ const ConsultaEquipos = () => {
                 }, line: { Id_Line: null, number: '', Id_LineTypes: null, lineTypes: { Id_LineTypes: null, Name: '' } }
             },
             FinancialInformation: {
-                EquipmentValueInUSD: null,  Activo_fijo:null, Soc:null, Concatenar: null, Clase:null, Centro: null,
-                CodPM: null,  Centro_de_costos: null, Fecha_de_capitalizacion: null,  Valor_Adquirido: null,
-                Amortizacion_acumulada: null, Valor_Contable: null, Cantidad: null, Moneda: null, Tipo: null, Screen: null,  Nom_Clase: null,
-                Nom_Ce: null, Encontrado_SI_NO: null,  Estado_del_Activo: null, Categoria: null,  Gerencia: null, Codigo_De_Barras: null,
+                EquipmentValueInUSD: null, Activo_fijo: null, Soc: null, Concatenar: null, Clase: null, Centro: null,
+                CodPM: null, Centro_de_costos: null, Fecha_de_capitalizacion: null, Valor_Adquirido: null,
+                Amortizacion_acumulada: null, Valor_Contable: null, Cantidad: null, Moneda: null, Tipo: null, Screen: null, Nom_Clase: null,
+                Nom_Ce: null, Encontrado_SI_NO: null, Estado_del_Activo: null, Categoria: null, Gerencia: null, Codigo_De_Barras: null,
                 DI: null, SN: null, Depreciacion_acumulada_ajustada: null, Tasa_Cambio_contra_dolar: null,
-                Latitud: null, Longitud:null, Period_Time: null, Id_Equipment: null
-            }, 
+                Latitud: null, Longitud: null, Period_Time: null, Id_Equipment: null
+            },
             ServicesInformation: {
                 Id_ServicesInformation: null, DateOfInstallation: '', DateOfDesintallation: '', DesuseReason: '', DesinstallationReason: '', ProcurementOrder: '', Id_Equipment: '',
                 newServicesInformation: []
             }, TechnicalSpecification: {
                 Id_TechnicalSpecification: null, EquipmentType: '', CurrentConditions: '', Weight: '', OEM: '',
                 Description: '', ModelNumber: '', SerialNumber: '', vendor: '', currentWorking: '', Id_Equipment: null,
-                newTechnicalSpecification: []
+                newTechnicalSpecification: [],
+                OptionalTechInfo: {
+                    Id_OptionalTechInfo: null, NominalCapacity: null, YearOfConstruction: null,
+                    EquipmentCurrentConditionsComments: null, NotesAboutEquipment: null, AssambledDissambled: null,
+                    PlantTechnicalInformationContact: null, PlantFinancialInformationContact: null, Width: null, Height: null, Depth: null,
+                    ConstructionMaterials: null, ExternalCoating: null, CommunicationProtocol: null,
+                    MeasurementVariable: null, ElectricalConsumption: null, ProtectionGrade: null, SanitaryGrade: null, AvailableWarranty: null,
+                    RemainingWarrantyYears: null, PeripheralDevicesAccesories: null, WorkingHours: null, LaboratoryEquipment: null,
+                    Id_TechnicalSpecification: null
+                }
             }
         });
 
@@ -918,9 +953,18 @@ const ConsultaEquipos = () => {
                 }
             ]
         });
+        setOptionalTechInfo({
+            Id_OptionalTechInfo: null, NominalCapacity: null, YearOfConstruction: null,
+            EquipmentCurrentConditionsComments: null, NotesAboutEquipment: null, AssambledDissambled: null,
+            PlantTechnicalInformationContact: null, PlantFinancialInformationContact: null, Width: null, Height: null, Depth: null,
+            ConstructionMaterials: null, ExternalCoating: null, CommunicationProtocol: null,
+            MeasurementVariable: null, ElectricalConsumption: null, ProtectionGrade: null, SanitaryGrade: null, AvailableWarranty: null,
+            RemainingWarrantyYears: null, PeripheralDevicesAccesories: null, WorkingHours: null, LaboratoryEquipment: null,
+            Id_TechnicalSpecification: null
+        })
         setLine({
             Id_Line: null, number: '', Id_LineTypes: '',
-        })
+        });
         setnewTechicInformation({
             Id_NewTechSpec: null,
             Id_TechnicalSpecification: null,
@@ -1593,7 +1637,7 @@ const ConsultaEquipos = () => {
                         x.Procedencia.areas.operations.Name.toLowerCase().includes(target.value.toLowerCase()) ||
                         // x.TechnicalSpecification.OEM.toLowerCase().includes(target.value.toLowerCase()) ||
                         x.TechnicalSpecification.SerialNumber.toLowerCase().includes(target.value.toLowerCase()) ||
-                        x.TechnicalSpecification.EquipmentType.toLowerCase().includes(target.value.toLowerCase()) 
+                        x.TechnicalSpecification.EquipmentType.toLowerCase().includes(target.value.toLowerCase())
                     )
             }
         })
@@ -1657,51 +1701,34 @@ const ConsultaEquipos = () => {
             })
         )
 
-
-
-
-
         // const promise = new Promise((resolve, reject) => {
-
         //         const fileReader = new FileReader();
         //         fileReader.readAsArrayBuffer(file)
-
         //         fileReader.onload = (e) => {
         //             const bufferArray = e.target.result;
-
         //             const workbook = XLSX.read(bufferArray, { type: 'buffer' });
-
         //             const workbookSheetsName = workbook.SheetNames[0];
-
         //             const workbookSheet = workbook.Sheets[workbookSheetsName];
-
         //             const data = XLSX.utils.sheet_to_json(workbookSheet);
-
         //             const jData = [];
         //             for (let i = 0; i < data.length; i++) {
         //                 const dato = data[i];
-
         //                 jData.push({
         //                     ...dato,
         //                     Date_of_Installation: formatearFechaExcel(dato.Date_of_Installation),
         //                     Date_of_Desintallation: formatearFechaExcel(dato.Date_of_Desintallation)
         //                 });
         //             }
-
         //             resolve(jData);
         //         };
-
         //         fileReader.onerror = ((error) => {
         //             reject(error);
         //         });
-
         //         // setEditTableExcel(true);
         //     });
-
         // promise.then((d) => {
         //     setItem(d)
         // })
-
     };
 
     function formatearFechaExcel(fechaExcel) {
@@ -1752,7 +1779,7 @@ const ConsultaEquipos = () => {
         {
             field: "serial",
             headerName: "Número de serie",
-            width: 200,
+            width: 180,
             valueGetter: (params) => {
                 return params.row.TechnicalSpecification.SerialNumber;
             }
@@ -1855,7 +1882,6 @@ const ConsultaEquipos = () => {
 
     return (
         <div >
-
             {/* <PageHeader
                 title="Consulta de Equipos"
                 subTitle="Middle America"
@@ -1870,7 +1896,6 @@ const ConsultaEquipos = () => {
                 setListAll={setListAll}
             />
             <Header />
-
 
             <Paper className={classes.pageContent}>
                 {/* <EmployeeForm /> */}
@@ -1907,8 +1932,7 @@ const ConsultaEquipos = () => {
                     {/* -----------------------  Boton para insertar datos desde Excel   ----------------------------------- */}
                     {/* ---------------------------------------------------------------------------------------------------- */}
 
-                    <div id="imagen">
-
+                    {/* <div id="imagen">
                         <input
                             id="icon-button-file"
                             type="file"
@@ -1921,7 +1945,6 @@ const ConsultaEquipos = () => {
                                 readExcels(file);
                                 file = null;
                             }}
-
                         />
 
                         <label htmlFor="icon-button-file">
@@ -1931,8 +1954,7 @@ const ConsultaEquipos = () => {
                                 <Add style={{ fontSize: 34, fontWeight: '800' }} />
                             </IconButton>
                         </label>
-
-                    </div>
+                    </div> */}
 
 
 
@@ -1952,17 +1974,17 @@ const ConsultaEquipos = () => {
 
                 {/* ----------------------------------------------   Tabla de datos     -------------------------------------------- */}
 
-                <div style={{ height: 740, width: "100%", backgroundColor: "white" }}>
+                <div style={{ height: 805, width: "100%", backgroundColor: "white" }}>
                     <DataGrid
                         rows={filterFn.fn(getAllList)}
                         columns={columns}
-                        pageSize={12}
-                        rowsPerPageOptions={[12]}
+                        pageSize={13}
+                        rowsPerPageOptions={[13]}
 
                     />
                 </div>
 
-                <Toolbar>
+                <Toolbar className={"mt-0"}>
                     <PageHeader
                         contador={`${totalEncontrados} results`}
                         style={{ fontSize: 12 }}
@@ -1975,6 +1997,7 @@ const ConsultaEquipos = () => {
                     />
 
                     <PageHeader
+                    
                         subTitle={fecha}
                     />
 
@@ -2042,17 +2065,19 @@ const ConsultaEquipos = () => {
                                             handleSubmit={handleSubmit}
                                             onSubmit={onSubmit}
                                             equipoSeleccionado={equipoSeleccionado}
+                                            setEquipoSeleccionado={setEquipoSeleccionado}
                                             editRow={editRow}
                                             eliminarAddTechInfo={eliminarAddTechInfo}
                                             setEditing={setEditing}
                                             setEditingServiceInfo={setEditingServiceInfo}
                                             servicesInformation={servicesInformation}
-                                            setEquipoSeleccionado={setEquipoSeleccionado}
+                                            setServicesInformation={setServicesInformation}
+                                            optionalTechInfo={optionalTechInfo}
+                                            setOptionalTechInfo={setOptionalTechInfo}
                                             handleChangeServicesInformation={handleChangeServicesInformation}
                                             editingNewServInfo={editingNewServInfo}
                                             seteditingNewServInfo={seteditingNewServInfo}
                                             allAquipmentRelation={allAquipmentRelation}
-                                            setServicesInformation={setServicesInformation}
                                             setnewservInformation={setnewservInformation}
                                             update={update}
                                             id={id}
@@ -2534,17 +2559,17 @@ const ConsultaEquipos = () => {
                                                     onChange={handleChangeOperations}
                                                 >
                                                     <option value="">Seleccionar planta</option>
-                                                    <option value="Barbados">Barbados</option>
-                                                    <option value="Barranquilla">Barranquilla</option>
-                                                    <option value="Boyaca">Boyaca</option>
-                                                    <option value="Bucaramanga">Bucaramanga</option>
+                                                    <option value="BARBADOS">BARBADOS</option>
+                                                    <option value="BARRANQUILLA">BARRANQUILLA</option>
+                                                    <option value="BOYACA">BOYACA</option>
+                                                    <option value="BUCARAMANGA">BUCARAMANGA</option>
                                                     <option value="Fabrica de Tapas de Tocancipa">Fabrica de Tapas de Tocancipa</option>
                                                     <option value="Etiquetas Impresur & Indugral">Etiquetas Impresur & Indugral</option>
-                                                    <option value="Medellín">Medellín</option>
+                                                    <option value="MEDELLIN">MEDELLIN</option>
                                                     <option value="Malteria Tibito">Malteria Tibito</option>
                                                     <option value="Tocancipa">Tocancipa</option>
                                                     <option value="Malteria Tropical">Malteria Tropical</option>
-                                                    <option value="Valle">Valle</option>
+                                                    <option value="VALLE">VALLE</option>
                                                     <option value="Holguin">Holguin</option>
                                                     <option value="Dominicana">Dominicana</option>
                                                     <option value="Hato Nuevo">Hato Nuevo</option>
@@ -2681,13 +2706,14 @@ const ConsultaEquipos = () => {
                                                     <option value="Biological Treatment System">Biological Treatment System</option>
                                                     <option value="Tertiary System">Tertiary System</option>
                                                     <option value="Sanitary Plant">Sanitary Plant</option>
-                                                    <option value="Automation & Industrial Network">Automation & Industrial Network</option>
+                                                    <option value={["Automation & Industrial Network"]}>Automation & Industrial Network</option>
                                                     <option value="Maintenance">Maintenance</option>
                                                     <option value="IT">IT</option>
                                                     <option value="Laboratory">Laboratory</option>
                                                     <option value="Workshop">Workshop</option>
                                                     <option value="Offices">Offices</option>
                                                     <option value="Subproducts">Subproducts</option>
+
 
                                                 </select>
                                             </FormGroup>
