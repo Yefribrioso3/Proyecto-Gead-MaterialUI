@@ -12,7 +12,7 @@ import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import SearchIcon from "@material-ui/icons/Search";
-
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import abinbev from "../assets/abinbev.jpeg";
 
 import {
@@ -38,7 +38,15 @@ import geadlogo from "../assets/Gead.jpeg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    padding: theme.spacing(2),
+    backgroundColor: "transparent",
+    boxShadow: "none",
+  },
+  bar: {
     backgroundColor: "#fff",
+    paddingTop: theme.spacing(5),
+    borderRadius: "12px",
+    boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
   },
   searchInput: {
     opacity: "0.6",
@@ -62,7 +70,7 @@ export default function Header() {
 
   return (
     <AppBar position="static" className={classes.root}>
-      <Navbar className={classes.root} light expand="md">
+      <Navbar className={classes.bar} light expand="md">
         <img src={geadlogo} />
         <PageHeader
           title="Consulta de equipos"
@@ -84,10 +92,8 @@ export default function Header() {
                 download="Manual.pdf"
                 title="Descargar proyecto"
               >
-                {" "}
                 Manual <ArrowDownward />
               </a>
-              {/* src/assets/Manual.pdf */}
             </div>
 
             <UncontrolledDropdown nav inNavbar>
@@ -95,25 +101,11 @@ export default function Header() {
                 Bienvenid@ Admin@admin
               </DropdownToggle>
               <DropdownMenu right>
-                {/* 
-                                <DropdownItem>
-                                    Mi perfil
-                                </DropdownItem> */}
-                {/* <DropdownItem>
-                                    Configuraciones
-                                </DropdownItem> */}
-                {/* <DropdownItem divider /> */}
                 <DropdownItem>
                   <NavLink href="/login" className="text-dark p-0">
-                    Cerrar sesión
+                    Cerrar sesión <ExitToAppIcon />
                   </NavLink>
                 </DropdownItem>
-
-                {/* <LinkContainer to='/coach/addClassroom'>
-                                <DropdownItem>
-                                <button color='primary' className='btn-block'> Add Class </button>
-                                </DropdownItem>
-                                </LinkContainer> */}
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>
