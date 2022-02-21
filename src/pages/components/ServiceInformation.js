@@ -3,10 +3,11 @@ import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import { Button, FormGroup, ModalBody } from 'reactstrap'
 import Axios from 'axios';
-import { TextField } from '@material-ui/core';
+import { IconButton, TextField } from '@material-ui/core';
+import { ArrowDropDown, ArrowDropDownCircleOutlined, ArrowDropUp, Edit } from '@material-ui/icons';
 
 
-const ServiceInformation = ({ casoServInfo, id, editingNewServInfo, optionalTechInfo, setOptionalTechInfo, setnewservInformation, newservInformation, setModalInsertarServiInfo, ModalInsertarServiInfo, seteditingNewServInfo, update, prueba, setPrueba, allAquipmentRelation, handleChangeServicesInformation, servicesInformation, setServicesInformation, equipoSeleccionado, setEquipoSeleccionado, editRow, setEditing, setEditingServiceInfo, editingTechInfo, EditAddServInfo, setEditingTechInfo, techInfoEditado, updateAddServInfo }) => {
+const ServiceInformation = ({ casoServInfo,  setnewservInformation, seteditingNewServInfo, handleChangeServicesInformation, servicesInformation, equipoSeleccionado, editRow, setEditing, setEditingServiceInfo, setEditingTechInfo }) => {
     // casoServInfo, setCasoServInfo
 
 
@@ -153,19 +154,8 @@ const ServiceInformation = ({ casoServInfo, id, editingNewServInfo, optionalTech
                 alert("successfully removed");
             });
     };
-
-
-    const [optionalInfoService, setOptionalInfoService] = useState(false)
-    const [moreOptionalIndo, setMoreOptionalIndo] = useState(false)
-
-    const OptionalInfoService = (value, more) => {
-        setOptionalInfoService(value)
-        setMoreOptionalIndo(more)
-    }
-
-    const MoreOptionalInfo = (value) => {
-        setMoreOptionalIndo(value)
-    }
+    
+    
 
     return (
         <>
@@ -226,310 +216,8 @@ const ServiceInformation = ({ casoServInfo, id, editingNewServInfo, optionalTech
                 </FormGroup>
 
 
-                <hr />
-                {/* -------------------------------         ADD TECHNICAL INFORMATION           ------------------------------------------ */}
-
-                <div className='mb-2'>
-                    <a className='btn ml-0 mr-4 col-4' onClick={() => OptionalInfoService(true)} style={{ display: "inline-flex" }} ><h5 className="text-muted">Información de Servicio Opcional.</h5></a>
-                </div>
-
-                {/* <a className='btn' ><label htmlFor="Name" > <h5 className="text-muted">Agregar más información de servicio:</h5> </label></a> */}
-
-                {
-
-                    optionalInfoService ? (
-                        <>
-                            <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                <TextField
-                                    label="Capacidad Nominal"
-                                    className="form-control"
-                                    variant="outlined"
-                                    name="NominalCapacity"
-                                    value={optionalTechInfo && optionalTechInfo.NominalCapacity}
-                                // onChange={handleChange}
-                                />
-                            </FormGroup>
-
-                            <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                <TextField
-                                    label="Año de Construcción"
-                                    className="form-control"
-                                    variant="outlined"
-                                    name="YearOfConstruction"
-                                    value={optionalTechInfo && optionalTechInfo.YearOfConstruction}
-                                // onChange={handleChange}
-                                />
-                            </FormGroup>
-
-                            <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                <TextField
-                                    label="Montado / Desmontado"
-                                    className="form-control"
-                                    variant="outlined"
-                                    name="AssambledDissambled"
-                                    value={optionalTechInfo && optionalTechInfo.AssambledDissambled}
-                                // onChange={handleChange}
-                                />
-                            </FormGroup>
-
-                            <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                <TextField
-                                    label="Comentarios de las Condiciones Actuales"
-                                    className="form-control"
-                                    variant="outlined"
-                                    name="EquipmentCurrentConditionsComments"
-                                    value={optionalTechInfo && optionalTechInfo.EquipmentCurrentConditionsComments}
-                                // onChange={handleChange}
-                                />
-                            </FormGroup>
-
-                            <FormGroup className="col-12 mt-2 animate__animated animate__fadeInDown">
-                                <TextField
-                                    label="Notas Sobre el Equipo"
-                                    className="form-control"
-                                    variant="outlined"
-                                    name="NotesAboutEquipment"
-                                    value={optionalTechInfo && optionalTechInfo.NotesAboutEquipment}
-                                // onChange={handleChange}
-                                />
-                            </FormGroup>
-
-                            <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                <TextField
-                                    label="Ancho"
-                                    className="form-control"
-                                    variant="outlined"
-                                    name="Width"
-                                    value={optionalTechInfo && optionalTechInfo.Width}
-                                // onChange={handleChange}
-                                />
-                            </FormGroup>
-
-                            <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                {/* Para obtener el correo */}
-                                <TextField
-                                    label="Altura"
-                                    className="form-control"
-                                    variant="outlined"
-                                    name="Height"
-                                    value={optionalTechInfo && optionalTechInfo.Height}
-                                // onChange={handleChange}
-                                />
-                            </FormGroup>
-
-                            <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                {/* Para obtener el correo */}
-                                <TextField
-                                    label="Profundidad"
-                                    className="form-control"
-                                    variant="outlined"
-                                    name="Depth"
-                                    value={optionalTechInfo && optionalTechInfo.Depth}
-                                // onChange={handleChange}
-                                />
-                            </FormGroup>
-
-                            <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                {/* Para obtener el correo */}
-                                <TextField
-                                    label="Protocolo de Comunicación"
-                                    className="form-control"
-                                    variant="outlined"
-                                    name="CommunicationProtocol"
-                                    value={optionalTechInfo && optionalTechInfo.CommunicationProtocol}
-                                // onChange={handleChange}
-                                />
-                            </FormGroup>
-
-                            <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                {/* Para obtener el correo */}
-                                <TextField
-                                    label="Contacto de Información Técnica de la Planta"
-                                    className="form-control"
-                                    variant="outlined"
-                                    name="PlantTechnicalInformationContact"
-                                    value={optionalTechInfo && optionalTechInfo.PlantTechnicalInformationContact}
-                                // onChange={handleChange}
-                                />
-                            </FormGroup>
-
-                            <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                {/* Para obtener el correo */}
-                                <TextField
-                                    label="Contacto de Información Financiera de la Planta"
-                                    className="form-control"
-                                    variant="outlined"
-                                    name="PlantFinancialInformationContact"
-                                    value={optionalTechInfo && optionalTechInfo.PlantFinancialInformationContact}
-                                // onChange={handleChange}
-                                />
-                            </FormGroup>
-
-                            {
-                                moreOptionalIndo ? (
-                                    <>
-                                        <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                            {/* Para obtener el correo */}
-                                            <TextField
-                                                label="Materiales de Construcción"
-                                                className="form-control"
-                                                variant="outlined"
-                                                name="ConstructionMaterials"
-                                                value={optionalTechInfo && optionalTechInfo.ConstructionMaterials}
-
-                                            // onChange={handleChange}
-                                            />
-                                        </FormGroup>
-
-                                        <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                            {/* Para obtener el correo */}
-                                            <TextField
-                                                label="Revestimiento Externo"
-                                                className="form-control"
-                                                variant="outlined"
-                                                name="ExternalCoating"
-                                                value={optionalTechInfo && optionalTechInfo.ExternalCoating}
-                                            // onChange={handleChange}
-                                            />
-                                        </FormGroup>
-
-                                        <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                            {/* Para obtener el correo */}
-                                            <TextField
-                                                label="Variable de Medida"
-                                                className="form-control"
-                                                variant="outlined"
-                                                name="MeasurementVariable"
-                                                value={optionalTechInfo && optionalTechInfo.MeasurementVariable}
-                                            // onChange={handleChange}
-                                            />
-                                        </FormGroup>
-
-                                        <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                            {/* Para obtener el correo */}
-                                            <TextField
-                                                label="Consumo Eléctrico"
-                                                className="form-control"
-                                                variant="outlined"
-                                                name="ElectricalConsumption"
-                                                value={optionalTechInfo && optionalTechInfo.ElectricalConsumption}
-                                            // onChange={handleChange}
-                                            />
-                                        </FormGroup>
-
-                                        <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                            {/* Para obtener el correo */}
-                                            <TextField
-                                                label="Grado de Protección"
-                                                className="form-control"
-                                                variant="outlined"
-                                                name="ProtectionGrade"
-                                                value={optionalTechInfo && optionalTechInfo.ProtectionGrade}
-                                            // onChange={handleChange}
-                                            />
-                                        </FormGroup>
-
-                                        <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                            {/* Para obtener el correo */}
-                                            <TextField
-                                                label="Grado Sanitario"
-                                                className="form-control"
-                                                variant="outlined"
-                                                name="SanitaryGrade"
-                                                value={optionalTechInfo && optionalTechInfo.SanitaryGrade}
-                                            // onChange={handleChange}
-                                            />
-                                        </FormGroup>
-
-                                        <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                            {/* Para obtener el correo */}
-                                            <TextField
-                                                label="Garantía Disponible"
-                                                className="form-control"
-                                                variant="outlined"
-                                                name="AvailableWarranty"
-                                                value={optionalTechInfo && optionalTechInfo.AvailableWarranty}
-                                            // onChange={handleChange}
-                                            />
-                                        </FormGroup>
-
-                                        <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                            {/* Para obtener el correo */}
-                                            <TextField
-                                                label="Años de garantía restantes"
-                                                className="form-control"
-                                                variant="outlined"
-                                                name="RemainingWarrantyYears"
-                                                value={optionalTechInfo && optionalTechInfo.RemainingWarrantyYears}
-                                            // onChange={handleChange}
-                                            />
-                                        </FormGroup>
-
-                                        <FormGroup className="col-12 mt-2 animate__animated animate__fadeInDown">
-                                            {/* Para obtener el correo */}
-                                            <TextField
-                                                label="Accesorios de Dispositivos Periféricos"
-                                                className="form-control"
-                                                variant="outlined"
-                                                name="PeripheralDevicesAccesories"
-                                                value={optionalTechInfo && optionalTechInfo.PeripheralDevicesAccesories}
-                                            // onChange={handleChange}
-                                            />
-                                        </FormGroup>
-
-                                        <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                            {/* Para obtener el correo */}
-                                            <TextField
-                                                label="Horas de trabajo"
-                                                className="form-control"
-                                                variant="outlined"
-                                                name="WorkingHours"
-                                                value={optionalTechInfo && optionalTechInfo.WorkingHours}
-                                            // onChange={handleChange}
-                                            />
-                                        </FormGroup>
-
-                                        <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
-                                            {/* Para obtener el correo */}
-                                            <TextField
-                                                label="Equipo de laboratorio"
-                                                className="form-control"
-                                                variant="outlined"
-                                                name="LaboratoryEquipment"
-                                                value={optionalTechInfo && optionalTechInfo.LaboratoryEquipment}
-                                            // onChange={handleChange}
-                                            />
-                                        </FormGroup>
-
-                                    </>
-                                ) : (
-                                    <>
-
-                                    </>
-                                )
-                            }
-
-                        </>
-                    ) : (
-                        <>
-                        </>
-                    )
-                }
-                {/* ------------------- BOTONES PARA MOSTRAR MAS Y MENOS DATOS ------------------------ */}
-                {
-                    optionalInfoService ? (
-                        <>
-                            <div className='d-flex justify-content-between mb-2 animate__animated animate__fadeInDown'>
-                                <a className='btn ml-0 mr-4 col-4' onClick={() => MoreOptionalInfo(true)} style={{ display: "inline-flex" }} ><h6 className="text-muted">Mostrar más...</h6></a>
-                                <a className='btn ml-0 mr-4 col-4' onClick={() => OptionalInfoService(false, false)} style={{ display: "inline-flex" }} ><h6 className="text-muted">Mostrar menos...</h6></a>
-                            </div>
-
-                        </>
-                    ) : (
-                        <>
-                        </>
-                    )
-                }
+                {/* <hr style={{ width: "97%"}} /> */}
+                
 
 
 
@@ -750,7 +438,7 @@ const ServiceInformation = ({ casoServInfo, id, editingNewServInfo, optionalTech
 
 
                 {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
-                <FormGroup>
+                <FormGroup className='mt-4'>
                     <Button
                         color='secundary'
                         onClick={() => {
@@ -762,6 +450,9 @@ const ServiceInformation = ({ casoServInfo, id, editingNewServInfo, optionalTech
                     >
                         <i className="fas fa-arrow-left"></i>
                     </Button>
+
+                    <i > 3 / 3 </i>
+                    
 
                     <Button
                         color="secundary"

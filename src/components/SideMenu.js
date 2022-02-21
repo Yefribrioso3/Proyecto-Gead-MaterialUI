@@ -105,7 +105,7 @@ const SideMenu = ({ getAllList, classes, filtrarBUList, setListAll, listAll }) =
 
     return (
         <div className={`container ${classes.sideMenu}`}>
-            <div className={'p-2 mt-5'}>
+            <div className={'p-2 pt-4'}>
                 <div style={{ width: "9rem" }}>
                     <Controls.Button
                         variant="outlined"

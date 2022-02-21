@@ -39,6 +39,7 @@ import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 
 import * as XLSX from 'xlsx';
 import { Excel, send } from './components/Excel';
+import { OptionalInfo } from './components/OptionalInfo';
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------
@@ -380,16 +381,16 @@ const ConsultaEquipos = () => {
                 SelectNewTechSpec: { Id_SelectNewTechSpec: '', Id_TechnicalSpecification: '', Id_NewTechSpec: '' }
             }],
             OptionalTechInfo: {
-                Id_OptionalTechInfo: null, NominalCapacity: null, YearOfConstruction: null,
-                EquipmentCurrentConditionsComments: null,
-                NotesAboutEquipment: null, AssambledDissambled: null,
-                PlantTechnicalInformationContact: null,
-                PlantFinancialInformationContact: null, Width: null, Height: null, Depth: null,
-                ConstructionMaterials: null, ExternalCoating: null, CommunicationProtocol: null,
-                MeasurementVariable: null, ElectricalConsumption: null, ProtectionGrade: null,
-                SanitaryGrade: null, AvailableWarranty: null, RemainingWarrantyYears: null,
-                PeripheralDevicesAccesories: null, WorkingHours: null, LaboratoryEquipment: null,
-                Id_TechnicalSpecification: null
+                Id_OptionalTechInfo: "", NominalCapacity: "", YearOfConstruction: "",
+                EquipmentCurrentConditionsComments: "",
+                NotesAboutEquipment: "", AssambledDissambled: "",
+                PlantTechnicalInformationContact: "",
+                PlantFinancialInformationContact: "", Width: "", Height: "", Depth: "",
+                ConstructionMaterials: "", ExternalCoating: "", CommunicationProtocol: "",
+                MeasurementVariable: "", ElectricalConsumption: "", ProtectionGrade: "",
+                SanitaryGrade: "", AvailableWarranty: "", RemainingWarrantyYears: "",
+                PeripheralDevicesAccesories: "", WorkingHours: "", LaboratoryEquipment: "",
+                Id_TechnicalSpecification: ""
             }
         }
     })
@@ -417,15 +418,15 @@ const ConsultaEquipos = () => {
     });
 
     const [optionalTechInfo, setOptionalTechInfo] = useState({
-        Id_OptionalTechInfo: null, NominalCapacity: null, YearOfConstruction: null,
-        EquipmentCurrentConditionsComments: null,
-        NotesAboutEquipment: null, AssambledDissambled: null,
-        PlantTechnicalInformationContact: null,
-        PlantFinancialInformationContact: null, Width: null, Height: null, Depth: null,
-        ConstructionMaterials: null, ExternalCoating: null, CommunicationProtocol: null,
-        MeasurementVariable: null, ElectricalConsumption: null, ProtectionGrade: null,
-        SanitaryGrade: null, AvailableWarranty: null, RemainingWarrantyYears: null,
-        PeripheralDevicesAccesories: null, WorkingHours: null, LaboratoryEquipment: null,
+        Id_OptionalTechInfo: null, NominalCapacity: "", YearOfConstruction: "",
+        EquipmentCurrentConditionsComments: "",
+        NotesAboutEquipment: "", AssambledDissambled: "",
+        PlantTechnicalInformationContact: "",
+        PlantFinancialInformationContact: "", Width: "", Height: "", Depth: "",
+        ConstructionMaterials: "", ExternalCoating: "", CommunicationProtocol: "",
+        MeasurementVariable: "", ElectricalConsumption: "", ProtectionGrade: "",
+        SanitaryGrade: "", AvailableWarranty: "", RemainingWarrantyYears: "",
+        PeripheralDevicesAccesories: "", WorkingHours: "", LaboratoryEquipment: "",
         Id_TechnicalSpecification: null
     })
 
@@ -530,6 +531,18 @@ const ConsultaEquipos = () => {
             ...prevState,
             [name]: value
         }));
+    }
+
+    const handleChangeOptionalInfo = e => {
+        const { name, value } = e.target;
+        console.log(e.target.value)
+
+        setOptionalTechInfo((prevState) => ({
+            ...prevState,
+            [name]: value
+        }));
+
+        console.log(optionalTechInfo)
     }
 
     const handleChangeServicesInformation = e => {
@@ -714,9 +727,10 @@ const ConsultaEquipos = () => {
         equipo.Procedencia.line = line
         equipo.Procedencia.line.lineTypes = lineTypes
         equipo.TechnicalSpecification = technicalInformation
-        equipo.TechnicalSpecification.newTechnicalSpecification = equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification
+        // equipo.TechnicalSpecification.newTechnicalSpecification = equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification
+        equipo.TechnicalSpecification.OptionalTechInfo = optionalTechInfo
         equipo.ServicesInformation = servicesInformation
-        equipo.ServicesInformation.newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
+        // equipo.ServicesInformation.newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
         equipo.Procedencia.Id_Areas = areas.Id_Areas
         equipo.Procedencia.Id_Line = line.Id_Line
 
@@ -735,10 +749,11 @@ const ConsultaEquipos = () => {
                 equipo.Procedencia.line.lineTypes = lineTypes
 
                 equipo.TechnicalSpecification = technicalInformation
-                equipo.TechnicalSpecification.newTechnicalSpecification = equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification
+                // equipo.TechnicalSpecification.newTechnicalSpecification = equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification
+                equipo.TechnicalSpecification.OptionalTechInfo = optionalTechInfo
 
                 equipo.ServicesInformation = servicesInformation
-                equipo.ServicesInformation.newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
+                // equipo.ServicesInformation.newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
 
                 equipo.Procedencia.Id_Areas = areas.Id_Areas
                 equipo.Procedencia.Id_Line = line.Id_Line
@@ -749,14 +764,14 @@ const ConsultaEquipos = () => {
         //  Actualizar datos
         await putEquipment(equipo);
 
-        //  Actualizar todas las inforamciones tecnicas en el DB
-        equipo.TechnicalSpecification.newTechnicalSpecification.map(async NTS => {
-            await updateNewTechSpec(NTS);
-        });
-        //  Actualizar todas informaciones de servicios en el DB
-        equipo.ServicesInformation.newServicesInformation.map(async NSI => {
-            await updateNewServInfo(NSI);
-        });
+        // //  Actualizar todas las inforamciones tecnicas en el DB
+        // equipo.TechnicalSpecification.newTechnicalSpecification.map(async NTS => {
+        //     await updateNewTechSpec(NTS);
+        // });
+        // //  Actualizar todas informaciones de servicios en el DB
+        // equipo.ServicesInformation.newServicesInformation.map(async NSI => {
+        //     await updateNewServInfo(NSI);
+        // });
 
         setGetAllList(NewEquipment);
         setTechInfoEditado(false);
@@ -832,9 +847,36 @@ const ConsultaEquipos = () => {
             vendor: Equipo.TechnicalSpecification.vendor,
             currentWorking: Equipo.TechnicalSpecification.currentWorking,
             Id_Equipment: Equipo.Id_Equipment
+        });
+
+        await Axios.put(`https://node-gead.herokuapp.com/api/optionalTechInfo/${Equipo.TechnicalSpecification.Id_TechnicalSpecification}`, {
+            NominalCapacity: Equipo.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
+            YearOfConstruction: Equipo.TechnicalSpecification.OptionalTechInfo.YearOfConstruction,
+            EquipmentCurrentConditionsComments: Equipo.TechnicalSpecification.OptionalTechInfo.EquipmentCurrentConditionsComments,
+            NotesAboutEquipment: Equipo.TechnicalSpecification.OptionalTechInfo.NotesAboutEquipment,
+            AssambledDissambled: Equipo.TechnicalSpecification.OptionalTechInfo.AssambledDissambled,
+            PlantTechnicalInformationContact: Equipo.TechnicalSpecification.OptionalTechInfo.PlantTechnicalInformationContact,
+            PlantFinancialInformationContact: Equipo.TechnicalSpecification.OptionalTechInfo.PlantFinancialInformationContact,
+            Width: Equipo.TechnicalSpecification.OptionalTechInfo.Width,
+            Height: Equipo.TechnicalSpecification.OptionalTechInfo.Height,
+            Depth: Equipo.TechnicalSpecification.OptionalTechInfo.Depth,
+            ConstructionMaterials: Equipo.TechnicalSpecification.OptionalTechInfo.ConstructionMaterials,
+            ExternalCoating: Equipo.TechnicalSpecification.OptionalTechInfo.ExternalCoating,
+            CommunicationProtocol: Equipo.TechnicalSpecification.OptionalTechInfo.CommunicationProtocol,
+            MeasurementVariable: Equipo.TechnicalSpecification.OptionalTechInfo.MeasurementVariable,
+            ElectricalConsumption: Equipo.TechnicalSpecification.OptionalTechInfo.ElectricalConsumption,
+            ProtectionGrade: Equipo.TechnicalSpecification.OptionalTechInfo.ProtectionGrade,
+            SanitaryGrade: Equipo.TechnicalSpecification.OptionalTechInfo.SanitaryGrade,
+            AvailableWarranty: Equipo.TechnicalSpecification.OptionalTechInfo.AvailableWarranty,
+            RemainingWarrantyYears: Equipo.TechnicalSpecification.OptionalTechInfo.RemainingWarrantyYears,
+            PeripheralDevicesAccesories: Equipo.TechnicalSpecification.OptionalTechInfo.PeripheralDevicesAccesories,
+            WorkingHours: Equipo.TechnicalSpecification.OptionalTechInfo.WorkingHours,
+            LaboratoryEquipment: Equipo.TechnicalSpecification.OptionalTechInfo.LaboratoryEquipment,
+            Id_TechnicalSpecification: Equipo.TechnicalSpecification.Id_TechnicalSpecification
         }).then(() => {
             alert("Successful Updated");
         });
+
 
     };
 
@@ -954,12 +996,12 @@ const ConsultaEquipos = () => {
             ]
         });
         setOptionalTechInfo({
-            Id_OptionalTechInfo: null, NominalCapacity: null, YearOfConstruction: null,
-            EquipmentCurrentConditionsComments: null, NotesAboutEquipment: null, AssambledDissambled: null,
-            PlantTechnicalInformationContact: null, PlantFinancialInformationContact: null, Width: null, Height: null, Depth: null,
-            ConstructionMaterials: null, ExternalCoating: null, CommunicationProtocol: null,
-            MeasurementVariable: null, ElectricalConsumption: null, ProtectionGrade: null, SanitaryGrade: null, AvailableWarranty: null,
-            RemainingWarrantyYears: null, PeripheralDevicesAccesories: null, WorkingHours: null, LaboratoryEquipment: null,
+            Id_OptionalTechInfo: null, NominalCapacity: "", YearOfConstruction: "",
+            EquipmentCurrentConditionsComments: "", NotesAboutEquipment: "", AssambledDissambled: "",
+            PlantTechnicalInformationContact: "", PlantFinancialInformationContact: "", Width: "", Height: "", Depth: "",
+            ConstructionMaterials: "", ExternalCoating: "", CommunicationProtocol: "",
+            MeasurementVariable: "", ElectricalConsumption: "", ProtectionGrade: "", SanitaryGrade: "", AvailableWarranty: "",
+            RemainingWarrantyYears: "", PeripheralDevicesAccesories: "", WorkingHours: "", LaboratoryEquipment: "",
             Id_TechnicalSpecification: null
         })
         setLine({
@@ -2223,164 +2265,31 @@ const ConsultaEquipos = () => {
                                                     onChange={handleChange} />
                                             </FormGroup>
 
-
-                                            <hr />
-                                            {/* -------------------------------         ADD NEW TECHNICAL INFORMATION           ------------------------------------------ */}
-
-                                            { // Condicional para mostrar un formulario u otro
-                                                editingTechInfo ? (
-                                                    <>
-                                                        <EditAddTechInfo
-                                                            technicalSpecEditado={technicalSpecEditado}
-                                                            updateAddTechInfo={updateAddTechInfo}
-                                                        />
-                                                    </>
+                                            <hr style={{ width: "97%"}} />
 
 
-                                                ) : (
-                                                    <>
-                                                        <section className="pb-4 pt-4">
-
-                                                            <form onSubmit={handleSubmit(onSubmitTechSpech)} className="animate__animated animate__fadeIn"  >
-                                                                <label htmlFor="Name" > <h5 className="text-muted">Agregar más información técnica:</h5> </label>
-                                                                <select
-                                                                    className="form-select SelectBoostrap"
-                                                                    name="Name"
-
-                                                                    {...register("Name", {
-                                                                        required: {
-                                                                            value: true,
-                                                                            message: 'Campo requerido'
-                                                                        }
-                                                                    })}
-                                                                >
-                                                                    <option value="">Seleccione información técnica</option>
-                                                                    <option value="Available warranty">Garantía disponible</option>
-                                                                    <option value="Year of construction">Año de construcción</option>
-                                                                    <option value="Sanitary Grade">Grado sanitario</option>
-                                                                    <option value="Emplazam">Emplazam</option>
-                                                                    <option value="Protection Grade">Grado de protección</option>
-                                                                    <option value="Electrical Consumption">Electrical Consumption</option>
-                                                                    <option value="Measurement variable">Measurement variable</option>
-                                                                    <option value="Plant Technical Information Contact">Plant Technical Information Contact</option>
-                                                                    <option value="Disposal Information">Disposal Information</option>
-                                                                    <option value="Equipment Packing">Equipment Packing</option>
-                                                                    <option value="Equipment current conditions comments">Equipment current conditions comments</option>
-                                                                    <option value="Nominal Capacity">Nominal Capacity</option>
-                                                                    <option value="Assambled / Dissambled">Assambled / Dissambled</option>
-                                                                    <option value="Plant Technical Information Contact">Plant Technical Information Contact</option>
-                                                                    <option value="Plant Financial Information Contact">Plant Financial Information Contact</option>
-                                                                    <option value="Communication protocol">Communication protocol</option>
-                                                                    <option value="Current Conditions Comments">Current Conditions Comments</option>
-                                                                    <option value="Notes about equipment">Notes about equipment</option>
-                                                                </select>
-
-                                                                <span className="text-danger text-small d-block mb-2">
-                                                                    {errors.Name && errors.Name.message}
-                                                                </span>
 
 
-                                                                <label htmlFor="Value">Valor <b className="text-danger">*</b></label>
-                                                                <div className="row ">
-                                                                    <div className="col-10">
-                                                                        <input
-                                                                            type="text text-align=center"
-                                                                            className="form-control"
-                                                                            name="Value"
-                                                                            // onChange={handleChange}
-                                                                            // onChange={(e) => e.target.value}
-                                                                            {...register("Value", {
-                                                                                required: {
-                                                                                    value: true,
-                                                                                    message: 'Campo requerido'
-                                                                                }
-                                                                            })}
-                                                                        />
-                                                                        <span className="text-danger text-small d-block mb-2">
-                                                                            {errors.Value && errors.Value.message}
-                                                                        </span>
-                                                                    </div>
+                                            {/* -------------------------------       ADD NEW TECHNICAL INFORMATION FORM       ------------------------------------------ */}
 
-                                                                    {/* -----------------------------    BOtON AGREGAR TECHNICAL INFORMATION    -----------------------  */}
-                                                                    <div className="col-2">
-                                                                        <button className="btn btn-primary" ><span className=" fas fa-save fa-lg"></span></button>
-                                                                    </div>
-                                                                </div>
-                                                                {/* ============== onChange =============== Captura los cambios, lo que el usuario escriba*/}
-                                                            </form>
-                                                        </section>
-                                                    </>
-                                                )
-                                            }
 
-                                            {/* -----------------------------------             TABLE ADD TECHNICAL INFORMATION           ----------------------------------- */}
 
-                                            <FormGroup>
-                                                <table className="table display table-hover table-bordered table-striped">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Información Técnica</th>
-                                                            <th>Valor</th>
-                                                            <th>Acciones</th>
-                                                        </tr>
 
-                                                    </thead>
-                                                    <tbody>
+                                            
+                                            
+                                            <OptionalInfo
+                                                optionalTechInfo={optionalTechInfo} 
+                                                handleChangeOptionalInfo={handleChangeOptionalInfo}
+                                            />
 
-                                                        {
-                                                            equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification.length > 0 ?
-                                                                equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification.map((elemento) => (
-                                                                    <tr key={elemento.Id_NewTechSpec}>
-                                                                        <>
 
-                                                                            {
-                                                                                filaEditada ? (
-                                                                                    <>
-                                                                                        {
-                                                                                            id == elemento.Id_NewTechSpec ? (
-                                                                                                <>
-                                                                                                    < td className=" animate__animated animate__fadeInDown"> {`${elemento.Name}:`}</td>
-                                                                                                    < td className=" animate__animated animate__fadeInDown"> {elemento.Value}</td>
-                                                                                                </>
 
-                                                                                            ) : (
-                                                                                                <>
-                                                                                                    < td > {`${elemento.Name}:`}</td>
-                                                                                                    < td > {elemento.Value}</td>
-                                                                                                </>
-                                                                                            )
-                                                                                        }
-                                                                                    </>
 
-                                                                                ) : (
-
-                                                                                    <>
-                                                                                        < td > {`${elemento.Name}:`}</td>
-                                                                                        < td > {elemento.Value}</td>
-                                                                                    </>
-                                                                                )
-                                                                            }
-
-                                                                            <td> <Button color="primary" onClick={() => editarTechSpec(elemento, 'technical')} >
-                                                                                <i className="far fa-edit button_icon"></i></Button> {"  "}
-
-                                                                                < Button color="danger" onClick={() => eliminarAddTechInfo(elemento.Id_NewTechSpec)}>
-                                                                                    <i className="fas fa-trash-alt button_icon"></i> </Button>
-                                                                            </td>
-                                                                        </>
-                                                                    </tr>
-
-                                                                )) : (
-                                                                    <tr>
-                                                                        <td colSpan={3}>No data recorded</td>
-                                                                    </tr>
-                                                                )
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </FormGroup>
-
+                                            
+                                            
+                                            
                                             {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
+                                            
                                             <FormGroup>
                                                 <Button
                                                     color='secundary'
@@ -2422,8 +2331,6 @@ const ConsultaEquipos = () => {
 
                             <ModalBody className="row text-align-center  animate__animated animate__fadeIn" >
 
-
-
                                 {/* //-------------------------------------   BOTON DE VISUALIZAR Y Descargar PDF   ------------------------------ */}
                                 <FormGroup >
 
@@ -2432,7 +2339,6 @@ const ConsultaEquipos = () => {
                                         setdescargarPdf(!descargarPdf)
                                     }} > {descargarPdf ? "Ocultar PDF" : "Visualizar PDF"} </Button>
                                     {/* -------------------------------------------------------------------------------------- */}
-
 
 
                                     {/* -------------------------   BOTON PARA DESCARGAR PDF    ----------------------------- */}
@@ -2471,14 +2377,6 @@ const ConsultaEquipos = () => {
                                                 />
                                             </PDFViewer>
                                         </ModalBody>
-
-
-
-
-
-
-
-
 
 
                                     </>
@@ -2559,53 +2457,53 @@ const ConsultaEquipos = () => {
                                                     onChange={handleChangeOperations}
                                                 >
                                                     <option value="">Seleccionar planta</option>
+                                                    <option value="APAN">APAN</option>
                                                     <option value="BARBADOS">BARBADOS</option>
                                                     <option value="BARRANQUILLA">BARRANQUILLA</option>
                                                     <option value="BOYACA">BOYACA</option>
                                                     <option value="BUCARAMANGA">BUCARAMANGA</option>
-                                                    <option value="Fabrica de Tapas de Tocancipa">Fabrica de Tapas de Tocancipa</option>
-                                                    <option value="Etiquetas Impresur & Indugral">Etiquetas Impresur & Indugral</option>
+                                                    <option value="FABRICA DE TAPAS DE TOCANCIPA">FABRICA DE TAPAS DE TOCANCIPA</option>
+                                                    <option value="ETIQUETAS IMPRESUR & INDUGRAL">ETIQUETAS IMPRESUR & INDUGRAL</option>
                                                     <option value="MEDELLIN">MEDELLIN</option>
-                                                    <option value="Malteria Tibito">Malteria Tibito</option>
-                                                    <option value="Tocancipa">Tocancipa</option>
-                                                    <option value="Malteria Tropical">Malteria Tropical</option>
+                                                    <option value="MALTERIA TIBITO">MALTERIA TIBITO</option>
+                                                    <option value="TONCACIPA">TONCACIPA</option>
+                                                    <option value="MALTERIA TROPICAL">MALTERIA TROPICAL</option>
                                                     <option value="VALLE">VALLE</option>
-                                                    <option value="Holguin">Holguin</option>
-                                                    <option value="Dominicana">Dominicana</option>
-                                                    <option value="Hato Nuevo">Hato Nuevo</option>
-                                                    <option value="Guayaquil">Guayaquil</option>
-                                                    <option value="Quito">Quito</option>
-                                                    <option value="Malteria de Guayaquil">Malteria de Guayaquil</option>
-                                                    <option value="La Constancia Beer">La Constancia Beer</option>
-                                                    <option value="El Salvador CSD">El Salvador CSD</option>
-                                                    <option value="La Constancia Walter">La Constancia Walter</option>
-                                                    <option value="Zacapa">Zacapa</option>
-                                                    <option value="San Pedro Sula Beer">San Pedro Sula Beer</option>
-                                                    <option value="San Pedro Sula CSD">San Pedro Sula CSD</option>
-                                                    <option value="Apan">Apan</option>
-                                                    <option value="Cebadas y Maltas">Cebadas y Maltas</option>
-                                                    <option value="Guadalajara">Guadalajara</option>
-                                                    <option value="Malteria Zacatecas">Malteria Zacatecas</option>
-                                                    <option value="Mazatlán">Mazatlán</option>
-                                                    <option value="Modelo México">Modelo México</option>
-                                                    <option value="Salamanca (Casal)">Salamanca (Casal)</option>
-                                                    <option value="Torreón">Torreón</option>
-                                                    <option value="Tuxtepec">Tuxtepec</option>
-                                                    <option value="Yucatan">Yucatan</option>
-                                                    <option value="Zacatecas">Zacatecas</option>
-                                                    <option value="Cucapá (Craft)">Cucapá (Craft)</option>
-                                                    <option value="Pasadena">Pasadena</option>
-                                                    <option value="Arequipa">Arequipa</option>
-                                                    <option value="Ate">Ate</option>
-                                                    <option value="Cusco">Cusco</option>
-                                                    <option value="Huachipa">Huachipa</option>
-                                                    <option value="Malteria de Lima">Malteria de Lima</option>
+                                                    <option value="HOLGUIN">HOLGUIN</option>
+                                                    <option value="DOMINICANA">DOMINICANA</option>
+                                                    <option value="HATO NUEVO">HATO NUEVO</option>
+                                                    <option value="GUAYAQUIL">GUAYAQUIL</option>
+                                                    <option value="QUITO">QUITO</option>
+                                                    <option value="MALTERIA DE GUAYAQUIL">MALTERIA DE GUAYAQUIL</option>
+                                                    <option value="LA CONSTANCIA BEER">LA CONSTANCIA BEER</option>
+                                                    <option value="EL SALVADOR CSD">EL SALVADOR CSD</option>
+                                                    <option value="LA CONSTANCIA WALTER">LA CONSTANCIA WALTER</option>
+                                                    <option value="ZACAPA">ZACAPA</option>
+                                                    <option value="SAN PEDRO SULA BEER">SAN PEDRO SULA BEER</option>
+                                                    <option value="SAN PEDRO SULA CSD">SAN PEDRO SULA CSD</option>
+                                                    <option value="CEBADAS Y MALTAS">CEBADAS Y MALTAS</option>
+                                                    <option value="GUADALAJARA">GUADALAJARA</option>
+                                                    <option value="MALTERIA ZACATECAS">MALTERIA ZACATECAS</option>
+                                                    <option value="MAZATLÁN">MAZATLÁN</option>
+                                                    <option value="MODELO MÉXICO">MODELO MÉXICO</option>
+                                                    <option value="SALAMANCA (CASAL)">SALAMANCA (CASAL)</option>
+                                                    <option value="TORREÓN">TORREÓN</option>
+                                                    <option value="TUXTEPEC">TUXTEPEC</option>
+                                                    <option value="YUCATAN">YUCATAN</option>
+                                                    <option value="ZACATECAS">ZACATECAS</option>
+                                                    <option value="CUCAPÁ (CRAFT)">CUCAPÁ (CRAFT)</option>
+                                                    <option value="PASADENA">PASADENA</option>
+                                                    <option value="AREQUIPA">AREQUIPA</option>
+                                                    <option value="ATE">ATE</option>
+                                                    <option value="CUSCO">CUSCO</option>
+                                                    <option value="HUACHIPA">HUACHIPA</option>
+                                                    <option value="MALTERIA DE LIMA">MALTERIA DE LIMA</option>
                                                     <option value="Motupe">Motupe</option>
-                                                    <option value="San Juan (Pucallpa)">San Juan (Pucallpa)</option>
-                                                    <option value="San Mateo (Huarochiri)">San Mateo (Huarochiri)</option>
-                                                    <option value="Barbarian (Craft)">Barbarian (Craft)</option>
-                                                    <option value="Saint Vincent">Saint Vincent</option>
-                                                    <option value="Bogotá Brewery Company (Craft)">Bogotá Brewery Company (Craft)</option>
+                                                    <option value="SAN JUAN (PUCALLPA)">SAN JUAN (PUCALLPA)</option>
+                                                    <option value="SAN MATEO (HUAROCHIRI)">SAN MATEO (HUAROCHIRI)</option>
+                                                    <option value="BARBARIAN (CRAFT)">BARBARIAN (CRAFT)</option>
+                                                    <option value="SAINT VINCENT">SAINT VINCENTt</option>
+                                                    <option value="BOGOTÁ BREWERY COMPANY (CRAFT)">BOGOTÁ BREWERY COMPANY (CRAFT)</option>
                                                 </select>
                                             </FormGroup>
 
@@ -2624,6 +2522,7 @@ const ConsultaEquipos = () => {
                                                     <option value="Pet">Pet</option>
                                                     <option value="Keg">Keg</option>
                                                     <option value="Special Keg">Special Keg</option>
+                                                    <option value="Other">Other</option>
                                                 </select>
                                             </FormGroup>
 
@@ -2637,18 +2536,18 @@ const ConsultaEquipos = () => {
                                                     onChange={handleChangeCountries}
                                                 >
                                                     <option value="">Seleccionar País</option>
-                                                    <option value="Barbados">Barbados</option>
-                                                    <option value="Colombia">Colombia</option>
-                                                    <option value="Cuba">Cuba</option>
-                                                    <option value="Dominicana">Dominicana</option>
-                                                    <option value="Ecuador">Ecuador</option>
-                                                    <option value="El Salvador">El Salvador</option>
-                                                    <option value="Guatemala">Guatemala</option>
-                                                    <option value="Honduras">Honduras</option>
-                                                    <option value="México">México</option>
-                                                    <option value="Panamá">Panamá</option>
-                                                    <option value="Perú">Perú</option>
-                                                    <option value="Saint Vincent">Saint Vincent</option>
+                                                    <option value="BARBADOS">BARBADOS</option>
+                                                    <option value="COLOMBIA">COLOMBIA</option>
+                                                    <option value="CUBA">CUBA</option>
+                                                    <option value="DOMINICANA">DOMINICANA</option>
+                                                    <option value="ECUADOR">ECUADOR</option>
+                                                    <option value="EL SALVADOR">EL SALVADOR</option>
+                                                    <option value="GUATEMALA">GUATEMALA</option>
+                                                    <option value="HONDURAS">HONDURAS</option>
+                                                    <option value="MÉXICO">MÉXICO</option>
+                                                    <option value="PANAMA">PANAMA</option>
+                                                    <option value="PERÚ">PERÚ</option>
+                                                    <option value="SAINT VINCENT">SAINT VINCENT</option>
                                                 </select>
                                             </FormGroup>
 
@@ -2669,7 +2568,6 @@ const ConsultaEquipos = () => {
                                                 </select>
                                             </FormGroup>
 
-
                                             <FormGroup className="col-6">
                                                 <label htmlFor="area">Área:<b className="text-danger">*</b></label>
                                                 <select
@@ -2679,45 +2577,43 @@ const ConsultaEquipos = () => {
                                                     onChange={handleChangeAreas}
                                                 >
                                                     <option value="">Seleccionar Área</option>
-                                                    <option value="General Services">General Services</option>
-                                                    <option value="Silos">Silos</option>
-                                                    <option value="Milling">Milling</option>
-                                                    <option value="Brewhouse">Brewhouse</option>
-                                                    <option value="Fermentation">Fermentation</option>
-                                                    <option value="Maturation">Maturation</option>
-                                                    <option value="Centrifuge">Centrifuge</option>
-                                                    <option value="Filtration">Filtration</option>
-                                                    <option value="Dilution Water">Dilution Water</option>
-                                                    <option value="Bright Beer Tanks">Bright Beer Tanks</option>
-                                                    <option value="Packaging">Packaging</option>
-                                                    <option value="Chemical Island & CIP">Chemical Island & CIP</option>
-                                                    <option value="Syrup House">Syrup House</option>
-                                                    <option value="Logistic Tier 1">Logistic Tier 1</option>
-                                                    <option value="Logistic Tier 2">Logistic Tier 2</option>
-                                                    <option value="CO2 Recovery">CO2 Recovery</option>
-                                                    <option value="Refrigeration">Refrigeration</option>
-                                                    <option value="Wells">Wells</option>
-                                                    <option value="Water Treatment Plant">Water Treatment Plant</option>
-                                                    <option value="Compressed Air">Compressed Air</option>
-                                                    <option value="Electrical Substation (HV)">Electrical Substation (HV)</option>
-                                                    <option value="Electrical Substation (MV)">Electrical Substation (MV)</option>
-                                                    <option value="Electrical Substation (LV)">Electrical Substation (LV)</option>
-                                                    <option value="Steam Generation">Steam Generation</option>
-                                                    <option value="Biological Treatment System">Biological Treatment System</option>
-                                                    <option value="Tertiary System">Tertiary System</option>
-                                                    <option value="Sanitary Plant">Sanitary Plant</option>
-                                                    <option value={["Automation & Industrial Network"]}>Automation & Industrial Network</option>
-                                                    <option value="Maintenance">Maintenance</option>
+                                                    <option value="GENERAL SERVICES">GENERAL SERVICES</option>
+                                                    <option value="SILOS">SILOS</option>
+                                                    <option value="MILLING">MILLING</option>
+                                                    <option value="BREWHOUSE">BREWHOUSE</option>
+                                                    <option value="BREWING">BREWING</option>
+                                                    <option value="FERMENTATION">FERMENTATION</option>
+                                                    <option value="MATURATION">MATURATION</option>
+                                                    <option value="CENTRIFUGE">CENTRIFUGE</option>
+                                                    <option value="FILTRATION">FILTRATION</option>
+                                                    <option value="DILUTION WATER">DILUTION WATER</option>
+                                                    <option value="BRIGHT BEER TANKS">BRIGHT BEER TANKS</option>
+                                                    <option value="PACKAGING">PACKAGING</option>
+                                                    <option value="CHEMICAL ISLAND & CIP">CHEMICAL ISLAND & CIP</option>
+                                                    <option value="SYRUP HOUSE">SYRUP HOUSE</option>
+                                                    <option value="LOGISTIC TIER 1">LOGISTIC TIER 1</option>
+                                                    <option value="LOGISTIC TIER 2">LOGISTIC TIER 2</option>
+                                                    <option value="CO2 RECOVERY">CO2 RECOVERY</option>
+                                                    <option value="REFRIGERATION">REFRIGERATION</option>
+                                                    <option value="WELLS">WELLS</option>
+                                                    <option value="WATER TREATMENT PLANT">WATER TREATMENT PLANT</option>
+                                                    <option value="COMPRESSED AIR">COMPRESSED AIR</option>
+                                                    <option value="ELECTRICAL SUBSTATION (HV)">ELECTRICAL SUBSTATION (HV)</option>
+                                                    <option value="ELECTRICAL SUBSTATION (MV)">ELECTRICAL SUBSTATION (MV)</option>
+                                                    <option value="ELECTRICAL SUBSTATION (LV)">ELECTRICAL SUBSTATION (LV)</option>
+                                                    <option value="STEAM GENERATION">STEAM GENERATION</option>
+                                                    <option value="BIOLOGICAL TREATMENT SYSTEM">BIOLOGICAL TREATMENT SYSTEM</option>
+                                                    <option value="TERTIARY SYSTEM">TERTIARY SYSTEM</option>
+                                                    <option value="SANITARY PLANT">SANITARY PLANT</option>
+                                                    <option value={["AUTOMATION & INDUSTRIAL NETWORK"]}>AUTOMATION & INDUSTRIAL NETWORK</option>
+                                                    <option value="MAINTENANCE">MAINTENANCE</option>
                                                     <option value="IT">IT</option>
-                                                    <option value="Laboratory">Laboratory</option>
-                                                    <option value="Workshop">Workshop</option>
-                                                    <option value="Offices">Offices</option>
-                                                    <option value="Subproducts">Subproducts</option>
-
-
+                                                    <option value="LABORATORY">LABORATORY</option>
+                                                    <option value="WORKSHOP">WORKSHOP</option>
+                                                    <option value="OFFICES">OFFICES</option>
+                                                    <option value="SUBPRODUCTS">SUBPRODUCTS</option>
                                                 </select>
                                             </FormGroup>
-
 
                                             <FormGroup className="col-6">
                                                 <label htmlFor="Subarea">Subárea <b className="text-danger">*</b></label>
@@ -2728,12 +2624,13 @@ const ConsultaEquipos = () => {
                                                     onChange={handleChangeSubArea}
                                                 >
                                                     <option value="">Seleccionar Subárea</option>
-                                                    <option value="Wort Kettle">Wort Kettle</option>
-                                                    <option value="Torre de Molienda ">Torre de Molienda </option>
-                                                    <option value="Cocimientos">Cocimientos</option>
+                                                    <option value="WORT KETTLE">WORT KETTLE</option>
+                                                    <option value="TORRE DE MOLIENDA">TORRE DE MOLIENDA</option>
+                                                    <option value="CONOCIMIENTOS">CONOCIMIENTOS</option>
                                                     <option value="BAGAZO/SYE">BAGAZO/SYE</option>
-                                                    <option value="Bloque Frio">Bloque Frio</option>
-                                                    <option value="No data available">No data available</option>
+                                                    <option value="BLOQUE FRIO">BLOQUE FRIO</option>
+                                                    <option value="GENERAL">GENERAL</option>
+                                                    <option value="NO DATA AVAILABLE">No data available</option>
                                                 </select>
                                             </FormGroup>
 
@@ -3158,10 +3055,21 @@ const ConsultaEquipos = () => {
 
 
 
-                                            <hr />
-                                            {/* -------------------------------         ADD TECHNICAL INFORMATION           ------------------------------------------ */}
+                                            <hr style={{ width: "97%"}} />
+                                            {/* -------------------------------         ADD TECHNICAL INFORMATION FORM           ------------------------------------------ */}
 
-                                            { // Condicional para mostros un formulaio u otro
+
+                                            <OptionalInfo 
+                                                optionalTechInfo={optionalTechInfo} 
+                                                handleChangeOptionalInfo={handleChangeOptionalInfo}
+                                            />
+
+
+
+
+
+
+                                            {/* { // Condicional para mostros un formulaio u otro
                                                 editingTechInfo ? (
                                                     <>
                                                         <EditAddTechInfo
@@ -3236,18 +3144,17 @@ const ConsultaEquipos = () => {
 
                                                                     </div>
 
-                                                                    {/* -----------------------------    BOtON AGREGAR TECHNICAL INFORMATION    -----------------------  */}
+                                                                    -----------------------------    BOtON AGREGAR TECHNICAL INFORMATION    ----------------------- 
                                                                     <div className="col-2">
                                                                         <button className="btn btn-primary" ><span className=" fas fa-save fa-lg"></span></button>
                                                                     </div>
                                                                 </div>
-                                                                {/* ============== onChange =============== Captura los cambios, lo que el usuario escriba*/}
                                                             </form>
                                                         </section>
                                                     </>
                                                 )
                                             }
-                                            {/* -----------------------------------             TABLE ADD TECHNICAL INFORMATION           ----------------------------------- */}
+                                            -----------------------------------             TABLE ADD TECHNICAL INFORMATION           -----------------------------------
 
                                             <FormGroup>
                                                 <table className="table display table-hover table-bordered table-striped">
@@ -3308,11 +3215,10 @@ const ConsultaEquipos = () => {
                                                                     </tr>
                                                                 )
                                                         }
-                                                        {/* No hay datos registrados */}
                                                     </tbody>
                                                 </table>
 
-                                            </FormGroup>
+                                            </FormGroup> */}
 
 
                                             {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
@@ -3323,6 +3229,8 @@ const ConsultaEquipos = () => {
                                                 >
                                                     <i className="fas fa-arrow-left"></i>
                                                 </Button>
+
+                                                <i > 2 / 3 </i>
 
                                                 <Button
                                                     color="secundary"
@@ -3712,13 +3620,15 @@ const ConsultaEquipos = () => {
                                     </FormGroup> */}
 
                                     {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
-                                    <FormGroup>
+                                    <FormGroup className='mt-2'>
                                         <Button
                                             color='secundary'
                                             onClick={() => setEditing(false)}
                                         >
                                             <i className="fas fa-arrow-left"></i>
                                         </Button>
+
+                                        <i > 1 / 3 </i>
 
                                         <Button
                                             color="secundary"
