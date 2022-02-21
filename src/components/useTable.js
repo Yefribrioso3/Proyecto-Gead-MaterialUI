@@ -8,6 +8,23 @@ import {
   TablePagination,
   TableSortLabel,
 } from "@material-ui/core";
+import { createTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#B3C8FC",
+      light: "#E6FBFF",
+      dark: "#8297C9",
+    },
+    secondary: {
+      main: "#6200EE",
+      light: "#8F6CFF",
+      dark: "#14149A",
+    },
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -15,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     "& thead th": {
       fontWeight: "600",
       fontSize: 18,
-      color: theme.palette.primary.main,
+      color: theme.palette.primary,
       backgroundColor: theme.palette.primary.light,
     },
     "& tbody td": {
@@ -53,30 +70,32 @@ export default function useTable(records, headCells, filterFn) {
     };
 
     return (
-      <TableHead>
-        <TableRow>
-          {headCells.map((headCell) => (
-            <TableCell
-              key={headCell.id}
-              sortDirection={orderBy === headCell.id ? order : false}
-            >
-              {headCell.disableSorting ? (
-                headCell.label
-              ) : (
-                <TableSortLabel
-                  active={orderBy === headCell.id}
-                  direction={orderBy === headCell.id ? order : "asc"}
-                  onClick={() => {
-                    handleSortRequest(headCell.id);
-                  }}
-                >
-                  {headCell.label}
-                </TableSortLabel>
-              )}
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
+      <ThemeProvider theme={theme}>
+        <TableHead>
+          <TableRow>
+            {headCells.map((headCell) => (
+              <TableCell
+                key={headCell.id}
+                sortDirection={orderBy === headCell.id ? order : false}
+              >
+                {headCell.disableSorting ? (
+                  headCell.label
+                ) : (
+                  <TableSortLabel
+                    active={orderBy === headCell.id}
+                    direction={orderBy === headCell.id ? order : "asc"}
+                    onClick={() => {
+                      handleSortRequest(headCell.id);
+                    }}
+                  >
+                    {headCell.label}
+                  </TableSortLabel>
+                )}
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+      </ThemeProvider>
     );
   };
 

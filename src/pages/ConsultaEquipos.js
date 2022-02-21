@@ -84,11 +84,14 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "auto",
   },
 
-  tololbar: {
+  toolbar: {
     justifyContent: "spacing",
   },
+  button: {
+    backgroundColor: theme.palette.secondary,
+  },
   fecha: {
-    color: theme.palette.primary.main,
+    color: theme.palette.primary,
     fontWeight: "300",
     fontSize: 20,
   },
@@ -96,8 +99,7 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    color: theme.palette.primary.main,
   },
   body: {
     fontSize: 14,
@@ -3025,7 +3027,7 @@ const ConsultaEquipos = () => {
                         <FormGroup className="row justify-content-between align-items-center">
                           <Grid xs={4} className="d-flex justify-content-start">
                             <Button
-                              color="secundary"
+                              color="secondary"
                               className="d-none"
                               onClick={() => setEditing(false)}
                             >
@@ -3050,7 +3052,7 @@ const ConsultaEquipos = () => {
                           </Grid>
                           <Grid xs={4} className="d-flex justify-content-end">
                             <Button
-                              color="secundary"
+                              color="secondary"
                               onClick={() => {
                                 setEditing(true);
                                 setEditingTechInfo(false);
@@ -3137,7 +3139,6 @@ const ConsultaEquipos = () => {
           <ModalHeader>
             <div>
               <h1>Nuevo Registro</h1>
-              <h6>Detalles Generales</h6>
             </div>
           </ModalHeader>
 
@@ -3574,6 +3575,9 @@ const ConsultaEquipos = () => {
             ) : (
               <div>
                 {/* -----------------------------------           Insertar Registros        ------------------------------------------- */}
+                <div>
+                  <h6>Detalles Generales</h6>
+                </div>
                 <form>
                   <ModalBody className="row text-align-center justify-content-center animate__animated animate__fadeIn">
                     <FormGroup>
@@ -4054,6 +4058,7 @@ const ConsultaEquipos = () => {
             <Button
               variant="outlined"
               color="danger"
+              color="secondary"
               onClick={() => {
                 setModalInsertar(false);
                 seteditingNewServInfo(true);
@@ -4067,7 +4072,7 @@ const ConsultaEquipos = () => {
             </Button>
             <Button
               variant="contained"
-              color="primary"
+              color="secondary"
               type="submit"
               onClick={() => insertar()}
             >

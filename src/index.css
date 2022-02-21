@@ -16,43 +16,6 @@
   
 
 
-
-
-
-
-
-/* #paginacion {
-    border: 1px solid #CCC;
-    background-color: #E0E0E0;
-    padding: .5em;
-    overflow: hidden;
-} */
-
-
-
-/* .bgra-fondo{
-
-    -webkit-box-shadow: 0 15px 30px 0 rgba(0,0,0,0.3);
-    box-shadow: 0 10px 15px 0 rgba(5, 128, 200, 0.3);
-} */
-
-/* .bgra-fondoFooter{
-    -webkit-box-shadow: 0 15px 30px 0 rgba(0,0,0,0.3);
-    box-shadow: 0 -10px 15px 0 rgba(5, 128, 200, 0.3);
-} */
-
-
-
-/*   
-.derecha{ 
-    float: right;
-}
-
-.izquierda{
-    float: left; 
-} */
-
-
 .principal{
     align-items: center;
     display: flex;
@@ -72,16 +35,6 @@
     padding: 40px;
 }
 
-/* .containerPrincipal{
-    position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        border: 1px solid blue;
-        padding: 40px;
-        background-color: white;
-} 
-*/
 .countainerLogin{
     text-align: center;
 } 
@@ -377,25 +330,7 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
 
 
   
-/* input[type=text], select {
-    background-color: #f6f6f6 !important;
-    border: none !important;
-    color: #0d0d0d !important;
-    padding: 15px 32px 15px 32px !important;
-    text-decoration: none !important;
-    display: inline-block !important;;
-    font-size: 16px !important;
-    margin: 5px !important;
-    border: 2px solid #f6f6f6 !important;
-    -webkit-transition: all 0.5s ease-in-out !important;
-    -moz-transition: all 0.5s ease-in-out !important;
-    -ms-transition: all 0.5s ease-in-out !important;
-    -o-transition: all 0.5s ease-in-out !important;
-    transition: all 0.5s ease-in-out !important;
-    -webkit-border-radius: 5px 5px 5px 5px !important;
-    border-radius: 5px 5px 5px 5px !important;
-    
-} */
+
   
 input[type=text]:focus, select:focus {
     background-color: #fff !important;

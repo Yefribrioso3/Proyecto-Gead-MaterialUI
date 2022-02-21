@@ -9,6 +9,23 @@ import { Grid } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import AddIcon from "@material-ui/icons/Add";
 //
+import { createTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#B3C8FC",
+      light: "#E6FBFF",
+      dark: "#8297C9",
+    },
+    secondary: {
+      main: "#6200EE",
+      light: "#8F6CFF",
+      dark: "#14149A",
+    },
+  },
+});
 const ServiceInformation = ({
   casoServInfo,
   id,
@@ -190,7 +207,7 @@ const ServiceInformation = ({
   };
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <div className="p-3">
         <h4 className="text-muted">Services Information</h4>
       </div>
@@ -259,248 +276,6 @@ const ServiceInformation = ({
         </FormGroup>
 
         <hr />
-        {/* -------------------------------         ADD TECHNICAL INFORMATION           ------------------------------------------ */}
-
-        {
-          // Condicional para mostros un formulaio u otro
-          editingTechInfo ? (
-            <>
-              <EditAddServInfo
-                techInfoEditado={techInfoEditado}
-                updateAddServInfo={updateAddServInfo}
-                setEditingTechInfo={setEditingTechInfo}
-              />
-            </>
-          ) : (
-            <>
-              <section className="pb-4 pt-4">
-                <form
-                  onSubmit={handleSubmit(onSubmit)}
-                  className="animate__animated animate__fadeIn"
-                >
-                  <label htmlFor="Name">
-                    {" "}
-                    <h5 className="text-muted">
-                      Add Service Information:
-                    </h5>{" "}
-                  </label>
-                  <select
-                    className="form-select SelectBoostrap"
-                    name="Name"
-                    {...register("Name", {
-                      required: {
-                        value: true,
-                        message: "Campo requerido",
-                      },
-                    })}
-                  >
-                    <option value="">Select</option>
-                    <option value="Available warranty">
-                      Available warranty
-                    </option>
-                  </select>
-
-                  <span className="text-danger text-small d-block mb-2">
-                    {errors.Name && errors.Name.message}
-                  </span>
-
-                  <label htmlFor="Value">
-                    Value <b className="text-danger">*</b>
-                  </label>
-                  <div className="row ">
-                    <div className="col-10">
-                      <input
-                        type="text text-align=center"
-                        className="form-control"
-                        name="Value"
-                        // onChange={handleChange}
-                        // onChange={(e) => e.target.value}
-                        {...register("Value", {
-                          required: {
-                            value: true,
-                            message: "Campo requerido",
-                          },
-                        })}
-                      />
-                      <span className="text-danger text-small d-block mb-2">
-                        {errors.Value && errors.Value.message}
-                      </span>
-                    </div>
-
-                    {/* -----------------------------    BOtON AGREGAR TECHNICAL INFORMATION    -----------------------  */}
-                    <div className="col-2">
-                      <button className="btn btn-primary">
-                        <AddIcon />
-                      </button>
-                    </div>
-                  </div>
-                  {/* ============== onChange =============== Captura los cambios, lo que el usuario escriba*/}
-                </form>
-              </section>
-            </>
-          )
-        }
-
-        {/* -----------------------------------             TABLE ADD TECHNICAL INFORMATION           ----------------------------------- */}
-
-        <FormGroup>
-          {editingNewServInfo ? (
-            <>
-              <table className="table display table-hover table-bordered table-striped animate__animated animate__fadeIn">
-                <thead>
-                  <tr>
-                    <th>Others Information</th>
-                    <th>Value</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {equipoSeleccionado.ServicesInformation.newServicesInformation
-                    .length > 0 ? (
-                    equipoSeleccionado.ServicesInformation.newServicesInformation.map(
-                      (elemento) => (
-                        <tr key={elemento.Id_NewServInfo}>
-                          <>
-                            {filaEditada ? (
-                              <>
-                                {id === elemento.Id_NewServInfo ? (
-                                  <>
-                                    <td className=" animate__animated animate__fadeInDown">
-                                      {" "}
-                                      {`${elemento.Name}:`}
-                                    </td>
-                                    <td className=" animate__animated animate__fadeInDown">
-                                      {" "}
-                                      {elemento.Value}
-                                    </td>
-                                  </>
-                                ) : (
-                                  <>
-                                    <td> {`${elemento.Name}:`}</td>
-                                    <td> {elemento.Value}</td>
-                                  </>
-                                )}
-                              </>
-                            ) : (
-                              <>
-                                <td> {`${elemento.Name}:`}</td>
-                                <td> {elemento.Value}</td>
-                              </>
-                            )}
-
-                            <td>
-                              {" "}
-                              <Button
-                                color="primary"
-                                onClick={() => editar(elemento, "Services")}
-                              >
-                                <i className="far fa-edit button_icon"></i>
-                              </Button>{" "}
-                              {"  "}
-                              <Button
-                                color="danger"
-                                onClick={() =>
-                                  eliminarServInfo(elemento.Id_NewServInfo)
-                                }
-                              >
-                                <i className="fas fa-trash-alt button_icon"></i>{" "}
-                              </Button>
-                            </td>
-                          </>
-                        </tr>
-                      )
-                    )
-                  ) : (
-                    <tr>
-                      <td colSpan={3}>No data recorded</td>
-                    </tr>
-                  )}
-
-                  {/* =================== Boton Eliminar ====================== */}
-                  {/* Editar  */}
-                  {/* =================== Boton Editar ========================*/}
-                </tbody>
-              </table>
-            </>
-          ) : (
-            <>
-              <table className="table display table-hover table-bordered table-striped animate__animated animate__fadeIn">
-                <thead>
-                  <tr>
-                    <th>Others Technical Information</th>
-                    <th>Value</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    // newservInformation
-                    equipoSeleccionado.ServicesInformation
-                      .newServicesInformation.length > 0 ? (
-                      equipoSeleccionado.ServicesInformation.newServicesInformation.map(
-                        (elemento) => (
-                          <tr key={elemento.Id_NewServInfo}>
-                            <>
-                              {filaEditada ? (
-                                <>
-                                  {id === elemento.Id_NewServInfo ? (
-                                    <>
-                                      <td className=" animate__animated animate__fadeInDown">
-                                        {" "}
-                                        {`${elemento.Name}:`}
-                                      </td>
-                                      <td className=" animate__animated animate__fadeInDown">
-                                        {" "}
-                                        {elemento.Value}
-                                      </td>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <td> {`${elemento.Name}:`}</td>
-                                      <td> {elemento.Value}</td>
-                                    </>
-                                  )}
-                                </>
-                              ) : (
-                                <>
-                                  <td> {`${elemento.Name}:`}</td>
-                                  <td> {elemento.Value}</td>
-                                </>
-                              )}
-
-                              <td>
-                                {" "}
-                                <Button
-                                  color="primary"
-                                  onClick={() => editar(elemento, "Services")}
-                                >
-                                  <i className="far fa-edit button_icon"></i>
-                                </Button>{" "}
-                                {"  "}
-                                <Button
-                                  color="danger"
-                                  onClick={() =>
-                                    eliminarServInfo(elemento.Id_NewServInfo)
-                                  }
-                                >
-                                  <i className="fas fa-trash-alt button_icon"></i>{" "}
-                                </Button>
-                              </td>
-                            </>
-                          </tr>
-                        )
-                      )
-                    ) : (
-                      <tr>
-                        <td colSpan={3}>No data recorded</td>
-                      </tr>
-                    )
-                  }
-                </tbody>
-              </table>
-            </>
-          )}
-        </FormGroup>
 
         {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
         <FormGroup className="row align-items-center justify-content-between">
@@ -546,7 +321,7 @@ const ServiceInformation = ({
           {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
         </FormGroup>
       </ModalBody>
-    </>
+    </ThemeProvider>
   );
 };
 

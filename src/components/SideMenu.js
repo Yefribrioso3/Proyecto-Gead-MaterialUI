@@ -4,6 +4,7 @@ import "../styles/styles.scss";
 import Controls from "./controls/Controls";
 import Axios from "axios";
 import abinbev from "../assets/abinbev.jpeg";
+import GlobalIcon from "../assets/globalicon.svg";
 import Button from "@mui/material/Button";
 import manual from "../assets/Manual.pdf";
 import {
@@ -12,6 +13,23 @@ import {
   FontDownloadTwoTone,
 } from "@material-ui/icons";
 
+import { createTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#B3C8FC",
+      light: "#E6FBFF",
+      dark: "#8297C9",
+    },
+    secondary: {
+      main: "#6200EE",
+      light: "#8F6CFF",
+      dark: "#14149A",
+    },
+  },
+});
+
 const style = {
   sideMenu: {
     display: "flex",
@@ -19,8 +37,8 @@ const style = {
     position: "absolute",
     left: "0px",
     width: "250px",
-    height: "100%",
     backgroundColor: "white",
+    height: "100%",
   },
 };
 
@@ -103,80 +121,156 @@ const SideMenu = ({
   // const { classes } = props;
 
   return (
-    <div className={`container ${classes.sideMenu}`}>
-      <div className="pt-5 border-1">
-        <img src={abinbev} />
-      </div>
-      <div className={"p-2 mt-5 "}>
-        <Button
-          className="btn btn-large filtercard w-100 mb-2"
-          onClick={(e) => filtrarBUList("total", "total", setListAll)}
-        >
-          <div>
-            <h5>Middle America</h5>
-            <h6>
-              {" "}
-              Equipos: <strong className="counter">{`${contador}`}</strong>
-            </h6>
-          </div>
-        </Button>
-        <Button
-          className="btn btn-large filtercard w-100 mb-2"
-          onClick={(e) => filtrarBUList("MEX")}
-        >
-          <div>
-            <h5>MEX</h5>
-            <h6>
-              {" "}
-              Equipos: <strong className="counter">{`${mexCounter}`}</strong>
-            </h6>
-          </div>
-        </Button>
-        <Button
-          className="btn btn-large filtercard w-100 mb-2"
-          onClick={(e) => filtrarBUList("CAC")}
-        >
-          <div>
-            <h5>CAC</h5>
-            <h6>
-              {" "}
-              Equipos: <strong className="counter">{`${cacCounter}`}</strong>
-            </h6>
-          </div>
-        </Button>
+    <ThemeProvider theme={theme}>
+      <div className={`${classes.sideMenu}`}>
+        <div className="pt-5 border-1">
+          <img src={abinbev} />
+        </div>
+        <div className="p-2 mt-5">
+          <Button
+            className="btn btn-large filtercard w-100 mb-2"
+            onClick={(e) => filtrarBUList("total", "total", setListAll)}
+          >
+            <div className="row align-items-center">
+              <div className="col-3">
+                {" "}
+                <img src={GlobalIcon} className="img-fluid" />
+              </div>
+              <div className="col-9">
+                <div className="row justify-content-between">
+                  <div xs={12}>
+                    <h5>Middle America</h5>
+                  </div>
+                  <div className="col-6 me-auto">
+                    <h6>Equipos:</h6>
+                  </div>
+                  <div className="col-6 text-end">
+                    <h6>
+                      <strong className="counter">{`${contador}`}</strong>
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Button>
+          <Button
+            className="btn btn-large filtercard w-100 mb-2"
+            onClick={(e) => filtrarBUList("MEX")}
+          >
+            {" "}
+            <div className="row align-items-center">
+              <div className="col-3">
+                <img src={GlobalIcon} className="img-fluid" />
+              </div>
+              <div className="col-9">
+                <div className="row justify-content-between">
+                  <div xs={12}>
+                    <h5>MEX</h5>
+                  </div>
+                  <div className="col-6 me-auto">
+                    <h6>Equipos:</h6>
+                  </div>
+                  <div className="col-6 text-end">
+                    <h6>
+                      <strong className="counter">{`${mexCounter}`}</strong>
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Button>
+          <Button
+            className="btn btn-large filtercard w-100 mb-2"
+            onClick={(e) => filtrarBUList("CAC")}
+          >
+            {" "}
+            <div className="row align-items-center">
+              <div className="col-3">
+                {" "}
+                <img src={GlobalIcon} className="img-fluid" />
+              </div>
+              <div className="col-9">
+                {" "}
+                <div className="row justify-content-between">
+                  <div xs={12}>
+                    <h5>CAC</h5>
+                  </div>
+                  <div className="col-6 me-auto">
+                    <h6>Equipos:</h6>
+                  </div>
+                  <div className="col-6 text-end">
+                    <h6>
+                      <strong className="counter">{`${cacCounter}`}</strong>
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Button>
 
-        <Button
-          className="btn btn-large filtercard w-100 mb-2"
-          onClick={(e) => filtrarBUList("PEC")}
-        >
-          <div>
-            <h5>PEC</h5>
-            <h6>
-              Equipos: <strong className="counter">{`${pecCounter}`}</strong>
-            </h6>
-          </div>
-        </Button>
-        <Button
-          className="btn btn-large filtercard w-100 mb-2"
-          onClick={(e) => filtrarBUList("COL")}
-        >
-          <div>
-            <h5>COL</h5>
-            <h6>
-              Equipos: <strong className="counter">{`${colCounter}`}</strong>
-            </h6>
-          </div>
-        </Button>
-        <Button
-          className="btn btn-large filtercard w-100 mb-2 align-items-center d-flex"
-          onClick={(e) => filtrarBUList("PEC")}
-        >
-          <div>
-            <h5>Power BI</h5>
-          </div>
-        </Button>
+          <Button
+            className="btn btn-large filtercard w-100 mb-2"
+            onClick={(e) => filtrarBUList("PEC")}
+          >
+            <div className="row align-items-center">
+              <div className="col-3">
+                <img src={GlobalIcon} className="img-fluid" />
+              </div>
+              <div className="col-9">
+                {" "}
+                <div className="row justify-content-between">
+                  <div xs={12}>
+                    <h5>PEC</h5>
+                  </div>
+                  <div className="col-6 me-auto">
+                    <h6>Equipos:</h6>
+                  </div>
+                  <div className="col-6 text-end">
+                    <h6>
+                      <strong className="counter">{`${pecCounter}`}</strong>
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Button>
+          <Button
+            className="btn btn-large filtercard w-100 mb-2 "
+            onClick={(e) => filtrarBUList("COL")}
+          >
+            {" "}
+            <div className="row  align-items-center">
+              <div className="col-3">
+                <img src={GlobalIcon} className="img-fluid" />
+              </div>
+              <div className="col-9">
+                <div className="row justify-content-between">
+                  <div xs={12}>
+                    <h5>COL</h5>
+                  </div>
+                  <div className="col-6 me-auto">
+                    <h6>Equipos:</h6>
+                  </div>
+                  <div className="col-6 text-end">
+                    <h6>
+                      <strong className="counter">{`${colCounter}`}</strong>
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Button>
+          <Button
+            className="btn btn-large filtercard w-100 mb-2 align-items-center d-flex"
+            onClick={(e) => filtrarBUList("PEC")}
+          >
+            <div>
+              <h5>Power BI</h5>
+            </div>
+          </Button>
+        </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 };
 
