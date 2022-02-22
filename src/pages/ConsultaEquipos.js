@@ -40,6 +40,7 @@ import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import * as XLSX from 'xlsx';
 import { Excel, send } from './components/Excel';
 import { OptionalInfo } from './components/OptionalInfo';
+import { fontSize } from '@mui/system';
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------
@@ -1812,11 +1813,27 @@ const ConsultaEquipos = () => {
     const columns = [
         {
             field: "Name",
-            // fontWeight: '800',
             headerName: "Equipo",
             width: 400,
-            fontWeight: 100,
+            headerClassName: 'header',
+            
+            // editable: true
+            // cellClassName:            
             // fontSize: "20px"
+            renderCell: (params) => {
+                return (
+                    <div 
+                        style={{ 
+                            // color: "blue",
+                            fontWeight: 600,
+                            // width: "100%",
+                            // textAlign: "center"
+                        }}
+                    >
+                        {params.row.Name}
+                    </div>
+                )
+            }
         },
         {
             field: "serial",
@@ -2018,7 +2035,9 @@ const ConsultaEquipos = () => {
 
                 <div style={{ height: 805, width: "100%", backgroundColor: "white" }}>
                     <DataGrid
+                        // sx={{ m: 2 }}
                         rows={filterFn.fn(getAllList)}
+                        // style={{ color:"blue"}}
                         columns={columns}
                         pageSize={13}
                         rowsPerPageOptions={[13]}
@@ -2039,7 +2058,7 @@ const ConsultaEquipos = () => {
                     />
 
                     <PageHeader
-                    
+
                         subTitle={fecha}
                     />
 
@@ -2265,7 +2284,7 @@ const ConsultaEquipos = () => {
                                                     onChange={handleChange} />
                                             </FormGroup>
 
-                                            <hr style={{ width: "97%"}} />
+                                            <hr style={{ width: "97%" }} />
 
 
 
@@ -2275,21 +2294,21 @@ const ConsultaEquipos = () => {
 
 
 
-                                            
-                                            
+
+
                                             <OptionalInfo
-                                                optionalTechInfo={optionalTechInfo} 
+                                                optionalTechInfo={optionalTechInfo}
                                                 handleChangeOptionalInfo={handleChangeOptionalInfo}
                                             />
 
 
 
 
-                                            
-                                            
-                                            
+
+
+
                                             {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
-                                            
+
                                             <FormGroup>
                                                 <Button
                                                     color='secundary'
@@ -2448,15 +2467,52 @@ const ConsultaEquipos = () => {
                                                 {/* ============== onChange =============== Captura los cambios, lo que el usuario escriba*/}
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                                 <label>Planta:<b className="text-danger">*</b></label>
                                                 <select
                                                     className="form-select SelectBoostrap"
                                                     name="Name"
                                                     required
-                                                    value={operations && operations.Name}
+                                                    value={operations && operations.Name.toUpperCase()}
                                                     onChange={handleChangeOperations}
                                                 >
-                                                    <option value="">Seleccionar planta</option>
+                                                    <option value="">Seleccionar Planta</option>
                                                     <option value="APAN">APAN</option>
                                                     <option value="BARBADOS">BARBADOS</option>
                                                     <option value="BARRANQUILLA">BARRANQUILLA</option>
@@ -2498,7 +2554,7 @@ const ConsultaEquipos = () => {
                                                     <option value="CUSCO">CUSCO</option>
                                                     <option value="HUACHIPA">HUACHIPA</option>
                                                     <option value="MALTERIA DE LIMA">MALTERIA DE LIMA</option>
-                                                    <option value="Motupe">Motupe</option>
+                                                    <option value="MOTUPE">MOTUPE</option>
                                                     <option value="SAN JUAN (PUCALLPA)">SAN JUAN (PUCALLPA)</option>
                                                     <option value="SAN MATEO (HUAROCHIRI)">SAN MATEO (HUAROCHIRI)</option>
                                                     <option value="BARBARIAN (CRAFT)">BARBARIAN (CRAFT)</option>
@@ -2512,17 +2568,17 @@ const ConsultaEquipos = () => {
                                                 <select
                                                     className="form-select SelectBoostrap"
                                                     name="Name"
-                                                    value={lineTypes && lineTypes.Name}
+                                                    value={lineTypes && lineTypes.Name.toUpperCase()}
                                                     onChange={handleChangeLineTypes}
                                                 >
-                                                    <option value="">Seleccionar tipo de línea</option>
-                                                    <option value="Brewline">Brewline</option>
-                                                    <option value="Bottle">Bottle</option>
-                                                    <option value="Can">Can</option>
-                                                    <option value="Pet">Pet</option>
-                                                    <option value="Keg">Keg</option>
-                                                    <option value="Special Keg">Special Keg</option>
-                                                    <option value="Other">Other</option>
+                                                    <option value="">Seleccionar Tipo de Línea</option>
+                                                    <option value="BREWLINE">BREWLINE</option>
+                                                    <option value="BOTTLE">BOTTLE</option>
+                                                    <option value="CAN">CAN</option>
+                                                    <option value="PET">PET</option>
+                                                    <option value="KEG">KEG</option>
+                                                    <option value="SPECIAL KEG">SPECIAL KEG</option>
+                                                    <option value="OTHER">OTHER</option>
                                                 </select>
                                             </FormGroup>
 
@@ -2531,7 +2587,7 @@ const ConsultaEquipos = () => {
                                                 <select
                                                     className="form-select SelectBoostrap"
                                                     name="Name"
-                                                    value={countries && countries.Name}
+                                                    value={countries && countries.Name.toUpperCase()}
                                                     required
                                                     onChange={handleChangeCountries}
                                                 >
@@ -2556,7 +2612,7 @@ const ConsultaEquipos = () => {
                                                 <select
                                                     className="form-select SelectBoostrap"
                                                     name="Name"
-                                                    value={bu && bu.Name}
+                                                    value={bu && bu.Name.toUpperCase()}
                                                     onChange={handleChangeBu}
                                                 >
                                                     {/* ------------------------------------------------   SELECT DESDE LA BASE DE DATOS   ------------------------------------ */}
@@ -2573,7 +2629,7 @@ const ConsultaEquipos = () => {
                                                 <select
                                                     className="form-select SelectBoostrap"
                                                     name="Name"
-                                                    value={areas && areas.Name}
+                                                    value={areas && areas.Name.toUpperCase()}
                                                     onChange={handleChangeAreas}
                                                 >
                                                     <option value="">Seleccionar Área</option>
@@ -2620,7 +2676,7 @@ const ConsultaEquipos = () => {
                                                 <select
                                                     className="form-select SelectBoostrap"
                                                     name="Name"
-                                                    value={SubArea && SubArea.Name}
+                                                    value={SubArea && SubArea.Name.toUpperCase()}
                                                     onChange={handleChangeSubArea}
                                                 >
                                                     <option value="">Seleccionar Subárea</option>
@@ -2640,7 +2696,7 @@ const ConsultaEquipos = () => {
                                                     label="Correo de la Planta"
                                                     className="form-control"
                                                     variant="outlined"
-                                                    name="code"
+                                                    name="code" //--------- CORREO  --------
                                                     value={equipoSeleccionado && equipoSeleccionado.code}
                                                     onChange={handleChange}
                                                 />
@@ -3055,12 +3111,12 @@ const ConsultaEquipos = () => {
 
 
 
-                                            <hr style={{ width: "97%"}} />
+                                            <hr style={{ width: "97%" }} />
                                             {/* -------------------------------         ADD TECHNICAL INFORMATION FORM           ------------------------------------------ */}
 
 
-                                            <OptionalInfo 
-                                                optionalTechInfo={optionalTechInfo} 
+                                            <OptionalInfo
+                                                optionalTechInfo={optionalTechInfo}
                                                 handleChangeOptionalInfo={handleChangeOptionalInfo}
                                             />
 
@@ -3372,53 +3428,53 @@ const ConsultaEquipos = () => {
                                                     <option value={elemento.Id_Operations}>{elemento.Name}</option>
                                                 ))
                                             } */}
-                                            <option value="Barbados">Barbados</option>
-                                            <option value="Barranquilla">Barranquilla</option>
-                                            <option value="Boyaca">Boyaca</option>
-                                            <option value="Bucaramanga">Bucaramanga</option>
-                                            <option value="Fabrica de Tapas de Tocancipa">Fabrica de Tapas de Tocancipa</option>
-                                            <option value="Etiquetas Impresur & Indugral">Etiquetas Impresur & Indugral</option>
-                                            <option value="Medellín">Medellín</option>
-                                            <option value="Malteria Tibito">Malteria Tibito</option>
-                                            <option value="Tocancipa">Tocancipa</option>
-                                            <option value="Malteria Tropical">Malteria Tropical</option>
-                                            <option value="Valle">Valle</option>
-                                            <option value="Holguin">Holguin</option>
-                                            <option value="Dominicana">Dominicana</option>
-                                            <option value="Hato Nuevo">Hato Nuevo</option>
-                                            <option value="Guayaquil">Guayaquil</option>
-                                            <option value="Quito">Quito</option>
-                                            <option value="Malteria de Guayaquil">Malteria de Guayaquil</option>
-                                            <option value="La Constancia Beer">La Constancia Beer</option>
-                                            <option value="El Salvador CSD">El Salvador CSD</option>
-                                            <option value="La Constancia Walter">La Constancia Walter</option>
-                                            <option value="Zacapa">Zacapa</option>
-                                            <option value="San Pedro Sula Beer">San Pedro Sula Beer</option>
-                                            <option value="San Pedro Sula CSD">San Pedro Sula CSD</option>
-                                            <option value="Apan">Apan</option>
-                                            <option value="Cebadas y Maltas">Cebadas y Maltas</option>
-                                            <option value="Guadalajara">Guadalajara</option>
-                                            <option value="Malteria Zacatecas">Malteria Zacatecas</option>
-                                            <option value="Mazatlán">Mazatlán</option>
-                                            <option value="Modelo México">Modelo México</option>
-                                            <option value="Salamanca (Casal)">Salamanca (Casal)</option>
-                                            <option value="Torreón">Torreón</option>
-                                            <option value="Tuxtepec">Tuxtepec</option>
-                                            <option value="Yucatan">Yucatan</option>
-                                            <option value="Zacatecas">Zacatecas</option>
-                                            <option value="Cucapá (Craft)">Cucapá (Craft)</option>
-                                            <option value="Pasadena">Pasadena</option>
-                                            <option value="Arequipa">Arequipa</option>
-                                            <option value="Ate">Ate</option>
-                                            <option value="Cusco">Cusco</option>
-                                            <option value="Huachipa">Huachipa</option>
-                                            <option value="Malteria de Lima">Malteria de Lima</option>
-                                            <option value="Motupe">Motupe</option>
-                                            <option value="San Juan (Pucallpa)">San Juan (Pucallpa)</option>
-                                            <option value="San Mateo (Huarochiri)">San Mateo (Huarochiri)</option>
-                                            <option value="Barbarian (Craft)">Barbarian (Craft)</option>
-                                            <option value="Saint Vincent">Saint Vincent</option>
-                                            <option value="Bogotá Brewery Company (Craft)">Bogotá Brewery Company (Craft)</option>
+                                            <option value="APAN">APAN</option>
+                                            <option value="BARBADOS">BARBADOS</option>
+                                            <option value="BARRANQUILLA">BARRANQUILLA</option>
+                                            <option value="BOYACA">BOYACA</option>
+                                            <option value="BUCARAMANGA">BUCARAMANGA</option>
+                                            <option value="FABRICA DE TAPAS DE TOCANCIPA">FABRICA DE TAPAS DE TOCANCIPA</option>
+                                            <option value="ETIQUETAS IMPRESUR & INDUGRAL">ETIQUETAS IMPRESUR & INDUGRAL</option>
+                                            <option value="MEDELLIN">MEDELLIN</option>
+                                            <option value="MALTERIA TIBITO">MALTERIA TIBITO</option>
+                                            <option value="TONCACIPA">TONCACIPA</option>
+                                            <option value="MALTERIA TROPICAL">MALTERIA TROPICAL</option>
+                                            <option value="VALLE">VALLE</option>
+                                            <option value="HOLGUIN">HOLGUIN</option>
+                                            <option value="DOMINICANA">DOMINICANA</option>
+                                            <option value="HATO NUEVO">HATO NUEVO</option>
+                                            <option value="GUAYAQUIL">GUAYAQUIL</option>
+                                            <option value="QUITO">QUITO</option>
+                                            <option value="MALTERIA DE GUAYAQUIL">MALTERIA DE GUAYAQUIL</option>
+                                            <option value="LA CONSTANCIA BEER">LA CONSTANCIA BEER</option>
+                                            <option value="EL SALVADOR CSD">EL SALVADOR CSD</option>
+                                            <option value="LA CONSTANCIA WALTER">LA CONSTANCIA WALTER</option>
+                                            <option value="ZACAPA">ZACAPA</option>
+                                            <option value="SAN PEDRO SULA BEER">SAN PEDRO SULA BEER</option>
+                                            <option value="SAN PEDRO SULA CSD">SAN PEDRO SULA CSD</option>
+                                            <option value="CEBADAS Y MALTAS">CEBADAS Y MALTAS</option>
+                                            <option value="GUADALAJARA">GUADALAJARA</option>
+                                            <option value="MALTERIA ZACATECAS">MALTERIA ZACATECAS</option>
+                                            <option value="MAZATLÁN">MAZATLÁN</option>
+                                            <option value="MODELO MÉXICO">MODELO MÉXICO</option>
+                                            <option value="SALAMANCA (CASAL)">SALAMANCA (CASAL)</option>
+                                            <option value="TORREÓN">TORREÓN</option>
+                                            <option value="TUXTEPEC">TUXTEPEC</option>
+                                            <option value="YUCATAN">YUCATAN</option>
+                                            <option value="ZACATECAS">ZACATECAS</option>
+                                            <option value="CUCAPÁ (CRAFT)">CUCAPÁ (CRAFT)</option>
+                                            <option value="PASADENA">PASADENA</option>
+                                            <option value="AREQUIPA">AREQUIPA</option>
+                                            <option value="ATE">ATE</option>
+                                            <option value="CUSCO">CUSCO</option>
+                                            <option value="HUACHIPA">HUACHIPA</option>
+                                            <option value="MALTERIA DE LIMA">MALTERIA DE LIMA</option>
+                                            <option value="MOTUPE">MOTUPE</option>
+                                            <option value="SAN JUAN (PUCALLPA)">SAN JUAN (PUCALLPA)</option>
+                                            <option value="SAN MATEO (HUAROCHIRI)">SAN MATEO (HUAROCHIRI)</option>
+                                            <option value="BARBARIAN (CRAFT)">BARBARIAN (CRAFT)</option>
+                                            <option value="SAINT VINCENT">SAINT VINCENTt</option>
+                                            <option value="BOGOTÁ BREWERY COMPANY (CRAFT)">BOGOTÁ BREWERY COMPANY (CRAFT)</option>
                                         </select>
                                     </FormGroup>
 
@@ -3444,13 +3500,14 @@ const ConsultaEquipos = () => {
                                             name="Name"
                                             onChange={handleChangeLineTypes}
                                         >
-                                            <option value="">Seleccione Tipo de línea</option>
-                                            <option value="Brewline">Brewline</option>
-                                            <option value="Bottle">Bottle</option>
-                                            <option value="Can">Can</option>
-                                            <option value="Pet">Pet</option>
-                                            <option value="Keg">Keg</option>
-                                            <option value="Special Keg">Special Keg</option>
+                                            <option value="">Seleccione Tipo de Línea</option>
+                                            <option value="BREWLINE">BREWLINE</option>
+                                            <option value="BOTTLE">BOTTLE</option>
+                                            <option value="CAN">CAN</option>
+                                            <option value="PET">PET</option>
+                                            <option value="KEG">KEG</option>
+                                            <option value="SPECIAL KEG">SPECIAL KEG</option>
+                                            <option value="OTHER">OTHER</option>
                                         </select>
 
 
@@ -3470,24 +3527,24 @@ const ConsultaEquipos = () => {
                                             required
                                             onChange={handleChangeCountries}
                                         >
-                                            <option value="">Seleccione país</option>
+                                            <option value="">Seleccione País</option>
                                             {/* {paisLis.map((elemento) => (
                                                 <option value={elemento.Id_Countries}>{elemento.Name}</option>
                                             ))
                                             } */}
 
-                                            <option value="Barbados">Barbados</option>
-                                            <option value="Colombia">Colombia</option>
-                                            <option value="Cuba">Cuba</option>
-                                            <option value="Dominicana">Dominicana</option>
-                                            <option value="Ecuador">Ecuador</option>
-                                            <option value="El Salvador">El Salvador</option>
-                                            <option value="Guatemala">Guatemala</option>
-                                            <option value="Honduras">Honduras</option>
-                                            <option value="México">México</option>
-                                            <option value="Panamá">Panamá</option>
-                                            <option value="Perú">Perú</option>
-                                            <option value="Saint Vincent">Saint Vincent</option>
+                                            <option value="BARBADOS">BARBADOS</option>
+                                            <option value="COLOMBIA">COLOMBIA</option>
+                                            <option value="CUBA">CUBA</option>
+                                            <option value="DOMINICANA">DOMINICANA</option>
+                                            <option value="ECUADOR">ECUADOR</option>
+                                            <option value="EL SALVADOR">EL SALVADOR</option>
+                                            <option value="GUATEMALA">GUATEMALA</option>
+                                            <option value="HONDURAS">HONDURAS</option>
+                                            <option value="MÉXICO">MÉXICO</option>
+                                            <option value="PANAMA">PANAMA</option>
+                                            <option value="PERÚ">PERÚ</option>
+                                            <option value="SAINT VINCENT">SAINT VINCENT</option>
 
                                         </select>
                                     </FormGroup>
@@ -3528,40 +3585,41 @@ const ConsultaEquipos = () => {
                                                 ))
                                             } */}
 
-                                            <option value="General Services">General Services</option>
-                                            <option value="Silos">Silos</option>
-                                            <option value="Milling">Milling</option>
-                                            <option value="Brewhouse">Brewhouse</option>
-                                            <option value="Fermentation">Fermentation</option>
-                                            <option value="Maturation">Maturation</option>
-                                            <option value="Centrifuge">Centrifuge</option>
-                                            <option value="Filtration">Filtration</option>
-                                            <option value="Dilution Water">Dilution Water</option>
-                                            <option value="Bright Beer Tanks">Bright Beer Tanks</option>
-                                            <option value="Packaging">Packaging</option>
-                                            <option value="Chemical Island & CIP">Chemical Island & CIP</option>
-                                            <option value="Syrup House">Syrup House</option>
-                                            <option value="Logistic Tier 1">Logistic Tier 1</option>
-                                            <option value="Logistic Tier 2">Logistic Tier 2</option>
-                                            <option value="CO2 Recovery">CO2 Recovery</option>
-                                            <option value="Refrigeration">Refrigeration</option>
-                                            <option value="Wells">Wells</option>
-                                            <option value="Water Treatment Plant">Water Treatment Plant</option>
-                                            <option value="Compressed Air">Compressed Air</option>
-                                            <option value="Electrical Substation (HV)">Electrical Substation (HV)</option>
-                                            <option value="Electrical Substation (MV)">Electrical Substation (MV)</option>
-                                            <option value="Electrical Substation (LV)">Electrical Substation (LV)</option>
-                                            <option value="Steam Generation">Steam Generation</option>
-                                            <option value="Biological Treatment System">Biological Treatment System</option>
-                                            <option value="Tertiary System">Tertiary System</option>
-                                            <option value="Sanitary Plant">Sanitary Plant</option>
-                                            <option value="Automation & Industrial Network">Automation & Industrial Network</option>
-                                            <option value="Maintenance">Maintenance</option>
+                                            <option value="GENERAL SERVICES">GENERAL SERVICES</option>
+                                            <option value="SILOS">SILOS</option>
+                                            <option value="MILLING">MILLING</option>
+                                            <option value="BREWHOUSE">BREWHOUSE</option>
+                                            <option value="BREWING">BREWING</option>
+                                            <option value="FERMENTATION">FERMENTATION</option>
+                                            <option value="MATURATION">MATURATION</option>
+                                            <option value="CENTRIFUGE">CENTRIFUGE</option>
+                                            <option value="FILTRATION">FILTRATION</option>
+                                            <option value="DILUTION WATER">DILUTION WATER</option>
+                                            <option value="BRIGHT BEER TANKS">BRIGHT BEER TANKS</option>
+                                            <option value="PACKAGING">PACKAGING</option>
+                                            <option value="CHEMICAL ISLAND & CIP">CHEMICAL ISLAND & CIP</option>
+                                            <option value="SYRUP HOUSE">SYRUP HOUSE</option>
+                                            <option value="LOGISTIC TIER 1">LOGISTIC TIER 1</option>
+                                            <option value="LOGISTIC TIER 2">LOGISTIC TIER 2</option>
+                                            <option value="CO2 RECOVERY">CO2 RECOVERY</option>
+                                            <option value="REFRIGERATION">REFRIGERATION</option>
+                                            <option value="WELLS">WELLS</option>
+                                            <option value="WATER TREATMENT PLANT">WATER TREATMENT PLANT</option>
+                                            <option value="COMPRESSED AIR">COMPRESSED AIR</option>
+                                            <option value="ELECTRICAL SUBSTATION (HV)">ELECTRICAL SUBSTATION (HV)</option>
+                                            <option value="ELECTRICAL SUBSTATION (MV)">ELECTRICAL SUBSTATION (MV)</option>
+                                            <option value="ELECTRICAL SUBSTATION (LV)">ELECTRICAL SUBSTATION (LV)</option>
+                                            <option value="STEAM GENERATION">STEAM GENERATION</option>
+                                            <option value="BIOLOGICAL TREATMENT SYSTEM">BIOLOGICAL TREATMENT SYSTEM</option>
+                                            <option value="TERTIARY SYSTEM">TERTIARY SYSTEM</option>
+                                            <option value="SANITARY PLANT">SANITARY PLANT</option>
+                                            <option value={["AUTOMATION & INDUSTRIAL NETWORK"]}>AUTOMATION & INDUSTRIAL NETWORK</option>
+                                            <option value="MAINTENANCE">MAINTENANCE</option>
                                             <option value="IT">IT</option>
-                                            <option value="Laboratory">Laboratory</option>
-                                            <option value="Workshop">Workshop</option>
-                                            <option value="Offices">Offices</option>
-                                            <option value="Subproducts">Subproducts</option>
+                                            <option value="LABORATORY">LABORATORY</option>
+                                            <option value="WORKSHOP">WORKSHOP</option>
+                                            <option value="OFFICES">OFFICES</option>
+                                            <option value="SUBPRODUCTS">SUBPRODUCTS</option>
 
                                         </select>
                                     </FormGroup>
@@ -3578,12 +3636,13 @@ const ConsultaEquipos = () => {
                                                 <option value={elemento.Id_SubAreas}>{elemento.Name}</option>
                                             ))
                                             } */}
-                                            <option value="Wort Kettle">Wort Kettle</option>
-                                            <option value="Torre de Molienda ">Torre de Molienda </option>
-                                            <option value="Cocimientos">Cocimientos</option>
+                                            <option value="WORT KETTLE">WORT KETTLE</option>
+                                            <option value="TORRE DE MOLIENDA">TORRE DE MOLIENDA</option>
+                                            <option value="CONOCIMIENTOS">CONOCIMIENTOS</option>
                                             <option value="BAGAZO/SYE">BAGAZO/SYE</option>
-                                            <option value="Bloque Frio">Bloque Frio</option>
-                                            <option value="No data available">No data available</option>
+                                            <option value="BLOQUE FRIO">BLOQUE FRIO</option>
+                                            <option value="GENERAL">GENERAL</option>
+                                            <option value="NO DATA AVAILABLE">No data available</option>
                                         </select>
                                     </FormGroup>
 
