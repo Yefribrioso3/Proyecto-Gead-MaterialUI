@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 import { Col, Input, Row } from 'reactstrap';
 import { useForm } from 'react-hook-form'
 import Axios from "axios";
+import { globalApi } from '../../types/api.types';
 
 
 const Formulario = ({ addEquipos, dataInfo }) => {
@@ -27,57 +28,24 @@ const Formulario = ({ addEquipos, dataInfo }) => {
 
 
     useEffect(() => {
-        Axios.get('https://node-gead.herokuapp.com/bu').then((response) => {
+        Axios.get(`${globalApi}/bu`).then((response) => {
             // console.log(response.data);
             setBuList(response.data)
         });
-        Axios.get('https://node-gead.herokuapp.com/planta').then((response) => {
+        Axios.get(`${globalApi}/planta`).then((response) => {
             setOperationsList(response.data)
         });
-        Axios.get('https://node-gead.herokuapp.com/countries').then((response) => {
+        Axios.get(`${globalApi}/countries`).then((response) => {
             setPaisLis(response.data)
         });
-        Axios.get('https://node-gead.herokuapp.com/area').then((response) => {
+        Axios.get(`${globalApi}/area`).then((response) => {
             setAreaList(response.data)
         });
-        Axios.get('https://node-gead.herokuapp.com/lineType').then((response) => {
+        Axios.get(`${globalApi}/lineType`).then((response) => {
             setLineTypeList(response.data)
         });
 
     }, []);
-
-    // const [equipoSeleccionado, setEquipoSeleccionado] = useState([
-    //     {
-    //         id: '',
-    //         BU: '',
-    //         country: '',
-    //         area: '',
-    //         planta: '',
-    //         equipos: '',
-    //         denominacionEquipo: '',
-    //         descripcion: '',
-    //         emplazam: '',
-    //     },
-    // ]);
-
-
-    // const handleInputChange = (event) => {   // Mostrar cada interaccion en la consola
-
-    //     equipoSeleccionado.id = dataInfo.length + 1;
-    //     // console.log(event.target.value);    // imprime todos los cambios capturados en el formulario
-
-    //     setEquipoSeleccionado({
-    //         ...equipoSeleccionado,
-    //         [event.target.name]: event.target.value
-
-    //     });
-
-    // }
-
-    // const guardarDatos = (event) => {
-    //     event.preventDefault();
-    //     console.log('Equipo: ' + equipoSeleccionado.equipos + ', Planta: ' + equipoSeleccionado.planta)
-    // }
 
 
     const handleChange = (e) => {  //Funcion para capturar lo que escriba el usuario

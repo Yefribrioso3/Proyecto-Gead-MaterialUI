@@ -28,6 +28,7 @@ import TableTechnicalSpec from "./CrudsAPI/TableTechnicalSpec";
 import FormTechSpec from "./CrudsAPI/FormTechSpec";
 import TableTechSpecValue from "./CrudsAPI/TableTechSpecValue";
 import FormTechSpecValue from "./CrudsAPI/FormTechSpecValue";
+import { globalApi } from "../../types/api.types";
 // import { Button } from "bootstrap";
 
 // import {
@@ -89,32 +90,32 @@ export const Prueba = (props) => {
 
     // ========================= MOSTRAR GET ==============================
     useEffect(() => {
-        Axios.get('http://localhost:3001/api/bu').then((response) => {
+        Axios.get(`${globalApi}/bu`).then((response) => {
             // console.log(response.data);
             setBuList(response.data)
         });
 
-        Axios.get('http://localhost:3001/api/planta').then((response) => {
+        Axios.get(`${globalApi}/planta`).then((response) => {
             setOperationsList(response.data.planta)
         })
 
-        Axios.get('http://localhost:3001/api/area').then((response) => {
+        Axios.get(`${globalApi}/area`).then((response) => {
             setAreaList(response.data.area)
         })
 
-        Axios.get('http://localhost:3001/api/subArea').then((response) => {
+        Axios.get(`${globalApi}/subArea`).then((response) => {
             setSubAreaList(response.data.subarea)
         })
 
-        Axios.get('http://localhost:3001/api/equipment').then((response) => {
+        Axios.get(`${globalApi}/equipment`).then((response) => {
             setEquipmentList(response.data.equipment)
         })
 
-        Axios.get('http://localhost:3001/api/technicalSpecification').then((response) => {
+        Axios.get(`${globalApi}/technicalSpecification`).then((response) => {
             setTechnicalSpecList(response.data.technicalSpecification)
         })
 
-        Axios.get('http://localhost:3001/api/technicalSpecificationValues').then((response) => {
+        Axios.get(`${globalApi}/technicalSpecificationValues`).then((response) => {
             setTechnicalSpecValList(response.data.technicSpecValues)
         })
 
@@ -127,7 +128,7 @@ export const Prueba = (props) => {
     //  ======================== INSERTAR ================================
 
     const submitBU = () => {
-        Axios.post('http://localhost:3001/api/bu', {
+        Axios.post(`${globalApi}/bu`, {
             Name: bu,
         }).then(() => {
             alert("Successful insert");
@@ -141,7 +142,7 @@ export const Prueba = (props) => {
 
     // ---------------------   INSERTAR COUNTRY   -------------------------
     const submitCountry = () => {
-        Axios.post('http://localhost:3001/api/countries', {
+        Axios.post(`${globalApi}/countries`, {
             Name: country.name,
             Id_BU: country.id_Bu,
         }).then(() => {

@@ -7,6 +7,7 @@ import Axios from 'axios';
 
 import manual from "../assets/Manual.pdf";
 import { ArrowDownward, FontDownload, FontDownloadTwoTone } from '@material-ui/icons';
+import { globalApi } from '../types/api.types';
 
 
 const style = {
@@ -82,7 +83,7 @@ const SideMenu = ({ getAllList, classes, filtrarBUList, setListAll, listAll }) =
 
     const allAquipmentRelation = async () => {
 
-        await Axios.get('https://node-gead.herokuapp.com/api/AllequipmentRelation')
+        await Axios.get(`${globalApi}/AllequipmentRelation`)
             .then((response) => {
                 setListAll(response.data.equipment)
             })

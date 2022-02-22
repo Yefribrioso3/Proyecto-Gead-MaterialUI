@@ -1,13 +1,14 @@
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Fragment } from 'react'
+import { globalApi } from '../../../types/api.types';
 
 const TableBU = (props) => {
 
     const [buList, setBuList] = useState([])
 
     useEffect(  () => {
-        Axios.get('http://localhost:3001/api/bu').then((response) => {
+        Axios.get(`${globalApi}/bu`).then((response) => {
             console.log(response.data.Bu);
             setBuList(response.data.Bu)
         });
@@ -17,7 +18,7 @@ const TableBU = (props) => {
 
 
     const deleteBU = (idBU) => {
-        Axios.delete(`http://localhost:3001/api/bu/${idBU}`)
+        Axios.delete(`${globalApi}/bu/${idBU}`)
     }
 
 

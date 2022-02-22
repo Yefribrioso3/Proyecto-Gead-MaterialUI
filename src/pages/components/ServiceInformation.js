@@ -5,6 +5,7 @@ import { Button, FormGroup, ModalBody } from 'reactstrap'
 import Axios from 'axios';
 import { IconButton, TextField } from '@material-ui/core';
 import { ArrowDropDown, ArrowDropDownCircleOutlined, ArrowDropUp, Edit } from '@material-ui/icons';
+import { globalApi } from '../../types/api.types';
 
 
 const ServiceInformation = ({ casoServInfo,  setnewservInformation, seteditingNewServInfo, handleChangeServicesInformation, servicesInformation, equipoSeleccionado, editRow, setEditing, setEditingServiceInfo, setEditingTechInfo }) => {
@@ -76,14 +77,14 @@ const ServiceInformation = ({ casoServInfo,  setnewservInformation, seteditingNe
     };
 
     const sendNewServInfo = async (valorInsertar) => {
-        await Axios.post("https://node-gead.herokuapp.com/api/newServInfo", {
+        await Axios.post(`${globalApi}/newServInfo`, {
             Id_NewServInfo: valorInsertar.Id_NewServInfo,
             Id_ServicesInformation: valorInsertar.Id_ServicesInformation,
             Name: valorInsertar.Name,
             Value: valorInsertar.Value
         })
 
-        await Axios.post("https://node-gead.herokuapp.com/api/selectNewServInfo", {
+        await Axios.post(`${globalApi}/selectNewServInfo`, {
             Id_SelectNewServInfo: valorInsertar.SelectNewServicesInfo.Id_SelectNewServInfo,
             Id_ServicesInformation: valorInsertar.Id_ServicesInformation,
             Id_NewServInfo: valorInsertar.Id_NewServInfo
@@ -140,15 +141,13 @@ const ServiceInformation = ({ casoServInfo,  setnewservInformation, seteditingNe
 
         await deleteNewServInfo(id, idSelectNewServInfo)
 
-
-
         seteditingNewServInfo(false);
         seteditingNewServInfo(true);
     }
 
     const deleteNewServInfo = async (id, idSelectNewServInfo) => {
-        await Axios.delete(`https://node-gead.herokuapp.com/api/selectNewServInfo/${idSelectNewServInfo}`)
-        await Axios.delete(`https://node-gead.herokuapp.com/api/newServInfo/${id}`)
+        await Axios.delete(`${globalApi}/selectNewServInfo/${idSelectNewServInfo}`)
+        await Axios.delete(`${globalApi}/newServInfo/${id}`)
             .then((id) => {
                 console.log(id)
                 alert("successfully removed");

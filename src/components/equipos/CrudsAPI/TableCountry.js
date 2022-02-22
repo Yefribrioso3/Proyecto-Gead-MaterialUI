@@ -1,12 +1,13 @@
 import Axios from "axios";
 import { useEffect, useState } from "react";
+import { globalApi } from "../../../types/api.types";
 
 const TableCountry = (props) => {
 
     const [countryList, setcountryList] = useState([]);
 
     useEffect(() => {
-        Axios.get('http://localhost:3001/api/countries').then((response) => {
+        Axios.get(`${globalApi}/countries`).then((response) => {
             setcountryList(response.data.countries)
         });
     }, []);
@@ -14,7 +15,7 @@ const TableCountry = (props) => {
     //  ======================== ELIMINAR ===============================
     // ==================================================================
     const deleteCountry = (id) => {
-        Axios.delete(`http://localhost:3001/countries/${id}`).then(() => {
+        Axios.delete(`${globalApi}/countries/${id}`).then(() => {
             alert("Successful Deleted")
         });
     }

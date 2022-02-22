@@ -41,6 +41,7 @@ import * as XLSX from 'xlsx';
 import { Excel, send } from './components/Excel';
 import { OptionalInfo } from './components/OptionalInfo';
 import { fontSize } from '@mui/system';
+import { globalApi } from '../types/api.types';
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------
@@ -124,11 +125,10 @@ const ConsultaEquipos = () => {
 
     // const [ExcelGet, setExcelGet] = useState([]);
 
-
     // http://localhost:3001
 
     const allAquipmentRelation = async () => {
-        await Axios.get('https://node-gead.herokuapp.com/api/AllequipmentRelation')
+        await Axios.get(`${globalApi}/AllequipmentRelation`)
             .then(async (response) => {
                 let a = await Promise.all(response.data.equipment.map(z => ({ ...z, id: z.Id_Equipment })))
                 setGetAllList(a)
@@ -153,27 +153,27 @@ const ConsultaEquipos = () => {
         //         setReadExcel(response.data)
         //     })
 
-        Axios.get('https://node-gead.herokuapp.com/api/bu').then((response) => {
+        Axios.get(`${globalApi}/bu`).then((response) => {
             setBuList(response.data.Bu)
         });
 
-        Axios.get('https://node-gead.herokuapp.com/api/planta').then((response) => {
+        Axios.get(`${globalApi}/planta`).then((response) => {
             setOperationsList(response.data.planta)
         });
 
-        Axios.get('https://node-gead.herokuapp.com/api/countries').then((response) => {
+        Axios.get(`${globalApi}/countries`).then((response) => {
             setPaisLis(response.data.countries)
         });
 
-        Axios.get('https://node-gead.herokuapp.com/api/area').then((response) => {
+        Axios.get(`${globalApi}/area`).then((response) => {
             setAreaList(response.data.area)
         });
 
-        Axios.get('https://node-gead.herokuapp.com/api/subArea').then((response) => {
+        Axios.get(`${globalApi}/subArea`).then((response) => {
             setSubareaList(response.data.subarea)
         });
 
-        Axios.get('https://node-gead.herokuapp.com/api/lineType').then((response) => {
+        Axios.get(`${globalApi}/lineType`).then((response) => {
             setLineTypeList(response.data.lineTypes)
         });
 
@@ -474,8 +474,6 @@ const ConsultaEquipos = () => {
     })
 
 
-
-
     // const [newTechInfoSeleccionado, setNewTechInfoSeleccionado] = useState({
     //     id: null,
     //     techincal: '',
@@ -508,8 +506,6 @@ const ConsultaEquipos = () => {
         setLineTypes(elemento.Procedencia.line.lineTypes)
 
 
-        console.log(elemento)
-
         setEquipoSeleccionado(elemento);
 
         (caso === 'Editar') ? setModalEditar(true) : setModalEliminar(true) //Funcion para abrir el modal    
@@ -521,7 +517,6 @@ const ConsultaEquipos = () => {
 
     const handleChange = e => {         //Funcion para capturar lo que escriba el usuario   
         const { name, value } = e.target;
-        console.log(e.target.value)
 
         setEquipoSeleccionado((prevState) => ({
             ...prevState,
@@ -536,104 +531,85 @@ const ConsultaEquipos = () => {
 
     const handleChangeOptionalInfo = e => {
         const { name, value } = e.target;
-        console.log(e.target.value)
 
         setOptionalTechInfo((prevState) => ({
             ...prevState,
             [name]: value
         }));
 
-        console.log(optionalTechInfo)
     }
 
     const handleChangeServicesInformation = e => {
         const { name, value } = e.target;
-        console.log(e.target.value)
 
         setServicesInformation((prevState) => ({
             ...prevState,
             [name]: value
         }));
 
-        console.log(servicesInformation)
     }
 
     const handleChangeAreas = e => {
         const { name, value } = e.target;
-        console.log(e.target.value)
 
         setareas((prevState) => ({
             ...prevState,
             [name]: value
         }));
-
-        console.log(areas)
     }
 
     const handleChangeSubArea = e => {
         const { name, value } = e.target;
-        console.log(e.target.value)
 
         setSubArea((prevState) => ({
             ...prevState,
             [name]: value
         }));
-        console.log(SubArea)
     }
 
     const handleChangeOperations = e => {
         const { name, value } = e.target;
-        console.log(e.target.value)
 
         setOperations((prevState) => ({
             ...prevState,
             [name]: value
         }));
-        console.log(operations)
     }
 
     const handleChangeCountries = e => {
         const { name, value } = e.target;
-        console.log(e.target.value)
 
         setCountries((prevState) => ({
             ...prevState,
             [name]: value
         }));
-        console.log(countries)
     }
 
     const handleChangeBu = e => {
         const { name, value } = e.target;
-        console.log(e.target.value)
 
         setBu((prevState) => ({
             ...prevState,
             [name]: value
         }));
-        console.log(bu)
     }
 
     const handleChangeLine = e => {
         const { name, value } = e.target;
-        console.log(e.target.value)
 
         setLine((prevState) => ({
             ...prevState,
             [name]: value
         }));
-        console.log(line)
     }
 
     const handleChangeLineTypes = e => {
         const { name, value } = e.target;
-        console.log(e.target.value)
 
         setLineTypes((prevState) => ({
             ...prevState,
             [name]: value
         }));
-        console.log(lineTypes)
     }
 
     //******************************************************************************************************************* */
@@ -761,7 +737,6 @@ const ConsultaEquipos = () => {
             }
         });
 
-        console.log(equipo);
         //  Actualizar datos
         await putEquipment(equipo);
 
@@ -787,40 +762,40 @@ const ConsultaEquipos = () => {
 
     const putEquipment = async (Equipo) => {
 
-        await Axios.put(`https://node-gead.herokuapp.com/api/bu/${Equipo.Procedencia.areas.operations.countries.bu.Id_BU}`, {
+        await Axios.put(`${globalApi}/bu/${Equipo.Procedencia.areas.operations.countries.bu.Id_BU}`, {
             Name: Equipo.Procedencia.areas.operations.countries.bu.Name
         });
 
-        await Axios.put(`https://node-gead.herokuapp.com/api/countries/${Equipo.Procedencia.areas.operations.countries.Id_Countries}`, {
+        await Axios.put(`${globalApi}/countries/${Equipo.Procedencia.areas.operations.countries.Id_Countries}`, {
             Name: Equipo.Procedencia.areas.operations.countries.Name,
             Id_BU: Equipo.Procedencia.areas.operations.countries.bu.Id_BU
         });
 
-        await Axios.put(`https://node-gead.herokuapp.com/api/planta/${Equipo.Procedencia.areas.operations.Id_Operations}`, {
+        await Axios.put(`${globalApi}/planta/${Equipo.Procedencia.areas.operations.Id_Operations}`, {
             Name: Equipo.Procedencia.areas.operations.Name,
             Id_Countries: Equipo.Procedencia.areas.operations.countries.Id_Countries
         });
 
-        await Axios.put(`https://node-gead.herokuapp.com/api/area/${Equipo.Procedencia.areas.Id_Areas}`, {
+        await Axios.put(`${globalApi}/area/${Equipo.Procedencia.areas.Id_Areas}`, {
             Name: Equipo.Procedencia.areas.Name,
             Id_Operations: Equipo.Procedencia.areas.Id_Operations
         });
 
-        await Axios.put(`https://node-gead.herokuapp.com/api/SubArea/${Equipo.Procedencia.areas.SubArea.Id_SubAreas}`, {
+        await Axios.put(`${globalApi}/SubArea/${Equipo.Procedencia.areas.SubArea.Id_SubAreas}`, {
             Name: Equipo.Procedencia.areas.SubArea.Name,
             Id_Areas: Equipo.Procedencia.areas.Id_Areas
         });
 
-        await Axios.put(`https://node-gead.herokuapp.com/api/lineType/${Equipo.Procedencia.line.lineTypes.Id_LineTypes}`, {
+        await Axios.put(`${globalApi}/lineType/${Equipo.Procedencia.line.lineTypes.Id_LineTypes}`, {
             Name: Equipo.Procedencia.line.lineTypes.Name
         });
 
-        await Axios.put(`https://node-gead.herokuapp.com/api/line/${Equipo.Procedencia.line.Id_Line}`, {
+        await Axios.put(`${globalApi}/line/${Equipo.Procedencia.line.Id_Line}`, {
             number: Equipo.Procedencia.line.number,
             Id_LineTypes: Equipo.Procedencia.line.lineTypes.Id_LineTypes
         });
 
-        await Axios.put(`https://node-gead.herokuapp.com/api/equipment/${Equipo.Id_Equipment}`, {
+        await Axios.put(`${globalApi}/equipment/${Equipo.Id_Equipment}`, {
             Name: Equipo.Name,
             code: Equipo.code,
             img: Equipo.img,
@@ -828,7 +803,7 @@ const ConsultaEquipos = () => {
             Estado: Equipo.Estado
         });
 
-        await Axios.put(`https://node-gead.herokuapp.com/api/servicesInformation/${Equipo.ServicesInformation.Id_ServicesInformation}`, {
+        await Axios.put(`${globalApi}/servicesInformation/${Equipo.ServicesInformation.Id_ServicesInformation}`, {
             DateOfInstallation: Equipo.ServicesInformation.DateOfInstallation,
             DateOfDesintallation: Equipo.ServicesInformation.DateOfDesintallation,
             DesuseReason: Equipo.ServicesInformation.DesuseReason,
@@ -837,7 +812,7 @@ const ConsultaEquipos = () => {
             Id_Equipment: Equipo.Id_Equipment
         });
 
-        await Axios.put(`https://node-gead.herokuapp.com/api/technicalSpecification/${Equipo.TechnicalSpecification.Id_TechnicalSpecification}`, {
+        await Axios.put(`${globalApi}/technicalSpecification/${Equipo.TechnicalSpecification.Id_TechnicalSpecification}`, {
             EquipmentType: Equipo.TechnicalSpecification.EquipmentType,
             CurrentConditions: Equipo.TechnicalSpecification.CurrentConditions,
             Weight: Equipo.TechnicalSpecification.Weight,
@@ -850,7 +825,7 @@ const ConsultaEquipos = () => {
             Id_Equipment: Equipo.Id_Equipment
         });
 
-        await Axios.put(`https://node-gead.herokuapp.com/api/optionalTechInfo/${Equipo.TechnicalSpecification.Id_TechnicalSpecification}`, {
+        await Axios.put(`${globalApi}/optionalTechInfo/${Equipo.TechnicalSpecification.Id_TechnicalSpecification}`, {
             NominalCapacity: Equipo.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
             YearOfConstruction: Equipo.TechnicalSpecification.OptionalTechInfo.YearOfConstruction,
             EquipmentCurrentConditionsComments: Equipo.TechnicalSpecification.OptionalTechInfo.EquipmentCurrentConditionsComments,
@@ -881,21 +856,21 @@ const ConsultaEquipos = () => {
 
     };
 
-    const updateNewServInfo = async (NSI) => {
-        Axios.put(`https://node-gead.herokuapp.com/api/newServInfo/${NSI.Id_NewServInfo}`, {
-            Id_ServicesInformation: NSI.Id_ServicesInformation,
-            Value: NSI.Value,
-            Name: NSI.Name
-        })
-    };
+    // const updateNewServInfo = async (NSI) => {
+    //     Axios.put(`${globalApi}/newServInfo/${NSI.Id_NewServInfo}`, {
+    //         Id_ServicesInformation: NSI.Id_ServicesInformation,
+    //         Value: NSI.Value,
+    //         Name: NSI.Name
+    //     })
+    // };
 
-    const updateNewTechSpec = async (NTS) => {
-        Axios.put(`https://node-gead.herokuapp.com/api/NewTechInfo/${NTS.Id_NewTechSpec}`, {
-            Id_TechnicalSpecification: NTS.Id_TechnicalSpecification,
-            Name: NTS.Name,
-            Value: NTS.Value
-        })
-    };
+    // const updateNewTechSpec = async (NTS) => {
+    //     Axios.put(`${globalApi}/NewTechInfo/${NTS.Id_NewTechSpec}`, {
+    //         Id_TechnicalSpecification: NTS.Id_TechnicalSpecification,
+    //         Name: NTS.Name,
+    //         Value: NTS.Value
+    //     })
+    // };
 
 
 
@@ -921,7 +896,7 @@ const ConsultaEquipos = () => {
     }
 
     const EliminarEquipment = async (Equipo) => {
-        await Axios.put(`https://node-gead.herokuapp.com/api/equipment/${Equipo.Id_Equipment}`, {
+        await Axios.put(`${globalApi}/equipment/${Equipo.Id_Equipment}`, {
             Name: Equipo.Name,
             code: Equipo.code,
             img: Equipo.img,
@@ -1170,7 +1145,7 @@ const ConsultaEquipos = () => {
     // -----------------------------        CREAR / INSERTAR NUEVO EQUIPO      ---------------------------------------------
 
     const sendBu = async (valorInsertar) => {
-        await Axios.post("https://node-gead.herokuapp.com/api/bu", {
+        await Axios.post(`${globalApi}/bu`, {
             Id_BU: valorInsertar.Procedencia.areas.operations.countries.bu.Id_BU,
             Name: valorInsertar.Procedencia.areas.operations.countries.bu.Name
         })
@@ -1180,7 +1155,7 @@ const ConsultaEquipos = () => {
     }
 
     const sendCountry = async (valorInsertar) => {
-        await Axios.post('https://node-gead.herokuapp.com/api/countries', {
+        await Axios.post(`${globalApi}/countries`, {
             Id_Countries: valorInsertar.Procedencia.areas.operations.countries.Id_Countries,
             Name: valorInsertar.Procedencia.areas.operations.countries.Name,
             Id_BU: valorInsertar.Procedencia.areas.operations.countries.Id_BU,
@@ -1188,7 +1163,7 @@ const ConsultaEquipos = () => {
     };
 
     const sendOperations = async (valorInsertar) => {
-        await Axios.post('https://node-gead.herokuapp.com/api/planta', {
+        await Axios.post(`${globalApi}/planta`, {
             Id_Operations: valorInsertar.Procedencia.areas.operations.Id_Operations,
             Name: valorInsertar.Procedencia.areas.operations.Name,
             Id_Countries: valorInsertar.Procedencia.areas.operations.Id_Countries,
@@ -1196,7 +1171,7 @@ const ConsultaEquipos = () => {
     };
 
     const sendAreas = async (valorInsertar) => {
-        await Axios.post('https://node-gead.herokuapp.com/api/area', {
+        await Axios.post(`${globalApi}/area`, {
             Id_Areas: valorInsertar.Procedencia.areas.Id_Areas,
             Name: valorInsertar.Procedencia.areas.Name,
             Id_Operations: valorInsertar.Procedencia.areas.Id_Operations,
@@ -1204,7 +1179,7 @@ const ConsultaEquipos = () => {
     };
 
     const sendSubArea = async (valorInsertar) => {
-        await Axios.post('https://node-gead.herokuapp.com/api/SubArea', {
+        await Axios.post(`${globalApi}/SubArea`, {
             Id_SubAreas: valorInsertar.Procedencia.areas.SubArea.Id_SubAreas,
             Name: valorInsertar.Procedencia.areas.SubArea.Name,
             Id_Areas: valorInsertar.Procedencia.areas.SubArea.Id_Areas,
@@ -1212,7 +1187,7 @@ const ConsultaEquipos = () => {
     };
 
     const sendline = async (valorInsertar) => {
-        await Axios.post("https://node-gead.herokuapp.com/api/line", {
+        await Axios.post(`${globalApi}/line`, {
             Id_Line: valorInsertar.Procedencia.line.Id_Line,
             number: valorInsertar.Procedencia.line.number,
             Id_LineTypes: valorInsertar.Procedencia.line.Id_LineTypes
@@ -1220,14 +1195,14 @@ const ConsultaEquipos = () => {
     };
 
     const sendlineType = async (valorInsertar) => {
-        await Axios.post("https://node-gead.herokuapp.com/api/lineType", {
+        await Axios.post(`${globalApi}/lineType`, {
             Id_LineTypes: valorInsertar.Procedencia.line.lineTypes.Id_LineTypes,
             Name: valorInsertar.Procedencia.line.lineTypes.Name
         });
     };
 
     const sendProcedencia = async (valorInsertar) => {
-        await Axios.post("https://node-gead.herokuapp.com/api/procedencia", {
+        await Axios.post(`${globalApi}/procedencia`, {
             Id_Procedencia: valorInsertar.Id_Procedencia,
             Id_Line: valorInsertar.Procedencia.line.Id_Line,
             Id_Areas: valorInsertar.Procedencia.areas.Id_Areas
@@ -1235,7 +1210,7 @@ const ConsultaEquipos = () => {
     };
 
     const sendEquipment = async (valorInsertar) => {
-        await Axios.post("https://node-gead.herokuapp.com/api/equipment", {
+        await Axios.post(`${globalApi}/equipment`, {
             Id_Equipment: valorInsertar.Id_Equipment,
             Name: valorInsertar.Name,
             code: valorInsertar.code,
@@ -1246,7 +1221,7 @@ const ConsultaEquipos = () => {
     };
 
     const sendSercivesInformation = async (valorInsertar) => {
-        await Axios.post("https://node-gead.herokuapp.com/api/servicesInformation", {
+        await Axios.post(`${globalApi}/servicesInformation`, {
             Id_ServicesInformation: valorInsertar.ServicesInformation.Id_ServicesInformation,
             DateOfInstallation: valorInsertar.ServicesInformation.DateOfInstallation,
             DateOfDesintallation: valorInsertar.ServicesInformation.DateOfDesintallation,
@@ -1259,14 +1234,14 @@ const ConsultaEquipos = () => {
 
     const sendNewServicesInformation = async (valorInsertar) => {
         valorInsertar.ServicesInformation.newServicesInformation.map(async (NSI) => {
-            await Axios.post("https://node-gead.herokuapp.com/api/newServInfo", {
+            await Axios.post(`${globalApi}/newServInfo`, {
                 Id_NewServInfo: NSI.Id_NewServInfo,
                 Id_ServicesInformation: valorInsertar.ServicesInformation.Id_ServicesInformation,
                 Name: NSI.Name,
                 Value: NSI.Value
             })
 
-            await Axios.post("https://node-gead.herokuapp.com/api/selectNewServInfo", {
+            await Axios.post(`${globalApi}/selectNewServInfo`, {
                 Id_SelectNewServInfo: NSI.SelectNewServicesInfo.Id_SelectNewServInfo,
                 Id_ServicesInformation: valorInsertar.ServicesInformation.Id_ServicesInformation,
                 Id_NewServInfo: NSI.Id_NewServInfo
@@ -1275,7 +1250,7 @@ const ConsultaEquipos = () => {
     };
 
     const sendTechnicalSpecification = async (valorInsertar) => {
-        await Axios.post("https://node-gead.herokuapp.com/api/technicalSpecification", {
+        await Axios.post(`${globalApi}/technicalSpecification`, {
             Id_TechnicalSpecification: valorInsertar.TechnicalSpecification.Id_TechnicalSpecification,
             EquipmentType: valorInsertar.TechnicalSpecification.EquipmentType,
             CurrentConditions: valorInsertar.TechnicalSpecification.CurrentConditions,
@@ -1292,14 +1267,14 @@ const ConsultaEquipos = () => {
 
     const sendNewTechnicalSpec = async (valorInsertar) => {
         valorInsertar.TechnicalSpecification.newTechnicalSpecification.map(async (NTS) => {
-            await Axios.post("https://node-gead.herokuapp.com/api/NewTechInfo", {
+            await Axios.post(`${globalApi}/NewTechInfo`, {
                 Id_NewTechSpec: NTS.Id_NewTechSpec,
                 Id_TechnicalSpecification: valorInsertar.TechnicalSpecification.Id_TechnicalSpecification,
                 Name: NTS.Name,
                 Value: NTS.Value
             })
 
-            await Axios.post("https://node-gead.herokuapp.com/api/selectNewTechSpec", {
+            await Axios.post(`${globalApi}/selectNewTechSpec`, {
                 Id_SelectNewTechSpec: NTS.SelectNewTechSpec.Id_SelectNewTechSpec,
                 Id_TechnicalSpecification: valorInsertar.TechnicalSpecification.Id_TechnicalSpecification,
                 Id_NewTechSpec: NTS.Id_NewTechSpec
@@ -1362,24 +1337,20 @@ const ConsultaEquipos = () => {
         let newTechnicalSpecification = equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification;
         newTechnicalSpecification.unshift(newTechnicalSpec)
 
-        console.log(newTechnicalSpec);
-
         await sendNewTechnicalSpecEDITMODAL(newTechnicalSpec);
         e.target.reset()
     };
 
     const sendNewTechnicalSpecEDITMODAL = async (valorInsertar) => {
-        console.log("valorInsertar NewTech");
-        console.log(valorInsertar);
 
-        await Axios.post("https://node-gead.herokuapp.com/api/NewTechInfo", {
+        await Axios.post(`${globalApi}/NewTechInfo`, {
             Id_NewTechSpec: valorInsertar.Id_NewTechSpec,
             Id_TechnicalSpecification: valorInsertar.Id_TechnicalSpecification,
             Name: valorInsertar.Name,
             Value: valorInsertar.Value
         })
 
-        await Axios.post("https://node-gead.herokuapp.com/api/selectNewTechSpec", {
+        await Axios.post(`${globalApi}/selectNewTechSpec`, {
             Id_SelectNewTechSpec: valorInsertar.SelectNewTechSpec.Id_SelectNewTechSpec,
             Id_TechnicalSpecification: valorInsertar.Id_TechnicalSpecification,
             Id_NewTechSpec: valorInsertar.Id_NewTechSpec
@@ -1407,7 +1378,6 @@ const ConsultaEquipos = () => {
     //  -------------------------------------------------------     ELIMINAR AD TECHNICAL INFO       --------------------------
 
     const eliminarAddTechInfo = async (id) => {
-        console.log(id)
 
         let indice = equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification.findIndex((equipo) => {
             return equipo.Id_NewTechSpec === id;
@@ -1427,15 +1397,14 @@ const ConsultaEquipos = () => {
 
     const deleteNewTechnicalSpec = async (id, idSelectNewTech) => {
 
-        await Axios.delete(`https://node-gead.herokuapp.com/api/selectNewTechSpec/${idSelectNewTech}`)
+        await Axios.delete(`${globalApi}/selectNewTechSpec/${idSelectNewTech}`)
         // .then((id) => {
         //     console.log(idSelectNewTech)
         //     alert("SelectNewTech Deleted");
         // });
 
-        await Axios.delete(`https://node-gead.herokuapp.com/api/NewTechInfo/${id}`)
+        await Axios.delete(`${globalApi}/NewTechInfo/${id}`)
             .then((id) => {
-                console.log(id)
                 alert("successfully removed");
             });
     };
@@ -1522,7 +1491,6 @@ const ConsultaEquipos = () => {
 
         setEquipoSeleccionado(NewEquipment);
         setId(updatedTechInfo.Id_NewServInfo);  //Para seleccionar la fila editada y dar efecto
-
     }
 
     // --------------------------       ACTUALIZAR NEW TECHNICAL SPECIFICATION      ----------------------------------
@@ -1582,11 +1550,6 @@ const ConsultaEquipos = () => {
 
     const [editingNewServInfo, seteditingNewServInfo] = useState(true)
 
-
-
-
-
-
     //--------------------------------------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------------------------------------
 
@@ -1594,15 +1557,6 @@ const ConsultaEquipos = () => {
     // const [records, setRecords] = useState(getAllList)
     // const [age, setAge] = useState('')
 
-
-    // const lineTypesSelect = [
-    //     { label: 'Brewline' },
-    //     { label: 'Bottle' },
-    //     { label: 'Can' },
-    //     { label: 'Pet' },
-    //     { label: 'Keg' },
-    //     { label: 'Special Keg' },
-    // ];
 
 
     const [fecha, setFecha] = useState('');
@@ -1654,7 +1608,6 @@ const ConsultaEquipos = () => {
 
         if (n === 'total') {
             setGetAllList(List)
-            console.log(getAllList)
             // allAquipmentRelation()
             // setListAll(List.length)
         }
@@ -1687,7 +1640,6 @@ const ConsultaEquipos = () => {
 
         let TotalEncontrado = filterFn.fn(getAllList).length;
         setTotalEncontrados(TotalEncontrado);
-        console.log(TotalEncontrado);
     }
 
     //  ------------------------    PDF     ----------------------------------
@@ -1805,7 +1757,6 @@ const ConsultaEquipos = () => {
     const actualizarTabla = (Excel) => {
         Excel.map((Equipo) => {
             setGetAllList([...getAllList, Equipo])
-            // console.log(Equipo)
         });
     }
 
