@@ -25,7 +25,7 @@ import PageHeader from "../components/PageHeader";
 import { Paper, makeStyles, Toolbar, InputAdornment, Grid, TextField } from '@material-ui/core';
 import useTable from "../components/useTable";
 import Controls from "../components/controls/Controls";
-import { Add, Delete, Edit, Search } from "@material-ui/icons";
+import { Add, Delete, Edit, Search, Visibility } from "@material-ui/icons";
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import IconButton from '@material-ui/core/IconButton';
 import SideMenu from '../components/SideMenu';
@@ -1906,7 +1906,7 @@ const ConsultaEquipos = () => {
                         component="span"
                     >
                         <IconButton color="primary" aria-label="edit" component="span">
-                            <Edit />
+                            <Visibility />
                         </IconButton>
                     </div>
 
@@ -2042,7 +2042,6 @@ const ConsultaEquipos = () => {
                         columns={columns}
                         pageSize={13}
                         rowsPerPageOptions={[13]}
-
                     />
                 </div>
 
