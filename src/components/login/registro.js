@@ -6,7 +6,7 @@ import { Button, createTheme, CssBaseline, Grid, Link, Paper, TextField, ThemePr
 import Gead from '../../assets/Gead.jpeg'
 
 
-const registro = ({ history }) => {
+const Registro = ({ history }) => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -38,54 +38,56 @@ const registro = ({ history }) => {
         }
     })
 
-    const [cuentas, setCuentas] = useState(
-        {
-            usuario1: "claudio.zastrow@ab-inbev.com",
-            usuario2: "francisco.lopez-ext@ab-inbev.com",
-            usuario3: "maria.menab@ab-inbev.com",
-            usuario4: "carlos.ortiz.rubio@ab-inbev.com",
-            usuario5: "alejandro.rojo@ab-inbev.com",
-            usuario6: "roberto.avilam@ab-inbev.com",
-            usuario7: "martin.pulidoc@ab-inbev.com",
-            usuario8: "isai.torres@ab-inbev.com",
-            usuario9: "gabriel.rivero-ext@ab-inbev.com",
-            usuario10: "carlos.razo-ext@ab-inbev.com",
-            password: "prueba@12345"
-        },
-    )
-    const [user, setUser] = useState(null)
-    const [editing, setEditing] = useState(false) // Para usuario incorrecto 
-    const [passwordEditing, setPasswordEditing] = useState(false)
+    // const [cuentas, setCuentas] = useState(
+    //     {
+    //         usuario1: "claudio.zastrow@ab-inbev.com",
+    //         usuario2: "francisco.lopez-ext@ab-inbev.com",
+    //         usuario3: "maria.menab@ab-inbev.com",
+    //         usuario4: "carlos.ortiz.rubio@ab-inbev.com",
+    //         usuario5: "alejandro.rojo@ab-inbev.com",
+    //         usuario6: "roberto.avilam@ab-inbev.com",
+    //         usuario7: "martin.pulidoc@ab-inbev.com",
+    //         usuario8: "isai.torres@ab-inbev.com",
+    //         usuario9: "gabriel.rivero-ext@ab-inbev.com",
+    //         usuario10: "carlos.razo-ext@ab-inbev.com",
+    //         password: "prueba@12345"
+    //     },
+    // )
+    // const [user, setUser] = useState(null)
+    // const [editing, setEditing] = useState(false) // Para usuario incorrecto 
+    // const [passwordEditing, setPasswordEditing] = useState(false)
 
     const onSubmit = (e) => {
-        setEditing(false)
-        setPasswordEditing(false)
+        // setEditing(false)
+        // setPasswordEditing(false)
 
         console.log(e);
 
+        history.replace('/consultaEquipos'); 
+
         // if (e.password === "12345678") {
 
-        setTimeout(() => {
-            if (e.user === cuentas.usuario1 || e.user === cuentas.usuario2 || e.user === cuentas.usuario3 || e.user === cuentas.usuario4 || e.user === cuentas.usuario5 || e.user === cuentas.usuario6 || e.user === cuentas.usuario7 || e.user === cuentas.usuario8 || e.user === cuentas.usuario9 || e.user === cuentas.usuario10) {
-                console.log(e.user)
-                if (e.password === cuentas.password) {
-                    setUser(e)
-                    setEditing(false)
-                    console.log(e.password)
-                    // history.push('/');      //Redireccion a la url indicada y se puede volver al login.
-                    history.replace('/consultaEquipos');   //Redireccion a la url indicada, No se puede volver al login.
+        // setTimeout(() => {
+        //     if (e.user === cuentas.usuario1 || e.user === cuentas.usuario2 || e.user === cuentas.usuario3 || e.user === cuentas.usuario4 || e.user === cuentas.usuario5 || e.user === cuentas.usuario6 || e.user === cuentas.usuario7 || e.user === cuentas.usuario8 || e.user === cuentas.usuario9 || e.user === cuentas.usuario10) {
+        //         console.log(e.user)
+        //         if (e.password === cuentas.password) {
+        //             setUser(e)
+        //             setEditing(false)
+        //             console.log(e.password)
+        //             // history.push('/');      //Redireccion a la url indicada y se puede volver al login.
+        //             history.replace('/consultaEquipos');   //Redireccion a la url indicada, No se puede volver al login.
 
-                } else {
-                    setPasswordEditing(true)
-                }
+        //         } else {
+        //             setPasswordEditing(true)
+        //         }
 
-            } else {
-                console.log("No funciona")
+        //     } else {
+        //         console.log("No funciona")
 
-                setUser(null)
-                setEditing(true)
-            }
-        }, 1000);
+        //         setUser(null)
+        //         setEditing(true)
+        //     }
+        // }, 1000);
     }
 
 
@@ -324,8 +326,8 @@ const registro = ({ history }) => {
     )
 }
 
-registro.propTypes = {
+Registro.propTypes = {
     valor: PropTypes.string
 
 }
-export default registro
+export default Registro

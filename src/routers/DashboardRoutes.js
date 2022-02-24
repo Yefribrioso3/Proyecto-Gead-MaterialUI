@@ -18,6 +18,7 @@ import SideMenu from "../components/SideMenu";
 import { makeStyles, CssBaseline, ThemeProvider } from '@material-ui/core';
 import { createTheme } from '@material-ui/core/styles';
 import Header from "../components/Header";
+import Registro from '../components/login/Registro';
 // import PageHeader from '../components/PageHeader';
 
 // import Employees from "../pages/Employees/Employees";
@@ -50,15 +51,12 @@ const theme = createTheme({
     }
 })
 
-
 const useStyles = makeStyles({
     appMain: {
         paddingLeft: '12.5rem',
         width: '100%'
     }
 })
-
-
 
 export const DashboardRoutes = () => {
     const classes = useStyles();
@@ -69,16 +67,16 @@ export const DashboardRoutes = () => {
                 {/* <NavbarNav /> */}
                 
                 <ThemeProvider theme={theme}>
-
+                
                     <div className={classes.appMain}>
 
                         <Switch>
-
+                        
                             <Route exact path="/prueba" component={Prueba} />
                             <Route exact path="/Home" component={Home} />
                             <Route exact path="/consultaEquipos" component={ConsultaEquipos} />
-                            <Route exact path="/maestroEquipos" component={MasterEquipos} />
-
+                            <Route exact path="/registro" component={Registro} />
+                            
                             {/* <Redirect to="/maestroEquipos" /> */}
                             <Redirect to="/ConsultaEquipos" />
                         </Switch>
