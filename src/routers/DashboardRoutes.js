@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Home from "../components/equipos/Home";
 import { Prueba } from "../components/equipos/Prueba";
@@ -22,48 +22,52 @@ import Header from "../components/Header";
 
 // import Employees from "../pages/Employees/Employees";
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#B3C8FC",
-      light: "#E6FBFF",
-      dark: "#8297C9",
-    },
-    secondary: {
-      main: "#6200EE",
-      light: "#8F6CFF",
-      dark: "#14149A",
-    },
-    background: {
-      default: "#f4f5fd",
-    },
-  },
-  overrides: {
-    MuiAppBar: {
-      root: {
-        transform: "translateZ(0)",
-      },
-    },
-  },
-  props: {
-    MuiIconButton: {
-      disableRipple: true,
-    },
-  },
-});
-
 const useStyles = makeStyles({
   appMain: {
     paddingLeft: "250px",
     width: "100%",
     height: "100%",
+    backgroundColor: "#3B364E",
   },
 });
 
 export const DashboardRoutes = () => {
+  const [light, setLight] = useState(false);
   const classes = useStyles();
+  const theme = createTheme({
+    palette: {
+      type: light ? "light" : "dark",
+      primary: {
+        main: "#B3C8FC",
+        light: "#E6FBFF",
+        dark: "#8297C9",
+      },
+      secondary: {
+        main: "#6200EE",
+        light: "#8F6CFF",
+        dark: "#14149A",
+      },
+      background: {
+        main: "#f4f5fd",
+        light: "#8F6CFF",
+        dark: "#14149A",
+      },
+    },
+    overrides: {
+      MuiAppBar: {
+        root: {
+          transform: "translateZ(0)",
+        },
+      },
+    },
+    props: {
+      MuiIconButton: {
+        disableRipple: true,
+      },
+    },
+  });
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} light={light}>
       <div className="d-flex">
         {/* <Sidebar /> */}
         <div className="content">

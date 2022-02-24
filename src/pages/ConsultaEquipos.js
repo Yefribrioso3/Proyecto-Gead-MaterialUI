@@ -26,7 +26,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  TableHead,
   Toolbar,
   InputAdornment,
   Grid,
@@ -56,46 +55,9 @@ import { Pagination } from "@material-ui/lab";
 
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+
 //----------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#B3C8FC",
-      light: "#E6FBFF",
-      dark: "#8297C9",
-    },
-    secondary: {
-      main: "#6200EE",
-      light: "#8F6CFF",
-      dark: "#14149A",
-    },
-  },
-});
-
-const useStyles = makeStyles((theme) => ({
-  pageContent: {
-    margin: theme.spacing(2),
-    padding: theme.spacing(3),
-    borderRadius: "12px",
-  },
-  searchInput: {
-    width: "328px",
-    marginRight: "auto",
-  },
-
-  toolbar: {
-    justifyContent: "spacing",
-  },
-  button: {
-    backgroundColor: theme.palette.secondary,
-  },
-  fecha: {
-    color: theme.palette.primary,
-    fontWeight: "300",
-    fontSize: 20,
-  },
-}));
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -131,6 +93,54 @@ const headCells = [
 // const equipoImages = require.context('../assets/equipos/', true);
 
 const ConsultaEquipos = () => {
+  const [light, setLight] = useState(false);
+
+  const theme = createTheme({
+    palette: {
+      type: light ? "light" : "dark",
+
+      primary: {
+        main: "#B3C8FC",
+        light: "#E6FBFF",
+        dark: "#8297C9",
+      },
+      secondary: {
+        main: "#6200EE",
+        light: "#8F6CFF",
+        dark: "#14149A",
+      },
+      background: {
+        main: "#f4f5fd",
+        light: "#8F6CFF",
+        dark: "#14149A",
+      },
+    },
+  });
+
+  const useStyles = makeStyles((theme) => ({
+    pageContent: {
+      margin: theme.spacing(2),
+      padding: theme.spacing(3),
+      borderRadius: "12px",
+    },
+    searchInput: {
+      width: "328px",
+      marginRight: "auto",
+    },
+
+    toolbar: {
+      justifyContent: "spacing",
+    },
+    button: {
+      backgroundColor: theme.palette.secondary,
+    },
+    fecha: {
+      color: theme.palette.primary,
+      fontWeight: "300",
+      fontSize: 20,
+    },
+  }));
+
   const {
     register,
     handleSubmit,
@@ -1889,9 +1899,9 @@ const ConsultaEquipos = () => {
           listAll={listAll}
           setListAll={setListAll}
         />
-        <Header />
+        <Header light={light} />
 
-        <Paper className={classes.pageContent}>
+        <Paper className={classes.pageContent} setLight={setLight}>
           {/* <EmployeeForm /> */}
           <Toolbar className="align-items-center">
             <Controls.txt
@@ -2059,7 +2069,7 @@ const ConsultaEquipos = () => {
 
         {/* -----------------------------       FOOTER      ---------------------------- */}
         <footer className="footer mt-5 ml-5 p-4">
-          <div className="d-flex">
+          <div className="d-flex justify-content-end align-items-center">
             <div>
               <h4>GEAD</h4>
             </div>

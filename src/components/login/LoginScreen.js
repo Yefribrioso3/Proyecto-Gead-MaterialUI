@@ -17,7 +17,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import SwitchModeButton from "../controls/SwitchModeButton";
-import Gead from "../../assets/Gead.jpeg";
+import Gead from "../../assets/logo.png";
+import GeadWhite from "../../assets/logo-white.png";
 import Switch from "@mui/material/Switch";
 import Brightness2Icon from "@material-ui/icons/Brightness2";
 import { WbSunny } from "@material-ui/icons";
@@ -31,21 +32,26 @@ const LoginScreen = ({ history }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const [light, setLight] = useState(false);
   const theme = createTheme({
     palette: {
       type: light ? "light" : "dark",
 
       primary: {
-        main: "#333996",
-        light: "#3c44b126",
+        main: "#B3C8FC",
+        light: "#E6FBFF",
+        dark: "#8297C9",
       },
       secondary: {
-        main: "#f83245",
-        light: "#f8324526",
+        main: "#6200EE",
+        light: "#8F6CFF",
+        dark: "#14149A",
       },
       background: {
-        default: "#f4f5fd",
+        main: "#f4f5fd",
+        light: "#8F6CFF",
+        dark: "#14149A",
       },
     },
     overrides: {
@@ -59,6 +65,91 @@ const LoginScreen = ({ history }) => {
       MuiIconButton: {
         disableRipple: true,
       },
+    },
+  });
+
+  const style = createTheme({
+    paper: {
+      padding: 40,
+      width: "384px",
+      margin: "230px auto",
+      borderRadius: "24px",
+      backgroundColor: theme.palette.type == "dark" ? "#3B364E" : "#FFFFFF",
+    },
+    validation: {
+      padding: 20,
+      height: "60px",
+      width: "160px",
+      margin: "2rem auto",
+      borderRadius: "24px",
+    },
+    validationPassword: {
+      padding: 20,
+      height: "60px",
+      width: "190px",
+      margin: "2rem auto",
+      borderRadius: "24px",
+    },
+    logo: {
+      // padding: 10,
+      width: "7.2rem",
+      // height: '18.32px',
+      // left: '576px',
+      // top: '305px',
+    },
+    h4: {
+      // fontFamily: 'Roboto',
+      fontStyle: "normal",
+      fontWeight: "bold",
+      fontSize: "34px",
+      lineHeight: "140%",
+      letterSpacing: "0.0025em",
+      marginTop: "0.5rem",
+      marginBottom: "0.5rem",
+      color:
+        theme.palette.type == "dark"
+          ? theme.palette.primary.dark
+          : theme.palette.secondary.main,
+    },
+    txt: {
+      fontFamily: "Work Sans",
+      fontStyle: "normal",
+      fontWeight: "normal",
+      fontSize: 14,
+      lineHeight: "140%",
+      /* or 18px */
+      letterSpacing: "-0.02em",
+      marginBottom: "2rem",
+    },
+    TextField: {
+      margin: "0.5rem 0",
+    },
+    btn: {
+      margin: "8px 0",
+      borderRadius: "8px",
+      fontFamily: "Noto Sans",
+      fontSize: 14,
+      lineHeight: "200%",
+      letterSpacing: "0.0125em",
+      background:
+        theme.palette.type == "dark"
+          ? theme.palette.secondary.light
+          : theme.palette.secondary.main,
+      color: "#FFFFFF",
+    },
+    link: {
+      margin: "15px 10px 0 0",
+      fontFamily: "Noto Sans",
+      // fontWeight: 'normal',
+      fontSize: 14,
+      lineHeight: "140%",
+      letterSpacing: "0.004em",
+    },
+    linkColor: {
+      color:
+        theme.palette.type == "dark"
+          ? theme.palette.primary.main
+          : theme.palette.secondary.main,
     },
   });
 
@@ -135,86 +226,6 @@ const LoginScreen = ({ history }) => {
     }, 1000);
   };
 
-  //-----------------------------------------    CAMBIOS DEL LOGIN A MATERIAL UI   -------------------------------------
-  //--------------------------------------------------------------------------------------------------------------------
-
-  // const paperstyle = { padding: 20 };
-
-  const style = createTheme({
-    paper: {
-      padding: 40,
-      width: "384px",
-      margin: "230px auto",
-      borderRadius: "24px",
-      dark: "red",
-    },
-    validation: {
-      padding: 20,
-      height: "60px",
-      width: "160px",
-      margin: "2rem auto",
-      borderRadius: "24px",
-    },
-    validationPassword: {
-      padding: 20,
-      height: "60px",
-      width: "190px",
-      margin: "2rem auto",
-      borderRadius: "24px",
-    },
-    logo: {
-      // padding: 10,
-      width: "7.2rem",
-      // height: '18.32px',
-      // left: '576px',
-      // top: '305px',
-    },
-    h4: {
-      // fontFamily: 'Roboto',
-      fontStyle: "normal",
-      fontWeight: "bold",
-      fontSize: "34px",
-      lineHeight: "140%",
-      letterSpacing: "0.0025em",
-      color: "#14149A",
-      marginTop: "0.5rem",
-      marginBottom: "0.5rem",
-    },
-    txt: {
-      fontFamily: "Work Sans",
-      fontStyle: "normal",
-      fontWeight: "normal",
-      fontSize: 14,
-      lineHeight: "140%",
-      /* or 18px */
-      letterSpacing: "-0.02em",
-      marginBottom: "2rem",
-    },
-    TextField: {
-      margin: "0.5rem 0",
-    },
-    btn: {
-      margin: "8px 0",
-      background: "#593FCC",
-      borderRadius: "8px",
-      fontFamily: "Noto Sans",
-      fontSize: 14,
-      lineHeight: "200%",
-      letterSpacing: "0.0125em",
-    },
-    link: {
-      margin: "15px 10px 0 0",
-      fontFamily: "Noto Sans",
-      // fontWeight: 'normal',
-      fontSize: 14,
-      lineHeight: "140%",
-      letterSpacing: "0.004em",
-    },
-    linkColor: {
-      fontColor: "#14149A",
-    },
-  });
-
   //fadeInDown
   return (
     <ThemeProvider theme={theme}>
@@ -229,7 +240,10 @@ const LoginScreen = ({ history }) => {
             >
               {/* <img src={Gead} /> */}
               <Grid xs={7}>
-                <img src={Gead} style={style.logo} />
+                <img
+                  src={theme.palette.type == "dark" ? GeadWhite : Gead}
+                  style={style.logo}
+                />
               </Grid>
               <Grid xs={5}>
                 <Brightness2Icon />
@@ -283,7 +297,6 @@ const LoginScreen = ({ history }) => {
 
             <Button
               type="submit"
-              color="primary"
               variant="contained"
               fullWidth
               style={style.btn}
@@ -295,7 +308,7 @@ const LoginScreen = ({ history }) => {
             <Typography style={style.link}>
               {" "}
               Si aún no tienes cuenta,
-              <Link href="#" style={style.linkColor} color="#14149A">
+              <Link href="#" style={style.linkColor}>
                 {" "}
                 comunícate con tu administrador
               </Link>{" "}
