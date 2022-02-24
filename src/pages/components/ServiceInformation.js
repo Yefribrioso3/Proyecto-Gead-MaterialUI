@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 import { Button, FormGroup, ModalBody } from 'reactstrap'
-import Axios from 'axios';
-import { IconButton, TextField } from '@material-ui/core';
-import { ArrowDropDown, ArrowDropDownCircleOutlined, ArrowDropUp, Edit } from '@material-ui/icons';
-import { globalApi } from '../../types/api.types';
+// import Axios from 'axios';
+// import { IconButton, TextField } from '@material-ui/core';
+// import { ArrowDropDown, ArrowDropDownCircleOutlined, ArrowDropUp, Edit } from '@material-ui/icons';
+// import { globalApi } from '../../types/api.types';
 
 
-const ServiceInformation = ({ casoServInfo,  setnewservInformation, seteditingNewServInfo, handleChangeServicesInformation, servicesInformation, equipoSeleccionado, editRow, setEditing, setEditingServiceInfo, setEditingTechInfo }) => {
+const ServiceInformation = ({ casoServInfo, setnewservInformation, seteditingNewServInfo, handleChangeServicesInformation, servicesInformation, equipoSeleccionado, editRow, setEditing, setEditingServiceInfo, setEditingTechInfo }) => {
     // casoServInfo, setCasoServInfo
 
 
@@ -21,89 +21,91 @@ const ServiceInformation = ({ casoServInfo,  setnewservInformation, seteditingNe
     const [filaEditada, setfilaEditada] = useState(false);
 
 
-    const onSubmit = (data, e) => {
+    // const onSubmit = (data, e) => {
 
-        (casoServInfo === 'Edit') ? onSubmitServInfo(data, e) : AddServInfomation(data, e)
-    };
+    //     (casoServInfo === 'Edit') ? onSubmitServInfo(data, e) : AddServInfomation(data, e)
+    // };
 
-    const AddServInfomation = (data, e) => {
-        console.log("Add")
+    // const AddServInfomation = (data, e) => {
+    //     console.log("Add")
 
-        data.Id_NewServInfo = uuidv4();
+    //     data.Id_NewServInfo = uuidv4();
 
-        const newServicesInfo = {
-            Id_NewServInfo: data.Id_NewServInfo,
-            Id_ServicesInformation: null,
-            Name: data.Name,
-            Value: data.Value,
-            SelectNewServicesInfo: {
-                Id_SelectNewServInfo: uuidv4(),
-                Id_ServicesInformation: '',
-                Id_NewServInfo: data.Id_NewServInfo
-            }
-        }
+    //     const newServicesInfo = {
+    //         Id_NewServInfo: data.Id_NewServInfo,
+    //         Id_ServicesInformation: null,
+    //         Name: data.Name,
+    //         Value: data.Value,
+    //         SelectNewServicesInfo: {
+    //             Id_SelectNewServInfo: uuidv4(),
+    //             Id_ServicesInformation: '',
+    //             Id_NewServInfo: data.Id_NewServInfo
+    //         }
+    //     }
 
-        let newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
-        newServicesInformation.push(newServicesInfo)
+    //     let newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
+    //     newServicesInformation.push(newServicesInfo)
 
-        setnewservInformation(newServicesInformation);
+    //     setnewservInformation(newServicesInformation);
 
-        console.log(newServicesInformation);
-        console.log(equipoSeleccionado);
+    //     console.log(newServicesInformation);
+    //     console.log(equipoSeleccionado);
 
-        e.target.reset()
-    }
+    //     e.target.reset()
+    // }
 
-    const onSubmitServInfo = async (data, e) => {
-        data.Id_NewServInfo = uuidv4();
+    // const onSubmitServInfo = async (data, e) => {
+    //     data.Id_NewServInfo = uuidv4();
 
-        const newServicesInfo = {
-            Id_NewServInfo: data.Id_NewServInfo,
-            Id_ServicesInformation: equipoSeleccionado.ServicesInformation.Id_ServicesInformation,
-            Name: data.Name,
-            Value: data.Value,
-            SelectNewServicesInfo: {
-                Id_SelectNewServInfo: uuidv4(),
-                Id_ServicesInformation: equipoSeleccionado.ServicesInformation.Id_ServicesInformation,
-                Id_NewServInfo: data.Id_NewServInfo
-            }
-        }
+    //     const newServicesInfo = {
+    //         Id_NewServInfo: data.Id_NewServInfo,
+    //         Id_ServicesInformation: equipoSeleccionado.ServicesInformation.Id_ServicesInformation,
+    //         Name: data.Name,
+    //         Value: data.Value,
+    //         SelectNewServicesInfo: {
+    //             Id_SelectNewServInfo: uuidv4(),
+    //             Id_ServicesInformation: equipoSeleccionado.ServicesInformation.Id_ServicesInformation,
+    //             Id_NewServInfo: data.Id_NewServInfo
+    //         }
+    //     }
 
-        let newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
-        newServicesInformation.unshift(newServicesInfo)
+    //     let newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
+    //     newServicesInformation.unshift(newServicesInfo)
 
-        await sendNewServInfo(newServicesInfo);
-        e.target.reset()
-    };
+    //     await sendNewServInfo(newServicesInfo);
+    //     e.target.reset()
+    // };
 
-    const sendNewServInfo = async (valorInsertar) => {
-        await Axios.post(`${globalApi}/newServInfo`, {
-            Id_NewServInfo: valorInsertar.Id_NewServInfo,
-            Id_ServicesInformation: valorInsertar.Id_ServicesInformation,
-            Name: valorInsertar.Name,
-            Value: valorInsertar.Value
-        })
+    // const sendNewServInfo = async (valorInsertar) => {
+    //     await Axios.post(`${globalApi}/newServInfo`, {
+    //         Id_NewServInfo: valorInsertar.Id_NewServInfo,
+    //         Id_ServicesInformation: valorInsertar.Id_ServicesInformation,
+    //         Name: valorInsertar.Name,
+    //         Value: valorInsertar.Value
+    //     })
 
-        await Axios.post(`${globalApi}/selectNewServInfo`, {
-            Id_SelectNewServInfo: valorInsertar.SelectNewServicesInfo.Id_SelectNewServInfo,
-            Id_ServicesInformation: valorInsertar.Id_ServicesInformation,
-            Id_NewServInfo: valorInsertar.Id_NewServInfo
-        })
+    //     await Axios.post(`${globalApi}/selectNewServInfo`, {
+    //         Id_SelectNewServInfo: valorInsertar.SelectNewServicesInfo.Id_SelectNewServInfo,
+    //         Id_ServicesInformation: valorInsertar.Id_ServicesInformation,
+    //         Id_NewServInfo: valorInsertar.Id_NewServInfo
+    //     })
 
-    };
-
-
+    // };
 
 
 
 
 
 
-    const editar = (elemento, caso) => {
-        setfilaEditada(true);
 
-        editRow(elemento, caso)
-    }
+
+    // const editar = (elemento, caso) => {
+    //     setfilaEditada(true);
+
+    //     editRow(elemento, caso)
+    // }
+
+
 
 
     // const eliminarAddTechInfo = (id) => {
@@ -126,33 +128,33 @@ const ServiceInformation = ({ casoServInfo,  setnewservInformation, seteditingNe
 
     //---------------------------------------------------------------------------------------------------
 
-    const eliminarServInfo = async (id) => {
-        console.log(id)
+    // const eliminarServInfo = async (id) => {
+    //     console.log(id)
 
-        let indice = equipoSeleccionado.ServicesInformation.newServicesInformation.findIndex((equipo) => {
-            return equipo.Id_NewServInfo === id;
-        })
+    //     let indice = equipoSeleccionado.ServicesInformation.newServicesInformation.findIndex((equipo) => {
+    //         return equipo.Id_NewServInfo === id;
+    //     })
 
-        const ServInfo = equipoSeleccionado.ServicesInformation.newServicesInformation.find(nts => nts.Id_NewServInfo === id)
-        const idSelectNewServInfo = ServInfo.SelectNewServicesInfo.Id_SelectNewServInfo
+    //     const ServInfo = equipoSeleccionado.ServicesInformation.newServicesInformation.find(nts => nts.Id_NewServInfo === id)
+    //     const idSelectNewServInfo = ServInfo.SelectNewServicesInfo.Id_SelectNewServInfo
 
-        let newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
-        newServicesInformation.splice(indice, 1)
+    //     let newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
+    //     newServicesInformation.splice(indice, 1)
 
-        await deleteNewServInfo(id, idSelectNewServInfo)
+    //     await deleteNewServInfo(id, idSelectNewServInfo)
 
-        seteditingNewServInfo(false);
-        seteditingNewServInfo(true);
-    }
+    //     seteditingNewServInfo(false);
+    //     seteditingNewServInfo(true);
+    // }
 
-    const deleteNewServInfo = async (id, idSelectNewServInfo) => {
-        await Axios.delete(`${globalApi}/selectNewServInfo/${idSelectNewServInfo}`)
-        await Axios.delete(`${globalApi}/newServInfo/${id}`)
-            .then((id) => {
-                console.log(id)
-                alert("successfully removed");
-            });
-    };
+    // const deleteNewServInfo = async (id, idSelectNewServInfo) => {
+    //     await Axios.delete(`${globalApi}/selectNewServInfo/${idSelectNewServInfo}`)
+    //     await Axios.delete(`${globalApi}/newServInfo/${id}`)
+    //         .then((id) => {
+    //             console.log(id)
+    //             alert("successfully removed");
+    //         });
+    // };
     
     
 

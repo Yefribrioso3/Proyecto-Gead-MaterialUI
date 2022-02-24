@@ -16,13 +16,13 @@ import { useForm } from 'react-hook-form';
 import EditAddServInfo from './components/EditAddServInfo';
 
 import ServiceInformation from './components/ServiceInformation';
-import EditAddTechInfo from './components/EditAddTechInfo';
+// import EditAddTechInfo from './components/EditAddTechInfo';
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------
 
 import PageHeader from "../components/PageHeader";
-import { Paper, makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Grid, TextField } from '@material-ui/core';
+import { Paper, makeStyles, Toolbar, InputAdornment, Grid, TextField } from '@material-ui/core';
 import useTable from "../components/useTable";
 import Controls from "../components/controls/Controls";
 import { Add, Delete, Edit, Search } from "@material-ui/icons";
@@ -40,7 +40,7 @@ import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import * as XLSX from 'xlsx';
 import { Excel, send } from './components/Excel';
 import { OptionalInfo } from './components/OptionalInfo';
-import { fontSize } from '@mui/system';
+// import { fontSize } from '@mui/system';
 import { globalApi } from '../types/api.types';
 
 //----------------------------------------------------------------------------------------------------------------------------------------
@@ -1020,35 +1020,52 @@ const ConsultaEquipos = () => {
     //  ----------------------------------     insertar    -----------------------------
     const insertar = async () => {
 
+        
         let valorInsertar = equipoSeleccionado; //Variable auxiliar para modificar el equipo seleccionado
+        
+        valorInsertar.Id_Equipment = getAllList.length + 1;
+        
+        // bu.Id_BU = uuidv4();
+        bu.Id_BU = valorInsertar.Id_Equipment;
 
-        bu.Id_BU = uuidv4();
-
-        countries.Id_Countries = uuidv4();
+        // countries.Id_Countries = uuidv4();
+        countries.Id_Countries = valorInsertar.Id_Equipment;
         countries.Id_BU = bu.Id_BU;
 
-        operations.Id_Operations = uuidv4();
+        // operations.Id_Operations = uuidv4();
+        operations.Id_Operations =valorInsertar.Id_Equipment;
         operations.Id_Countries = countries.Id_Countries;
 
-        areas.Id_Areas = uuidv4();
+        // areas.Id_Areas = uuidv4();
+        areas.Id_Areas = valorInsertar.Id_Equipment;
         areas.Id_Operations = operations.Id_Operations;
 
-        SubArea.Id_SubAreas = uuidv4();
+        // SubArea.Id_SubAreas = uuidv4();
+        SubArea.Id_SubAreas = valorInsertar.Id_Equipment;
         SubArea.Id_Areas = areas.Id_Areas;
 
-        lineTypes.Id_LineTypes = uuidv4();
+        // lineTypes.Id_LineTypes = uuidv4();
+        lineTypes.Id_LineTypes = valorInsertar.Id_Equipment;
 
-        line.Id_Line = uuidv4();
+        // line.Id_Line = uuidv4();
+        line.Id_Line = valorInsertar.Id_Equipment;
         line.Id_LineTypes = lineTypes.Id_LineTypes;
 
-        technicalInformation.Id_TechnicalSpecification = uuidv4();
+        
+        valorInsertar.id =  valorInsertar.Id_Equipment;
+        technicalInformation.Id_TechnicalSpecification = valorInsertar.Id_Equipment;
+        optionalTechInfo.Id_OptionalTechInfo = technicalInformation.Id_TechnicalSpecification;
+        optionalTechInfo.Id_TechnicalSpecification = technicalInformation.Id_TechnicalSpecification
 
-        servicesInformation.Id_ServicesInformation = uuidv4();
-        valorInsertar.Procedencia.Id_Procedencia = uuidv4();
+        // servicesInformation.Id_ServicesInformation = uuidv4();
+        // valorInsertar.Procedencia.Id_Procedencia = uuidv4();
+
+
+        servicesInformation.Id_ServicesInformation = valorInsertar.Id_Equipment;
+        valorInsertar.Procedencia.Id_Procedencia = valorInsertar.Id_Equipment;
         valorInsertar.Procedencia.Id_Line = line.Id_Line;
         valorInsertar.Procedencia.Id_Areas = areas.Id_Areas;
 
-        valorInsertar.Id_Equipment = uuidv4();
         valorInsertar.Id_Procedencia = valorInsertar.Procedencia.Id_Procedencia;
 
         valorInsertar.Name = equipoSeleccionado.Name;
@@ -1057,6 +1074,7 @@ const ConsultaEquipos = () => {
         valorInsertar.Estado = true;
 
         valorInsertar.TechnicalSpecification = technicalInformation;
+        valorInsertar.TechnicalSpecification.OptionalTechInfo = optionalTechInfo;
 
         let nt = newTechicInformation
 
@@ -1113,6 +1131,8 @@ const ConsultaEquipos = () => {
 
         setGetAllList([...getAllList, valorInsertar]); //Agregamos la dataNueva al estado.
 
+        console.log(getAllList);
+
         await sendData(valorInsertar);
 
         setModalInsertar(false);
@@ -1138,6 +1158,7 @@ const ConsultaEquipos = () => {
         await sendSercivesInformation(valorInsertar);  // Services Information
         await sendNewServicesInformation(valorInsertar);
         await sendTechnicalSpecification(valorInsertar);   //Technical Specification
+        await sendOptionalTechInfo(valorInsertar)
         await sendNewTechnicalSpec(valorInsertar);
     };
 
@@ -1262,6 +1283,35 @@ const ConsultaEquipos = () => {
             vendor: valorInsertar.TechnicalSpecification.vendor,
             currentWorking: valorInsertar.TechnicalSpecification.currentWorking,
             Id_Equipment: valorInsertar.Id_Equipment
+        })
+    };
+
+    const sendOptionalTechInfo = async (valorInsertar) => {
+        await Axios.post(`${globalApi}/optionalTechInfo`, {
+            Id_OptionalTechInfo: valorInsertar.TechnicalSpecification.OptionalTechInfo.Id_OptionalTechInfo,
+            NominalCapacity: valorInsertar.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
+            YearOfConstruction: valorInsertar.TechnicalSpecification.OptionalTechInfo.YearOfConstruction,
+            EquipmentCurrentConditionsComments: valorInsertar.TechnicalSpecification.OptionalTechInfo.EquipmentCurrentConditionsComments,
+            NotesAboutEquipment: valorInsertar.TechnicalSpecification.OptionalTechInfo.NotesAboutEquipment,
+            AssambledDissambled:valorInsertar.TechnicalSpecification.OptionalTechInfo.AssambledDissambled,
+            PlantTechnicalInformationContact: valorInsertar.TechnicalSpecification.OptionalTechInfo.PlantTechnicalInformationContact,
+            PlantFinancialInformationContact: valorInsertar.TechnicalSpecification.OptionalTechInfo.PlantFinancialInformationContact,
+            Width: valorInsertar.TechnicalSpecification.OptionalTechInfo.Width,
+            Height: valorInsertar.TechnicalSpecification.OptionalTechInfo.Height,
+            Depth: valorInsertar.TechnicalSpecification.OptionalTechInfo.Depth,
+            ConstructionMaterials: valorInsertar.TechnicalSpecification.OptionalTechInfo.ConstructionMaterials,
+            ExternalCoating: valorInsertar.TechnicalSpecification.OptionalTechInfo.ExternalCoating,
+            CommunicationProtocol: valorInsertar.TechnicalSpecification.OptionalTechInfo.CommunicationProtocol,
+            MeasurementVariable: valorInsertar.TechnicalSpecification.OptionalTechInfo.MeasurementVariable,
+            ElectricalConsumption: valorInsertar.TechnicalSpecification.OptionalTechInfo.ElectricalConsumption,
+            ProtectionGrade: valorInsertar.TechnicalSpecification.OptionalTechInfo.ProtectionGrade,
+            SanitaryGrade: valorInsertar.TechnicalSpecification.OptionalTechInfo.SanitaryGrade,
+            AvailableWarranty: valorInsertar.TechnicalSpecification.OptionalTechInfo.AvailableWarranty,
+            RemainingWarrantyYears: valorInsertar.TechnicalSpecification.OptionalTechInfo.RemainingWarrantyYears,
+            PeripheralDevicesAccesories: valorInsertar.TechnicalSpecification.OptionalTechInfo.PeripheralDevicesAccesories,
+            WorkingHours: valorInsertar.TechnicalSpecification.OptionalTechInfo.WorkingHours,
+            LaboratoryEquipment: valorInsertar.TechnicalSpecification.OptionalTechInfo.LaboratoryEquipment,
+            Id_TechnicalSpecification: valorInsertar.TechnicalSpecification.OptionalTechInfo.Id_TechnicalSpecification
         })
     };
 
@@ -1767,14 +1817,14 @@ const ConsultaEquipos = () => {
             headerName: "Equipo",
             width: 400,
             headerClassName: 'header',
-            
+
             // editable: true
             // cellClassName:            
             // fontSize: "20px"
             renderCell: (params) => {
                 return (
-                    <div 
-                        style={{ 
+                    <div
+                        style={{
                             // color: "blue",
                             fontWeight: 600,
                             // width: "100%",
@@ -2069,33 +2119,15 @@ const ConsultaEquipos = () => {
                                     <>
                                         <ServiceInformation
                                             casoServInfo={casoServInfo}
-                                            techInfoEditado={techInfoEditado}
-                                            updateAddServInfo={updateAddServInfo}
                                             setEditingTechInfo={setEditingTechInfo}
-                                            editingTechInfo={editingTechInfo}
-                                            EditAddServInfo={EditAddServInfo}
-                                            handleSubmit={handleSubmit}
-                                            onSubmit={onSubmit}
                                             equipoSeleccionado={equipoSeleccionado}
-                                            setEquipoSeleccionado={setEquipoSeleccionado}
                                             editRow={editRow}
-                                            eliminarAddTechInfo={eliminarAddTechInfo}
                                             setEditing={setEditing}
                                             setEditingServiceInfo={setEditingServiceInfo}
                                             servicesInformation={servicesInformation}
-                                            setServicesInformation={setServicesInformation}
-                                            optionalTechInfo={optionalTechInfo}
-                                            setOptionalTechInfo={setOptionalTechInfo}
                                             handleChangeServicesInformation={handleChangeServicesInformation}
-                                            editingNewServInfo={editingNewServInfo}
                                             seteditingNewServInfo={seteditingNewServInfo}
-                                            allAquipmentRelation={allAquipmentRelation}
                                             setnewservInformation={setnewservInformation}
-                                            update={update}
-                                            id={id}
-                                            setId={setId}
-                                            prueba={prueba}
-                                            setPrueba={setPrueba}
                                         />
                                     </>
                                 ) : (
@@ -3334,24 +3366,6 @@ const ConsultaEquipos = () => {
                                             name="number"
                                             value={line ? line.number : ''}
                                             onChange={handleChangeLine} />
-
-
-                                        {/* <TextField
-                                            label="Line Number"
-                                            className="form-control"
-                                            id="outlined-basic"
-                                            variant="outlined"
-                                            name="number"
-                                            value={line ? line.number : ''}
-                                            onChange={handleChangeLine}
-
-                                        /> */}
-
-
-
-
-
-
                                     </FormGroup>
 
                                     <FormGroup className="col-6">
@@ -3362,9 +3376,6 @@ const ConsultaEquipos = () => {
                                             </div>
 
                                         </div> */}
-
-
-
 
                                         <label>Planta <b className="text-danger">*</b></label>
                                         <select
