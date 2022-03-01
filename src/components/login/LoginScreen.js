@@ -9,7 +9,8 @@ import { useForm } from 'react-hook-form';
 import { Button, createTheme, CssBaseline, Grid, Link, Paper, TextField, ThemeProvider, Typography } from '@material-ui/core';
 
 import Gead from '../../assets/Gead.jpeg'
-
+import { globalApi } from '../../types/api.types';
+import axios from 'axios';
 
 //import Button from 'react-bootstrap/Button';
 //import Container from 'react-bootstrap/Container';
@@ -69,21 +70,23 @@ const LoginScreen = ({ history }) => {
 
     }
 
-    const [cuentas, setCuentas] = useState(
-        {
-            usuario1: "claudio.zastrow@ab-inbev.com",
-            usuario2: "francisco.lopez-ext@ab-inbev.com",
-            usuario3: "maria.menab@ab-inbev.com",
-            usuario4: "carlos.ortiz.rubio@ab-inbev.com",
-            usuario5: "alejandro.rojo@ab-inbev.com",
-            usuario6: "roberto.avilam@ab-inbev.com",
-            usuario7: "martin.pulidoc@ab-inbev.com",
-            usuario8: "isai.torres@ab-inbev.com",
-            usuario9: "gabriel.rivero-ext@ab-inbev.com",
-            usuario10: "carlos.razo-ext@ab-inbev.com",
-            password: "prueba@12345"
-        },
-    )
+    // const [cuentas, setCuentas] = useState(
+    //     {
+    //         usuario1: "claudio.zastrow@ab-inbev.com",
+    //         usuario2: "francisco.lopez-ext@ab-inbev.com",
+    //         usuario3: "maria.menab@ab-inbev.com",
+    //         usuario4: "carlos.ortiz.rubio@ab-inbev.com",
+    //         usuario5: "alejandro.rojo@ab-inbev.com",
+    //         usuario6: "roberto.avilam@ab-inbev.com",
+    //         usuario7: "martin.pulidoc@ab-inbev.com",
+    //         usuario8: "isai.torres@ab-inbev.com",
+    //         usuario9: "gabriel.rivero-ext@ab-inbev.com",
+    //         usuario10: "carlos.razo-ext@ab-inbev.com",
+    //         password: "prueba@12345"
+    //     },
+    // )
+
+
     const [user, setUser] = useState(null)
     const [editing, setEditing] = useState(false) // Para usuario incorrecto 
     const [passwordEditing, setPasswordEditing] = useState(false)
@@ -92,31 +95,53 @@ const LoginScreen = ({ history }) => {
         setEditing(false)
         setPasswordEditing(false)
 
-        console.log(e);
+        // console.log(e);
+
+        axios.post(`${globalApi}/login`, e)
+        .then( (x) => {
+            console.log(x);
+            localStorage.setItem("token", x.data.token)
+            history.replace('/consultaEquipos');
+        })
+        .catch( (x) => {
+            console.log(x?.response);
+        })
+
+        // localStorage.removeItem("token")
+
+
+
+
+
+
+
+
+
+
 
         // if (e.password === "12345678") {
 
-        setTimeout(() => {
-            if (e.user === cuentas.usuario1 || e.user === cuentas.usuario2 || e.user === cuentas.usuario3 || e.user === cuentas.usuario4 || e.user === cuentas.usuario5 || e.user === cuentas.usuario6 || e.user === cuentas.usuario7 || e.user === cuentas.usuario8 || e.user === cuentas.usuario9 || e.user === cuentas.usuario10) {
-                console.log(e.user)
-                if (e.password === cuentas.password) {
-                    setUser(e)
-                    setEditing(false)
-                    console.log(e.password)
-                    // history.push('/');      //Redireccion a la url indicada y se puede volver al login.
-                    history.replace('/consultaEquipos');   //Redireccion a la url indicada, No se puede volver al login.
+        // setTimeout(() => {
+        //     if (e.user === cuentas.usuario1 || e.user === cuentas.usuario2 || e.user === cuentas.usuario3 || e.user === cuentas.usuario4 || e.user === cuentas.usuario5 || e.user === cuentas.usuario6 || e.user === cuentas.usuario7 || e.user === cuentas.usuario8 || e.user === cuentas.usuario9 || e.user === cuentas.usuario10) {
+        //         console.log(e.user)
+        //         if (e.password === cuentas.password) {
+        //             setUser(e)
+        //             setEditing(false)
+        //             console.log(e.password)
+        //             // history.push('/');      //Redireccion a la url indicada y se puede volver al login.
+        //             history.replace('/consultaEquipos');   //Redireccion a la url indicada, No se puede volver al login.
 
-                } else {
-                    setPasswordEditing(true)
-                }
+        //         } else {
+        //             setPasswordEditing(true)
+        //         }
 
-            } else {
-                console.log("No funciona")
+        //     } else {
+        //         console.log("No funciona")
 
-                setUser(null)
-                setEditing(true)
-            }
-        }, 1000);
+        //         setUser(null)
+        //         setEditing(true)
+        //     }
+        // }, 1000);
 
     }
 
@@ -219,13 +244,13 @@ const LoginScreen = ({ history }) => {
                         <Typography style={style.txt}>Inicia sesión con tu cuenta asignada por tu administrador.</Typography>
 
                         <TextField label="Nombre de usuario"
-                            name='user'
+                            name='email'
                             placeholder='Name@example.com'
                             variant="outlined"
                             style={style.TextField}
                             fullWidth
                             required
-                            {...register("user", {
+                            {...register("email", {
                                 required: {
                                     value: true,
                                     message: 'Campo requerido'
@@ -247,8 +272,10 @@ const LoginScreen = ({ history }) => {
                                     message: 'Campo requerido'
                                 }
                             })}
-                        />
+                            />
 
+                            {/* {errors?.equipos?.message} */}
+                            
                         <Button type='submit'
                             color="primary"
                             variant='contained'
@@ -271,7 +298,6 @@ const LoginScreen = ({ history }) => {
                             <>
                                 <Paper elevation={10} style={style.validation} >
                                     <span className="text-danger text-small d-block mb-2">
-                                        {/* {errors?.equipos?.message} */}
                                         Usuario incorrecto
                                     </span>
                                 </Paper>

@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 
 import { Button, createTheme, CssBaseline, Grid, Link, Paper, TextField, ThemeProvider, Typography } from '@material-ui/core';
 import Gead from '../../assets/Gead.jpeg'
+import { globalApi } from '../../types/api.types';
+import Axios from "axios";
 
 
 const Registro = ({ history }) => {
@@ -38,32 +40,23 @@ const Registro = ({ history }) => {
         }
     })
 
-    // const [cuentas, setCuentas] = useState(
-    //     {
-    //         usuario1: "claudio.zastrow@ab-inbev.com",
-    //         usuario2: "francisco.lopez-ext@ab-inbev.com",
-    //         usuario3: "maria.menab@ab-inbev.com",
-    //         usuario4: "carlos.ortiz.rubio@ab-inbev.com",
-    //         usuario5: "alejandro.rojo@ab-inbev.com",
-    //         usuario6: "roberto.avilam@ab-inbev.com",
-    //         usuario7: "martin.pulidoc@ab-inbev.com",
-    //         usuario8: "isai.torres@ab-inbev.com",
-    //         usuario9: "gabriel.rivero-ext@ab-inbev.com",
-    //         usuario10: "carlos.razo-ext@ab-inbev.com",
-    //         password: "prueba@12345"
-    //     },
-    // )
-    // const [user, setUser] = useState(null)
-    // const [editing, setEditing] = useState(false) // Para usuario incorrecto 
-    // const [passwordEditing, setPasswordEditing] = useState(false)
 
     const onSubmit = (e) => {
         // setEditing(false)
         // setPasswordEditing(false)
 
         console.log(e);
+        
 
-        history.replace('/consultaEquipos'); 
+        Axios.post(`${globalApi}/register`, {...e, roleId: 1})
+        .then( (x) => {
+            console.log(x);
+        })
+        .catch( (x) => {
+            console.log(x?.response);
+        })
+
+        // history.replace('/consultaEquipos'); 
 
         // if (e.password === "12345678") {
 
@@ -195,7 +188,7 @@ const Registro = ({ history }) => {
                             style={style.TextField}
                             fullWidth
                             required
-                            {...register("user", {
+                            {...register("Name", {
                                 required: {
                                     value: true,
                                     message: 'Campo requerido'
@@ -210,7 +203,7 @@ const Registro = ({ history }) => {
                             style={style.TextField}
                             fullWidth
                             required
-                            {...register("user", {
+                            {...register("LastName", {
                                 required: {
                                     value: true,
                                     message: 'Campo requerido'
@@ -225,7 +218,7 @@ const Registro = ({ history }) => {
                             style={style.TextField}
                             fullWidth
                             required
-                            {...register("user", {
+                            {...register("email", {
                                 required: {
                                     value: true,
                                     message: 'Campo requerido'
@@ -250,14 +243,14 @@ const Registro = ({ history }) => {
                         />
 
                         <TextField label="Repetir Contraseña"
-                            name='password'
+                            name='password2'
                             placeholder='Contraseña'
                             variant="outlined"
                             type='password'
                             style={style.TextField}
                             fullWidth
                             required
-                            {...register("password", {
+                            {...register("password2", {
                                 required: {
                                     value: true,
                                     message: 'Campo requerido'
