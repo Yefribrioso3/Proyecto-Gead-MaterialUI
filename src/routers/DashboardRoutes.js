@@ -22,21 +22,11 @@ import Header from "../components/Header";
 
 // import Employees from "../pages/Employees/Employees";
 
-const useStyles = makeStyles({
-  appMain: {
-    paddingLeft: "250px",
-    width: "100%",
-    height: "100%",
-    backgroundColor: "#3B364E",
-  },
-});
-
-export const DashboardRoutes = () => {
-  const [light, setLight] = useState(false);
-  const classes = useStyles();
+export const DashboardRoutes = (light, setLight) => {
   const theme = createTheme({
     palette: {
       type: light ? "light" : "dark",
+
       primary: {
         main: "#B3C8FC",
         light: "#E6FBFF",
@@ -66,8 +56,20 @@ export const DashboardRoutes = () => {
       },
     },
   });
+
+  const useStyles = makeStyles((theme) => ({
+    appMain: {
+      paddingLeft: "250px",
+      width: "100%",
+      height: "100%",
+      backgroundColor: theme.palette.type == "dark" ? "#3B364E" : "#FFFFFF",
+    },
+  }));
+
+  const classes = useStyles();
+
   return (
-    <ThemeProvider theme={theme} light={light}>
+    <ThemeProvider theme={theme}>
       <div className="d-flex">
         {/* <Sidebar /> */}
         <div className="content">

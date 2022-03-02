@@ -10,8 +10,9 @@ import {
 } from "@material-ui/core";
 import icono from "../assets/icono.png";
 const useStyles = makeStyles((theme) => ({
-  // root: {
-  //     backgroundColor: '#fdfdff'
+  root: {
+    backgroundColor: theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+  },
   // },
   // pageHeader:{
   //     padding:theme.spacing(4),
@@ -24,23 +25,25 @@ const useStyles = makeStyles((theme) => ({
   //     color:'#3c44b1'
   // },
   pageTitle: {
-    color: theme.palette.primary.main,
+    color:
+      theme.palette.type == "dark"
+        ? theme.palette.primary.light
+        : theme.palette.secondary.dark,
     paddingTop: theme.spacing(2),
     fontFamily: "Roboto",
     paddingLeft: theme.spacing(4),
     "& .MuiTypography-subtitle2": {
       opacity: "0.6",
-      backgroundColor: theme.palette.type == "dark" ? "#3B364E" : "#FFFFFF",
+      backgroundColor: theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
     },
-    backgroundColor: theme.palette.type == "dark" ? "#3B364E" : "#FFFFFF",
+    backgroundColor: theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
   },
 }));
 
 export default function PageHeader(props) {
+  const [light, setLight] = useState(false);
   const classes = useStyles();
   const { title, subTitle, contador, icon } = props;
-  const [light, setLight] = useState(false);
-
   const theme = createTheme({
     palette: {
       type: light ? "light" : "dark",

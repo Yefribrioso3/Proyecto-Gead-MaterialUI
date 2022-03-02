@@ -41,7 +41,7 @@ import IconButton from "@material-ui/core/IconButton";
 import SideMenu from "../components/SideMenu";
 import Header from "../components/Header";
 
-import planning from "../assets/planning.jpeg";
+import planning from "../assets/planning.png";
 
 import { DocPDF } from "./components/DocPDF";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
@@ -91,6 +91,31 @@ const headCells = [
 //----------------------------------------------------------------------------------------------------------------------------------------
 
 // const equipoImages = require.context('../assets/equipos/', true);
+const useStyles = makeStyles((theme) => ({
+  pageContent: {
+    margin: theme.spacing(2),
+    padding: theme.spacing(3),
+    borderRadius: "12px",
+    backgroundColor: theme.palette.type == "light" ? "#3F3857" : "#FFFFFF",
+  },
+  searchInput: {
+    width: "328px",
+    marginRight: "auto",
+    backgroundColor: theme.palette.type == "light" ? "#3F3857" : "#FFFFFF",
+  },
+
+  toolbar: {
+    justifyContent: "spacing",
+  },
+  button: {
+    backgroundColor: theme.palette.secondary,
+  },
+  fecha: {
+    color: theme.palette.primary,
+    fontWeight: "300",
+    fontSize: 20,
+  },
+}));
 
 const ConsultaEquipos = () => {
   const [light, setLight] = useState(false);
@@ -116,30 +141,6 @@ const ConsultaEquipos = () => {
       },
     },
   });
-
-  const useStyles = makeStyles((theme) => ({
-    pageContent: {
-      margin: theme.spacing(2),
-      padding: theme.spacing(3),
-      borderRadius: "12px",
-    },
-    searchInput: {
-      width: "328px",
-      marginRight: "auto",
-    },
-
-    toolbar: {
-      justifyContent: "spacing",
-    },
-    button: {
-      backgroundColor: theme.palette.secondary,
-    },
-    fecha: {
-      color: theme.palette.primary,
-      fontWeight: "300",
-      fontSize: 20,
-    },
-  }));
 
   const {
     register,
@@ -1898,17 +1899,17 @@ const ConsultaEquipos = () => {
           filtrarBUList={filtrarBUList}
           listAll={listAll}
           setListAll={setListAll}
+          light={light}
         />
-        <Header light={light} />
+        <Header setLight={setLight} light={light} />
 
-        <Paper className={classes.pageContent} setLight={setLight}>
+        <Paper className={classes.pageContent}>
           {/* <EmployeeForm /> */}
           <Toolbar className="align-items-center">
             <Controls.txt
               label="Search Equipment"
               id="outlined-basic"
               variant="outlined"
-              color="secondary"
               className={classes.searchInput}
               InputProps={{
                 endAdornment: (

@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "none",
   },
   bar: {
-    backgroundColor: theme.palette.type == "dark" ? "#3B364E" : "#FFFFFF",
+    backgroundColor: theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
     paddingTop: theme.spacing(5),
     borderRadius: "12px",
     boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
   searchInput: {
     opacity: "0.6",
     padding: `0px ${theme.spacing(1)}px`,
+    backgroundColor: "transparent",
     fontSize: "0.8rem",
     "&:hover": {
       backgroundColor: "#f2f2f2",
@@ -71,14 +72,14 @@ const useStyles = makeStyles((theme) => ({
     // left: '576px',
     // top: '305px',
   },
+  icons: {
+    fill: theme.palette.type == "dark" ? "#B3C8FC" : "rgba(0, 0, 0, 0.38)",
+  },
 }));
-export default function Header() {
+export default function Header({ isOpen, setIsOpen, light, setLight }) {
   const classes = useStyles();
-
-  const [light, setLight] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-
   const toggle = () => setIsOpen(!isOpen);
+
   const theme = createTheme({
     palette: {
       type: light ? "light" : "dark",
@@ -115,6 +116,7 @@ export default function Header() {
             // subTitle="Middle America"
             // subTitle="Form design with validation"
             // icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
+            setLight={setLight}
           />
 
           <Grid item sm></Grid>
@@ -128,8 +130,8 @@ export default function Header() {
                   style={{
                     color:
                       theme.palette.type == "dark"
-                        ? theme.palette.primary.main
-                        : theme.palette.primary,
+                        ? theme.palette.primary.light
+                        : theme.palette.secondary.dark,
                   }}
                   download="Manual.pdf"
                   title="Descargar proyecto"
@@ -145,15 +147,31 @@ export default function Header() {
                   style={{
                     color:
                       theme.palette.type == "dark"
-                        ? theme.palette.primary.main
-                        : theme.palette.primary,
+                        ? theme.palette.primary.light
+                        : theme.palette.secondary.dark,
                   }}
                 >
                   Bienvenid@ Admin@admin
                 </DropdownToggle>
-                <DropdownMenu right>
+                <DropdownMenu
+                  right
+                  style={{
+                    backgroundColor:
+                      theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+                    boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
+                  }}
+                >
                   <DropdownItem>
-                    <NavLink href="/login" className="text-dark p-0">
+                    <NavLink
+                      href="/login"
+                      className="p-0"
+                      style={{
+                        color:
+                          theme.palette.type == "dark"
+                            ? theme.palette.primary.light
+                            : theme.palette.secondary.dark,
+                      }}
+                    >
                       Cerrar sesión <ExitToAppIcon />
                     </NavLink>
                   </DropdownItem>
@@ -161,13 +179,13 @@ export default function Header() {
               </UncontrolledDropdown>
 
               <div className="align-items-center">
-                <Brightness2Icon />
+                <Brightness2Icon className={classes.icons} />
                 <Switch
                   checked={light}
-                  defaultChecked
                   onChange={() => setLight(!light)}
+                  color="primary"
                 />
-                <WbSunny />
+                <WbSunny className={classes.icons} />
               </div>
             </Nav>
           </Collapse>

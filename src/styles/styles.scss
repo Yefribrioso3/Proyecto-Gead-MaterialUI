@@ -77,43 +77,6 @@ $secondary-dark:#14149A;
 }
 
 
-/* FILTER CARDS STYLES */
-
-.filtercard{
-    background: #FBFBFB;
-    border-radius:12px !important;
-    text-align: left;
-    justify-content: start !important;
-    padding: 12px 20px !important;
-    align-items: center;
-}
-
-
-.filtercard h5{ 
-    color: $secondary !important;
-    font-weight: 700;
-    font-size:0.875rem;
-    text-transform: none;
-    margin-bottom:.3rem;
-}
-
-
-.filtercard h6{
-    font-size: 0.813rem;
-    color: $primary-dark;
-    text-transform: none;
-    margin:0px;
-    text-transform: none;
-    margin:0px;
-}
-
-.filtercard .counter{
-    color: #428E1E !important;
-    text-transform: none;
-    margin:0px;
-}
-/* END OF FILTER CARDS STYLES*/
-
 /* MODEL FORM */
 h1{
     color: $secondary-dark

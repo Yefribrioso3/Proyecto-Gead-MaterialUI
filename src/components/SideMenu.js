@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { withStyles } from "@material-ui/core";
+import { withStyles, makeStyles } from "@material-ui/core";
 import "../styles/styles.scss";
 import Controls from "./controls/Controls";
 import Axios from "axios";
 import abinbev from "../assets/abinbev.jpeg";
+import abiWhite from "../assets/abiWhite.png";
+import abiDark from "../assets/abiBlack.png";
 import GlobalIcon from "../assets/globalicon.svg";
 import Button from "@mui/material/Button";
 import manual from "../assets/Manual.pdf";
@@ -15,40 +17,88 @@ import {
 
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#B3C8FC",
-      light: "#E6FBFF",
-      dark: "#8297C9",
-    },
-    secondary: {
-      main: "#6200EE",
-      light: "#8F6CFF",
-      dark: "#14149A",
-    },
-  },
-});
 
-const style = {
+const useStyles = makeStyles((theme) => ({
   sideMenu: {
     display: "flex",
     flexDirection: "column",
     position: "absolute",
     left: "0px",
     width: "250px",
-    backgroundColor: "white",
     height: "100%",
+    boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
+    backgroundColor: theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
   },
-};
+  logo: {
+    margin: "auto",
+    width: "10rem",
+    display: "flex",
+  },
+  filterCard: {
+    background: "#FBFBFB",
+    borderRadius: "12px !important",
+    textAlign: "left",
+    justifyContent: "start !important",
+    padding: "12px 20px !important",
+    alignItems: "center",
+    "& hover": {
+      backgroundColor: theme.palette.type == "dark" ? "#635D7A" : "#FBFBFB",
+    },
+    "& h5": {
+      color:
+        theme.palette.type == "dark"
+          ? theme.palette.primary.light
+          : theme.palette.secondary,
+      fontWeight: "700",
+      fontSize: "0.875rem",
+      textTransform: "none",
+      marginBottom: ".3rem",
+    },
+    "& h6": {
+      fontSize: "0.813rem",
+      color:
+        theme.palette.type == "dark" ? "#B3C8FC" : theme.palette.primary.dark,
+      textTransform: "none",
+      margin: "0px",
+    },
+  },
+  counter: {
+    color: "#428E1E !important",
+    textTransform: "none",
+    margin: "0px",
+  },
+}));
 
 const SideMenu = ({
   getAllList,
-  classes,
+
   filtrarBUList,
   setListAll,
   listAll,
+  light,
 }) => {
+  const theme = createTheme({
+    palette: {
+      type: light ? "light" : "dark",
+
+      primary: {
+        main: "#B3C8FC",
+        light: "#E6FBFF",
+        dark: "#8297C9",
+      },
+      secondary: {
+        main: "#6200EE",
+        light: "#8F6CFF",
+        dark: "#14149A",
+      },
+      background: {
+        main: "#f4f5fd",
+        light: "#8F6CFF",
+        dark: "#14149A",
+      },
+    },
+  });
+  const classes = useStyles();
   const [mexCounter, setMexCounter] = useState(0);
   const [pecCounter, setPecCounter] = useState(0);
   const [cacCounter, setCacCounter] = useState(0);
@@ -124,11 +174,14 @@ const SideMenu = ({
     <ThemeProvider theme={theme}>
       <div className={`${classes.sideMenu}`}>
         <div className="pt-5 border-1">
-          <img src={abinbev} />
+          <img
+            src={theme.palette.type == "dark" ? abiWhite : abiDark}
+            className={classes.logo}
+          />
         </div>
         <div className="p-2 mt-5">
           <Button
-            className="btn btn-large filtercard w-100 mb-2"
+            className={"btn btn-large w-100 mb-2 " + `${classes.filterCard}`}
             onClick={(e) => filtrarBUList("total", "total", setListAll)}
           >
             <div className="row align-items-center">
@@ -146,7 +199,9 @@ const SideMenu = ({
                   </div>
                   <div className="col-6 text-end">
                     <h6>
-                      <strong className="counter">{`${contador}`}</strong>
+                      <strong
+                        className={classes.counter}
+                      >{`${contador}`}</strong>
                     </h6>
                   </div>
                 </div>
@@ -154,7 +209,7 @@ const SideMenu = ({
             </div>
           </Button>
           <Button
-            className="btn btn-large filtercard w-100 mb-2"
+            className={"btn btn-large w-100 mb-2 " + `${classes.filterCard}`}
             onClick={(e) => filtrarBUList("MEX")}
           >
             {" "}
@@ -172,7 +227,9 @@ const SideMenu = ({
                   </div>
                   <div className="col-6 text-end">
                     <h6>
-                      <strong className="counter">{`${mexCounter}`}</strong>
+                      <strong
+                        className={classes.counter}
+                      >{`${mexCounter}`}</strong>
                     </h6>
                   </div>
                 </div>
@@ -180,7 +237,7 @@ const SideMenu = ({
             </div>
           </Button>
           <Button
-            className="btn btn-large filtercard w-100 mb-2"
+            className={"btn btn-large w-100 mb-2 " + `${classes.filterCard}`}
             onClick={(e) => filtrarBUList("CAC")}
           >
             {" "}
@@ -200,7 +257,9 @@ const SideMenu = ({
                   </div>
                   <div className="col-6 text-end">
                     <h6>
-                      <strong className="counter">{`${cacCounter}`}</strong>
+                      <strong
+                        className={classes.counter}
+                      >{`${cacCounter}`}</strong>
                     </h6>
                   </div>
                 </div>
@@ -209,7 +268,7 @@ const SideMenu = ({
           </Button>
 
           <Button
-            className="btn btn-large filtercard w-100 mb-2"
+            className={"btn btn-large w-100 mb-2 " + `${classes.filterCard}`}
             onClick={(e) => filtrarBUList("PEC")}
           >
             <div className="row align-items-center">
@@ -227,7 +286,9 @@ const SideMenu = ({
                   </div>
                   <div className="col-6 text-end">
                     <h6>
-                      <strong className="counter">{`${pecCounter}`}</strong>
+                      <strong
+                        className={classes.counter}
+                      >{`${pecCounter}`}</strong>
                     </h6>
                   </div>
                 </div>
@@ -235,10 +296,9 @@ const SideMenu = ({
             </div>
           </Button>
           <Button
-            className="btn btn-large filtercard w-100 mb-2 "
+            className={"btn btn-large w-100 mb-2 " + `${classes.filterCard}`}
             onClick={(e) => filtrarBUList("COL")}
           >
-            {" "}
             <div className="row  align-items-center">
               <div className="col-3">
                 <img src={GlobalIcon} className="img-fluid" />
@@ -253,7 +313,9 @@ const SideMenu = ({
                   </div>
                   <div className="col-6 text-end">
                     <h6>
-                      <strong className="counter">{`${colCounter}`}</strong>
+                      <strong
+                        className={classes.counter}
+                      >{`${colCounter}`}</strong>
                     </h6>
                   </div>
                 </div>
@@ -261,8 +323,10 @@ const SideMenu = ({
             </div>
           </Button>
           <Button
-            className="btn btn-large filtercard w-100 mb-2 align-items-center d-flex"
-            onClick={(e) => filtrarBUList("PEC")}
+            className={
+              "btn btn-large w-100 mb-2 align-items-center d-flex " +
+              `${classes.filterCard}`
+            }
           >
             <div>
               <h5>Power BI</h5>
@@ -274,4 +338,4 @@ const SideMenu = ({
   );
 };
 
-export default withStyles(style)(SideMenu);
+export default withStyles(useStyles)(SideMenu);
