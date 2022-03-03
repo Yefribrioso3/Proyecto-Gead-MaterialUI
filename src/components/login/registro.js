@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 
-import { Button, createTheme, CssBaseline, Grid, Link, Paper, TextField, ThemeProvider, Typography } from '@material-ui/core';
+import { Button, createTheme, CssBaseline, Grid, IconButton, Link, Paper, TextField, ThemeProvider, Typography } from '@material-ui/core';
 import Gead from '../../assets/Gead.jpeg'
 import { globalApi } from '../../types/api.types';
 import Axios from "axios";
+import ExcelRegistro from './ExcelRegistro';
 
 
 const Registro = ({ history }) => {
@@ -171,9 +172,9 @@ const Registro = ({ history }) => {
 
             <Grid>
                 <Paper elevation={10} style={style.paper}>
+                            {/* <img src={Gead} /> */}
                     <form onSubmit={handleSubmit(onSubmit)}   >
                         <Grid>
-                            {/* <img src={Gead} /> */}
                             <img src={Gead} style={style.logo} />
                         </Grid>
 
@@ -267,13 +268,25 @@ const Registro = ({ history }) => {
                             Crear Cuenta
                         </Button>
 
-                        {/* <Grid style={style.link}> */}
 
                         <Typography style={style.link}> Si aún no tienes cuenta,
                             <Link href='#' style={style.linkColor} color="#14149A"> comunícate con tu administrador</Link>  para asistencia.
                         </Typography>
 
                     </form>
+                        {/* <Grid style={style.link}> */}
+
+
+                    {/* -------------------------------    Agregar Desde Excel    --------------------------------------------- */}
+                    
+                    {/* <ExcelRegistro /> */}
+
+                    {/* -------------------------------    Agregar Desde Excel    --------------------------------------------- */}
+
+
+
+
+
 
                     {/* {
                         editing ? (
