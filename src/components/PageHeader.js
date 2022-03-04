@@ -59,9 +59,9 @@ export default function PageHeader(props) {
         dark: "#14149A",
       },
       background: {
-        main: "#f4f5fd",
-        light: "#8F6CFF",
-        dark: "#14149A",
+        main: "#3F3857",
+        light: "#FFFFFF",
+        dark: "#3F3857",
       },
     },
   });

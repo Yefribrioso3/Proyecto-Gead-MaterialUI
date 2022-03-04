@@ -22,7 +22,8 @@ import Header from "../components/Header";
 
 // import Employees from "../pages/Employees/Employees";
 
-export const DashboardRoutes = (light, setLight) => {
+export const DashboardRoutes = () => {
+  const [light, setLight] = useState(false);
   const theme = createTheme({
     palette: {
       type: light ? "light" : "dark",
@@ -38,9 +39,9 @@ export const DashboardRoutes = (light, setLight) => {
         dark: "#14149A",
       },
       background: {
-        main: "#f4f5fd",
-        light: "#8F6CFF",
-        dark: "#14149A",
+        main: "#3F3857",
+        light: "#FFFFFF",
+        dark: "#3F3857",
       },
     },
     overrides: {
@@ -50,6 +51,7 @@ export const DashboardRoutes = (light, setLight) => {
         },
       },
     },
+
     props: {
       MuiIconButton: {
         disableRipple: true,
@@ -62,7 +64,6 @@ export const DashboardRoutes = (light, setLight) => {
       paddingLeft: "250px",
       width: "100%",
       height: "100%",
-      backgroundColor: theme.palette.type == "dark" ? "#3B364E" : "#FFFFFF",
     },
   }));
 
@@ -70,7 +71,7 @@ export const DashboardRoutes = (light, setLight) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="d-flex">
+      <div className={"d-flex " + `main ${theme.palette.type}`} light={light}>
         {/* <Sidebar /> */}
         <div className="content">
           {/* <NavbarNav /> */}
@@ -83,6 +84,7 @@ export const DashboardRoutes = (light, setLight) => {
                 exact
                 path="/consultaEquipos"
                 component={ConsultaEquipos}
+                setLight={setLight}
               />
               <Route exact path="/maestroEquipos" component={MasterEquipos} />
 

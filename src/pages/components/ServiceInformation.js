@@ -12,20 +12,6 @@ import AddIcon from "@material-ui/icons/Add";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#B3C8FC",
-      light: "#E6FBFF",
-      dark: "#8297C9",
-    },
-    secondary: {
-      main: "#6200EE",
-      light: "#8F6CFF",
-      dark: "#14149A",
-    },
-  },
-});
 const ServiceInformation = ({
   casoServInfo,
   id,
@@ -53,6 +39,28 @@ const ServiceInformation = ({
   techInfoEditado,
   updateAddServInfo,
 }) => {
+  const [light, setLight] = useState(false);
+  const theme = createTheme({
+    palette: {
+      type: light ? "light" : "dark",
+
+      primary: {
+        main: "#B3C8FC",
+        light: "#E6FBFF",
+        dark: "#8297C9",
+      },
+      secondary: {
+        main: "#6200EE",
+        light: "#8F6CFF",
+        dark: "#14149A",
+      },
+      background: {
+        main: "#3F3857",
+        light: "#FFFFFF",
+        dark: "#3F3857",
+      },
+    },
+  });
   // casoServInfo, setCasoServInfo
   const {
     register,

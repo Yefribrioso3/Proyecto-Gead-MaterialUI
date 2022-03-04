@@ -6,7 +6,18 @@ $secondary:#593FCC;
 $secondary-light:#8F6CFF;
 $secondary-dark:#14149A;
 
+.light{
+  
+    --theme-page-background:#ffffff;
+    --theme-root-background:#ffffff;
+    --theme-text: #3F3857;
+}
 
+.dark {
+    --theme-page-background:#3F3857;
+    --theme-root-background: #343141;
+    --theme-text: #E6FBFF;
+}
 
 .form-register {
     background: #ffffff;
@@ -92,6 +103,13 @@ h4, h5, h6{
     border-width: 0;
     box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.25);
     padding: 25px;
+    background: transparent;
+   
+}
+
+.modalForm{
+    background-color: var(--theme-page-background);
+    color: var(--theme-text)
 }
 
 #imagen .MuiButton-outlinedPrimary{
@@ -102,12 +120,19 @@ h4, h5, h6{
     height: 130px;
 }
 
-input{
+.form-control{
     background-color: transparent !important;
+    border-color: var(--theme-text);
 }
+
 
 .MuiButton-containedPrimary{
     background: $secondary !important;
     border-radius: 4px !important;
 }
 /* MODEL FORM */
+
+.main{
+    background-color: var(--theme-root-background);
+    min-height: 100vh;
+}

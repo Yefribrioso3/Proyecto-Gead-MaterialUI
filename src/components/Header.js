@@ -58,9 +58,7 @@ const useStyles = makeStyles((theme) => ({
     padding: `0px ${theme.spacing(1)}px`,
     backgroundColor: "transparent",
     fontSize: "0.8rem",
-    "&:hover": {
-      backgroundColor: "#f2f2f2",
-    },
+
     "& .MuiSvgIcon-root": {
       marginRight: theme.spacing(1),
     },

@@ -70,6 +70,8 @@ const StyledTableCell = withStyles((theme) => ({
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
+    backgroundColor: theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+
     "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.action.hover,
     },
@@ -91,31 +93,6 @@ const headCells = [
 //----------------------------------------------------------------------------------------------------------------------------------------
 
 // const equipoImages = require.context('../assets/equipos/', true);
-const useStyles = makeStyles((theme) => ({
-  pageContent: {
-    margin: theme.spacing(2),
-    padding: theme.spacing(3),
-    borderRadius: "12px",
-    backgroundColor: theme.palette.type == "light" ? "#3F3857" : "#FFFFFF",
-  },
-  searchInput: {
-    width: "328px",
-    marginRight: "auto",
-    backgroundColor: theme.palette.type == "light" ? "#3F3857" : "#FFFFFF",
-  },
-
-  toolbar: {
-    justifyContent: "spacing",
-  },
-  button: {
-    backgroundColor: theme.palette.secondary,
-  },
-  fecha: {
-    color: theme.palette.primary,
-    fontWeight: "300",
-    fontSize: 20,
-  },
-}));
 
 const ConsultaEquipos = () => {
   const [light, setLight] = useState(false);
@@ -135,12 +112,40 @@ const ConsultaEquipos = () => {
         dark: "#14149A",
       },
       background: {
-        main: "#f4f5fd",
-        light: "#8F6CFF",
-        dark: "#14149A",
+        main: "#3F3857",
+        light: "#FFFFFF",
+        dark: "#3F3857",
       },
     },
   });
+
+  const useStyles = makeStyles((theme) => ({
+    pageContent: {
+      margin: theme.spacing(2),
+      padding: theme.spacing(3),
+      borderRadius: "12px",
+    },
+    searchInput: {
+      width: "328px",
+      marginRight: "auto",
+    },
+
+    toolbar: {
+      justifyContent: "spacing",
+    },
+    button: {
+      backgroundColor: theme.palette.secondary,
+    },
+    fecha: {
+      color: theme.palette.primary,
+      fontWeight: "300",
+      fontSize: 20,
+    },
+
+    modalDetail: {
+      backgroundColor: theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+    },
+  }));
 
   const {
     register,
@@ -1903,7 +1908,14 @@ const ConsultaEquipos = () => {
         />
         <Header setLight={setLight} light={light} />
 
-        <Paper className={classes.pageContent}>
+        <Paper
+          light={light}
+          className={classes.pageContent}
+          style={{
+            backgroundColor:
+              theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+          }}
+        >
           {/* <EmployeeForm /> */}
           <Toolbar className="align-items-center">
             <Controls.txt
@@ -2085,7 +2097,12 @@ const ConsultaEquipos = () => {
         {/* =================================== Modal Editar ================================= */}
         {/* ================================================================================== */}
 
-        <Modal isOpen={modalEditar} style={{ maxWidth: 800 }}>
+        <Modal
+          isOpen={modalEditar}
+          style={{
+            maxWidth: 800,
+          }}
+        >
           <ModalHeader>
             <div>
               <h1>Editar Registro</h1>
@@ -3144,8 +3161,10 @@ const ConsultaEquipos = () => {
 
         <Modal
           isOpen={modalInsertar}
-          style={{ maxWidth: 700 }}
-          className="modalForm"
+          style={{
+            maxWidth: 700,
+          }}
+          className={`modalForm ${theme.palette.type}`}
         >
           <ModalHeader>
             <div>
