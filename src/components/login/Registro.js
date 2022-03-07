@@ -269,9 +269,9 @@ const Registro = ({ history }) => {
                         </Button>
 
 
-                        <Typography style={style.link}> Si aún no tienes cuenta,
+                        {/* <Typography style={style.link}> Si aún no tienes cuenta,
                             <Link href='#' style={style.linkColor} color="#14149A"> comunícate con tu administrador</Link>  para asistencia.
-                        </Typography>
+                        </Typography> */}
 
                     </form>
                         {/* <Grid style={style.link}> */}
