@@ -93,7 +93,7 @@ const Registro = ({ history }) => {
     const style = createTheme({
         paper: {
             padding: 40,
-            height: '720px',
+            height: '650px',
             width: '384px',
             margin: '130px auto',
             borderRadius: '24px'
@@ -129,6 +129,9 @@ const Registro = ({ history }) => {
             color: '#14149A',
             marginTop: "0.5rem",
             marginBottom: '0.5rem',
+        },
+        center: {
+            alignItems: 'center',
         },
         txt: {
             fontFamily: 'Work Sans',
@@ -178,9 +181,9 @@ const Registro = ({ history }) => {
                             <img src={Gead} style={style.logo} alt="" />
                         </Grid>
 
-                        <Grid > </Grid>
-                        <Typography style={style.h4}>¡Bienvenido!</Typography>
-                        <Typography style={style.txt}>Inicia sesión con tu cuenta asignada por tu administrador.</Typography>
+                        <Grid className='mt-4'> </Grid> 
+                        <Typography style={style.h4}>Registo</Typography>
+                        {/* <Typography style={style.txt}>Inicia sesión con tu cuenta asignada por tu administrador.</Typography> */}
 
                         <TextField label="Nombre"
                             name='Name'

@@ -1023,7 +1023,8 @@ const ConsultaEquipos = () => {
         
         let valorInsertar = equipoSeleccionado; //Variable auxiliar para modificar el equipo seleccionado
         
-        valorInsertar.Id_Equipment = getAllList.length + 1;
+        // valorInsertar.Id_Equipment = getAllList.length + 1;
+        valorInsertar.Id_Equipment = uuidv4();
         
         // bu.Id_BU = uuidv4();
         bu.Id_BU = valorInsertar.Id_Equipment;
@@ -2044,6 +2045,7 @@ const ConsultaEquipos = () => {
                         rowsPerPageOptions={[13]}
                     />
                 </div>
+                
 
                 <Toolbar className={"mt-0"}>
                     <PageHeader
