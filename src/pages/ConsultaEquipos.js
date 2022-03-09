@@ -61,10 +61,17 @@ import { ThemeProvider } from "@material-ui/styles";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    color: theme.palette.primary.main,
+    color:
+      theme.palette.type == "dark"
+        ? theme.palette.primary.light
+        : theme.palette.secondary.light,
   },
   body: {
     fontSize: 14,
+    color:
+      theme.palette.type == "dark"
+        ? theme.palette.primary.light
+        : theme.palette.secondary.light,
   },
 }))(TableCell);
 
@@ -1971,7 +1978,15 @@ const ConsultaEquipos = () => {
               <TableBody>
                 {recordsAfterPagingAndSorting().map((item) => (
                   <StyledTableRow key={item.Id_Equipment}>
-                    <StyledTableCell style={{ fontWeight: "600" }}>
+                    <StyledTableCell
+                      style={{
+                        fontWeight: "medium",
+                        color:
+                          theme.palette.type == "dark"
+                            ? theme.palette.primary.light
+                            : theme.palette.secondary,
+                      }}
+                    >
                       {item.Name}
                     </StyledTableCell>
                     <TableCell>
