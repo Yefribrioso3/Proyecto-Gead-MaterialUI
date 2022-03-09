@@ -6,7 +6,7 @@ import { Button, createTheme, CssBaseline, Grid, IconButton, Link, Paper, TextFi
 import Gead from '../../assets/Gead.jpeg'
 import { globalApi } from '../../types/api.types';
 import Axios from "axios";
-import ExcelRegistro from './ExcelRegistro';
+// import ExcelRegistro from './ExcelRegistro';
 
 
 const Registro = ({ history }) => {
@@ -175,7 +175,7 @@ const Registro = ({ history }) => {
                             {/* <img src={Gead} /> */}
                     <form onSubmit={handleSubmit(onSubmit)}   >
                         <Grid>
-                            <img src={Gead} style={style.logo} />
+                            <img src={Gead} style={style.logo} alt="" />
                         </Grid>
 
                         <Grid > </Grid>
