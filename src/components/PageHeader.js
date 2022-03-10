@@ -11,7 +11,7 @@ import {
 import icono from "../assets/icono.png";
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+    backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
   },
   // },
   // pageHeader:{
@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(4),
     "& .MuiTypography-subtitle2": {
       opacity: "0.6",
-      backgroundColor: theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+      backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
     },
-    backgroundColor: theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+    backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
   },
 }));
 

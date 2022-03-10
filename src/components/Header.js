@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "none",
   },
   bar: {
-    backgroundColor: theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+    backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
     paddingTop: theme.spacing(5),
     borderRadius: "12px",
     boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
@@ -155,7 +155,7 @@ export default function Header({ isOpen, setIsOpen, light, setLight }) {
                   right
                   style={{
                     backgroundColor:
-                      theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+                      theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
                     boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
                   }}
                 >

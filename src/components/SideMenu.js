@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     width: "250px",
     height: "100%",
     boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
-    backgroundColor: theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+    backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
   },
   logo: {
     margin: "auto",

@@ -21,18 +21,14 @@ import { DataGrid } from "@mui/x-data-grid";
 
 //-------------------------------------------------------------------
 
-import PageHeader from "../components/PageHeader";
 import {
   Paper,
-  TableBody,
   TableRow,
   TableCell,
   Toolbar,
   InputAdornment,
   Grid,
   TextField,
-  TableContainer,
-  Table,
 } from "@material-ui/core";
 import useTable from "../components/useTable";
 import Controls from "../components/controls/Controls";
@@ -47,7 +43,7 @@ import planning from "../assets/planning.png";
 import { DocPDF } from "./components/DocPDF";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import * as XLSX from "xlsx";
-import { Excel, send } from "./components/Excel";
+import { Excel } from "./components/Excel";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { Pagination } from "@material-ui/lab";
@@ -81,7 +77,7 @@ const StyledTableRow = withStyles((theme) => ({
         ? theme.palette.background.dark
         : theme.palette.background.light,
 
-    backgroundColor: theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+    backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
 
     "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.action.hover,
@@ -154,7 +150,7 @@ const ConsultaEquipos = () => {
     },
 
     modalDetail: {
-      backgroundColor: theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+      backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
     },
   }));
 
@@ -1703,14 +1699,18 @@ const ConsultaEquipos = () => {
       width: 400,
       headerClassName: "header",
       fontWeight: 500,
+      "&:nth-of-type(odd)": {
+        backgroundColor: theme.palette.primary.dark,
+      },
 
       renderCell: (params) => {
         return (
           <div
             style={{
+              borderBottom: "0",
               color:
                 theme.palette.type == "dark"
-                  ? theme.palette.primary.light
+                  ? theme.palette.primary
                   : theme.palette.secondary.light,
               fontWeight: 500,
             }}
@@ -1849,7 +1849,7 @@ const ConsultaEquipos = () => {
           className={classes.pageContent}
           style={{
             backgroundColor:
-              theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+              theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
           }}
         >
           {/* <EmployeeForm /> */}
@@ -1884,14 +1884,18 @@ const ConsultaEquipos = () => {
             style={{
               height: 805,
               width: "100%",
+              border: "0",
               color:
                 theme.palette.type == "dark"
                   ? theme.palette.background.dark
                   : theme.palette.background.light,
               backgroundColor:
                 theme.palette.type == "dark"
-                  ? theme.palette.background.dark
+                  ? "#514A69"
                   : theme.palette.background.light,
+              "&:nth-of-type(odd)": {
+                backgroundColor: theme.palette.primary.dark,
+              },
             }}
           >
             <DataGrid
@@ -1903,10 +1907,15 @@ const ConsultaEquipos = () => {
               pageSize={13}
               rowsPerPageOptions={[13]}
               style={{
+                border: "0",
+                borderBottom: "0",
                 color:
                   theme.palette.type == "dark"
                     ? theme.palette.primary.light
                     : theme.palette.primary.dark,
+                "&:nth-of-type(odd)": {
+                  backgroundColor: theme.palette.primary.dark,
+                },
               }}
             />
           </div>
@@ -2813,77 +2822,6 @@ const ConsultaEquipos = () => {
                         </FormGroup>
                         <br />
 
-                        {/* <FormGroup className="col-6">
-                                        <label>Equipo:</label>
-                                        <input
-                                            className="form-control"
-                                            type="text text-align=center"
-                                            name="equipos"
-                                            value={equipoSeleccionado && equipoSeleccionado.equipos}
-                                            onChange={handleChange} />
-                                        </FormGroup> */}
-
-                        {/* <FormGroup className="col-6">
-                                        <label>Country:</label>
-                                        <input
-                                            className="form-control"
-                                            type="text text-align=center"
-                                            name="Name"
-                                            value={countries && countries.Name}
-                                            onChange={handleChangeCountries} />
-                                        </FormGroup>
-
-                                        <FormGroup className="col-6">
-                                        <label>BU:</label>
-                                        <input
-                                            className="form-control"
-                                            type="text text-align=center"
-                                            name="Name"
-                                            value={bu && bu.Name}
-                                            onChange={handleChangeBu} />
-                                        </FormGroup>
-
-                                        <FormGroup className="col-6">
-                                        <label>Area:</label>
-                                        <input
-                                            className="form-control"
-                                            type="text text-align=center"
-                                            name="Name"
-                                            value={areas && areas.Name}
-                                            onChange={handleChangeAreas} />
-                                        </FormGroup>
-
-
-                                        <FormGroup className="col-6">
-                                        <label>Subárea:</label>
-                                        <input
-                                            className="form-control"
-                                            type="text text-align=center"
-                                            name="Name"
-                                            value={SubArea && SubArea.Name}
-                                            onChange={handleChangeSubArea} />
-                                        </FormGroup>
-
-                                        <FormGroup className="col-6">
-                                        <label>Line Type:</label>
-                                        <input
-                                            className="form-control"
-                                            type="text text-align=center"
-                                            name="Name"
-                                            value={lineTypes && lineTypes.Name}
-                                            onChange={handleChangeLineTypes} />
-                                        </FormGroup>
-
-                                        <FormGroup className="col-6">
-                                        <label>Line Number:</label>
-                                        <input
-                                            className="form-control"
-                                            type="text text-align=center"
-                                            name="number"
-                                            value={line && line.number}
-                                            onChange={handleChangeLine} />
-                                        </FormGroup> */}
-
                         {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
                         <FormGroup className="row justify-content-between align-items-center">
                           <Grid xs={4} className="d-flex justify-content-start">
@@ -3006,7 +2944,16 @@ const ConsultaEquipos = () => {
         >
           <ModalHeader>
             <div>
-              <h1>Nuevo Registro</h1>
+              <h1
+                style={{
+                  color:
+                    theme.palette.type == "dark"
+                      ? theme.palette.primary.light
+                      : theme.palette.secondary,
+                }}
+              >
+                Nuevo Registro
+              </h1>
             </div>
           </ModalHeader>
 
@@ -3445,7 +3392,16 @@ const ConsultaEquipos = () => {
               <div>
                 {/* -----------------------------------           Insertar Registros        ------------------------------------------- */}
                 <div>
-                  <h6>Detalles Generales</h6>
+                  <h6
+                    style={{
+                      color:
+                        theme.palette.type == "dark"
+                          ? theme.palette.primary.light
+                          : theme.palette.secondary,
+                    }}
+                  >
+                    Detalles Generales
+                  </h6>
                 </div>
                 <form>
                   <ModalBody className="row text-align-center justify-content-center animate__animated animate__fadeIn">
