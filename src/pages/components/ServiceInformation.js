@@ -38,8 +38,8 @@ const ServiceInformation = ({
   setEditingTechInfo,
   techInfoEditado,
   updateAddServInfo,
+  light,
 }) => {
-  const [light, setLight] = useState(false);
   const theme = createTheme({
     palette: {
       type: light ? "light" : "dark",
@@ -156,25 +156,6 @@ const ServiceInformation = ({
     editRow(elemento, caso);
   };
 
-  // const eliminarAddTechInfo = (id) => {
-
-  //     setnewservInformation(newservInformation.filter((sercivesIn) => sercivesIn.Id_NewServInfo !== id))
-
-  //     let newEquipo = equipoSeleccionado;
-  //     newEquipo.ServicesInformation.newServicesInformation = newservInformation;
-
-  //     setEquipoSeleccionado(newEquipo);
-  //     console.log(equipoSeleccionado);
-
-  // }
-
-  // const eliminarAddTechInfoApi = (id) => {
-  //     setEquipoSeleccionado(equipoSeleccionado.ServicesInformation.newServicesInformation.filter((sercivesIn) => sercivesIn.Id_NewServInfo !== id))
-  //     console.log(equipoSeleccionado);
-  // }
-
-  //---------------------------------------------------------------------------------------------------
-
   const eliminarServInfo = async (id) => {
     console.log(id);
 
@@ -289,7 +270,11 @@ const ServiceInformation = ({
         <FormGroup className="row align-items-center justify-content-between">
           <Grid xs={4} className="d-flex justify-content-start">
             <Button
-              color="secundary"
+              style={{
+                border: "0px",
+                backgroundColor: "transparent",
+                color: theme.palette.type == "dark" ? "#ffffff" : "#000000",
+              }}
               onClick={() => {
                 setEditing(true);
                 setEditingServiceInfo(false);
@@ -315,8 +300,10 @@ const ServiceInformation = ({
           </Grid>
           <Grid xs={4}>
             <Button
+              style={{
+                backgroundColor: "transparent",
+              }}
               className="d-none"
-              color="secundary"
               onClick={() => {
                 setEditing(true);
                 setEditingServiceInfo(true);

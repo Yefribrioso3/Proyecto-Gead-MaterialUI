@@ -17,8 +17,9 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 import ServiceInformation from "./components/ServiceInformation";
 import EditAddTechInfo from "./components/EditAddTechInfo";
 import AddIcon from "@material-ui/icons/Add";
-//----------------------------------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------------------------------
+import { DataGrid } from "@mui/x-data-grid";
+
+//-------------------------------------------------------------------
 
 import PageHeader from "../components/PageHeader";
 import {
@@ -35,7 +36,7 @@ import {
 } from "@material-ui/core";
 import useTable from "../components/useTable";
 import Controls from "../components/controls/Controls";
-import { Add, Delete, Edit, Search } from "@material-ui/icons";
+import { Add, Delete, Edit, Search, Visibility } from "@material-ui/icons";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import IconButton from "@material-ui/core/IconButton";
 import SideMenu from "../components/SideMenu";
@@ -45,8 +46,6 @@ import planning from "../assets/planning.png";
 
 import { DocPDF } from "./components/DocPDF";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
-// import Excel from './components/Excel';
-
 import * as XLSX from "xlsx";
 import { Excel, send } from "./components/Excel";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
@@ -55,9 +54,9 @@ import { Pagination } from "@material-ui/lab";
 
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+import { globalApi } from "../types/api.types";
 
-//----------------------------------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -77,6 +76,11 @@ const StyledTableCell = withStyles((theme) => ({
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
+    color:
+      theme.palette.type == "dark"
+        ? theme.palette.background.dark
+        : theme.palette.background.light,
+
     backgroundColor: theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
 
     "&:nth-of-type(odd)": {
@@ -86,20 +90,17 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 const headCells = [
-  { id: "Name", label: "Equipment" },
+  { id: "Name", label: "Equipo" },
   { id: "bu", label: "BU", disableSorting: true },
-  { id: "pais", label: "Country", disableSorting: true },
+  { id: "pais", label: "País", disableSorting: true },
   { id: "area", label: "Area", disableSorting: true },
-  { id: "subarea", label: "Subarea", disableSorting: true },
-  { id: "planta", label: "Plant", disableSorting: true },
-  { id: "equipmentType", label: "Equipment Type", disableSorting: true },
-  { id: "acciones", label: "Actions", disableSorting: true },
+  { id: "subarea", label: "Subárea", disableSorting: true },
+  { id: "planta", label: "Planta", disableSorting: true },
+  { id: "equipmentType", label: "Tipo de Equipo", disableSorting: true },
+  { id: "acciones", label: "Acciones", disableSorting: true },
 ];
 
-//----------------------------------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------------------------------
-
-// const equipoImages = require.context('../assets/equipos/', true);
+//---------------------------------------------------------------
 
 const ConsultaEquipos = () => {
   const [light, setLight] = useState(false);
@@ -122,6 +123,9 @@ const ConsultaEquipos = () => {
         main: "#3F3857",
         light: "#FFFFFF",
         dark: "#3F3857",
+      },
+      alert: {
+        main: "#C60055",
       },
     },
   });
@@ -170,8 +174,6 @@ const ConsultaEquipos = () => {
   const [modalInsertar, setModalInsertar] = useState(false); //Hook para abrir y cerrar el modal Insertar
   const [modalInsertarExcel, setModalInsertarExcel] = useState(false);
 
-  // const [modalConsultaAv, setModalConsultaAv] = useState(false); //Hook para abrir y cerrar el modal Consulta Avanzada
-
   // ----------------   Request API consultar   --------------------------
 
   const [buList, setBuList] = useState([]);
@@ -188,37 +190,18 @@ const ConsultaEquipos = () => {
 
   const [getAllList, setGetAllList] = useState([]);
 
-  // const [readExcel, setReadExcel] = useState([]);
-
-  // const [ExcelGet, setExcelGet] = useState([]);
-
-  // http://localhost:3001
-
   const allAquipmentRelation = async () => {
-    await Axios.get(
-      "https://node-gead.herokuapp.com/api/AllequipmentRelation"
-    ).then((response) => {
-      setGetAllList(response.data.equipment);
-    });
+    await Axios.get(`${globalApi}/AllequipmentRelation`).then(
+      async (response) => {
+        let a = await Promise.all(
+          response.data.equipment.map((z) => ({ ...z, id: z.Id_Equipment }))
+        );
+        setGetAllList(a);
+      }
+    );
   };
-
   useEffect(() => {
     allAquipmentRelation();
-    // getLine();
-    // getProcedencia();
-    // getEquipment();
-    // getServicesInfo();
-    // getNewServicesInformation();
-    // getTechnicalSpecification();
-    // getNewTechnicalSpec();
-
-    // Axios.get('http://localhost:3001/api/AllequipmentRelation').then((response) => {
-    //     setGetAllList(response.data.equipment)
-    // })
-    // Axios.get('http://localhost:3001/api/readExcel')
-    //     .then((response) => {
-    //         setReadExcel(response.data)
-    //     })
 
     Axios.get("https://node-gead.herokuapp.com/api/bu").then((response) => {
       setBuList(response.data.Bu);
@@ -249,8 +232,6 @@ const ConsultaEquipos = () => {
         setLineTypeList(response.data.lineTypes);
       }
     );
-
-    // peticionGet();
   }, []);
 
   const [filterFn, setFilterFn] = useState({
@@ -261,77 +242,6 @@ const ConsultaEquipos = () => {
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     useTable(getAllList, headCells, filterFn);
-
-  // const {
-  //     TblContainer,
-  //     TblHead,
-  //     // TblPagination,
-  //     // recordsAfterPagingAndSorting
-  // } = useTable(getAllList, headCells );
-  // filterFn
-
-  // const [filterBU, setFilterBU] = useState({ fn: items => { return items; } })
-
-  // const filtrarBU = (e, caso) => {
-  //     console.log(`El caso es ${caso}`)
-  //     let target = e.target;
-  //     setFilterBU({
-  //         fn: items => {
-  //             if (target.value == "")
-  //                 return items;
-  //             else
-  //                 return items.filter(x => x.Procedencia.areas.operations.countries.bu.Name.toLowerCase().includes(target.value.toLowerCase()) )
-  //         }
-  //     })
-  // }
-
-  // x.Name.toLowerCase().indexOf(target.value) > -1 ||
-  // x.Procedencia.areas.operations.countries.bu.Name.toLowerCase().indexOf(target.value) > -1
-
-  //----------------------------------------      EXCEL   -------------------------------------------
-  // const peticionGet = async () => {
-  //     await Axios.get('http://localhost:3001/readExcel')
-  //         .then((response) => {
-  //             setExcelGet(response.data)
-  //         })
-  // }
-  //----------------------------------------      EXCEL   -------------------------------------------
-
-  // const [equipoSeleccionado, setEquipoSeleccionado] = useState({  //Hook para controlar el equipo seleccionado
-  //     Id_Equipment: '',
-  //     Name: '',
-  //     BU: '',
-  //     country: '',
-  //     planta: '',
-  //     img: '',
-  //     area: '',
-  //     subarea: '',
-  //     emplazam: '',
-  //     lineNumber: '',
-  //     lineType: '',
-  //     technicalInformation: {
-  //         EquipmentType: '',
-  //         weight: '',
-  //         OEM: '',
-  //         currentConditions: '',
-  //         descripcion: '',
-  //         modelNumber: '',
-  //         serialNumber: '',
-  //         vendor: '',
-  //         currentWorking: '',
-
-  //         currentConditionsComments: '',
-  //     },
-  //     newTechInfo: [],
-  //     servicesInformation: {
-  //         dateOfInstallation: '',
-  //         dateOfDesintallation: '',
-  //         desuseReason: '',
-  //         desinstallationReason: '',
-  //         procurementOrder: '',
-  //     },
-  //     newservicesInformation: [],
-  // });
 
   const [equipoSeleccionado, setEquipoSeleccionado] = useState({
     Id_Equipment: null,
@@ -542,25 +452,7 @@ const ConsultaEquipos = () => {
     Name: "",
   });
 
-  // const [newTechInfoSeleccionado, setNewTechInfoSeleccionado] = useState({
-  //     id: null,
-  //     techincal: '',
-  //     value: '',
-  // })
-
   const seleccionarEquipo = (elemento, caso) => {
-    //Funcion para editar y eliminar el quipo seleccionado
-    // setnewTechicInformation({
-    //     Id_NewTechSpec: null,
-    //     Id_TechnicalSpecification: null,
-    //     Name: '',
-    //     Value: '',
-    //     SelectNewTechSpec: {
-    //         Id_SelectNewTechSpec: null,
-    //         Id_TechnicalSpecification: null,
-    //         Id_NewTechSpec: null,
-    //     }
-    // });
     setEditing(false);
     setTechnicalInformation(elemento.TechnicalSpecification);
     setServicesInformation(elemento.ServicesInformation);
@@ -687,37 +579,6 @@ const ConsultaEquipos = () => {
     }));
     console.log(lineTypes);
   };
-
-  //******************************************************************************************************************* */
-
-  // const [technicalInformation, setTechnicalInformation] = useState({  //Para guardar informacion tecnica seleccionada a editar
-  //     EquipmentType: '', currentConditions: '', weight: '', OEM: '', descripcion: '',
-  //     modelNumber: '', serialNumber: '', vendor: '', currentWorking: '',
-  // });
-
-  // const [technicalInformation, setTechnicalInformation] = useState({  //Para guardar informacion tecnica seleccionada a editar
-  //     Id_TechnicalSpecification: '',
-  //     Name: '',
-  //     EquipmentsTechnicals: {
-  //         Id_EquipmentsTechnicals: '',
-  //         Id_Equipment: '',
-  //         Id_TechnicalSpecification: '',
-  //         Value: ''
-  //     },
-  //     technicalSpecificationValues: [
-  //         {
-  //             Id_TechnicalSpecificationValues: '',
-  //             Value: '',
-  //             Id_TechnicalSpecification: '',
-  //             TechSespecSValue: {
-  //                 Id_TSSV: '',
-  //                 Id_TechnicalSpecification: '',
-  //                 Id_TechnicalSpecificationValues: '',
-  //                 Value: ''
-  //             }
-  //         }
-  //     ]
-  // });
 
   const editar = async (e) => {
     //------------- Editar los datos de la tabla en el Modal Editar -------------
@@ -1469,9 +1330,6 @@ const ConsultaEquipos = () => {
       Id_NewTechSpec: valorInsertar.Id_NewTechSpec,
     });
   };
-  // ------------------------------       ADD NEW TECHINICAL INFORMATION EN MODAL EDITAR      ---------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
 
   //  -------------------------------------------------------     ELIMINAR AD TECHNICAL INFO       --------------------------
 
@@ -1506,10 +1364,6 @@ const ConsultaEquipos = () => {
     await Axios.delete(
       `https://node-gead.herokuapp.com/api/selectNewTechSpec/${idSelectNewTech}`
     );
-    // .then((id) => {
-    //     console.log(idSelectNewTech)
-    //     alert("SelectNewTech Deleted");
-    // });
 
     await Axios.delete(
       `https://node-gead.herokuapp.com/api/NewTechInfo/${id}`
@@ -1651,21 +1505,9 @@ const ConsultaEquipos = () => {
 
   const [editingNewServInfo, seteditingNewServInfo] = useState(true);
 
-  //--------------------------------------------------------------------------------------------------------------------
-  //--------------------------------------------------------------------------------------------------------------------
+  //------------------------------------------------------------
 
   const classes = useStyles();
-  // const [records, setRecords] = useState(getAllList)
-  // const [age, setAge] = useState('')
-
-  // const lineTypesSelect = [
-  //     { label: 'Brewline' },
-  //     { label: 'Bottle' },
-  //     { label: 'Can' },
-  //     { label: 'Pet' },
-  //     { label: 'Keg' },
-  //     { label: 'Special Keg' },
-  // ];
 
   const [fecha, setFecha] = useState("");
 
@@ -1820,47 +1662,6 @@ const ConsultaEquipos = () => {
           setItem(d);
           setModalInsertarExcel(true);
         });
-
-    // const promise = new Promise((resolve, reject) => {
-
-    //         const fileReader = new FileReader();
-    //         fileReader.readAsArrayBuffer(file)
-
-    //         fileReader.onload = (e) => {
-    //             const bufferArray = e.target.result;
-
-    //             const workbook = XLSX.read(bufferArray, { type: 'buffer' });
-
-    //             const workbookSheetsName = workbook.SheetNames[0];
-
-    //             const workbookSheet = workbook.Sheets[workbookSheetsName];
-
-    //             const data = XLSX.utils.sheet_to_json(workbookSheet);
-
-    //             const jData = [];
-    //             for (let i = 0; i < data.length; i++) {
-    //                 const dato = data[i];
-
-    //                 jData.push({
-    //                     ...dato,
-    //                     Date_of_Installation: formatearFechaExcel(dato.Date_of_Installation),
-    //                     Date_of_Desintallation: formatearFechaExcel(dato.Date_of_Desintallation)
-    //                 });
-    //             }
-
-    //             resolve(jData);
-    //         };
-
-    //         fileReader.onerror = ((error) => {
-    //             reject(error);
-    //         });
-
-    //         // setEditTableExcel(true);
-    //     });
-
-    // promise.then((d) => {
-    //     setItem(d)
-    // })
   };
 
   function formatearFechaExcel(fechaExcel) {
@@ -1895,6 +1696,134 @@ const ConsultaEquipos = () => {
       // console.log(Equipo)
     });
   };
+  const columns = [
+    {
+      field: "Name",
+      headerName: "Equipo",
+      width: 400,
+      headerClassName: "header",
+      fontWeight: 500,
+
+      renderCell: (params) => {
+        return (
+          <div
+            style={{
+              color:
+                theme.palette.type == "dark"
+                  ? theme.palette.primary.light
+                  : theme.palette.secondary.light,
+              fontWeight: 500,
+            }}
+          >
+            {params.row.Name}
+          </div>
+        );
+      },
+    },
+    {
+      field: "serial",
+      headerName: "Número de serie",
+      width: 180,
+
+      valueGetter: (params) => {
+        return params.row.TechnicalSpecification.SerialNumber;
+      },
+    },
+    {
+      field: "bu",
+      headerName: "BU",
+      flex: 1,
+      valueGetter: (params) => {
+        return params.row.Procedencia.areas.operations.countries.bu.Name;
+      },
+      /* width: 150, */
+    },
+    {
+      field: "country",
+      headerName: "País",
+      width: 150,
+      valueGetter: (params) => {
+        return params.row.Procedencia.areas.operations.countries.Name;
+      },
+    },
+    {
+      field: "area",
+      headerName: "Área",
+      width: 210,
+      valueGetter: (params) => {
+        return params.row.Procedencia.areas.Name;
+      },
+    },
+    {
+      field: "subarea",
+      headerName: "Subárea",
+      width: 210,
+      valueGetter: (params) => {
+        return params.row.Procedencia.areas.SubArea.Name;
+      },
+    },
+    {
+      field: "plant",
+      headerName: "Planta",
+      width: 210,
+      valueGetter: (params) => {
+        return params.row.Procedencia.areas.operations.Name;
+      },
+    },
+    {
+      field: "equipType",
+      headerName: "Tipo de Equipo",
+      width: 210,
+      valueGetter: (params) => {
+        return params.row.TechnicalSpecification.EquipmentType;
+      },
+    },
+    {
+      field: "actions",
+      headerName: "Acciones",
+      width: 210,
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (params) => (
+        <div className="d-flex justify-content-between">
+          <div
+            onClick={() => seleccionarEquipo(params.row, "Editar")}
+            component="span"
+          >
+            <IconButton
+              style={{
+                color:
+                  theme.palette.type == "dark"
+                    ? theme.palette.primary.dark
+                    : theme.palette.secondary.dark,
+                fontWeight: 500,
+              }}
+              aria-label="edit"
+              component="span"
+            >
+              <Visibility />
+            </IconButton>
+          </div>
+
+          <div
+            aria-label="delete"
+            onClick={() => seleccionarEquipo(params.row, "Eliminar")}
+            component="span"
+          >
+            <IconButton
+              style={{
+                fontWeight: 500,
+                color: theme.palette.alert.main,
+              }}
+              aria-label="delete"
+            >
+              <Delete />
+            </IconButton>
+          </div>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <ThemeProvider theme={theme}>
@@ -1950,149 +1879,37 @@ const ConsultaEquipos = () => {
               text={"Add New"}
             ></Controls.Button>
             {/* -----------------------  Boton para insertar datos desde Excel   ----------------------------------- */}
-            {/* <div id="imagen">
-                        <input
-                            id="icon-button-file"
-                            type="file"
-                            style={{ display: 'none' }}
-                            onChange={(e) => {
-                                setItem([]);
-                                setModalInsertarExcel(false);
-                                let file = e.target.files[0];
-                                readExcels(file);
-                                file = null;
-                            }}
-                        />
-                        <label htmlFor="icon-button-file">
-                            <IconButton color="primary" aria-label="upload picture"
-                                component="span">
-                                <Add style={{ fontSize: 34, fontWeight: '800' }} />
-                            </IconButton>
-                        </label>
-                    </div> */}
           </Toolbar>
-
-          <TableContainer>
-            <Table aria-label="simple table">
-              <TblHead />
-              <TableBody>
-                {recordsAfterPagingAndSorting().map((item) => (
-                  <StyledTableRow key={item.Id_Equipment}>
-                    <StyledTableCell
-                      style={{
-                        fontWeight: "medium",
-                        color:
-                          theme.palette.type == "dark"
-                            ? theme.palette.primary.light
-                            : theme.palette.secondary,
-                      }}
-                    >
-                      {item.Name}
-                    </StyledTableCell>
-                    <TableCell>
-                      {item.Procedencia.areas.operations.countries.bu.Name}
-                    </TableCell>
-                    <TableCell>
-                      {item.Procedencia.areas.operations.countries.Name}
-                    </TableCell>
-                    <TableCell>{item.Procedencia.areas.Name}</TableCell>
-                    <TableCell>{item.Procedencia.areas.SubArea.Name}</TableCell>
-                    <TableCell>
-                      {item.Procedencia.areas.operations.Name}
-                    </TableCell>
-                    <TableCell>
-                      {item.TechnicalSpecification.EquipmentType}
-                    </TableCell>
-
-                    {/* <TableCell>{item.Procedencia.line.lineTypes.Name}</TableCell>   */}
-
-                    <TableCell>
-                      <label htmlFor="icon-button-file">
-                        <IconButton
-                          color="primary"
-                          aria-label="edit"
-                          onClick={() => seleccionarEquipo(item, "Editar")}
-                          component="span"
-                        >
-                          <Edit />
-                        </IconButton>
-                      </label>
-                      &nbsp;&nbsp;
-                      <label htmlFor="icon-button-file">
-                        <IconButton
-                          color="secondary"
-                          aria-label="edit"
-                          onClick={() => seleccionarEquipo(item, "Eliminar")}
-                          component="span"
-                        >
-                          <Delete />
-                        </IconButton>
-                      </label>
-                    </TableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-            <Toolbar>
-              <PageHeader
-                contador={`${totalEncontrados} results`}
-                style={{ fontSize: 12 }}
-              />
-
-              {/* --------------------------      FECHA ACTUAL    --------------------------- */}
-              <PageHeader
-                subTitle="Date Updated:"
-                // title="Consulta de Equipos"
-                // subTitle="Form design with validation"
-                // icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
-              />
-
-              <PageHeader subTitle={fecha} />
-
-              {/* -------------------------------------------------------------------------- */}
-
-              <TblPagination />
-            </Toolbar>
-          </TableContainer>
-
-          {/* <div className="table-responsive mt-5">
-                    <table className="table table-hover align-middle table-sm animate__animated animate__fadeIn " >
-                        <thead>
-
-                            <tr>
-                                <th className="table-active" scope="col">#</th>
-                                <th className="table-active" scope="col">BU</th>
-                                <th className="table-active" scope="col">País</th>
-                                <th className="table-active" scope="col">Planta</th>
-                                <th className="table-active" scope="col">Area</th>
-                                <th className="table-active" scope="col">Subarea</th>
-                                <th className="table-active" scope="col">Equipo</th>
-
-                                <th className="table-active">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {pruebaExcel.map((element) => (
-                                <tr key={element.Id_Equipment}>
-                                    <td scope="row">{element.Id_Equipment}</td>
-                                    <td >{element.Procedencia.areas.operations.countries.bu.Name}</td>
-                                    <td>{element.Procedencia.areas.operations.countries.Name}</td>
-                                    <td>{element.Procedencia.areas.operations.Name}</td>
-                                    <td>{element.Procedencia.areas.Name}</td>
-                                    <td>{element.Procedencia.areas.SubArea.Name}</td>
-                                    <td>{element.Name}</td>
-
-                                    <td><Button color="primary" onClick={() => seleccionarEquipo(element, 'Editar')} >
-                                        <i className="far fa-edit button_icon"></i></Button> {"  "}
-
-                                        <Button color="danger" onClick={() => seleccionarEquipo(element, 'Eliminar')}>
-                                            <i className="fas fa-trash-alt button_icon"></i> </Button> </td>
-                                </tr>
-                            ))
-                            }
-                        </tbody>
-                    </table>
-                </div> */}
+          <div
+            style={{
+              height: 805,
+              width: "100%",
+              color:
+                theme.palette.type == "dark"
+                  ? theme.palette.background.dark
+                  : theme.palette.background.light,
+              backgroundColor:
+                theme.palette.type == "dark"
+                  ? theme.palette.background.dark
+                  : theme.palette.background.light,
+            }}
+          >
+            <DataGrid
+              // sx={{ m: 2 }}
+              lght={light}
+              rows={filterFn.fn(getAllList)}
+              // style={{ color:"blue"}}
+              columns={columns}
+              pageSize={13}
+              rowsPerPageOptions={[13]}
+              style={{
+                color:
+                  theme.palette.type == "dark"
+                    ? theme.palette.primary.light
+                    : theme.palette.primary.dark,
+              }}
+            />
+          </div>
         </Paper>
 
         {/* -----------------------------       FOOTER      ---------------------------- */}
@@ -2160,6 +1977,7 @@ const ConsultaEquipos = () => {
                       setId={setId}
                       prueba={prueba}
                       setPrueba={setPrueba}
+                      light={light}
                     />
                   </>
                 ) : (
@@ -3095,7 +2913,12 @@ const ConsultaEquipos = () => {
                           </Grid>
                           <Grid xs={4} className="d-flex justify-content-end">
                             <Button
-                              color="secondary"
+                              style={{
+                                color:
+                                  theme.palette.type == "dark"
+                                    ? "#ffffff"
+                                    : "#000000",
+                              }}
                               onClick={() => {
                                 setEditing(true);
                                 setEditingTechInfo(false);
@@ -3215,7 +3038,8 @@ const ConsultaEquipos = () => {
                         handleChangeServicesInformation
                       }
                       editingNewServInfo={editingNewServInfo}
-                      id={id} // Para seleccionar que fila editada tendra el efecto
+                      id={id}
+                      light={light} // Para seleccionar que fila editada tendra el efecto
                     />
                   </>
                 ) : (
@@ -4067,7 +3891,12 @@ const ConsultaEquipos = () => {
                         className="d-flex justify-content-end align-items-center"
                       >
                         <Button
-                          color="muted"
+                          style={{
+                            color:
+                              theme.palette.type == "dark"
+                                ? "#ffffff"
+                                : "#000000",
+                          }}
                           onClick={() => {
                             setEditing(true);
                             setEditingTechInfo(false);
@@ -4102,8 +3931,12 @@ const ConsultaEquipos = () => {
           <ModalFooter>
             <Button
               variant="outlined"
-              color="danger"
-              color="secondary"
+              style={{
+                color:
+                  theme.palette.type == "dark"
+                    ? theme.palette.primary.light
+                    : theme.palette.secondary.light,
+              }}
               onClick={() => {
                 setModalInsertar(false);
                 seteditingNewServInfo(true);
@@ -4116,8 +3949,14 @@ const ConsultaEquipos = () => {
               Cancelar
             </Button>
             <Button
+              style={{
+                color: "#ffffff",
+                backgroundColor:
+                  theme.palette.type == "dark"
+                    ? theme.palette.secondary.light
+                    : "#6200EE",
+              }}
               variant="contained"
-              color="secondary"
               type="submit"
               onClick={() => insertar()}
             >
