@@ -988,6 +988,7 @@ const ConsultaEquipos = () => {
     valorInsertar.Procedencia.Id_Areas = areas.Id_Areas;
 
     valorInsertar.Id_Equipment = uuidv4();
+    valorInsertar.id = valorInsertar.Id_Equipment;
     valorInsertar.Id_Procedencia = valorInsertar.Procedencia.Id_Procedencia;
 
     valorInsertar.Name = equipoSeleccionado.Name;
