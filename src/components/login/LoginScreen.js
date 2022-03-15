@@ -12,10 +12,6 @@ import Gead from '../../assets/Gead.jpeg'
 import { globalApi } from '../../types/api.types';
 import axios from 'axios';
 
-//import Button from 'react-bootstrap/Button';
-//import Container from 'react-bootstrap/Container';
-
-
 const LoginScreen = ({ history }) => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
