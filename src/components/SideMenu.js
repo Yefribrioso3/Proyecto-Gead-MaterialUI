@@ -14,7 +14,7 @@ import {
   FontDownload,
   FontDownloadTwoTone,
 } from "@material-ui/icons";
-
+import { globalApi } from "../types/api.types";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 
@@ -154,9 +154,7 @@ const SideMenu = ({
   const [contar, setContar] = useState(0);
 
   const allAquipmentRelation = async () => {
-    await Axios.get(
-      "https://node-gead.herokuapp.com/api/AllequipmentRelation"
-    ).then((response) => {
+    await Axios.get(`${globalApi}/AllequipmentRelation`).then((response) => {
       setListAll(response.data.equipment);
     });
     setCont(listAll.length);

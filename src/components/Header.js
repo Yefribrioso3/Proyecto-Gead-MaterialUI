@@ -108,8 +108,9 @@ export default function Header({ isOpen, setIsOpen, light, setLight }) {
             src={theme.palette.type == "dark" ? GeadWhite : Gead}
             className={classes.logo}
           />
+
           <PageHeader
-            title="Consulta de equipos"
+            title="Gestor de Activos en Desuso - GEAD"
             // title="Consulta de Equipos"
             // subTitle="Middle America"
             // subTitle="Form design with validation"
@@ -119,6 +120,7 @@ export default function Header({ isOpen, setIsOpen, light, setLight }) {
 
           <Grid item sm></Grid>
           <NavbarToggler onClick={toggle} />
+
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ms-auto" navbar>
               <div className="">
