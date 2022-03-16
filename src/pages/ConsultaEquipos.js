@@ -47,7 +47,7 @@ import { Excel } from "./components/Excel";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { Pagination } from "@material-ui/lab";
-
+import { OptionalInfo } from "./components/OptionalInfo";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { globalApi } from "../types/api.types";
@@ -198,36 +198,46 @@ const ConsultaEquipos = () => {
   };
   useEffect(() => {
     allAquipmentRelation();
+    // getLine();
+    // getProcedencia();
+    // getEquipment();
+    // getServicesInfo();
+    // getNewServicesInformation();
+    // getTechnicalSpecification();
+    // getNewTechnicalSpec();
 
-    Axios.get("https://node-gead.herokuapp.com/api/bu").then((response) => {
+    // Axios.get('http://localhost:3001/api/AllequipmentRelation').then((response) => {
+    //     setGetAllList(response.data.equipment)
+    // })
+    // Axios.get('http://localhost:3001/api/readExcel')
+    //     .then((response) => {
+    //         setReadExcel(response.data)
+    //     })
+    Axios.get(`${globalApi}/bu`).then((response) => {
       setBuList(response.data.Bu);
     });
 
-    Axios.get("https://node-gead.herokuapp.com/api/planta").then((response) => {
+    Axios.get(`${globalApi}/planta`).then((response) => {
       setOperationsList(response.data.planta);
     });
 
-    Axios.get("https://node-gead.herokuapp.com/api/countries").then(
-      (response) => {
-        setPaisLis(response.data.countries);
-      }
-    );
+    Axios.get(`${globalApi}/countries`).then((response) => {
+      setPaisLis(response.data.countries);
+    });
 
-    Axios.get("https://node-gead.herokuapp.com/api/area").then((response) => {
+    Axios.get(`${globalApi}/area`).then((response) => {
       setAreaList(response.data.area);
     });
 
-    Axios.get("https://node-gead.herokuapp.com/api/subArea").then(
-      (response) => {
-        setSubareaList(response.data.subarea);
-      }
-    );
+    Axios.get(`${globalApi}/subArea`).then((response) => {
+      setSubareaList(response.data.subarea);
+    });
 
-    Axios.get("https://node-gead.herokuapp.com/api/lineType").then(
-      (response) => {
-        setLineTypeList(response.data.lineTypes);
-      }
-    );
+    Axios.get(`${globalApi}/lineType`).then((response) => {
+      setLineTypeList(response.data.lineTypes);
+    });
+
+    // peticionGet();
   }, []);
 
   const [filterFn, setFilterFn] = useState({
@@ -286,6 +296,39 @@ const ConsultaEquipos = () => {
         },
       },
     },
+    FinancialInformation: {
+      EquipmentValueInUSD: null,
+      Activo_fijo: null,
+      Soc: null,
+      Concatenar: null,
+      Clase: null,
+      Centro: null,
+      CodPM: null,
+      Centro_de_costos: null,
+      Fecha_de_capitalizacion: null,
+      Valor_Adquirido: null,
+      Amortizacion_acumulada: null,
+      Valor_Contable: null,
+      Cantidad: null,
+      Moneda: null,
+      Tipo: null,
+      Screen: null,
+      Nom_Clase: null,
+      Nom_Ce: null,
+      Encontrado_SI_NO: null,
+      Estado_del_Activo: null,
+      Categoria: null,
+      Gerencia: null,
+      Codigo_De_Barras: null,
+      DI: null,
+      SN: null,
+      Depreciacion_acumulada_ajustada: null,
+      Tasa_Cambio_contra_dolar: null,
+      Latitud: null,
+      Longitud: null,
+      Period_Time: null,
+      Id_Equipment: null,
+    },
     ServicesInformation: {
       Id_ServicesInformation: null,
       DateOfInstallation: "",
@@ -333,6 +376,32 @@ const ConsultaEquipos = () => {
           },
         },
       ],
+      OptionalTechInfo: {
+        Id_OptionalTechInfo: "",
+        NominalCapacity: "",
+        YearOfConstruction: "",
+        EquipmentCurrentConditionsComments: "",
+        NotesAboutEquipment: "",
+        AssambledDissambled: "",
+        PlantTechnicalInformationContact: "",
+        PlantFinancialInformationContact: "",
+        Width: "",
+        Height: "",
+        Depth: "",
+        ConstructionMaterials: "",
+        ExternalCoating: "",
+        CommunicationProtocol: "",
+        MeasurementVariable: "",
+        ElectricalConsumption: "",
+        ProtectionGrade: "",
+        SanitaryGrade: "",
+        AvailableWarranty: "",
+        RemainingWarrantyYears: "",
+        PeripheralDevicesAccesories: "",
+        WorkingHours: "",
+        LaboratoryEquipment: "",
+        Id_TechnicalSpecification: "",
+      },
     },
   });
 
@@ -385,6 +454,33 @@ const ConsultaEquipos = () => {
         },
       },
     ],
+  });
+
+  const [optionalTechInfo, setOptionalTechInfo] = useState({
+    Id_OptionalTechInfo: null,
+    NominalCapacity: "",
+    YearOfConstruction: "",
+    EquipmentCurrentConditionsComments: "",
+    NotesAboutEquipment: "",
+    AssambledDissambled: "",
+    PlantTechnicalInformationContact: "",
+    PlantFinancialInformationContact: "",
+    Width: "",
+    Height: "",
+    Depth: "",
+    ConstructionMaterials: "",
+    ExternalCoating: "",
+    CommunicationProtocol: "",
+    MeasurementVariable: "",
+    ElectricalConsumption: "",
+    ProtectionGrade: "",
+    SanitaryGrade: "",
+    AvailableWarranty: "",
+    RemainingWarrantyYears: "",
+    PeripheralDevicesAccesories: "",
+    WorkingHours: "",
+    LaboratoryEquipment: "",
+    Id_TechnicalSpecification: null,
   });
 
   const [areas, setareas] = useState({
@@ -461,8 +557,6 @@ const ConsultaEquipos = () => {
     setLine(elemento.Procedencia.line);
     setLineTypes(elemento.Procedencia.line.lineTypes);
 
-    console.log(elemento);
-
     setEquipoSeleccionado(elemento);
 
     caso === "Editar" ? setModalEditar(true) : setModalEliminar(true); //Funcion para abrir el modal
@@ -473,7 +567,6 @@ const ConsultaEquipos = () => {
   const handleChange = (e) => {
     //Funcion para capturar lo que escriba el usuario
     const { name, value } = e.target;
-    console.log(e.target.value);
 
     setEquipoSeleccionado((prevState) => ({
       ...prevState,
@@ -486,94 +579,85 @@ const ConsultaEquipos = () => {
     }));
   };
 
+  const handleChangeOptionalInfo = (e) => {
+    const { name, value } = e.target;
+
+    setOptionalTechInfo((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   const handleChangeServicesInformation = (e) => {
     const { name, value } = e.target;
-    console.log(e.target.value);
 
     setServicesInformation((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-
-    console.log(servicesInformation);
   };
 
   const handleChangeAreas = (e) => {
     const { name, value } = e.target;
-    console.log(e.target.value);
 
     setareas((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-
-    console.log(areas);
   };
 
   const handleChangeSubArea = (e) => {
     const { name, value } = e.target;
-    console.log(e.target.value);
 
     setSubArea((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-    console.log(SubArea);
   };
 
   const handleChangeOperations = (e) => {
     const { name, value } = e.target;
-    console.log(e.target.value);
 
     setOperations((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-    console.log(operations);
   };
 
   const handleChangeCountries = (e) => {
     const { name, value } = e.target;
-    console.log(e.target.value);
 
     setCountries((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-    console.log(countries);
   };
 
   const handleChangeBu = (e) => {
     const { name, value } = e.target;
-    console.log(e.target.value);
 
     setBu((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-    console.log(bu);
   };
 
   const handleChangeLine = (e) => {
     const { name, value } = e.target;
-    console.log(e.target.value);
 
     setLine((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-    console.log(line);
   };
 
   const handleChangeLineTypes = (e) => {
     const { name, value } = e.target;
-    console.log(e.target.value);
 
     setLineTypes((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-    console.log(lineTypes);
   };
 
   const editar = async (e) => {
@@ -594,11 +678,10 @@ const ConsultaEquipos = () => {
     equipo.Procedencia.line = line;
     equipo.Procedencia.line.lineTypes = lineTypes;
     equipo.TechnicalSpecification = technicalInformation;
-    equipo.TechnicalSpecification.newTechnicalSpecification =
-      equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification;
+    // equipo.TechnicalSpecification.newTechnicalSpecification = equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification
+    equipo.TechnicalSpecification.OptionalTechInfo = optionalTechInfo;
     equipo.ServicesInformation = servicesInformation;
-    equipo.ServicesInformation.newServicesInformation =
-      equipoSeleccionado.ServicesInformation.newServicesInformation;
+    // equipo.ServicesInformation.newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
     equipo.Procedencia.Id_Areas = areas.Id_Areas;
     equipo.Procedencia.Id_Line = line.Id_Line;
 
@@ -616,30 +699,28 @@ const ConsultaEquipos = () => {
         equipo.Procedencia.line.lineTypes = lineTypes;
 
         equipo.TechnicalSpecification = technicalInformation;
-        equipo.TechnicalSpecification.newTechnicalSpecification =
-          equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification;
+        // equipo.TechnicalSpecification.newTechnicalSpecification = equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification
+        equipo.TechnicalSpecification.OptionalTechInfo = optionalTechInfo;
 
         equipo.ServicesInformation = servicesInformation;
-        equipo.ServicesInformation.newServicesInformation =
-          equipoSeleccionado.ServicesInformation.newServicesInformation;
+        // equipo.ServicesInformation.newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
 
         equipo.Procedencia.Id_Areas = areas.Id_Areas;
         equipo.Procedencia.Id_Line = line.Id_Line;
       }
     });
 
-    console.log(equipo);
     //  Actualizar datos
     await putEquipment(equipo);
 
-    //  Actualizar todas las inforamciones tecnicas en el DB
-    equipo.TechnicalSpecification.newTechnicalSpecification.map(async (NTS) => {
-      await updateNewTechSpec(NTS);
-    });
-    //  Actualizar todas informaciones de servicios en el DB
-    equipo.ServicesInformation.newServicesInformation.map(async (NSI) => {
-      await updateNewServInfo(NSI);
-    });
+    // //  Actualizar todas las inforamciones tecnicas en el DB
+    // equipo.TechnicalSpecification.newTechnicalSpecification.map(async NTS => {
+    //     await updateNewTechSpec(NTS);
+    // });
+    // //  Actualizar todas informaciones de servicios en el DB
+    // equipo.ServicesInformation.newServicesInformation.map(async NSI => {
+    //     await updateNewServInfo(NSI);
+    // });
 
     setGetAllList(NewEquipment);
     setTechInfoEditado(false);
@@ -654,14 +735,14 @@ const ConsultaEquipos = () => {
 
   const putEquipment = async (Equipo) => {
     await Axios.put(
-      `https://node-gead.herokuapp.com/api/bu/${Equipo.Procedencia.areas.operations.countries.bu.Id_BU}`,
+      `${globalApi}/bu/${Equipo.Procedencia.areas.operations.countries.bu.Id_BU}`,
       {
         Name: Equipo.Procedencia.areas.operations.countries.bu.Name,
       }
     );
 
     await Axios.put(
-      `https://node-gead.herokuapp.com/api/countries/${Equipo.Procedencia.areas.operations.countries.Id_Countries}`,
+      `${globalApi}/countries/${Equipo.Procedencia.areas.operations.countries.Id_Countries}`,
       {
         Name: Equipo.Procedencia.areas.operations.countries.Name,
         Id_BU: Equipo.Procedencia.areas.operations.countries.bu.Id_BU,
@@ -669,7 +750,7 @@ const ConsultaEquipos = () => {
     );
 
     await Axios.put(
-      `https://node-gead.herokuapp.com/api/planta/${Equipo.Procedencia.areas.operations.Id_Operations}`,
+      `${globalApi}/planta/${Equipo.Procedencia.areas.operations.Id_Operations}`,
       {
         Name: Equipo.Procedencia.areas.operations.Name,
         Id_Countries:
@@ -677,16 +758,13 @@ const ConsultaEquipos = () => {
       }
     );
 
-    await Axios.put(
-      `https://node-gead.herokuapp.com/api/area/${Equipo.Procedencia.areas.Id_Areas}`,
-      {
-        Name: Equipo.Procedencia.areas.Name,
-        Id_Operations: Equipo.Procedencia.areas.Id_Operations,
-      }
-    );
+    await Axios.put(`${globalApi}/area/${Equipo.Procedencia.areas.Id_Areas}`, {
+      Name: Equipo.Procedencia.areas.Name,
+      Id_Operations: Equipo.Procedencia.areas.Id_Operations,
+    });
 
     await Axios.put(
-      `https://node-gead.herokuapp.com/api/SubArea/${Equipo.Procedencia.areas.SubArea.Id_SubAreas}`,
+      `${globalApi}/SubArea/${Equipo.Procedencia.areas.SubArea.Id_SubAreas}`,
       {
         Name: Equipo.Procedencia.areas.SubArea.Name,
         Id_Areas: Equipo.Procedencia.areas.Id_Areas,
@@ -694,33 +772,27 @@ const ConsultaEquipos = () => {
     );
 
     await Axios.put(
-      `https://node-gead.herokuapp.com/api/lineType/${Equipo.Procedencia.line.lineTypes.Id_LineTypes}`,
+      `${globalApi}/lineType/${Equipo.Procedencia.line.lineTypes.Id_LineTypes}`,
       {
         Name: Equipo.Procedencia.line.lineTypes.Name,
       }
     );
 
-    await Axios.put(
-      `https://node-gead.herokuapp.com/api/line/${Equipo.Procedencia.line.Id_Line}`,
-      {
-        number: Equipo.Procedencia.line.number,
-        Id_LineTypes: Equipo.Procedencia.line.lineTypes.Id_LineTypes,
-      }
-    );
+    await Axios.put(`${globalApi}/line/${Equipo.Procedencia.line.Id_Line}`, {
+      number: Equipo.Procedencia.line.number,
+      Id_LineTypes: Equipo.Procedencia.line.lineTypes.Id_LineTypes,
+    });
+
+    await Axios.put(`${globalApi}/equipment/${Equipo.Id_Equipment}`, {
+      Name: Equipo.Name,
+      code: Equipo.code,
+      img: Equipo.img,
+      Id_Procedencia: Equipo.Id_Procedencia,
+      Estado: Equipo.Estado,
+    });
 
     await Axios.put(
-      `https://node-gead.herokuapp.com/api/equipment/${Equipo.Id_Equipment}`,
-      {
-        Name: Equipo.Name,
-        code: Equipo.code,
-        img: Equipo.img,
-        Id_Procedencia: Equipo.Id_Procedencia,
-        Estado: Equipo.Estado,
-      }
-    );
-
-    await Axios.put(
-      `https://node-gead.herokuapp.com/api/servicesInformation/${Equipo.ServicesInformation.Id_ServicesInformation}`,
+      `${globalApi}/servicesInformation/${Equipo.ServicesInformation.Id_ServicesInformation}`,
       {
         DateOfInstallation: Equipo.ServicesInformation.DateOfInstallation,
         DateOfDesintallation: Equipo.ServicesInformation.DateOfDesintallation,
@@ -732,7 +804,7 @@ const ConsultaEquipos = () => {
     );
 
     await Axios.put(
-      `https://node-gead.herokuapp.com/api/technicalSpecification/${Equipo.TechnicalSpecification.Id_TechnicalSpecification}`,
+      `${globalApi}/technicalSpecification/${Equipo.TechnicalSpecification.Id_TechnicalSpecification}`,
       {
         EquipmentType: Equipo.TechnicalSpecification.EquipmentType,
         CurrentConditions: Equipo.TechnicalSpecification.CurrentConditions,
@@ -745,32 +817,79 @@ const ConsultaEquipos = () => {
         currentWorking: Equipo.TechnicalSpecification.currentWorking,
         Id_Equipment: Equipo.Id_Equipment,
       }
+    );
+
+    await Axios.put(
+      `${globalApi}/optionalTechInfo/${Equipo.TechnicalSpecification.Id_TechnicalSpecification}`,
+      {
+        NominalCapacity:
+          Equipo.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
+        YearOfConstruction:
+          Equipo.TechnicalSpecification.OptionalTechInfo.YearOfConstruction,
+        EquipmentCurrentConditionsComments:
+          Equipo.TechnicalSpecification.OptionalTechInfo
+            .EquipmentCurrentConditionsComments,
+        NotesAboutEquipment:
+          Equipo.TechnicalSpecification.OptionalTechInfo.NotesAboutEquipment,
+        AssambledDissambled:
+          Equipo.TechnicalSpecification.OptionalTechInfo.AssambledDissambled,
+        PlantTechnicalInformationContact:
+          Equipo.TechnicalSpecification.OptionalTechInfo
+            .PlantTechnicalInformationContact,
+        PlantFinancialInformationContact:
+          Equipo.TechnicalSpecification.OptionalTechInfo
+            .PlantFinancialInformationContact,
+        Width: Equipo.TechnicalSpecification.OptionalTechInfo.Width,
+        Height: Equipo.TechnicalSpecification.OptionalTechInfo.Height,
+        Depth: Equipo.TechnicalSpecification.OptionalTechInfo.Depth,
+        ConstructionMaterials:
+          Equipo.TechnicalSpecification.OptionalTechInfo.ConstructionMaterials,
+        ExternalCoating:
+          Equipo.TechnicalSpecification.OptionalTechInfo.ExternalCoating,
+        CommunicationProtocol:
+          Equipo.TechnicalSpecification.OptionalTechInfo.CommunicationProtocol,
+        MeasurementVariable:
+          Equipo.TechnicalSpecification.OptionalTechInfo.MeasurementVariable,
+        ElectricalConsumption:
+          Equipo.TechnicalSpecification.OptionalTechInfo.ElectricalConsumption,
+        ProtectionGrade:
+          Equipo.TechnicalSpecification.OptionalTechInfo.ProtectionGrade,
+        SanitaryGrade:
+          Equipo.TechnicalSpecification.OptionalTechInfo.SanitaryGrade,
+        AvailableWarranty:
+          Equipo.TechnicalSpecification.OptionalTechInfo.AvailableWarranty,
+        RemainingWarrantyYears:
+          Equipo.TechnicalSpecification.OptionalTechInfo.RemainingWarrantyYears,
+        PeripheralDevicesAccesories:
+          Equipo.TechnicalSpecification.OptionalTechInfo
+            .PeripheralDevicesAccesories,
+        WorkingHours:
+          Equipo.TechnicalSpecification.OptionalTechInfo.WorkingHours,
+        LaboratoryEquipment:
+          Equipo.TechnicalSpecification.OptionalTechInfo.LaboratoryEquipment,
+        Id_TechnicalSpecification:
+          Equipo.TechnicalSpecification.Id_TechnicalSpecification,
+      }
     ).then(() => {
       alert("Successful Updated");
     });
   };
 
-  const updateNewServInfo = async (NSI) => {
-    Axios.put(
-      `https://node-gead.herokuapp.com/api/newServInfo/${NSI.Id_NewServInfo}`,
-      {
-        Id_ServicesInformation: NSI.Id_ServicesInformation,
-        Value: NSI.Value,
-        Name: NSI.Name,
-      }
-    );
-  };
+  // const updateNewServInfo = async (NSI) => {
+  //     Axios.put(`${globalApi}/newServInfo/${NSI.Id_NewServInfo}`, {
+  //         Id_ServicesInformation: NSI.Id_ServicesInformation,
+  //         Value: NSI.Value,
+  //         Name: NSI.Name
+  //     })
+  // };
 
-  const updateNewTechSpec = async (NTS) => {
-    Axios.put(
-      `https://node-gead.herokuapp.com/api/NewTechInfo/${NTS.Id_NewTechSpec}`,
-      {
-        Id_TechnicalSpecification: NTS.Id_TechnicalSpecification,
-        Name: NTS.Name,
-        Value: NTS.Value,
-      }
-    );
-  };
+  // const updateNewTechSpec = async (NTS) => {
+  //     Axios.put(`${globalApi}/NewTechInfo/${NTS.Id_NewTechSpec}`, {
+  //         Id_TechnicalSpecification: NTS.Id_TechnicalSpecification,
+  //         Name: NTS.Name,
+  //         Value: NTS.Value
+  //     })
+  // };
 
   //------------------        ELIMINAR EQUIPO     ---------------------------------
 
@@ -792,16 +911,13 @@ const ConsultaEquipos = () => {
   };
 
   const EliminarEquipment = async (Equipo) => {
-    await Axios.put(
-      `https://node-gead.herokuapp.com/api/equipment/${Equipo.Id_Equipment}`,
-      {
-        Name: Equipo.Name,
-        code: Equipo.code,
-        img: Equipo.img,
-        Id_Procedencia: Equipo.Id_Procedencia,
-        Estado: Equipo.Estado,
-      }
-    );
+    await Axios.put(`${globalApi}/equipment/${Equipo.Id_Equipment}`, {
+      Name: Equipo.Name,
+      code: Equipo.code,
+      img: Equipo.img,
+      Id_Procedencia: Equipo.Id_Procedencia,
+      Estado: Equipo.Estado,
+    });
   };
 
   const abrirModalInsertar = () => {
@@ -845,6 +961,39 @@ const ConsultaEquipos = () => {
           lineTypes: { Id_LineTypes: null, Name: "" },
         },
       },
+      FinancialInformation: {
+        EquipmentValueInUSD: null,
+        Activo_fijo: null,
+        Soc: null,
+        Concatenar: null,
+        Clase: null,
+        Centro: null,
+        CodPM: null,
+        Centro_de_costos: null,
+        Fecha_de_capitalizacion: null,
+        Valor_Adquirido: null,
+        Amortizacion_acumulada: null,
+        Valor_Contable: null,
+        Cantidad: null,
+        Moneda: null,
+        Tipo: null,
+        Screen: null,
+        Nom_Clase: null,
+        Nom_Ce: null,
+        Encontrado_SI_NO: null,
+        Estado_del_Activo: null,
+        Categoria: null,
+        Gerencia: null,
+        Codigo_De_Barras: null,
+        DI: null,
+        SN: null,
+        Depreciacion_acumulada_ajustada: null,
+        Tasa_Cambio_contra_dolar: null,
+        Latitud: null,
+        Longitud: null,
+        Period_Time: null,
+        Id_Equipment: null,
+      },
       ServicesInformation: {
         Id_ServicesInformation: null,
         DateOfInstallation: "",
@@ -868,6 +1017,32 @@ const ConsultaEquipos = () => {
         currentWorking: "",
         Id_Equipment: null,
         newTechnicalSpecification: [],
+        OptionalTechInfo: {
+          Id_OptionalTechInfo: null,
+          NominalCapacity: null,
+          YearOfConstruction: null,
+          EquipmentCurrentConditionsComments: null,
+          NotesAboutEquipment: null,
+          AssambledDissambled: null,
+          PlantTechnicalInformationContact: null,
+          PlantFinancialInformationContact: null,
+          Width: null,
+          Height: null,
+          Depth: null,
+          ConstructionMaterials: null,
+          ExternalCoating: null,
+          CommunicationProtocol: null,
+          MeasurementVariable: null,
+          ElectricalConsumption: null,
+          ProtectionGrade: null,
+          SanitaryGrade: null,
+          AvailableWarranty: null,
+          RemainingWarrantyYears: null,
+          PeripheralDevicesAccesories: null,
+          WorkingHours: null,
+          LaboratoryEquipment: null,
+          Id_TechnicalSpecification: null,
+        },
       },
     });
 
@@ -921,6 +1096,32 @@ const ConsultaEquipos = () => {
         },
       ],
     });
+    setOptionalTechInfo({
+      Id_OptionalTechInfo: null,
+      NominalCapacity: "",
+      YearOfConstruction: "",
+      EquipmentCurrentConditionsComments: "",
+      NotesAboutEquipment: "",
+      AssambledDissambled: "",
+      PlantTechnicalInformationContact: "",
+      PlantFinancialInformationContact: "",
+      Width: "",
+      Height: "",
+      Depth: "",
+      ConstructionMaterials: "",
+      ExternalCoating: "",
+      CommunicationProtocol: "",
+      MeasurementVariable: "",
+      ElectricalConsumption: "",
+      ProtectionGrade: "",
+      SanitaryGrade: "",
+      AvailableWarranty: "",
+      RemainingWarrantyYears: "",
+      PeripheralDevicesAccesories: "",
+      WorkingHours: "",
+      LaboratoryEquipment: "",
+      Id_TechnicalSpecification: null,
+    });
     setLine({
       Id_Line: null,
       number: "",
@@ -961,34 +1162,50 @@ const ConsultaEquipos = () => {
   const insertar = async () => {
     let valorInsertar = equipoSeleccionado; //Variable auxiliar para modificar el equipo seleccionado
 
-    bu.Id_BU = uuidv4();
+    // valorInsertar.Id_Equipment = getAllList.length + 1;
+    valorInsertar.Id_Equipment = uuidv4();
 
-    countries.Id_Countries = uuidv4();
+    // bu.Id_BU = uuidv4();
+    bu.Id_BU = valorInsertar.Id_Equipment;
+
+    // countries.Id_Countries = uuidv4();
+    countries.Id_Countries = valorInsertar.Id_Equipment;
     countries.Id_BU = bu.Id_BU;
 
-    operations.Id_Operations = uuidv4();
+    // operations.Id_Operations = uuidv4();
+    operations.Id_Operations = valorInsertar.Id_Equipment;
     operations.Id_Countries = countries.Id_Countries;
 
-    areas.Id_Areas = uuidv4();
+    // areas.Id_Areas = uuidv4();
+    areas.Id_Areas = valorInsertar.Id_Equipment;
     areas.Id_Operations = operations.Id_Operations;
 
-    SubArea.Id_SubAreas = uuidv4();
+    // SubArea.Id_SubAreas = uuidv4();
+    SubArea.Id_SubAreas = valorInsertar.Id_Equipment;
     SubArea.Id_Areas = areas.Id_Areas;
 
-    lineTypes.Id_LineTypes = uuidv4();
+    // lineTypes.Id_LineTypes = uuidv4();
+    lineTypes.Id_LineTypes = valorInsertar.Id_Equipment;
 
-    line.Id_Line = uuidv4();
+    // line.Id_Line = uuidv4();
+    line.Id_Line = valorInsertar.Id_Equipment;
     line.Id_LineTypes = lineTypes.Id_LineTypes;
 
-    technicalInformation.Id_TechnicalSpecification = uuidv4();
+    valorInsertar.id = valorInsertar.Id_Equipment;
+    technicalInformation.Id_TechnicalSpecification = valorInsertar.Id_Equipment;
+    optionalTechInfo.Id_OptionalTechInfo =
+      technicalInformation.Id_TechnicalSpecification;
+    optionalTechInfo.Id_TechnicalSpecification =
+      technicalInformation.Id_TechnicalSpecification;
 
-    servicesInformation.Id_ServicesInformation = uuidv4();
-    valorInsertar.Procedencia.Id_Procedencia = uuidv4();
+    // servicesInformation.Id_ServicesInformation = uuidv4();
+    // valorInsertar.Procedencia.Id_Procedencia = uuidv4();
+
+    servicesInformation.Id_ServicesInformation = valorInsertar.Id_Equipment;
+    valorInsertar.Procedencia.Id_Procedencia = valorInsertar.Id_Equipment;
     valorInsertar.Procedencia.Id_Line = line.Id_Line;
     valorInsertar.Procedencia.Id_Areas = areas.Id_Areas;
 
-    valorInsertar.Id_Equipment = uuidv4();
-    valorInsertar.id = valorInsertar.Id_Equipment;
     valorInsertar.Id_Procedencia = valorInsertar.Procedencia.Id_Procedencia;
 
     valorInsertar.Name = equipoSeleccionado.Name;
@@ -997,6 +1214,7 @@ const ConsultaEquipos = () => {
     valorInsertar.Estado = true;
 
     valorInsertar.TechnicalSpecification = technicalInformation;
+    valorInsertar.TechnicalSpecification.OptionalTechInfo = optionalTechInfo;
 
     let nt = newTechicInformation;
 
@@ -1023,6 +1241,8 @@ const ConsultaEquipos = () => {
     valorInsertar.TechnicalSpecification.newTechnicalSpecification =
       newTechicInformationAll;
     valorInsertar.ServicesInformation = servicesInformation;
+    valorInsertar.FinancialInformation.Id_Equipment =
+      valorInsertar.Id_Equipment;
 
     let ns = newservInformation;
 
@@ -1058,6 +1278,8 @@ const ConsultaEquipos = () => {
 
     setGetAllList([...getAllList, valorInsertar]); //Agregamos la dataNueva al estado.
 
+    console.log(getAllList);
+
     await sendData(valorInsertar);
 
     setModalInsertar(false);
@@ -1082,13 +1304,14 @@ const ConsultaEquipos = () => {
     await sendSercivesInformation(valorInsertar); // Services Information
     await sendNewServicesInformation(valorInsertar);
     await sendTechnicalSpecification(valorInsertar); //Technical Specification
+    await sendOptionalTechInfo(valorInsertar);
     await sendNewTechnicalSpec(valorInsertar);
   };
 
   // -----------------------------        CREAR / INSERTAR NUEVO EQUIPO      ---------------------------------------------
 
   const sendBu = async (valorInsertar) => {
-    await Axios.post("https://node-gead.herokuapp.com/api/bu", {
+    await Axios.post(`${globalApi}/bu`, {
       Id_BU: valorInsertar.Procedencia.areas.operations.countries.bu.Id_BU,
       Name: valorInsertar.Procedencia.areas.operations.countries.bu.Name,
     });
@@ -1098,7 +1321,7 @@ const ConsultaEquipos = () => {
   };
 
   const sendCountry = async (valorInsertar) => {
-    await Axios.post("https://node-gead.herokuapp.com/api/countries", {
+    await Axios.post(`${globalApi}/countries`, {
       Id_Countries:
         valorInsertar.Procedencia.areas.operations.countries.Id_Countries,
       Name: valorInsertar.Procedencia.areas.operations.countries.Name,
@@ -1107,7 +1330,7 @@ const ConsultaEquipos = () => {
   };
 
   const sendOperations = async (valorInsertar) => {
-    await Axios.post("https://node-gead.herokuapp.com/api/planta", {
+    await Axios.post(`${globalApi}/planta`, {
       Id_Operations: valorInsertar.Procedencia.areas.operations.Id_Operations,
       Name: valorInsertar.Procedencia.areas.operations.Name,
       Id_Countries: valorInsertar.Procedencia.areas.operations.Id_Countries,
@@ -1115,7 +1338,7 @@ const ConsultaEquipos = () => {
   };
 
   const sendAreas = async (valorInsertar) => {
-    await Axios.post("https://node-gead.herokuapp.com/api/area", {
+    await Axios.post(`${globalApi}/area`, {
       Id_Areas: valorInsertar.Procedencia.areas.Id_Areas,
       Name: valorInsertar.Procedencia.areas.Name,
       Id_Operations: valorInsertar.Procedencia.areas.Id_Operations,
@@ -1123,7 +1346,7 @@ const ConsultaEquipos = () => {
   };
 
   const sendSubArea = async (valorInsertar) => {
-    await Axios.post("https://node-gead.herokuapp.com/api/SubArea", {
+    await Axios.post(`${globalApi}/SubArea`, {
       Id_SubAreas: valorInsertar.Procedencia.areas.SubArea.Id_SubAreas,
       Name: valorInsertar.Procedencia.areas.SubArea.Name,
       Id_Areas: valorInsertar.Procedencia.areas.SubArea.Id_Areas,
@@ -1131,7 +1354,7 @@ const ConsultaEquipos = () => {
   };
 
   const sendline = async (valorInsertar) => {
-    await Axios.post("https://node-gead.herokuapp.com/api/line", {
+    await Axios.post(`${globalApi}/line`, {
       Id_Line: valorInsertar.Procedencia.line.Id_Line,
       number: valorInsertar.Procedencia.line.number,
       Id_LineTypes: valorInsertar.Procedencia.line.Id_LineTypes,
@@ -1139,14 +1362,14 @@ const ConsultaEquipos = () => {
   };
 
   const sendlineType = async (valorInsertar) => {
-    await Axios.post("https://node-gead.herokuapp.com/api/lineType", {
+    await Axios.post(`${globalApi}/lineType`, {
       Id_LineTypes: valorInsertar.Procedencia.line.lineTypes.Id_LineTypes,
       Name: valorInsertar.Procedencia.line.lineTypes.Name,
     });
   };
 
   const sendProcedencia = async (valorInsertar) => {
-    await Axios.post("https://node-gead.herokuapp.com/api/procedencia", {
+    await Axios.post(`${globalApi}/procedencia`, {
       Id_Procedencia: valorInsertar.Id_Procedencia,
       Id_Line: valorInsertar.Procedencia.line.Id_Line,
       Id_Areas: valorInsertar.Procedencia.areas.Id_Areas,
@@ -1154,7 +1377,7 @@ const ConsultaEquipos = () => {
   };
 
   const sendEquipment = async (valorInsertar) => {
-    await Axios.post("https://node-gead.herokuapp.com/api/equipment", {
+    await Axios.post(`${globalApi}/equipment`, {
       Id_Equipment: valorInsertar.Id_Equipment,
       Name: valorInsertar.Name,
       code: valorInsertar.code,
@@ -1165,28 +1388,24 @@ const ConsultaEquipos = () => {
   };
 
   const sendSercivesInformation = async (valorInsertar) => {
-    await Axios.post(
-      "https://node-gead.herokuapp.com/api/servicesInformation",
-      {
-        Id_ServicesInformation:
-          valorInsertar.ServicesInformation.Id_ServicesInformation,
-        DateOfInstallation:
-          valorInsertar.ServicesInformation.DateOfInstallation,
-        DateOfDesintallation:
-          valorInsertar.ServicesInformation.DateOfDesintallation,
-        DesuseReason: valorInsertar.ServicesInformation.DesuseReason,
-        DesinstallationReason:
-          valorInsertar.ServicesInformation.DesinstallationReason,
-        ProcurementOrder: valorInsertar.ServicesInformation.ProcurementOrder,
-        Id_Equipment: valorInsertar.Id_Equipment,
-      }
-    );
+    await Axios.post(`${globalApi}/servicesInformation`, {
+      Id_ServicesInformation:
+        valorInsertar.ServicesInformation.Id_ServicesInformation,
+      DateOfInstallation: valorInsertar.ServicesInformation.DateOfInstallation,
+      DateOfDesintallation:
+        valorInsertar.ServicesInformation.DateOfDesintallation,
+      DesuseReason: valorInsertar.ServicesInformation.DesuseReason,
+      DesinstallationReason:
+        valorInsertar.ServicesInformation.DesinstallationReason,
+      ProcurementOrder: valorInsertar.ServicesInformation.ProcurementOrder,
+      Id_Equipment: valorInsertar.Id_Equipment,
+    });
   };
 
   const sendNewServicesInformation = async (valorInsertar) => {
     valorInsertar.ServicesInformation.newServicesInformation.map(
       async (NSI) => {
-        await Axios.post("https://node-gead.herokuapp.com/api/newServInfo", {
+        await Axios.post(`${globalApi}/newServInfo`, {
           Id_NewServInfo: NSI.Id_NewServInfo,
           Id_ServicesInformation:
             valorInsertar.ServicesInformation.Id_ServicesInformation,
@@ -1194,45 +1413,102 @@ const ConsultaEquipos = () => {
           Value: NSI.Value,
         });
 
-        await Axios.post(
-          "https://node-gead.herokuapp.com/api/selectNewServInfo",
-          {
-            Id_SelectNewServInfo:
-              NSI.SelectNewServicesInfo.Id_SelectNewServInfo,
-            Id_ServicesInformation:
-              valorInsertar.ServicesInformation.Id_ServicesInformation,
-            Id_NewServInfo: NSI.Id_NewServInfo,
-          }
-        );
+        await Axios.post(`${globalApi}/selectNewServInfo`, {
+          Id_SelectNewServInfo: NSI.SelectNewServicesInfo.Id_SelectNewServInfo,
+          Id_ServicesInformation:
+            valorInsertar.ServicesInformation.Id_ServicesInformation,
+          Id_NewServInfo: NSI.Id_NewServInfo,
+        });
       }
     );
   };
 
   const sendTechnicalSpecification = async (valorInsertar) => {
-    await Axios.post(
-      "https://node-gead.herokuapp.com/api/technicalSpecification",
-      {
-        Id_TechnicalSpecification:
-          valorInsertar.TechnicalSpecification.Id_TechnicalSpecification,
-        EquipmentType: valorInsertar.TechnicalSpecification.EquipmentType,
-        CurrentConditions:
-          valorInsertar.TechnicalSpecification.CurrentConditions,
-        Weight: valorInsertar.TechnicalSpecification.Weight,
-        OEM: valorInsertar.TechnicalSpecification.OEM,
-        Description: valorInsertar.TechnicalSpecification.Description,
-        ModelNumber: valorInsertar.TechnicalSpecification.ModelNumber,
-        SerialNumber: valorInsertar.TechnicalSpecification.SerialNumber,
-        vendor: valorInsertar.TechnicalSpecification.vendor,
-        currentWorking: valorInsertar.TechnicalSpecification.currentWorking,
-        Id_Equipment: valorInsertar.Id_Equipment,
-      }
-    );
+    await Axios.post(`${globalApi}/technicalSpecification`, {
+      Id_TechnicalSpecification:
+        valorInsertar.TechnicalSpecification.Id_TechnicalSpecification,
+      EquipmentType: valorInsertar.TechnicalSpecification.EquipmentType,
+      CurrentConditions: valorInsertar.TechnicalSpecification.CurrentConditions,
+      Weight: valorInsertar.TechnicalSpecification.Weight,
+      OEM: valorInsertar.TechnicalSpecification.OEM,
+      Description: valorInsertar.TechnicalSpecification.Description,
+      ModelNumber: valorInsertar.TechnicalSpecification.ModelNumber,
+      SerialNumber: valorInsertar.TechnicalSpecification.SerialNumber,
+      vendor: valorInsertar.TechnicalSpecification.vendor,
+      currentWorking: valorInsertar.TechnicalSpecification.currentWorking,
+      Id_Equipment: valorInsertar.Id_Equipment,
+    });
+  };
+
+  const sendOptionalTechInfo = async (valorInsertar) => {
+    await Axios.post(`${globalApi}/optionalTechInfo`, {
+      Id_OptionalTechInfo:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .Id_OptionalTechInfo,
+      NominalCapacity:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
+      YearOfConstruction:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .YearOfConstruction,
+      EquipmentCurrentConditionsComments:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .EquipmentCurrentConditionsComments,
+      NotesAboutEquipment:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .NotesAboutEquipment,
+      AssambledDissambled:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .AssambledDissambled,
+      PlantTechnicalInformationContact:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .PlantTechnicalInformationContact,
+      PlantFinancialInformationContact:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .PlantFinancialInformationContact,
+      Width: valorInsertar.TechnicalSpecification.OptionalTechInfo.Width,
+      Height: valorInsertar.TechnicalSpecification.OptionalTechInfo.Height,
+      Depth: valorInsertar.TechnicalSpecification.OptionalTechInfo.Depth,
+      ConstructionMaterials:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .ConstructionMaterials,
+      ExternalCoating:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo.ExternalCoating,
+      CommunicationProtocol:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .CommunicationProtocol,
+      MeasurementVariable:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .MeasurementVariable,
+      ElectricalConsumption:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .ElectricalConsumption,
+      ProtectionGrade:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo.ProtectionGrade,
+      SanitaryGrade:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo.SanitaryGrade,
+      AvailableWarranty:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo.AvailableWarranty,
+      RemainingWarrantyYears:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .RemainingWarrantyYears,
+      PeripheralDevicesAccesories:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .PeripheralDevicesAccesories,
+      WorkingHours:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo.WorkingHours,
+      LaboratoryEquipment:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .LaboratoryEquipment,
+      Id_TechnicalSpecification:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .Id_TechnicalSpecification,
+    });
   };
 
   const sendNewTechnicalSpec = async (valorInsertar) => {
     valorInsertar.TechnicalSpecification.newTechnicalSpecification.map(
       async (NTS) => {
-        await Axios.post("https://node-gead.herokuapp.com/api/NewTechInfo", {
+        await Axios.post(`${globalApi}/NewTechInfo`, {
           Id_NewTechSpec: NTS.Id_NewTechSpec,
           Id_TechnicalSpecification:
             valorInsertar.TechnicalSpecification.Id_TechnicalSpecification,
@@ -1240,15 +1516,12 @@ const ConsultaEquipos = () => {
           Value: NTS.Value,
         });
 
-        await Axios.post(
-          "https://node-gead.herokuapp.com/api/selectNewTechSpec",
-          {
-            Id_SelectNewTechSpec: NTS.SelectNewTechSpec.Id_SelectNewTechSpec,
-            Id_TechnicalSpecification:
-              valorInsertar.TechnicalSpecification.Id_TechnicalSpecification,
-            Id_NewTechSpec: NTS.Id_NewTechSpec,
-          }
-        );
+        await Axios.post(`${globalApi}/selectNewTechSpec`, {
+          Id_SelectNewTechSpec: NTS.SelectNewTechSpec.Id_SelectNewTechSpec,
+          Id_TechnicalSpecification:
+            valorInsertar.TechnicalSpecification.Id_TechnicalSpecification,
+          Id_NewTechSpec: NTS.Id_NewTechSpec,
+        });
       }
     );
   };
@@ -1303,24 +1576,19 @@ const ConsultaEquipos = () => {
       equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification;
     newTechnicalSpecification.unshift(newTechnicalSpec);
 
-    console.log(newTechnicalSpec);
-
     await sendNewTechnicalSpecEDITMODAL(newTechnicalSpec);
     e.target.reset();
   };
 
   const sendNewTechnicalSpecEDITMODAL = async (valorInsertar) => {
-    console.log("valorInsertar NewTech");
-    console.log(valorInsertar);
-
-    await Axios.post("https://node-gead.herokuapp.com/api/NewTechInfo", {
+    await Axios.post(`${globalApi}/NewTechInfo`, {
       Id_NewTechSpec: valorInsertar.Id_NewTechSpec,
       Id_TechnicalSpecification: valorInsertar.Id_TechnicalSpecification,
       Name: valorInsertar.Name,
       Value: valorInsertar.Value,
     });
 
-    await Axios.post("https://node-gead.herokuapp.com/api/selectNewTechSpec", {
+    await Axios.post(`${globalApi}/selectNewTechSpec`, {
       Id_SelectNewTechSpec:
         valorInsertar.SelectNewTechSpec.Id_SelectNewTechSpec,
       Id_TechnicalSpecification: valorInsertar.Id_TechnicalSpecification,
@@ -1331,8 +1599,6 @@ const ConsultaEquipos = () => {
   //  -------------------------------------------------------     ELIMINAR AD TECHNICAL INFO       --------------------------
 
   const eliminarAddTechInfo = async (id) => {
-    console.log(id);
-
     let indice =
       equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification.findIndex(
         (equipo) => {
@@ -1358,14 +1624,9 @@ const ConsultaEquipos = () => {
   };
 
   const deleteNewTechnicalSpec = async (id, idSelectNewTech) => {
-    await Axios.delete(
-      `https://node-gead.herokuapp.com/api/selectNewTechSpec/${idSelectNewTech}`
-    );
+    await Axios.delete(`${globalApi}/selectNewTechSpec/${idSelectNewTech}`);
 
-    await Axios.delete(
-      `https://node-gead.herokuapp.com/api/NewTechInfo/${id}`
-    ).then((id) => {
-      console.log(id);
+    await Axios.delete(`${globalApi}/NewTechInfo/${id}`).then((id) => {
       alert("successfully removed");
     });
   };
@@ -1557,7 +1818,6 @@ const ConsultaEquipos = () => {
 
     if (n === "total") {
       setGetAllList(List);
-      console.log(getAllList);
       // allAquipmentRelation()
       // setListAll(List.length)
     }
@@ -1589,7 +1849,11 @@ const ConsultaEquipos = () => {
               x.Procedencia.areas.operations.Name.toLowerCase().includes(
                 target.value.toLowerCase()
               ) ||
-              x.Procedencia.line.lineTypes.Name.toLowerCase().includes(
+              // x.TechnicalSpecification.OEM.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.TechnicalSpecification.SerialNumber.toLowerCase().includes(
+                target.value.toLowerCase()
+              ) ||
+              x.TechnicalSpecification.EquipmentType.toLowerCase().includes(
                 target.value.toLowerCase()
               )
           );
@@ -1598,8 +1862,6 @@ const ConsultaEquipos = () => {
 
     let TotalEncontrado = filterFn.fn(getAllList).length;
     setTotalEncontrados(TotalEncontrado);
-    console.log(TotalEncontrado);
-    console.log(TotalEncontrado);
   };
 
   //  ------------------------    PDF     ----------------------------------
@@ -1656,8 +1918,8 @@ const ConsultaEquipos = () => {
     promise === "undefined"
       ? console.log("undefined")
       : promise.then((d) => {
-          setItem(d);
           setModalInsertarExcel(true);
+          setItem(d);
         });
   };
 
@@ -1877,7 +2139,7 @@ const ConsultaEquipos = () => {
               startIcon={<Add style={{ fontSize: 16, fontWeight: "800" }} />}
               onClick={() => abrirModalInsertar()}
               style={{ fontSize: 16, fontWeight: "600" }}
-              text={"Add New"}
+              text={"Nuevo"}
             ></Controls.Button>
             {/* -----------------------  Boton para insertar datos desde Excel   ----------------------------------- */}
           </Toolbar>
@@ -1939,12 +2201,7 @@ const ConsultaEquipos = () => {
         {/* =================================== Modal Editar ================================= */}
         {/* ================================================================================== */}
 
-        <Modal
-          isOpen={modalEditar}
-          style={{
-            maxWidth: 800,
-          }}
-        >
+        <Modal isOpen={modalEditar} style={{ maxWidth: 800 }}>
           <ModalHeader>
             <div>
               <h1>Editar Registro</h1>
@@ -1960,33 +2217,17 @@ const ConsultaEquipos = () => {
                   <>
                     <ServiceInformation
                       casoServInfo={casoServInfo}
-                      techInfoEditado={techInfoEditado}
-                      updateAddServInfo={updateAddServInfo}
                       setEditingTechInfo={setEditingTechInfo}
-                      editingTechInfo={editingTechInfo}
-                      EditAddServInfo={EditAddServInfo}
-                      handleSubmit={handleSubmit}
-                      onSubmit={onSubmit}
                       equipoSeleccionado={equipoSeleccionado}
                       editRow={editRow}
-                      eliminarAddTechInfo={eliminarAddTechInfo}
                       setEditing={setEditing}
                       setEditingServiceInfo={setEditingServiceInfo}
                       servicesInformation={servicesInformation}
-                      setEquipoSeleccionado={setEquipoSeleccionado}
                       handleChangeServicesInformation={
                         handleChangeServicesInformation
                       }
-                      editingNewServInfo={editingNewServInfo}
                       seteditingNewServInfo={seteditingNewServInfo}
-                      allAquipmentRelation={allAquipmentRelation}
-                      setServicesInformation={setServicesInformation}
                       setnewservInformation={setnewservInformation}
-                      update={update}
-                      id={id}
-                      setId={setId}
-                      prueba={prueba}
-                      setPrueba={setPrueba}
                       light={light}
                     />
                   </>
@@ -1994,12 +2235,12 @@ const ConsultaEquipos = () => {
                   // ------------------------     Technical Information   -------------------------------
                   <>
                     <div className="p-3">
-                      <h4 className="text-muted">Technical Information</h4>
+                      <h4 className="text-muted">Información técnica</h4>
                     </div>
 
                     <ModalBody className="row animate__animated animate__fadeIn">
                       <FormGroup className="col-4">
-                        <label>Equipment:</label>
+                        <label>Equipo:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -2010,49 +2251,85 @@ const ConsultaEquipos = () => {
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Current Working:</label>
-                        <input
-                          className="form-control"
-                          type="text text-align=center"
+                        <label>Trabajo actual:</label>
+                        <select
+                          className="form-select "
+                          style={{ margin: "0px !important" }}
                           name="currentWorking"
                           value={
                             technicalInformation &&
                             technicalInformation.currentWorking
                           }
                           onChange={handleChange}
-                        />
+                        >
+                          <option value="">Select Current Working</option>
+                          <option value="Installed and is working">
+                            Instalado y funcionando
+                          </option>
+                          <option value="Installed and is not working">
+                            Instalado y no funciona
+                          </option>
+                          <option value="Not Installed and is not working">
+                            No esta instalado
+                          </option>
+                        </select>
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Current Condition:</label>
-                        <input
-                          className="form-control"
-                          type="text text-align=center"
+                        <label htmlFor="CurrentConditions">
+                          Condición actual:
+                        </label>
+                        <select
+                          className="form-select "
                           name="CurrentConditions"
                           value={
                             technicalInformation &&
                             technicalInformation.CurrentConditions
                           }
                           onChange={handleChange}
-                        />
+                        >
+                          <option value="">Select Current Condition</option>
+                          <option value="Excellent">Excelente</option>
+                          <option value="Very Good">Muy bueno</option>
+                          <option value="Good">Bueno</option>
+                          <option value="Regular">Regular</option>
+                          <option value="Bad">Malo</option>
+                          <option value="Very Bad">Muy malo</option>
+                          <option value="To be disposed">
+                            Para ser desechado
+                          </option>
+                        </select>
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Equipment Type:</label>
-                        <input
-                          className="form-control"
-                          type="text text-align=center"
+                        <label>Tipo de equipo:</label>
+                        {/* <input
+                                                    className="form-control"
+                                                    type="text text-align=center"
+                                                    name="EquipmentType"
+                                                    value={technicalInformation && technicalInformation.EquipmentType}
+                                                    onChange={handleChange} /> */}
+
+                        <select
+                          className="form-select "
                           name="EquipmentType"
                           value={
                             technicalInformation &&
                             technicalInformation.EquipmentType
                           }
                           onChange={handleChange}
-                        />
+                        >
+                          <option value="">Select Equipment Type</option>
+                          <option value="Automation / Electronic">
+                            Automatización / Electrónico
+                          </option>
+                          <option value="Electrical">Electrico</option>
+                          <option value="Mechanical">Mecánico</option>
+                        </select>
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Serial Number:</label>
+                        <label>Número de serial:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -2066,7 +2343,7 @@ const ConsultaEquipos = () => {
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Model Number:</label>
+                        <label>Número de modelo:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -2080,7 +2357,7 @@ const ConsultaEquipos = () => {
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>weight:</label>
+                        <label>Peso:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -2106,7 +2383,7 @@ const ConsultaEquipos = () => {
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Vendor:</label>
+                        <label>Vendedor:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -2119,7 +2396,7 @@ const ConsultaEquipos = () => {
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Description:</label>
+                        <label>Descripción:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -2133,213 +2410,11 @@ const ConsultaEquipos = () => {
                       </FormGroup>
 
                       <hr />
-                      {/* -------------------------------         ADD NEW TECHNICAL INFORMATION           ------------------------------------------ */}
-
-                      {
-                        // Condicional para mostrar un formulario u otro
-                        editingTechInfo ? (
-                          <>
-                            <EditAddTechInfo
-                              technicalSpecEditado={technicalSpecEditado}
-                              updateAddTechInfo={updateAddTechInfo}
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <section className="pb-4 pt-4">
-                              <form
-                                onSubmit={handleSubmit(onSubmitTechSpech)}
-                                className="animate__animated animate__fadeIn"
-                              >
-                                <h5 className="text-muted">
-                                  Add Technical Information:
-                                </h5>{" "}
-                                <select
-                                  className="form-select SelectBoostrap"
-                                  name="Name"
-                                  {...register("Name", {
-                                    required: {
-                                      value: true,
-                                      message: "Campo requerido",
-                                    },
-                                  })}
-                                >
-                                  <option value="">Select</option>
-                                  <option value="Available warranty">
-                                    Available warranty
-                                  </option>
-                                  <option value="Year of construction">
-                                    Year of construction
-                                  </option>
-                                  <option value="Sanitary Grade">
-                                    Sanitary Grade
-                                  </option>
-                                  <option value="Emplazam">Emplazam</option>
-                                  <option value="Protection Grade">
-                                    Protection Grade
-                                  </option>
-                                  <option value="Electrical Consumption">
-                                    Electrical Consumption
-                                  </option>
-                                  <option value="Measurement variable">
-                                    Measurement variable
-                                  </option>
-                                  <option value="Plant Technical Information Contact">
-                                    Plant Technical Information Contact
-                                  </option>
-                                  <option value="Disposal Information">
-                                    Disposal Information
-                                  </option>
-                                  <option value="Equipment Packing">
-                                    Equipment Packing
-                                  </option>
-                                  <option value="Equipment current conditions comments">
-                                    Equipment current conditions comments
-                                  </option>
-                                  <option value="Nominal Capacity">
-                                    Nominal Capacity
-                                  </option>
-                                  <option value="Assambled / Dissambled">
-                                    Assambled / Dissambled
-                                  </option>
-                                  <option value="Plant Technical Information Contact">
-                                    Plant Technical Information Contact
-                                  </option>
-                                  <option value="Plant Financial Information Contact">
-                                    Plant Financial Information Contact
-                                  </option>
-                                  <option value="Communication protocol">
-                                    Communication protocol
-                                  </option>
-                                  <option value="Current Conditions Comments">
-                                    Current Conditions Comments
-                                  </option>
-                                  <option value="Notes about equipment">
-                                    Notes about equipment
-                                  </option>
-                                </select>
-                                <span className="text-danger text-small d-block mb-2">
-                                  {errors.Name && errors.Name.message}
-                                </span>
-                                <label htmlFor="Value">
-                                  Value <b className="text-danger">*</b>
-                                </label>
-                                <div className="row ">
-                                  <div className="col-10">
-                                    <input
-                                      type="text text-align=center"
-                                      className="form-control"
-                                      name="Value"
-                                      // onChange={handleChange}
-                                      // onChange={(e) => e.target.value}
-                                      {...register("Value", {
-                                        required: {
-                                          value: true,
-                                          message: "Campo requerido",
-                                        },
-                                      })}
-                                    />
-                                    <span className="text-danger text-small d-block mb-2">
-                                      {errors.Value && errors.Value.message}
-                                    </span>
-                                  </div>
-
-                                  {/* -----------------------------    BOtON AGREGAR TECHNICAL INFORMATION    -----------------------  */}
-                                  <div className="col-2">
-                                    <button className="btn btn-primary">
-                                      <span className=" fas fa-save fa-lg"></span>
-                                    </button>
-                                  </div>
-                                </div>
-                                {/* ============== onChange =============== Captura los cambios, lo que el usuario escriba*/}
-                              </form>
-                            </section>
-                          </>
-                        )
-                      }
-
-                      {/* -----------------------------------             TABLE ADD TECHNICAL INFORMATION           ----------------------------------- */}
-
-                      <FormGroup>
-                        <table className="table display table-hover table-bordered table-striped">
-                          <thead>
-                            <tr>
-                              <th>Others Technical Information</th>
-                              <th>Value</th>
-                              <th>Actions</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {equipoSeleccionado.TechnicalSpecification
-                              .newTechnicalSpecification.length > 0 ? (
-                              equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification.map(
-                                (elemento) => (
-                                  <tr key={elemento.Id_NewTechSpec}>
-                                    <>
-                                      {filaEditada ? (
-                                        <>
-                                          {id == elemento.Id_NewTechSpec ? (
-                                            <>
-                                              <td className=" animate__animated animate__fadeInDown">
-                                                {" "}
-                                                {`${elemento.Name}:`}
-                                              </td>
-                                              <td className=" animate__animated animate__fadeInDown">
-                                                {" "}
-                                                {elemento.Value}
-                                              </td>
-                                            </>
-                                          ) : (
-                                            <>
-                                              <td> {`${elemento.Name}:`}</td>
-                                              <td> {elemento.Value}</td>
-                                            </>
-                                          )}
-                                        </>
-                                      ) : (
-                                        <>
-                                          <td> {`${elemento.Name}:`}</td>
-                                          <td> {elemento.Value}</td>
-                                        </>
-                                      )}
-
-                                      <td>
-                                        {" "}
-                                        <Button
-                                          color="primary"
-                                          onClick={() =>
-                                            editarTechSpec(
-                                              elemento,
-                                              "technical"
-                                            )
-                                          }
-                                        >
-                                          <i className="far fa-edit button_icon"></i>
-                                        </Button>{" "}
-                                        {"  "}
-                                        <Button
-                                          color="danger"
-                                          onClick={() =>
-                                            eliminarAddTechInfo(
-                                              elemento.Id_NewTechSpec
-                                            )
-                                          }
-                                        >
-                                          <i className="fas fa-trash-alt button_icon"></i>{" "}
-                                        </Button>
-                                      </td>
-                                    </>
-                                  </tr>
-                                )
-                              )
-                            ) : (
-                              <tr>
-                                <td colSpan={3}>No data recorded</td>
-                              </tr>
-                            )}
-                          </tbody>
-                        </table>
-                      </FormGroup>
+                      {/* -------------------------------       ADD NEW TECHNICAL INFORMATION        ------------------------------------------ */}
+                      <OptionalInfo
+                        optionalTechInfo={optionalTechInfo}
+                        handleChangeOptionalInfo={handleChangeOptionalInfo}
+                      />
 
                       {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
 
@@ -2521,7 +2596,7 @@ const ConsultaEquipos = () => {
                                          ------------------------------------------------------------------------------------------- */}
 
                         <FormGroup className="col-6">
-                          <label>Line Number:</label>
+                          <label>Número de línea:</label>
                           <input
                             className="form-control"
                             type="text text-align=center"
@@ -2542,163 +2617,166 @@ const ConsultaEquipos = () => {
                           {/* ============== onChange =============== Captura los cambios, lo que el usuario escriba*/}
 
                           <label>
-                            Plant <b className="text-danger">*</b>
+                            Planta:<b className="text-danger">*</b>
                           </label>
                           <select
                             className="form-select SelectBoostrap"
                             name="Name"
                             required
-                            value={operations && operations.Name}
+                            value={operations && operations.Name.toUpperCase()}
                             onChange={handleChangeOperations}
                           >
-                            <option value="">Select Plant</option>
-                            <option value="Barbados">Barbados</option>
-                            <option value="Barranquilla">Barranquilla</option>
-                            <option value="Boyaca">Boyaca</option>
-                            <option value="Bucaramanga">Bucaramanga</option>
-                            <option value="Fabrica de Tapas de Tocancipa">
-                              Fabrica de Tapas de Tocancipa
+                            <option value="">Seleccionar Planta</option>
+                            <option value="APAN">APAN</option>
+                            <option value="BARBADOS">BARBADOS</option>
+                            <option value="BARRANQUILLA">BARRANQUILLA</option>
+                            <option value="BOYACA">BOYACA</option>
+                            <option value="BUCARAMANGA">BUCARAMANGA</option>
+                            <option value="FABRICA DE TAPAS DE TOCANCIPA">
+                              FABRICA DE TAPAS DE TOCANCIPA
                             </option>
-                            <option value="Etiquetas Impresur & Indugral">
-                              Etiquetas Impresur & Indugral
+                            <option value="ETIQUETAS IMPRESUR & INDUGRAL">
+                              ETIQUETAS IMPRESUR & INDUGRAL
                             </option>
-                            <option value="Medellín">Medellín</option>
-                            <option value="Malteria Tibito">
-                              Malteria Tibito
+                            <option value="MEDELLIN">MEDELLIN</option>
+                            <option value="MALTERIA TIBITO">
+                              MALTERIA TIBITO
                             </option>
-                            <option value="Tocancipa">Tocancipa</option>
-                            <option value="Malteria Tropical">
-                              Malteria Tropical
+                            <option value="TONCACIPA">TONCACIPA</option>
+                            <option value="MALTERIA TROPICAL">
+                              MALTERIA TROPICAL
                             </option>
-                            <option value="Valle">Valle</option>
-                            <option value="Holguin">Holguin</option>
-                            <option value="Dominicana">Dominicana</option>
-                            <option value="Hato Nuevo">Hato Nuevo</option>
-                            <option value="Guayaquil">Guayaquil</option>
-                            <option value="Quito">Quito</option>
-                            <option value="Malteria de Guayaquil">
-                              Malteria de Guayaquil
+                            <option value="VALLE">VALLE</option>
+                            <option value="HOLGUIN">HOLGUIN</option>
+                            <option value="DOMINICANA">DOMINICANA</option>
+                            <option value="HATO NUEVO">HATO NUEVO</option>
+                            <option value="GUAYAQUIL">GUAYAQUIL</option>
+                            <option value="QUITO">QUITO</option>
+                            <option value="MALTERIA DE GUAYAQUIL">
+                              MALTERIA DE GUAYAQUIL
                             </option>
-                            <option value="La Constancia Beer">
-                              La Constancia Beer
+                            <option value="LA CONSTANCIA BEER">
+                              LA CONSTANCIA BEER
                             </option>
-                            <option value="El Salvador CSD">
-                              El Salvador CSD
+                            <option value="EL SALVADOR CSD">
+                              EL SALVADOR CSD
                             </option>
-                            <option value="La Constancia Walter">
-                              La Constancia Walter
+                            <option value="LA CONSTANCIA WALTER">
+                              LA CONSTANCIA WALTER
                             </option>
-                            <option value="Zacapa">Zacapa</option>
-                            <option value="San Pedro Sula Beer">
-                              San Pedro Sula Beer
+                            <option value="ZACAPA">ZACAPA</option>
+                            <option value="SAN PEDRO SULA BEER">
+                              SAN PEDRO SULA BEER
                             </option>
-                            <option value="San Pedro Sula CSD">
-                              San Pedro Sula CSD
+                            <option value="SAN PEDRO SULA CSD">
+                              SAN PEDRO SULA CSD
                             </option>
-                            <option value="Apan">Apan</option>
-                            <option value="Cebadas y Maltas">
-                              Cebadas y Maltas
+                            <option value="CEBADAS Y MALTAS">
+                              CEBADAS Y MALTAS
                             </option>
-                            <option value="Guadalajara">Guadalajara</option>
-                            <option value="Malteria Zacatecas">
-                              Malteria Zacatecas
+                            <option value="GUADALAJARA">GUADALAJARA</option>
+                            <option value="MALTERIA ZACATECAS">
+                              MALTERIA ZACATECAS
                             </option>
-                            <option value="Mazatlán">Mazatlán</option>
-                            <option value="Modelo México">Modelo México</option>
-                            <option value="Salamanca (Casal)">
-                              Salamanca (Casal)
+                            <option value="MAZATLÁN">MAZATLÁN</option>
+                            <option value="MODELO MÉXICO">MODELO MÉXICO</option>
+                            <option value="SALAMANCA (CASAL)">
+                              SALAMANCA (CASAL)
                             </option>
-                            <option value="Torreón">Torreón</option>
-                            <option value="Tuxtepec">Tuxtepec</option>
-                            <option value="Yucatan">Yucatan</option>
-                            <option value="Zacatecas">Zacatecas</option>
-                            <option value="Cucapá (Craft)">
-                              Cucapá (Craft)
+                            <option value="TORREÓN">TORREÓN</option>
+                            <option value="TUXTEPEC">TUXTEPEC</option>
+                            <option value="YUCATAN">YUCATAN</option>
+                            <option value="ZACATECAS">ZACATECAS</option>
+                            <option value="CUCAPÁ (CRAFT)">
+                              CUCAPÁ (CRAFT)
                             </option>
-                            <option value="Pasadena">Pasadena</option>
-                            <option value="Arequipa">Arequipa</option>
-                            <option value="Ate">Ate</option>
-                            <option value="Cusco">Cusco</option>
-                            <option value="Huachipa">Huachipa</option>
-                            <option value="Malteria de Lima">
-                              Malteria de Lima
+                            <option value="PASADENA">PASADENA</option>
+                            <option value="AREQUIPA">AREQUIPA</option>
+                            <option value="ATE">ATE</option>
+                            <option value="CUSCO">CUSCO</option>
+                            <option value="HUACHIPA">HUACHIPA</option>
+                            <option value="MALTERIA DE LIMA">
+                              MALTERIA DE LIMA
                             </option>
-                            <option value="Motupe">Motupe</option>
-                            <option value="San Juan (Pucallpa)">
-                              San Juan (Pucallpa)
+                            <option value="MOTUPE">MOTUPE</option>
+                            <option value="SAN JUAN (PUCALLPA)">
+                              SAN JUAN (PUCALLPA)
                             </option>
-                            <option value="San Mateo (Huarochiri)">
-                              San Mateo (Huarochiri)
+                            <option value="SAN MATEO (HUAROCHIRI)">
+                              SAN MATEO (HUAROCHIRI)
                             </option>
-                            <option value="Barbarian (Craft)">
-                              Barbarian (Craft)
+                            <option value="BARBARIAN (CRAFT)">
+                              BARBARIAN (CRAFT)
                             </option>
-                            <option value="Saint Vincent">Saint Vincent</option>
-                            <option value="Bogotá Brewery Company (Craft)">
-                              Bogotá Brewery Company (Craft)
+                            <option value="SAINT VINCENT">
+                              SAINT VINCENTt
+                            </option>
+                            <option value="BOGOTÁ BREWERY COMPANY (CRAFT)">
+                              BOGOTÁ BREWERY COMPANY (CRAFT)
                             </option>
                           </select>
                         </FormGroup>
 
                         <FormGroup className="col-6">
                           <label htmlFor="lineType">
-                            Line Type <b className="text-danger">*</b>
+                            Tipo de línea:<b className="text-danger">*</b>
                           </label>
                           <select
                             className="form-select SelectBoostrap"
                             name="Name"
-                            value={lineTypes && lineTypes.Name}
+                            value={lineTypes && lineTypes.Name.toUpperCase()}
                             onChange={handleChangeLineTypes}
                           >
-                            <option value="">Select Line Type</option>
-                            <option value="Brewline">Brewline</option>
-                            <option value="Bottle">Bottle</option>
-                            <option value="Can">Can</option>
-                            <option value="Pet">Pet</option>
-                            <option value="Keg">Keg</option>
-                            <option value="Special Keg">Special Keg</option>
+                            <option value="">Seleccionar Tipo de Línea</option>
+                            <option value="BREWLINE">BREWLINE</option>
+                            <option value="BOTTLE">BOTTLE</option>
+                            <option value="CAN">CAN</option>
+                            <option value="PET">PET</option>
+                            <option value="KEG">KEG</option>
+                            <option value="SPECIAL KEG">SPECIAL KEG</option>
+                            <option value="OTHER">OTHER</option>
                           </select>
                         </FormGroup>
 
                         <FormGroup className="col-6">
                           <label>
-                            Country <b className="text-danger">*</b>
+                            País:<b className="text-danger">*</b>
                           </label>
                           <select
                             className="form-select SelectBoostrap"
                             name="Name"
-                            value={countries && countries.Name}
+                            value={countries && countries.Name.toUpperCase()}
                             required
                             onChange={handleChangeCountries}
                           >
-                            <option value="">Selec Country</option>
-                            <option value="Barbados">Barbados</option>
-                            <option value="Colombia">Colombia</option>
-                            <option value="Cuba">Cuba</option>
-                            <option value="Dominicana">Dominicana</option>
-                            <option value="Ecuador">Ecuador</option>
-                            <option value="El Salvador">El Salvador</option>
-                            <option value="Guatemala">Guatemala</option>
-                            <option value="Honduras">Honduras</option>
-                            <option value="México">México</option>
-                            <option value="Panamá">Panamá</option>
-                            <option value="Perú">Perú</option>
-                            <option value="Saint Vincent">Saint Vincent</option>
+                            <option value="">Seleccionar País</option>
+                            <option value="BARBADOS">BARBADOS</option>
+                            <option value="COLOMBIA">COLOMBIA</option>
+                            <option value="CUBA">CUBA</option>
+                            <option value="DOMINICANA">DOMINICANA</option>
+                            <option value="ECUADOR">ECUADOR</option>
+                            <option value="EL SALVADOR">EL SALVADOR</option>
+                            <option value="GUATEMALA">GUATEMALA</option>
+                            <option value="HONDURAS">HONDURAS</option>
+                            <option value="MÉXICO">MÉXICO</option>
+                            <option value="PANAMA">PANAMA</option>
+                            <option value="PERÚ">PERÚ</option>
+                            <option value="SAINT VINCENT">SAINT VINCENT</option>
                           </select>
                         </FormGroup>
 
                         <FormGroup className="col-6">
                           <label>
-                            BU <b className="text-danger">*</b>
+                            BU:<b className="text-danger">*</b>
                           </label>
                           <select
                             className="form-select SelectBoostrap"
                             name="Name"
-                            value={bu && bu.Name}
+                            value={bu && bu.Name.toUpperCase()}
                             onChange={handleChangeBu}
                           >
                             {/* ------------------------------------------------   SELECT DESDE LA BASE DE DATOS   ------------------------------------ */}
-                            <option value="">Select BU</option>
+                            <option value="">Seleccionar BU</option>
                             <option value="CAC">CAC</option>
                             <option value="COL">COL</option>
                             <option value="PEC">PEC</option>
@@ -2708,113 +2786,117 @@ const ConsultaEquipos = () => {
 
                         <FormGroup className="col-6">
                           <label htmlFor="area">
-                            Area <b className="text-danger">*</b>
+                            Área:<b className="text-danger">*</b>
                           </label>
                           <select
                             className="form-select SelectBoostrap"
                             name="Name"
-                            value={areas && areas.Name}
+                            value={areas && areas.Name.toUpperCase()}
                             onChange={handleChangeAreas}
                           >
-                            <option value="">Select Area</option>
-                            <option value="General Services">
-                              General Services
+                            <option value="">Seleccionar Área</option>
+                            <option value="GENERAL SERVICES">
+                              GENERAL SERVICES
                             </option>
-                            <option value="Silos">Silos</option>
-                            <option value="Milling">Milling</option>
-                            <option value="Brewhouse">Brewhouse</option>
-                            <option value="Fermentation">Fermentation</option>
-                            <option value="Maturation">Maturation</option>
-                            <option value="Centrifuge">Centrifuge</option>
-                            <option value="Filtration">Filtration</option>
-                            <option value="Dilution Water">
-                              Dilution Water
+                            <option value="SILOS">SILOS</option>
+                            <option value="MILLING">MILLING</option>
+                            <option value="BREWHOUSE">BREWHOUSE</option>
+                            <option value="BREWING">BREWING</option>
+                            <option value="FERMENTATION">FERMENTATION</option>
+                            <option value="MATURATION">MATURATION</option>
+                            <option value="CENTRIFUGE">CENTRIFUGE</option>
+                            <option value="FILTRATION">FILTRATION</option>
+                            <option value="DILUTION WATER">
+                              DILUTION WATER
                             </option>
-                            <option value="Bright Beer Tanks">
-                              Bright Beer Tanks
+                            <option value="BRIGHT BEER TANKS">
+                              BRIGHT BEER TANKS
                             </option>
-                            <option value="Packaging">Packaging</option>
-                            <option value="Chemical Island & CIP">
-                              Chemical Island & CIP
+                            <option value="PACKAGING">PACKAGING</option>
+                            <option value="CHEMICAL ISLAND & CIP">
+                              CHEMICAL ISLAND & CIP
                             </option>
-                            <option value="Syrup House">Syrup House</option>
-                            <option value="Logistic Tier 1">
-                              Logistic Tier 1
+                            <option value="SYRUP HOUSE">SYRUP HOUSE</option>
+                            <option value="LOGISTIC TIER 1">
+                              LOGISTIC TIER 1
                             </option>
-                            <option value="Logistic Tier 2">
-                              Logistic Tier 2
+                            <option value="LOGISTIC TIER 2">
+                              LOGISTIC TIER 2
                             </option>
-                            <option value="CO2 Recovery">CO2 Recovery</option>
-                            <option value="Refrigeration">Refrigeration</option>
-                            <option value="Wells">Wells</option>
-                            <option value="Water Treatment Plant">
-                              Water Treatment Plant
+                            <option value="CO2 RECOVERY">CO2 RECOVERY</option>
+                            <option value="REFRIGERATION">REFRIGERATION</option>
+                            <option value="WELLS">WELLS</option>
+                            <option value="WATER TREATMENT PLANT">
+                              WATER TREATMENT PLANT
                             </option>
-                            <option value="Compressed Air">
-                              Compressed Air
+                            <option value="COMPRESSED AIR">
+                              COMPRESSED AIR
                             </option>
-                            <option value="Electrical Substation (HV)">
-                              Electrical Substation (HV)
+                            <option value="ELECTRICAL SUBSTATION (HV)">
+                              ELECTRICAL SUBSTATION (HV)
                             </option>
-                            <option value="Electrical Substation (MV)">
-                              Electrical Substation (MV)
+                            <option value="ELECTRICAL SUBSTATION (MV)">
+                              ELECTRICAL SUBSTATION (MV)
                             </option>
-                            <option value="Electrical Substation (LV)">
-                              Electrical Substation (LV)
+                            <option value="ELECTRICAL SUBSTATION (LV)">
+                              ELECTRICAL SUBSTATION (LV)
                             </option>
-                            <option value="Steam Generation">
-                              Steam Generation
+                            <option value="STEAM GENERATION">
+                              STEAM GENERATION
                             </option>
-                            <option value="Biological Treatment System">
-                              Biological Treatment System
+                            <option value="BIOLOGICAL TREATMENT SYSTEM">
+                              BIOLOGICAL TREATMENT SYSTEM
                             </option>
-                            <option value="Tertiary System">
-                              Tertiary System
+                            <option value="TERTIARY SYSTEM">
+                              TERTIARY SYSTEM
                             </option>
-                            <option value="Sanitary Plant">
-                              Sanitary Plant
+                            <option value="SANITARY PLANT">
+                              SANITARY PLANT
                             </option>
-                            <option value="Automation & Industrial Network">
-                              Automation & Industrial Network
+                            <option value={["AUTOMATION & INDUSTRIAL NETWORK"]}>
+                              AUTOMATION & INDUSTRIAL NETWORK
                             </option>
-                            <option value="Maintenance">Maintenance</option>
+                            <option value="MAINTENANCE">MAINTENANCE</option>
                             <option value="IT">IT</option>
-                            <option value="Laboratory">Laboratory</option>
-                            <option value="Workshop">Workshop</option>
-                            <option value="Offices">Offices</option>
-                            <option value="Subproducts">Subproducts</option>
+                            <option value="LABORATORY">LABORATORY</option>
+                            <option value="WORKSHOP">WORKSHOP</option>
+                            <option value="OFFICES">OFFICES</option>
+                            <option value="SUBPRODUCTS">SUBPRODUCTS</option>
                           </select>
                         </FormGroup>
 
                         <FormGroup className="col-6">
                           <label htmlFor="Subarea">
-                            Subarea <b className="text-danger">*</b>
+                            Subárea <b className="text-danger">*</b>
                           </label>
                           <select
                             className="form-select SelectBoostrap"
                             name="Name"
-                            value={SubArea && SubArea.Name}
+                            value={SubArea && SubArea.Name.toUpperCase()}
                             onChange={handleChangeSubArea}
                           >
-                            <option value="">Select Subarea</option>
-                            <option value="Wort Kettle">Wort Kettle</option>
-                            <option value="Torre de Molienda ">
-                              Torre de Molienda{" "}
+                            <option value="">Seleccionar Subárea</option>
+                            <option value="WORT KETTLE">WORT KETTLE</option>
+                            <option value="TORRE DE MOLIENDA">
+                              TORRE DE MOLIENDA
                             </option>
-                            <option value="Cocimientos">Cocimientos</option>
+                            <option value="CONOCIMIENTOS">CONOCIMIENTOS</option>
                             <option value="BAGAZO/SYE">BAGAZO/SYE</option>
-                            <option value="Bloque Frio">Bloque Frio</option>
-                            <option value="Bloque Frio">NaN</option>
+                            <option value="BLOQUE FRIO">BLOQUE FRIO</option>
+                            <option value="GENERAL">GENERAL</option>
+                            <option value="NO DATA AVAILABLE">
+                              No data available
+                            </option>
                           </select>
                         </FormGroup>
 
                         <FormGroup className="col-12">
                           {/* Para obtener el correo */}
                           <TextField
-                            label="Plant Mail"
+                            label="Correo de la Planta"
                             className="form-control"
                             variant="outlined"
-                            name="code"
+                            name="code" //--------- CORREO  --------
                             value={
                               equipoSeleccionado && equipoSeleccionado.code
                             }
@@ -2986,19 +3068,19 @@ const ConsultaEquipos = () => {
                         handleChangeServicesInformation
                       }
                       editingNewServInfo={editingNewServInfo}
-                      id={id}
-                      light={light} // Para seleccionar que fila editada tendra el efecto
+                      id={id} // Para seleccionar que fila editada tendra el efecto
+                      light={light}
                     />
                   </>
                 ) : (
                   <>
                     <div className="p-3">
-                      <h4 className="text-muted">Technical Information</h4>
+                      <h4 className="text-muted">Información técnica</h4>
                     </div>
 
                     <ModalBody className="row animate__animated animate__fadeIn">
                       <FormGroup className="col-4">
-                        <label htmlFor="url_input">Equipment:</label>
+                        <label htmlFor="url_input">Equipo:</label>
                         <input
                           className="form-control"
                           required
@@ -3012,50 +3094,83 @@ const ConsultaEquipos = () => {
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Current Working:</label>
-                        <input
-                          className="form-control"
-                          type="text text-align=center"
+                        <label>Trabajo actual:</label>
+                        <select
+                          className="form-select "
+                          style={{ margin: "0px !important" }}
                           name="currentWorking"
                           value={
                             technicalInformation &&
                             technicalInformation.currentWorking
                           }
                           onChange={handleChange}
-                        />
+                        >
+                          <option value="">Seleccione Trabajo actual</option>
+                          <option value="Installed and is working">
+                            Instalado y funcionando
+                          </option>
+                          <option value="Installed and is not working">
+                            Instalado y no trabajando
+                          </option>
+                          <option value="Not Installed and is not working">
+                            No instalado
+                          </option>
+                        </select>
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Current Condition:</label>
-                        <input
-                          className="form-control"
-                          type="text text-align=center"
+                        <label htmlFor="CurrentConditions">
+                          Condición actual:
+                        </label>
+                        <select
+                          className="form-select "
                           name="CurrentConditions"
                           value={
                             technicalInformation &&
                             technicalInformation.CurrentConditions
                           }
                           onChange={handleChange}
-                        />
+                        >
+                          <option value="">Seleccione Condición actual</option>
+                          <option value="Excellent">Excellent</option>
+                          <option value="Very Good">Very Good</option>
+                          <option value="Good">Good</option>
+                          <option value="Regular">Regular</option>
+                          <option value="Bad">Bad</option>
+                          <option value="Very Bad">Very Bad</option>
+                          <option value="To be disposed">To be disposed</option>
+                        </select>
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Equipment Type:</label>
-                        <input
-                          className="form-control"
-                          type="text text-align=center"
+                        <label>Tipo de equipo:</label>
+                        {/* <input
+                                                    className="form-control"
+                                                    type="text text-align=center"
+                                                    name="EquipmentType"
+                                                    value={technicalInformation && technicalInformation.EquipmentType}
+                                                    onChange={handleChange} /> */}
+
+                        <select
+                          className="form-select "
                           name="EquipmentType"
                           value={
                             technicalInformation &&
                             technicalInformation.EquipmentType
                           }
                           onChange={handleChange}
-                        />
-                        {/* ============== onChange =============== Captura los cambios, lo que el usuario escriba*/}
+                        >
+                          <option value="">Seleccione Tipo de Equipo</option>
+                          <option value="Automation / Electronic">
+                            Automation / Electronic
+                          </option>
+                          <option value="Electrical">Electrical</option>
+                          <option value="Mechanical">Mechanical</option>
+                        </select>
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Serial Number:</label>
+                        <label>Número de serial:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -3069,7 +3184,7 @@ const ConsultaEquipos = () => {
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Model Number:</label>
+                        <label>Número de modelo:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -3083,7 +3198,7 @@ const ConsultaEquipos = () => {
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Weight:</label>
+                        <label>Peso:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -3109,7 +3224,7 @@ const ConsultaEquipos = () => {
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Vendor:</label>
+                        <label>Vendedor:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -3122,7 +3237,7 @@ const ConsultaEquipos = () => {
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Description:</label>
+                        <label>Descripción:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -3137,210 +3252,148 @@ const ConsultaEquipos = () => {
 
                       {/* vendor: "", nominalCapacity: "", yearConstruction: "", currentConditionsComments: "", : "" */}
 
-                      <hr />
-                      {/* -------------------------------         ADD TECHNICAL INFORMATION           ------------------------------------------ */}
+                      <hr style={{ width: "97%" }} />
+                      {/* -------------------------------         ADD TECHNICAL INFORMATION FORM           ------------------------------------------ */}
 
-                      {
-                        // Condicional para mostros un formulaio u otro
-                        editingTechInfo ? (
-                          <>
-                            <EditAddTechInfo
-                              technicalSpecEditado={technicalSpecEditado}
-                              updateAddTechInfo={updateAddTechInfo}
-                              setEditingTechInfo={setEditingTechInfo}
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <section className="pb-4 pt-4">
-                              <form
-                                onSubmit={handleSubmit(onSubmit)}
-                                className="animate__animated animate__fadeIn"
-                              >
-                                <label htmlFor="Name">
-                                  {" "}
-                                  <h5>Add Technical Information:</h5>{" "}
-                                </label>
-                                <select
-                                  className="form-select SelectBoostrap"
-                                  name="Name"
-                                  {...register("Name", {
-                                    required: {
-                                      value: true,
-                                      message: "Campo requerido",
-                                    },
-                                  })}
-                                >
-                                  <option value="">Select</option>
-                                  <option value="Available warranty">
-                                    Available warranty
-                                  </option>
-                                  <option value="Year of construction">
-                                    Year of construction
-                                  </option>
-                                  <option value="Sanitary Grade">
-                                    Sanitary Grade
-                                  </option>
-                                  <option value="Protection Grade">
-                                    Protection Grade
-                                  </option>
-                                  <option value="Electrical Consumption">
-                                    Electrical Consumption
-                                  </option>
-                                  <option value="Measurement variable">
-                                    Measurement variable
-                                  </option>
-                                  <option value="Plant Technical Information Contact">
-                                    Plant Technical Information Contact
-                                  </option>
-                                  <option value="Disposal Information">
-                                    Disposal Information
-                                  </option>
-                                  <option value="Equipment Packing">
-                                    Equipment Packing
-                                  </option>
-                                  <option value="Equipment current conditions comments">
-                                    Equipment current conditions comments
-                                  </option>
-                                  <option value="Nominal Capacity">
-                                    Nominal Capacity
-                                  </option>
-                                  <option value="Assambled / Dissambled">
-                                    Assambled / Dissambled
-                                  </option>
-                                  <option value="Plant Technical Information Contact">
-                                    Plant Technical Information Contact
-                                  </option>
-                                  <option value="Plant Financial Information Contact">
-                                    Plant Financial Information Contact
-                                  </option>
-                                  <option value="Communication protocol">
-                                    Communication protocol
-                                  </option>
-                                  <option value="Notes about equipment">
-                                    Notes about equipment
-                                  </option>
-                                </select>
+                      <OptionalInfo
+                        optionalTechInfo={optionalTechInfo}
+                        handleChangeOptionalInfo={handleChangeOptionalInfo}
+                      />
 
-                                <span className="text-danger text-small d-block mb-2">
-                                  {errors.Name && errors.Name.message}
-                                </span>
-
-                                <label htmlFor="Value">
-                                  Value <b className="text-danger">*</b>
-                                </label>
-                                <div className="row ">
-                                  <div className="col-10">
-                                    <input
-                                      type="text text-align=center"
-                                      className="form-control"
-                                      name="Value"
-                                      // onChange={handleChange}
-                                      // onChange={(e) => e.target.value}
-                                      {...register("Value", {
-                                        required: {
-                                          value: true,
-                                          message: "Campo requerido",
-                                        },
-                                      })}
-                                    />
-                                    <span className="text-danger text-small d-block mb-2">
-                                      {errors.Value && errors.Value.message}
-                                    </span>
-                                  </div>
-
-                                  {/* -----------------------------    BOtON AGREGAR TECHNICAL INFORMATION    -----------------------  */}
-                                  <div className="col-2">
-                                    <button className="btn btn-primary">
-                                      <AddIcon />{" "}
-                                    </button>
-                                  </div>
-                                </div>
-                                {/* ============== onChange =============== Captura los cambios, lo que el usuario escriba*/}
-                              </form>
-                            </section>
-                          </>
-                        )
-                      }
-                      {/* -----------------------------------             TABLE ADD TECHNICAL INFORMATION           ----------------------------------- */}
-
-                      <FormGroup>
-                        <table className="table display table-hover table-bordered table-striped">
-                          <thead>
-                            <tr>
-                              <th>Others Technical Information</th>
-                              <th>Value</th>
-                              <th>Acciones</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {newTechicInformation.length > 0 ? (
-                              newTechicInformation.map((elemento) => (
-                                <tr key={elemento.Id_NewTechSpec}>
-                                  <>
-                                    {filaEditada ? (
-                                      <>
-                                        {id == elemento.Id_NewTechSpec ? (
-                                          <>
-                                            <td className=" animate__animated animate__fadeInDown">
-                                              {" "}
-                                              {`${elemento.Name}:`}
-                                            </td>
-                                            <td className=" animate__animated animate__fadeInDown">
-                                              {" "}
-                                              {elemento.Value}
-                                            </td>
-                                          </>
-                                        ) : (
-                                          <>
-                                            <td> {`${elemento.Name}:`}</td>
-                                            <td> {elemento.Value}</td>
-                                          </>
-                                        )}
-                                      </>
-                                    ) : (
-                                      <>
-                                        <td> {`${elemento.Name}:`}</td>
-                                        <td> {elemento.Value}</td>
-                                      </>
-                                    )}
-
-                                    <td>
-                                      {" "}
-                                      <Button
-                                        color="primary"
-                                        onClick={() =>
-                                          editarTechSpec(elemento, "technical")
-                                        }
-                                      >
-                                        <i className="far fa-edit button_icon"></i>
-                                      </Button>{" "}
-                                      {"  "}
-                                      <Button
-                                        color="danger"
-                                        onClick={() =>
-                                          eliminarAddTechInfo(
-                                            elemento.Id_NewTechSpec
-                                          )
-                                        }
-                                      >
-                                        <i className="fas fa-trash-alt button_icon"></i>{" "}
-                                      </Button>
-                                    </td>
-                                  </>
-                                </tr>
-                              ))
-                            ) : (
-                              <tr>
-                                <td colSpan={3}>No data recorded</td>
-                              </tr>
-                            )}
-                            {/* No hay datos registrados */}
-                          </tbody>
-                        </table>
-                      </FormGroup>
+                      {/* { // Condicional para mostros un formulaio u otro
+                                                editingTechInfo ? (
+                                                    <>
+                                                        <EditAddTechInfo
+                                                            technicalSpecEditado={technicalSpecEditado}
+                                                            updateAddTechInfo={updateAddTechInfo}
+                                                            setEditingTechInfo={setEditingTechInfo}
+                                                        />
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <section className="pb-4 pt-4">
+                                                            <form onSubmit={handleSubmit(onSubmit)} className="animate__animated animate__fadeIn" >
+                                                                <label htmlFor="Name" > <h5 className="text-muted">Agregar más información técnica:</h5> </label>
+                                                                <select
+                                                                    className="form-select SelectBoostrap"
+                                                                    name="Name"
+                                                                    {...register("Name", {
+                                                                        required: {
+                                                                            value: true,
+                                                                            message: 'Campo requerido'
+                                                                        }
+                                                                    })}
+                                                                >
+                                                                    <option value="">Selecione información técnica</option>
+                                                                    <option value="Available warranty">Available warranty</option>
+                                                                    <option value="Year of construction">Year of construction</option>
+                                                                    <option value="Sanitary Grade">Sanitary Grade</option>
+                                                                    <option value="Protection Grade">Protection Grade</option>
+                                                                    <option value="Electrical Consumption">Electrical Consumption</option>
+                                                                    <option value="Measurement variable">Measurement variable</option>
+                                                                    <option value="Plant Technical Information Contact">Plant Technical Information Contact</option>
+                                                                    <option value="Disposal Information">Disposal Information</option>
+                                                                    <option value="Equipment Packing">Equipment Packing</option>
+                                                                    <option value="Equipment current conditions comments">Equipment current conditions comments</option>
+                                                                    <option value="Nominal Capacity">Nominal Capacity</option>
+                                                                    <option value="Assambled / Dissambled">Assambled / Dissambled</option>
+                                                                    <option value="Plant Technical Information Contact">Plant Technical Information Contact</option>
+                                                                    <option value="Plant Financial Information Contact">Plant Financial Information Contact</option>
+                                                                    <option value="Communication protocol">Communication protocol</option>
+                                                                    <option value="Notes about equipment">Notes about equipment</option>
+                                                                </select>
+                                                                <span className="text-danger text-small d-block mb-2">
+                                                                    {errors.Name && errors.Name.message}
+                                                                </span>
+                                                                <label htmlFor="Value">Valor <b className="text-danger">*</b></label>
+                                                                <div className="row ">
+                                                                    <div className="col-10">
+                                                                        <input
+                                                                            type="text text-align=center"
+                                                                            className="form-control"
+                                                                            name="Value"
+                                                                            // onChange={handleChange}
+                                                                            // onChange={(e) => e.target.value}
+                                                                            {...register("Value", {
+                                                                                required: {
+                                                                                    value: true,
+                                                                                    message: 'Campo requerido'
+                                                                                }
+                                                                            })}
+                                                                        />
+                                                                        <span className="text-danger text-small d-block mb-2">
+                                                                            {errors.Value && errors.Value.message}
+                                                                        </span>
+                                                                    </div>
+                                                                    -----------------------------    BOtON AGREGAR TECHNICAL INFORMATION    ----------------------- 
+                                                                    <div className="col-2">
+                                                                        <button className="btn btn-primary" ><span className=" fas fa-save fa-lg"></span></button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </section>
+                                                    </>
+                                                )
+                                            }
+                                            -----------------------------------             TABLE ADD TECHNICAL INFORMATION           -----------------------------------
+                                            <FormGroup>
+                                                <table className="table display table-hover table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Información Técnica</th>
+                                                            <th>Valor</th>
+                                                            <th>Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            newTechicInformation.length > 0 ?
+                                                                newTechicInformation.map((elemento) => (
+                                                                    <tr key={elemento.Id_NewTechSpec}>
+                                                                        <>
+                                                                            {
+                                                                                filaEditada ? (
+                                                                                    <>
+                                                                                        {
+                                                                                            id == elemento.Id_NewTechSpec ? (
+                                                                                                <>
+                                                                                                    < td className=" animate__animated animate__fadeInDown"> {`${elemento.Name}:`}</td>
+                                                                                                    < td className=" animate__animated animate__fadeInDown"> {elemento.Value}</td>
+                                                                                                </>
+                                                                                            ) : (
+                                                                                                <>
+                                                                                                    < td > {`${elemento.Name}:`}</td>
+                                                                                                    < td > {elemento.Value}</td>
+                                                                                                </>
+                                                                                            )
+                                                                                        }
+                                                                                    </>
+                                                                                ) : (
+                                                                                    <>
+                                                                                        < td > {`${elemento.Name}:`}</td>
+                                                                                        < td > {elemento.Value}</td>
+                                                                                    </>
+                                                                                )
+                                                                            }
+                                                                            <td> <Button color="primary" onClick={() => editarTechSpec(elemento, 'technical')} >
+                                                                                <i className="far fa-edit button_icon"></i></Button> {"  "}
+                                                                                < Button color="danger" onClick={() => eliminarAddTechInfo(elemento.Id_NewTechSpec)}>
+                                                                                    <i className="fas fa-trash-alt button_icon"></i> </Button>
+                                                                            </td>
+                                                                        </>
+                                                                    </tr>
+                                                                )) : (
+                                                                    <tr>
+                                                                        <td colSpan={3}>No data recorded</td>
+                                                                    </tr>
+                                                                )
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </FormGroup> */}
 
                       {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
+
                       <FormGroup className="row align-items-center justify-content-between">
                         <Grid
                           xs={4}
@@ -3382,7 +3435,6 @@ const ConsultaEquipos = () => {
                             <ArrowForwardIcon />
                           </Button>
                         </Grid>
-
                         {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
                       </FormGroup>
                     </ModalBody>
@@ -3462,49 +3514,36 @@ const ConsultaEquipos = () => {
                     </FormGroup>
 
                     <FormGroup className="col-6">
-                      <TextField
-                        label="ID Number"
+                      <label>Id:</label>
+                      <input
                         className="form-control"
-                        variant="outlined"
+                        readOnly
+                        type="text text-align=center"
                         name="Id_Equipment"
-                        value={
-                          equipoSeleccionado && equipoSeleccionado.Id_Equipment
-                        }
+                        value={getAllList.length + 1}
                       />
                     </FormGroup>
 
                     <FormGroup className="col-6">
-                      <TextField
-                        label="Line Number"
+                      <label>Número de línea:</label>
+                      <input
                         className="form-control"
-                        variant="outlined"
+                        type="text text-align=center"
                         name="number"
                         value={line ? line.number : ""}
                         onChange={handleChangeLine}
                       />
-
-                      {/* <TextField
-                        label="Line Number"
-                        className="form-control"
-                        id="outlined-basic"
-                        variant="outlined"
-                        name="number"
-                        value={line ? line.number : ''}
-                        onChange={handleChangeLine}
-                    /> */}
                     </FormGroup>
 
                     <FormGroup className="col-6">
                       {/* <div className="dropdown">
                                             <div className="control">
                                                 <div className="select-value">Seleccionar Planta...</div>
-
                                             </div>
-
                                         </div> */}
 
                       <label>
-                        Plant <b className="text-danger">*</b>
+                        Planta <b className="text-danger">*</b>
                       </label>
                       <select
                         className="form-select SelectBoostrap"
@@ -3512,121 +3551,122 @@ const ConsultaEquipos = () => {
                         required
                         onChange={handleChangeOperations}
                       >
-                        <option value="">Select Plant</option>
+                        <option value="">Seleccione Planta</option>
                         {/* {
                                                 operationsList.map((elemento) => (
                                                     <option value={elemento.Id_Operations}>{elemento.Name}</option>
                                                 ))
                                             } */}
-                        <option value="Barbados">Barbados</option>
-                        <option value="Barranquilla">Barranquilla</option>
-                        <option value="Boyaca">Boyaca</option>
-                        <option value="Bucaramanga">Bucaramanga</option>
-                        <option value="Fabrica de Tapas de Tocancipa">
-                          Fabrica de Tapas de Tocancipa
+                        <option value="APAN">APAN</option>
+                        <option value="BARBADOS">BARBADOS</option>
+                        <option value="BARRANQUILLA">BARRANQUILLA</option>
+                        <option value="BOYACA">BOYACA</option>
+                        <option value="BUCARAMANGA">BUCARAMANGA</option>
+                        <option value="FABRICA DE TAPAS DE TOCANCIPA">
+                          FABRICA DE TAPAS DE TOCANCIPA
                         </option>
-                        <option value="Etiquetas Impresur & Indugral">
-                          Etiquetas Impresur & Indugral
+                        <option value="ETIQUETAS IMPRESUR & INDUGRAL">
+                          ETIQUETAS IMPRESUR & INDUGRAL
                         </option>
-                        <option value="Medellín">Medellín</option>
-                        <option value="Malteria Tibito">Malteria Tibito</option>
-                        <option value="Tocancipa">Tocancipa</option>
-                        <option value="Malteria Tropical">
-                          Malteria Tropical
+                        <option value="MEDELLIN">MEDELLIN</option>
+                        <option value="MALTERIA TIBITO">MALTERIA TIBITO</option>
+                        <option value="TONCACIPA">TONCACIPA</option>
+                        <option value="MALTERIA TROPICAL">
+                          MALTERIA TROPICAL
                         </option>
-                        <option value="Valle">Valle</option>
-                        <option value="Holguin">Holguin</option>
-                        <option value="Dominicana">Dominicana</option>
-                        <option value="Hato Nuevo">Hato Nuevo</option>
-                        <option value="Guayaquil">Guayaquil</option>
-                        <option value="Quito">Quito</option>
-                        <option value="Malteria de Guayaquil">
-                          Malteria de Guayaquil
+                        <option value="VALLE">VALLE</option>
+                        <option value="HOLGUIN">HOLGUIN</option>
+                        <option value="DOMINICANA">DOMINICANA</option>
+                        <option value="HATO NUEVO">HATO NUEVO</option>
+                        <option value="GUAYAQUIL">GUAYAQUIL</option>
+                        <option value="QUITO">QUITO</option>
+                        <option value="MALTERIA DE GUAYAQUIL">
+                          MALTERIA DE GUAYAQUIL
                         </option>
-                        <option value="La Constancia Beer">
-                          La Constancia Beer
+                        <option value="LA CONSTANCIA BEER">
+                          LA CONSTANCIA BEER
                         </option>
-                        <option value="El Salvador CSD">El Salvador CSD</option>
-                        <option value="La Constancia Walter">
-                          La Constancia Walter
+                        <option value="EL SALVADOR CSD">EL SALVADOR CSD</option>
+                        <option value="LA CONSTANCIA WALTER">
+                          LA CONSTANCIA WALTER
                         </option>
-                        <option value="Zacapa">Zacapa</option>
-                        <option value="San Pedro Sula Beer">
-                          San Pedro Sula Beer
+                        <option value="ZACAPA">ZACAPA</option>
+                        <option value="SAN PEDRO SULA BEER">
+                          SAN PEDRO SULA BEER
                         </option>
-                        <option value="San Pedro Sula CSD">
-                          San Pedro Sula CSD
+                        <option value="SAN PEDRO SULA CSD">
+                          SAN PEDRO SULA CSD
                         </option>
-                        <option value="Apan">Apan</option>
-                        <option value="Cebadas y Maltas">
-                          Cebadas y Maltas
+                        <option value="CEBADAS Y MALTAS">
+                          CEBADAS Y MALTAS
                         </option>
-                        <option value="Guadalajara">Guadalajara</option>
-                        <option value="Malteria Zacatecas">
-                          Malteria Zacatecas
+                        <option value="GUADALAJARA">GUADALAJARA</option>
+                        <option value="MALTERIA ZACATECAS">
+                          MALTERIA ZACATECAS
                         </option>
-                        <option value="Mazatlán">Mazatlán</option>
-                        <option value="Modelo México">Modelo México</option>
-                        <option value="Salamanca (Casal)">
-                          Salamanca (Casal)
+                        <option value="MAZATLÁN">MAZATLÁN</option>
+                        <option value="MODELO MÉXICO">MODELO MÉXICO</option>
+                        <option value="SALAMANCA (CASAL)">
+                          SALAMANCA (CASAL)
                         </option>
-                        <option value="Torreón">Torreón</option>
-                        <option value="Tuxtepec">Tuxtepec</option>
-                        <option value="Yucatan">Yucatan</option>
-                        <option value="Zacatecas">Zacatecas</option>
-                        <option value="Cucapá (Craft)">Cucapá (Craft)</option>
-                        <option value="Pasadena">Pasadena</option>
-                        <option value="Arequipa">Arequipa</option>
-                        <option value="Ate">Ate</option>
-                        <option value="Cusco">Cusco</option>
-                        <option value="Huachipa">Huachipa</option>
-                        <option value="Malteria de Lima">
-                          Malteria de Lima
+                        <option value="TORREÓN">TORREÓN</option>
+                        <option value="TUXTEPEC">TUXTEPEC</option>
+                        <option value="YUCATAN">YUCATAN</option>
+                        <option value="ZACATECAS">ZACATECAS</option>
+                        <option value="CUCAPÁ (CRAFT)">CUCAPÁ (CRAFT)</option>
+                        <option value="PASADENA">PASADENA</option>
+                        <option value="AREQUIPA">AREQUIPA</option>
+                        <option value="ATE">ATE</option>
+                        <option value="CUSCO">CUSCO</option>
+                        <option value="HUACHIPA">HUACHIPA</option>
+                        <option value="MALTERIA DE LIMA">
+                          MALTERIA DE LIMA
                         </option>
-                        <option value="Motupe">Motupe</option>
-                        <option value="San Juan (Pucallpa)">
-                          San Juan (Pucallpa)
+                        <option value="MOTUPE">MOTUPE</option>
+                        <option value="SAN JUAN (PUCALLPA)">
+                          SAN JUAN (PUCALLPA)
                         </option>
-                        <option value="San Mateo (Huarochiri)">
-                          San Mateo (Huarochiri)
+                        <option value="SAN MATEO (HUAROCHIRI)">
+                          SAN MATEO (HUAROCHIRI)
                         </option>
-                        <option value="Barbarian (Craft)">
-                          Barbarian (Craft)
+                        <option value="BARBARIAN (CRAFT)">
+                          BARBARIAN (CRAFT)
                         </option>
-                        <option value="Saint Vincent">Saint Vincent</option>
-                        <option value="Bogotá Brewery Company (Craft)">
-                          Bogotá Brewery Company (Craft)
+                        <option value="SAINT VINCENT">SAINT VINCENTt</option>
+                        <option value="BOGOTÁ BREWERY COMPANY (CRAFT)">
+                          BOGOTÁ BREWERY COMPANY (CRAFT)
                         </option>
                       </select>
                     </FormGroup>
 
                     <FormGroup className="col-6">
                       {/* <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        name="Name"
-                        onChange={handleChangeLineTypes}
-                        options={lineTypesSelect}
-                        sx={{ width: 370 }}
-                        renderInput={(params) => 
-                        <TextField {...params} label="Line Type" variant='outlined' />}
-                    /> */}
+                                            disablePortal
+                                            id="combo-box-demo"
+                                            name="Name"
+                                            onChange={handleChangeLineTypes}
+                                            options={lineTypesSelect}
+                                            sx={{ width: 370 }}
+                                            renderInput={(params) => 
+                                                <TextField {...params} label="Line Type" variant='outlined' />}
+                                        /> */}
 
                       <label htmlFor="lineType">
-                        Line Type <b className="text-danger">*</b>
+                        Tipo de línea <b className="text-danger">*</b>
                       </label>
                       <select
                         className="form-select SelectBoostrap"
                         name="Name"
                         onChange={handleChangeLineTypes}
                       >
-                        <option value="">Select Line Type</option>
-                        <option value="Brewline">Brewline</option>
-                        <option value="Bottle">Bottle</option>
-                        <option value="Can">Can</option>
-                        <option value="Pet">Pet</option>
-                        <option value="Keg">Keg</option>
-                        <option value="Special Keg">Special Keg</option>
+                        <option value="">Seleccione Tipo de Línea</option>
+                        <option value="BREWLINE">BREWLINE</option>
+                        <option value="BOTTLE">BOTTLE</option>
+                        <option value="CAN">CAN</option>
+                        <option value="PET">PET</option>
+                        <option value="KEG">KEG</option>
+                        <option value="SPECIAL KEG">SPECIAL KEG</option>
+                        <option value="OTHER">OTHER</option>
                       </select>
 
                       {/* {lineTypeList.map((elemento) => (
@@ -3637,7 +3677,7 @@ const ConsultaEquipos = () => {
 
                     <FormGroup className="col-6">
                       <label>
-                        Country <b className="text-danger">*</b>
+                        País <b className="text-danger">*</b>
                       </label>
                       <select
                         className="form-select SelectBoostrap"
@@ -3645,24 +3685,24 @@ const ConsultaEquipos = () => {
                         required
                         onChange={handleChangeCountries}
                       >
-                        <option value="">Select Country</option>
+                        <option value="">Seleccione País</option>
                         {/* {paisLis.map((elemento) => (
                                                 <option value={elemento.Id_Countries}>{elemento.Name}</option>
                                             ))
                                             } */}
 
-                        <option value="Barbados">Barbados</option>
-                        <option value="Colombia">Colombia</option>
-                        <option value="Cuba">Cuba</option>
-                        <option value="Dominicana">Dominicana</option>
-                        <option value="Ecuador">Ecuador</option>
-                        <option value="El Salvador">El Salvador</option>
-                        <option value="Guatemala">Guatemala</option>
-                        <option value="Honduras">Honduras</option>
-                        <option value="México">México</option>
-                        <option value="Panamá">Panamá</option>
-                        <option value="Perú">Perú</option>
-                        <option value="Saint Vincent">Saint Vincent</option>
+                        <option value="BARBADOS">BARBADOS</option>
+                        <option value="COLOMBIA">COLOMBIA</option>
+                        <option value="CUBA">CUBA</option>
+                        <option value="DOMINICANA">DOMINICANA</option>
+                        <option value="ECUADOR">ECUADOR</option>
+                        <option value="EL SALVADOR">EL SALVADOR</option>
+                        <option value="GUATEMALA">GUATEMALA</option>
+                        <option value="HONDURAS">HONDURAS</option>
+                        <option value="MÉXICO">MÉXICO</option>
+                        <option value="PANAMA">PANAMA</option>
+                        <option value="PERÚ">PERÚ</option>
+                        <option value="SAINT VINCENT">SAINT VINCENT</option>
                       </select>
                     </FormGroup>
 
@@ -3676,7 +3716,7 @@ const ConsultaEquipos = () => {
                         onChange={handleChangeBu}
                       >
                         {/* ------------------------------------------------   SELECT DESDE LA BASE DE DATOS   ------------------------------------ */}
-                        <option value="">Select BU</option>
+                        <option value="">Seleccione BU</option>
                         {/* {
                                                 buList.map((elemento) => (
                                                     <option value={elemento.Id_BU}>{elemento.Name}</option>
@@ -3699,92 +3739,96 @@ const ConsultaEquipos = () => {
                         name="Name"
                         onChange={handleChangeAreas}
                       >
-                        <option value="">Select Area</option>
+                        <option value="">Seleccione Area</option>
                         {/* {
                                                 areaList.map((elemento) => (
                                                     <option value={elemento.Id_Areas}>{elemento.Name}</option>
                                                 ))
                                             } */}
 
-                        <option value="General Services">
-                          General Services
+                        <option value="GENERAL SERVICES">
+                          GENERAL SERVICES
                         </option>
-                        <option value="Silos">Silos</option>
-                        <option value="Milling">Milling</option>
-                        <option value="Brewhouse">Brewhouse</option>
-                        <option value="Fermentation">Fermentation</option>
-                        <option value="Maturation">Maturation</option>
-                        <option value="Centrifuge">Centrifuge</option>
-                        <option value="Filtration">Filtration</option>
-                        <option value="Dilution Water">Dilution Water</option>
-                        <option value="Bright Beer Tanks">
-                          Bright Beer Tanks
+                        <option value="SILOS">SILOS</option>
+                        <option value="MILLING">MILLING</option>
+                        <option value="BREWHOUSE">BREWHOUSE</option>
+                        <option value="BREWING">BREWING</option>
+                        <option value="FERMENTATION">FERMENTATION</option>
+                        <option value="MATURATION">MATURATION</option>
+                        <option value="CENTRIFUGE">CENTRIFUGE</option>
+                        <option value="FILTRATION">FILTRATION</option>
+                        <option value="DILUTION WATER">DILUTION WATER</option>
+                        <option value="BRIGHT BEER TANKS">
+                          BRIGHT BEER TANKS
                         </option>
-                        <option value="Packaging">Packaging</option>
-                        <option value="Chemical Island & CIP">
-                          Chemical Island & CIP
+                        <option value="PACKAGING">PACKAGING</option>
+                        <option value="CHEMICAL ISLAND & CIP">
+                          CHEMICAL ISLAND & CIP
                         </option>
-                        <option value="Syrup House">Syrup House</option>
-                        <option value="Logistic Tier 1">Logistic Tier 1</option>
-                        <option value="Logistic Tier 2">Logistic Tier 2</option>
-                        <option value="CO2 Recovery">CO2 Recovery</option>
-                        <option value="Refrigeration">Refrigeration</option>
-                        <option value="Wells">Wells</option>
-                        <option value="Water Treatment Plant">
-                          Water Treatment Plant
+                        <option value="SYRUP HOUSE">SYRUP HOUSE</option>
+                        <option value="LOGISTIC TIER 1">LOGISTIC TIER 1</option>
+                        <option value="LOGISTIC TIER 2">LOGISTIC TIER 2</option>
+                        <option value="CO2 RECOVERY">CO2 RECOVERY</option>
+                        <option value="REFRIGERATION">REFRIGERATION</option>
+                        <option value="WELLS">WELLS</option>
+                        <option value="WATER TREATMENT PLANT">
+                          WATER TREATMENT PLANT
                         </option>
-                        <option value="Compressed Air">Compressed Air</option>
-                        <option value="Electrical Substation (HV)">
-                          Electrical Substation (HV)
+                        <option value="COMPRESSED AIR">COMPRESSED AIR</option>
+                        <option value="ELECTRICAL SUBSTATION (HV)">
+                          ELECTRICAL SUBSTATION (HV)
                         </option>
-                        <option value="Electrical Substation (MV)">
-                          Electrical Substation (MV)
+                        <option value="ELECTRICAL SUBSTATION (MV)">
+                          ELECTRICAL SUBSTATION (MV)
                         </option>
-                        <option value="Electrical Substation (LV)">
-                          Electrical Substation (LV)
+                        <option value="ELECTRICAL SUBSTATION (LV)">
+                          ELECTRICAL SUBSTATION (LV)
                         </option>
-                        <option value="Steam Generation">
-                          Steam Generation
+                        <option value="STEAM GENERATION">
+                          STEAM GENERATION
                         </option>
-                        <option value="Biological Treatment System">
-                          Biological Treatment System
+                        <option value="BIOLOGICAL TREATMENT SYSTEM">
+                          BIOLOGICAL TREATMENT SYSTEM
                         </option>
-                        <option value="Tertiary System">Tertiary System</option>
-                        <option value="Sanitary Plant">Sanitary Plant</option>
-                        <option value="Automation & Industrial Network">
-                          Automation & Industrial Network
+                        <option value="TERTIARY SYSTEM">TERTIARY SYSTEM</option>
+                        <option value="SANITARY PLANT">SANITARY PLANT</option>
+                        <option value={["AUTOMATION & INDUSTRIAL NETWORK"]}>
+                          AUTOMATION & INDUSTRIAL NETWORK
                         </option>
-                        <option value="Maintenance">Maintenance</option>
+                        <option value="MAINTENANCE">MAINTENANCE</option>
                         <option value="IT">IT</option>
-                        <option value="Laboratory">Laboratory</option>
-                        <option value="Workshop">Workshop</option>
-                        <option value="Offices">Offices</option>
-                        <option value="Subproducts">Subproducts</option>
+                        <option value="LABORATORY">LABORATORY</option>
+                        <option value="WORKSHOP">WORKSHOP</option>
+                        <option value="OFFICES">OFFICES</option>
+                        <option value="SUBPRODUCTS">SUBPRODUCTS</option>
                       </select>
                     </FormGroup>
 
                     <FormGroup className="col-6">
                       <label htmlFor="Subarea">
-                        Subarea <b className="text-danger">*</b>
+                        Subárea <b className="text-danger">*</b>
                       </label>
                       <select
                         className="form-select SelectBoostrap"
                         name="Name"
                         onChange={handleChangeSubArea}
                       >
-                        <option value="">Select Subarea</option>
+                        <option value="">Seleccione Subárea</option>
                         {/* {subareaList.map((elemento) => (
                                                 <option value={elemento.Id_SubAreas}>{elemento.Name}</option>
                                             ))
                                             } */}
-                        <option value="Wort Kettle">Wort Kettle</option>
-                        <option value="Torre de Molienda ">
-                          Torre de Molienda{" "}
+                        <option value="WORT KETTLE">WORT KETTLE</option>
+                        <option value="TORRE DE MOLIENDA">
+                          TORRE DE MOLIENDA
                         </option>
-                        <option value="Cocimientos">Cocimientos</option>
+                        <option value="CONOCIMIENTOS">CONOCIMIENTOS</option>
                         <option value="BAGAZO/SYE">BAGAZO/SYE</option>
-                        <option value="Bloque Frio">Bloque Frio</option>
-                        <option value="Bloque Frio">NaN</option>
+                        <option value="BLOQUE FRIO">BLOQUE FRIO</option>
+                        <option value="GENERAL">GENERAL</option>
+                        <option value="NO DATA AVAILABLE">
+                          No data available
+                        </option>
                       </select>
                     </FormGroup>
 
@@ -3802,7 +3846,7 @@ const ConsultaEquipos = () => {
                     <FormGroup className="col-12">
                       {/* Para obtener el correo */}
                       <TextField
-                        label="Plant Mail"
+                        label="Correo de la planta"
                         className="form-control"
                         variant="outlined"
                         name="code"
@@ -3932,7 +3976,6 @@ const ConsultaEquipos = () => {
                         <h1>Consulta avanzada</h1>
                     </div>
                 </ModalHeader>
-
                 <ModalBody>
                     <p>Especifique los campos por los que desea filtrar</p>
                     <FormGroup>
@@ -3943,17 +3986,14 @@ const ConsultaEquipos = () => {
                         <label>Equipo</label>
                         <input className="form-control" type="text text-align=center" />
                     </FormGroup>
-
                     <FormGroup>
                         <label>Ubicacion Tecnica</label>
                         <input
                             className="form-control"
                             name="ubicacionTecnica"
                             type="text text-align=center"
-
                         />
                     </FormGroup>
-
                     <FormGroup>
                         <label>Descripcion</label>
                         <input
@@ -3962,7 +4002,6 @@ const ConsultaEquipos = () => {
                             type="text text-align=center"
                         />
                     </FormGroup>
-
                     <FormGroup>
                         <label>paises:</label>
                         <input
@@ -3971,9 +4010,7 @@ const ConsultaEquipos = () => {
                             type="text text-align=center"
                         />
                     </FormGroup>
-
                 </ModalBody>
-
                 <ModalFooter>
                     <Button color='primary' >Buscar</Button>
                     <Button color='secondary' onClick={() => setModalConsultaAv(false)}>Cerrar</Button>
