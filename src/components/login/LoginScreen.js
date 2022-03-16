@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 // import '../../index.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import '../equipos/MaestroEquipos.scss';
+import { globalApi } from "../../types/api.types";
 import {
   Button,
   createTheme,
@@ -24,9 +25,9 @@ import Brightness2Icon from "@material-ui/icons/Brightness2";
 import { WbSunny } from "@material-ui/icons";
 //import Button from 'react-bootstrap/Button';
 //import Container from 'react-bootstrap/Container';
+import axios from "axios";
 
 const LoginScreen = ({ history }) => {
-  const label = { inputProps: { "aria-label": "Switch demo" } };
   const {
     register,
     handleSubmit,
@@ -169,19 +170,6 @@ const LoginScreen = ({ history }) => {
 
   const handleLogin = () => {};
 
-  const [cuentas, setCuentas] = useState({
-    usuario1: "claudio.zastrow@ab-inbev.com",
-    usuario2: "francisco.lopez-ext@ab-inbev.com",
-    usuario3: "maria.menab@ab-inbev.com",
-    usuario4: "carlos.ortiz.rubio@ab-inbev.com",
-    usuario5: "alejandro.rojo@ab-inbev.com",
-    usuario6: "roberto.avilam@ab-inbev.com",
-    usuario7: "martin.pulidoc@ab-inbev.com",
-    usuario8: "isai.torres@ab-inbev.com",
-    usuario9: "gabriel.rivero-ext@ab-inbev.com",
-    usuario10: "carlos.razo-ext@ab-inbev.com",
-    password: "prueba@12345",
-  });
   const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false); // Para usuario incorrecto
   const [passwordEditing, setPasswordEditing] = useState(false);
@@ -190,42 +178,45 @@ const LoginScreen = ({ history }) => {
     setEditing(false);
     setPasswordEditing(false);
 
-    console.log(e);
+    // console.log(e);
+
+    axios
+      .post(`${globalApi}/login`, e)
+      .then((x) => {
+        console.log(x);
+        localStorage.setItem("token", x.data.token);
+        history.replace("/consultaEquipos");
+      })
+      .catch((x) => {
+        console.log(x?.response);
+      });
+
+    // localStorage.removeItem("token")
 
     // if (e.password === "12345678") {
 
-    setTimeout(() => {
-      if (
-        e.user === cuentas.usuario1 ||
-        e.user === cuentas.usuario2 ||
-        e.user === cuentas.usuario3 ||
-        e.user === cuentas.usuario4 ||
-        e.user === cuentas.usuario5 ||
-        e.user === cuentas.usuario6 ||
-        e.user === cuentas.usuario7 ||
-        e.user === cuentas.usuario8 ||
-        e.user === cuentas.usuario9 ||
-        e.user === cuentas.usuario10
-      ) {
-        console.log(e.user);
-        if (e.password === cuentas.password) {
-          setUser(e);
-          setEditing(false);
-          console.log(e.password);
-          // history.push('/');      //Redireccion a la url indicada y se puede volver al login.
-          history.replace("/consultaEquipos"); //Redireccion a la url indicada, No se puede volver al login.
-        } else {
-          setPasswordEditing(true);
-        }
-      } else {
-        console.log("No funciona");
+    // setTimeout(() => {
+    //     if (e.user === cuentas.usuario1 || e.user === cuentas.usuario2 || e.user === cuentas.usuario3 || e.user === cuentas.usuario4 || e.user === cuentas.usuario5 || e.user === cuentas.usuario6 || e.user === cuentas.usuario7 || e.user === cuentas.usuario8 || e.user === cuentas.usuario9 || e.user === cuentas.usuario10) {
+    //         console.log(e.user)
+    //         if (e.password === cuentas.password) {
+    //             setUser(e)
+    //             setEditing(false)
+    //             console.log(e.password)
+    //             // history.push('/');      //Redireccion a la url indicada y se puede volver al login.
+    //             history.replace('/consultaEquipos');   //Redireccion a la url indicada, No se puede volver al login.
 
-        setUser(null);
-        setEditing(true);
-      }
-    }, 1000);
+    //         } else {
+    //             setPasswordEditing(true)
+    //         }
+
+    //     } else {
+    //         console.log("No funciona")
+
+    //         setUser(null)
+    //         setEditing(true)
+    //     }
+    // }, 1000);
   };
-
   //fadeInDown
   return (
     <ThemeProvider theme={theme}>
@@ -264,13 +255,13 @@ const LoginScreen = ({ history }) => {
 
             <TextField
               label="Nombre de usuario"
-              name="user"
+              name="email"
               placeholder="Name@example.com"
               variant="outlined"
               style={style.TextField}
               fullWidth
               required
-              {...register("user", {
+              {...register("email", {
                 required: {
                   value: true,
                   message: "Campo requerido",

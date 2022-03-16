@@ -53,7 +53,16 @@ import { ThemeProvider } from "@material-ui/styles";
 import { globalApi } from "../types/api.types";
 
 //-----------------------------------------------------------------------
-
+const headCells = [
+  { id: "Name", label: "Equipo" },
+  { id: "bu", label: "BU", disableSorting: true },
+  { id: "pais", label: "País", disableSorting: true },
+  { id: "area", label: "Area", disableSorting: true },
+  { id: "subarea", label: "Subárea", disableSorting: true },
+  { id: "planta", label: "Planta", disableSorting: true },
+  { id: "equipmentType", label: "Tipo de Equipo", disableSorting: true },
+  { id: "acciones", label: "Acciones", disableSorting: true },
+];
 const StyledTableCell = withStyles((theme) => ({
   head: {
     color:
@@ -84,17 +93,6 @@ const StyledTableRow = withStyles((theme) => ({
     },
   },
 }))(TableRow);
-
-const headCells = [
-  { id: "Name", label: "Equipo" },
-  { id: "bu", label: "BU", disableSorting: true },
-  { id: "pais", label: "País", disableSorting: true },
-  { id: "area", label: "Area", disableSorting: true },
-  { id: "subarea", label: "Subárea", disableSorting: true },
-  { id: "planta", label: "Planta", disableSorting: true },
-  { id: "equipmentType", label: "Tipo de Equipo", disableSorting: true },
-  { id: "acciones", label: "Acciones", disableSorting: true },
-];
 
 //---------------------------------------------------------------
 
@@ -2963,6 +2961,7 @@ const ConsultaEquipos = () => {
 
           <ModalFooter>
             <Button
+              name="cancelar"
               color="danger"
               onClick={() => {
                 setModalEditar(false);
@@ -3008,7 +3007,6 @@ const ConsultaEquipos = () => {
             item={item}
             setItem={setItem}
             setpruebaExcel={setpruebaExcel}
-            setModalInsertarExcel={setModalInsertarExcel}
             setGetAllList={setGetAllList}
             getAllList={getAllList}
             actualizarTabla={actualizarTabla}
