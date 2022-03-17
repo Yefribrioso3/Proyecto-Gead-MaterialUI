@@ -74,136 +74,138 @@ const ServiceInformation = ({
 
   const [filaEditada, setfilaEditada] = useState(false);
 
-  const onSubmit = (data, e) => {
-    casoServInfo === "Edit"
-      ? onSubmitServInfo(data, e)
-      : AddServInfomation(data, e);
-  };
+  // const onSubmit = (data, e) => {
 
-  const AddServInfomation = (data, e) => {
-    console.log("Add");
+  //     (casoServInfo === 'Edit') ? onSubmitServInfo(data, e) : AddServInfomation(data, e)
+  // };
 
-    data.Id_NewServInfo = uuidv4();
+  // const AddServInfomation = (data, e) => {
+  //     console.log("Add")
 
-    const newServicesInfo = {
-      Id_NewServInfo: data.Id_NewServInfo,
-      Id_ServicesInformation: null,
-      Name: data.Name,
-      Value: data.Value,
-      SelectNewServicesInfo: {
-        Id_SelectNewServInfo: uuidv4(),
-        Id_ServicesInformation: "",
-        Id_NewServInfo: data.Id_NewServInfo,
-      },
-    };
+  //     data.Id_NewServInfo = uuidv4();
 
-    let newServicesInformation =
-      equipoSeleccionado.ServicesInformation.newServicesInformation;
-    newServicesInformation.push(newServicesInfo);
+  //     const newServicesInfo = {
+  //         Id_NewServInfo: data.Id_NewServInfo,
+  //         Id_ServicesInformation: null,
+  //         Name: data.Name,
+  //         Value: data.Value,
+  //         SelectNewServicesInfo: {
+  //             Id_SelectNewServInfo: uuidv4(),
+  //             Id_ServicesInformation: '',
+  //             Id_NewServInfo: data.Id_NewServInfo
+  //         }
+  //     }
 
-    setnewservInformation(newServicesInformation);
+  //     let newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
+  //     newServicesInformation.push(newServicesInfo)
 
-    console.log(newServicesInformation);
-    console.log(equipoSeleccionado);
+  //     setnewservInformation(newServicesInformation);
 
-    e.target.reset();
-  };
+  //     console.log(newServicesInformation);
+  //     console.log(equipoSeleccionado);
 
-  const onSubmitServInfo = async (data, e) => {
-    data.Id_NewServInfo = uuidv4();
+  //     e.target.reset()
+  // }
 
-    const newServicesInfo = {
-      Id_NewServInfo: data.Id_NewServInfo,
-      Id_ServicesInformation:
-        equipoSeleccionado.ServicesInformation.Id_ServicesInformation,
-      Name: data.Name,
-      Value: data.Value,
-      SelectNewServicesInfo: {
-        Id_SelectNewServInfo: uuidv4(),
-        Id_ServicesInformation:
-          equipoSeleccionado.ServicesInformation.Id_ServicesInformation,
-        Id_NewServInfo: data.Id_NewServInfo,
-      },
-    };
+  // const onSubmitServInfo = async (data, e) => {
+  //     data.Id_NewServInfo = uuidv4();
 
-    let newServicesInformation =
-      equipoSeleccionado.ServicesInformation.newServicesInformation;
-    newServicesInformation.unshift(newServicesInfo);
+  //     const newServicesInfo = {
+  //         Id_NewServInfo: data.Id_NewServInfo,
+  //         Id_ServicesInformation: equipoSeleccionado.ServicesInformation.Id_ServicesInformation,
+  //         Name: data.Name,
+  //         Value: data.Value,
+  //         SelectNewServicesInfo: {
+  //             Id_SelectNewServInfo: uuidv4(),
+  //             Id_ServicesInformation: equipoSeleccionado.ServicesInformation.Id_ServicesInformation,
+  //             Id_NewServInfo: data.Id_NewServInfo
+  //         }
+  //     }
 
-    await sendNewServInfo(newServicesInfo);
-    e.target.reset();
-  };
+  //     let newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
+  //     newServicesInformation.unshift(newServicesInfo)
 
-  const sendNewServInfo = async (valorInsertar) => {
-    await Axios.post("https://node-gead.herokuapp.com/api/newServInfo", {
-      Id_NewServInfo: valorInsertar.Id_NewServInfo,
-      Id_ServicesInformation: valorInsertar.Id_ServicesInformation,
-      Name: valorInsertar.Name,
-      Value: valorInsertar.Value,
-    });
+  //     await sendNewServInfo(newServicesInfo);
+  //     e.target.reset()
+  // };
 
-    await Axios.post("https://node-gead.herokuapp.com/api/selectNewServInfo", {
-      Id_SelectNewServInfo:
-        valorInsertar.SelectNewServicesInfo.Id_SelectNewServInfo,
-      Id_ServicesInformation: valorInsertar.Id_ServicesInformation,
-      Id_NewServInfo: valorInsertar.Id_NewServInfo,
-    });
-  };
+  // const sendNewServInfo = async (valorInsertar) => {
+  //     await Axios.post(`${globalApi}/newServInfo`, {
+  //         Id_NewServInfo: valorInsertar.Id_NewServInfo,
+  //         Id_ServicesInformation: valorInsertar.Id_ServicesInformation,
+  //         Name: valorInsertar.Name,
+  //         Value: valorInsertar.Value
+  //     })
 
-  const editar = (elemento, caso) => {
-    setfilaEditada(true);
+  //     await Axios.post(`${globalApi}/selectNewServInfo`, {
+  //         Id_SelectNewServInfo: valorInsertar.SelectNewServicesInfo.Id_SelectNewServInfo,
+  //         Id_ServicesInformation: valorInsertar.Id_ServicesInformation,
+  //         Id_NewServInfo: valorInsertar.Id_NewServInfo
+  //     })
 
-    editRow(elemento, caso);
-  };
+  // };
+  // const editar = (elemento, caso) => {
+  //     setfilaEditada(true);
 
-  const eliminarServInfo = async (id) => {
-    console.log(id);
+  //     editRow(elemento, caso)
+  // }
 
-    let indice =
-      equipoSeleccionado.ServicesInformation.newServicesInformation.findIndex(
-        (equipo) => {
-          return equipo.Id_NewServInfo === id;
-        }
-      );
+  // const eliminarAddTechInfo = (id) => {
 
-    const ServInfo =
-      equipoSeleccionado.ServicesInformation.newServicesInformation.find(
-        (nts) => nts.Id_NewServInfo === id
-      );
-    const idSelectNewServInfo =
-      ServInfo.SelectNewServicesInfo.Id_SelectNewServInfo;
+  //     setnewservInformation(newservInformation.filter((sercivesIn) => sercivesIn.Id_NewServInfo !== id))
 
-    let newServicesInformation =
-      equipoSeleccionado.ServicesInformation.newServicesInformation;
-    newServicesInformation.splice(indice, 1);
+  //     let newEquipo = equipoSeleccionado;
+  //     newEquipo.ServicesInformation.newServicesInformation = newservInformation;
 
-    await deleteNewServInfo(id, idSelectNewServInfo);
+  //     setEquipoSeleccionado(newEquipo);
+  //     console.log(equipoSeleccionado);
 
-    seteditingNewServInfo(false);
-    seteditingNewServInfo(true);
-  };
+  // }
 
-  const deleteNewServInfo = async (id, idSelectNewServInfo) => {
-    await Axios.delete(
-      `https://node-gead.herokuapp.com/api/selectNewServInfo/${idSelectNewServInfo}`
-    );
-    await Axios.delete(
-      `https://node-gead.herokuapp.com/api/newServInfo/${id}`
-    ).then((id) => {
-      console.log(id);
-      alert("successfully removed");
-    });
-  };
+  // const eliminarAddTechInfoApi = (id) => {
+  //     setEquipoSeleccionado(equipoSeleccionado.ServicesInformation.newServicesInformation.filter((sercivesIn) => sercivesIn.Id_NewServInfo !== id))
+  //     console.log(equipoSeleccionado);
+  // }
+
+  //---------------------------------------------------------------------------------------------------
+
+  // const eliminarServInfo = async (id) => {
+  //     console.log(id)
+
+  //     let indice = equipoSeleccionado.ServicesInformation.newServicesInformation.findIndex((equipo) => {
+  //         return equipo.Id_NewServInfo === id;
+  //     })
+
+  //     const ServInfo = equipoSeleccionado.ServicesInformation.newServicesInformation.find(nts => nts.Id_NewServInfo === id)
+  //     const idSelectNewServInfo = ServInfo.SelectNewServicesInfo.Id_SelectNewServInfo
+
+  //     let newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
+  //     newServicesInformation.splice(indice, 1)
+
+  //     await deleteNewServInfo(id, idSelectNewServInfo)
+
+  //     seteditingNewServInfo(false);
+  //     seteditingNewServInfo(true);
+  // }
+
+  // const deleteNewServInfo = async (id, idSelectNewServInfo) => {
+  //     await Axios.delete(`${globalApi}/selectNewServInfo/${idSelectNewServInfo}`)
+  //     await Axios.delete(`${globalApi}/newServInfo/${id}`)
+  //         .then((id) => {
+  //             console.log(id)
+  //             alert("successfully removed");
+  //         });
+  // };
 
   return (
     <ThemeProvider theme={theme}>
       <div className="p-3">
-        <h4 className="text-muted">Services Information</h4>
+        <h4 className="text-muted">Información de Servicios</h4>
       </div>
 
       <ModalBody className="row animate__animated animate__fadeIn">
         <FormGroup className="col-4">
-          <label>Date Of Installation:</label>
+          <label>Fecha de Instalación:</label>
           <input
             className="form-control"
             type="text text-align=center"
@@ -216,7 +218,7 @@ const ServiceInformation = ({
         </FormGroup>
 
         <FormGroup className="col-4">
-          <label>Date Of Desinstallation:</label>
+          <label>Fecha de Desinstalación:</label>
           <input
             className="form-control"
             type="text text-align=center"
@@ -229,7 +231,7 @@ const ServiceInformation = ({
         </FormGroup>
 
         <FormGroup className="col-4">
-          <label>Desuse Reason:</label>
+          <label>Razón de Desuso:</label>
           <input
             className="form-control"
             type="text text-align=center"
@@ -241,7 +243,7 @@ const ServiceInformation = ({
         </FormGroup>
 
         <FormGroup className="col-4">
-          <label>Desinstallation Reason:</label>
+          <label>Motivo de Desinstalación:</label>
           <input
             className="form-control"
             type="text text-align=center"

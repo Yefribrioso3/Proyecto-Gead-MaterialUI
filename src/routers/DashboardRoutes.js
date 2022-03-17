@@ -18,6 +18,7 @@ import SideMenu from "../components/SideMenu";
 import { makeStyles, CssBaseline, ThemeProvider } from "@material-ui/core";
 import { createTheme } from "@material-ui/core/styles";
 import Header from "../components/Header";
+import Registro from "../components/login/Registro";
 // import PageHeader from '../components/PageHeader';
 
 // import Employees from "../pages/Employees/Employees";
@@ -86,7 +87,7 @@ export const DashboardRoutes = () => {
                 component={ConsultaEquipos}
                 setLight={setLight}
               />
-              <Route exact path="/maestroEquipos" component={MasterEquipos} />
+              <Route exact path="/registro" component={Registro} />
 
               {/* <Redirect to="/maestroEquipos" /> */}
               <Redirect to="/ConsultaEquipos" />

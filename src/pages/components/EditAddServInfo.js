@@ -28,7 +28,7 @@ const EditAddServInfo = ({ techInfoEditado, updateAddServInfo }) => {
       >
         <label htmlFor="technical" bold>
           {" "}
-          <h5 className="text-muted">Editing Technical Information:</h5>
+          <h5 className="text-muted">Edición de Información de Servicio:</h5>
         </label>
         <select
           className="form-select"
@@ -40,7 +40,7 @@ const EditAddServInfo = ({ techInfoEditado, updateAddServInfo }) => {
             },
           })}
         >
-          <option value="">Seleciona</option>
+          <option value="">Seleciona información de servicio</option>
           <option value="Available warranty">Available warranty</option>
           <option value="Notes about equipment">Notes</option>
         </select>
@@ -50,7 +50,7 @@ const EditAddServInfo = ({ techInfoEditado, updateAddServInfo }) => {
         </span>
 
         <label htmlFor="value">
-          Value <b className="text-danger">*</b>
+          Valor <b className="text-danger">*</b>
         </label>
 
         <div className="row ">
