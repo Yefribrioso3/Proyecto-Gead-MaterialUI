@@ -200,7 +200,16 @@ const ServiceInformation = ({
   return (
     <ThemeProvider theme={theme}>
       <div className="p-3">
-        <h4 className="text-muted">Información de Servicios</h4>
+        <h4
+          style={{
+            color:
+              theme.palette.type == "dark"
+                ? theme.palette.primary.light
+                : theme.palette.secondary,
+          }}
+        >
+          Información de Servicios
+        </h4>
       </div>
 
       <ModalBody className="row animate__animated animate__fadeIn">

@@ -2199,10 +2199,23 @@ const ConsultaEquipos = () => {
         {/* =================================== Modal Editar ================================= */}
         {/* ================================================================================== */}
 
-        <Modal isOpen={modalEditar} style={{ maxWidth: 800 }}>
+        <Modal
+          isOpen={modalEditar}
+          className={`modalForm ${theme.palette.type}`}
+          style={{ maxWidth: 800 }}
+        >
           <ModalHeader>
             <div>
-              <h1>Editar Registro</h1>
+              <h1
+                style={{
+                  color:
+                    theme.palette.type == "dark"
+                      ? theme.palette.primary.light
+                      : theme.palette.secondary,
+                }}
+              >
+                Editar Registro
+              </h1>
             </div>
           </ModalHeader>
 
@@ -2233,7 +2246,16 @@ const ConsultaEquipos = () => {
                   // ------------------------     Technical Information   -------------------------------
                   <>
                     <div className="p-3">
-                      <h4 className="text-muted">Información técnica</h4>
+                      <h4
+                        style={{
+                          color:
+                            theme.palette.type == "dark"
+                              ? theme.palette.primary.light
+                              : theme.palette.secondary,
+                        }}
+                      >
+                        Información técnica
+                      </h4>
                     </div>
 
                     <ModalBody className="row animate__animated animate__fadeIn">
@@ -2412,6 +2434,7 @@ const ConsultaEquipos = () => {
                       <OptionalInfo
                         optionalTechInfo={optionalTechInfo}
                         handleChangeOptionalInfo={handleChangeOptionalInfo}
+                        light={light}
                       />
 
                       {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
@@ -2560,16 +2583,23 @@ const ConsultaEquipos = () => {
                             )}
                           </div>
 
-                          <div
-                            id="imagen"
-                            className="card mt-2 animate__animated animate__fadeInLeft"
-                            style={{ maxWidth: 380 }}
-                          >
-                            {/* ms-5 */}
+                          {/* ms-5 */}
+                          <div class="input-group my-3 input-group-lg justify-content-center">
                             <input
-                              type="file"
+                              style={{
+                                color:
+                                  theme.palette.type == "dark"
+                                    ? theme.palette.primary.dark
+                                    : theme.palette.secondary.dark,
+                                backgroundColor: "transparent",
+                                maxWidth: 380,
+                              }}
                               name="file"
-                              placeholder="Upload an image"
+                              type="file"
+                              class="form-control "
+                              id="inputGroupFile03"
+                              aria-describedby="inputGroupFileAddon03"
+                              aria-label="Upload an image"
                               onChange={uploadImage}
                             />
                           </div>
@@ -2961,8 +2991,14 @@ const ConsultaEquipos = () => {
 
           <ModalFooter>
             <Button
+              style={{
+                color:
+                  theme.palette.type == "dark"
+                    ? theme.palette.primary.light
+                    : theme.palette.secondary.light,
+              }}
               name="cancelar"
-              color="danger"
+              variant="outlined"
               onClick={() => {
                 setModalEditar(false);
                 setEditing(false);
@@ -2972,7 +3008,18 @@ const ConsultaEquipos = () => {
             >
               Cancelar
             </Button>
-            <Button color="primary" onClick={() => editar()}>
+            <Button
+              style={{
+                color: "#ffffff",
+                backgroundColor:
+                  theme.palette.type == "dark"
+                    ? theme.palette.secondary.light
+                    : "#6200EE",
+              }}
+              variant="contained"
+              type="submit"
+              onClick={() => editar()}
+            >
               Guardar Registro
             </Button>
           </ModalFooter>
@@ -2981,20 +3028,53 @@ const ConsultaEquipos = () => {
         {/*============================= Modal Eliminar =========================================*/}
 
         <Modal isOpen={modalEliminar}>
-          <ModalBody className="text-center">
+          <ModalBody
+            className="text-center"
+            style={{
+              fontSize: "1.2rem",
+              color:
+                theme.palette.type == "dark"
+                  ? theme.palette.primary.light
+                  : theme.palette.secondary.dark,
+              backgroundColor:
+                theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+            }}
+          >
             Estás seguro que deseas eliminar el equipo: <br />
             {equipoSeleccionado && equipoSeleccionado.Name}
           </ModalBody>
 
-          <ModalFooter>
-            <Button className="btn btn-danger" onClick={() => eliminar()}>
-              Sí
-            </Button>
+          <ModalFooter
+            className="justify-content-center"
+            style={{
+              backgroundColor:
+                theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+            }}
+          >
             <Button
-              className="btn btn-secondary"
+              style={{
+                color:
+                  theme.palette.type == "dark"
+                    ? theme.palette.primary.light
+                    : theme.palette.secondary.light,
+              }}
+              variant="outlined"
               onClick={() => setModalEliminar(false)}
             >
-              No
+              No quiero eliminar
+            </Button>
+            <Button
+              style={{
+                color: "#ffffff",
+                backgroundColor:
+                  theme.palette.type == "dark"
+                    ? theme.palette.secondary.light
+                    : "#6200EE",
+              }}
+              variant="contained"
+              onClick={() => eliminar()}
+            >
+              Sí, eliminar
             </Button>
           </ModalFooter>
         </Modal>
@@ -3073,7 +3153,16 @@ const ConsultaEquipos = () => {
                 ) : (
                   <>
                     <div className="p-3">
-                      <h4 className="text-muted">Información técnica</h4>
+                      <h4
+                        style={{
+                          color:
+                            theme.palette.type == "dark"
+                              ? theme.palette.primary.light
+                              : theme.palette.secondary,
+                        }}
+                      >
+                        Información técnica
+                      </h4>
                     </div>
 
                     <ModalBody className="row animate__animated animate__fadeIn">
@@ -3094,7 +3183,7 @@ const ConsultaEquipos = () => {
                       <FormGroup className="col-4">
                         <label>Trabajo actual:</label>
                         <select
-                          className="form-select "
+                          className="form-select"
                           style={{ margin: "0px !important" }}
                           name="currentWorking"
                           value={
@@ -3256,6 +3345,7 @@ const ConsultaEquipos = () => {
                       <OptionalInfo
                         optionalTechInfo={optionalTechInfo}
                         handleChangeOptionalInfo={handleChangeOptionalInfo}
+                        light={light}
                       />
 
                       {/* { // Condicional para mostros un formulaio u otro

@@ -3,9 +3,13 @@ import { ArrowDropDown, ArrowDropUp } from "@material-ui/icons";
 import React, { useState } from "react";
 import { FormGroup, ModalBody } from "reactstrap";
 
+import { createTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+
 export const OptionalInfo = ({
   optionalTechInfo,
   handleChangeOptionalInfo,
+  light,
 }) => {
   const [icon, setIcon] = useState(false);
 
@@ -21,9 +25,29 @@ export const OptionalInfo = ({
   const MoreOptionalInfo = (value) => {
     setMoreOptionalIndo(value);
   };
+  const theme = createTheme({
+    palette: {
+      type: light ? "light" : "dark",
 
+      primary: {
+        main: "#B3C8FC",
+        light: "#E6FBFF",
+        dark: "#8297C9",
+      },
+      secondary: {
+        main: "#6200EE",
+        light: "#8F6CFF",
+        dark: "#14149A",
+      },
+      background: {
+        main: "#3F3857",
+        light: "#FFFFFF",
+        dark: "#3F3857",
+      },
+    },
+  });
   return (
-    <>
+    <ThemeProvider theme={theme}>
       {/* -------------------------------         ADD TECHNICAL INFORMATION           ------------------------------------------ */}
 
       <div className="mb-2">
@@ -32,7 +56,14 @@ export const OptionalInfo = ({
           onClick={() => OptionalInfoService(!optionalInfoService)}
           style={{ display: "inline-flex" }}
         >
-          <h5 className="text-muted">
+          <h5
+            style={{
+              color:
+                theme.palette.type == "dark"
+                  ? theme.palette.primary.light
+                  : theme.palette.secondary,
+            }}
+          >
             {icon ? (
               <IconButton color="primary" aria-label="edit" component="span">
                 <ArrowDropUp />
@@ -334,11 +365,25 @@ export const OptionalInfo = ({
               onClick={() => MoreOptionalInfo(!moreOptionalIndo)}
             >
               {moreOptionalIndo ? (
-                <h6 className="text-muted">
+                <h6
+                  style={{
+                    color:
+                      theme.palette.type == "dark"
+                        ? theme.palette.primary.light
+                        : theme.palette.secondary,
+                  }}
+                >
                   <ArrowDropUp /> Mostrar menos...
                 </h6>
               ) : (
-                <h6 className="text-muted">
+                <h6
+                  style={{
+                    color:
+                      theme.palette.type == "dark"
+                        ? theme.palette.primary.light
+                        : theme.palette.secondary,
+                  }}
+                >
                   <ArrowDropDown /> Mostrar más...
                 </h6>
               )}
@@ -350,11 +395,25 @@ export const OptionalInfo = ({
               style={{ display: "inline-flex" }}
             >
               {moreOptionalIndo ? (
-                <h6 className="text-muted">
+                <h6
+                  style={{
+                    color:
+                      theme.palette.type == "dark"
+                        ? theme.palette.primary.light
+                        : theme.palette.secondary,
+                  }}
+                >
                   <ArrowDropUp /> Ocultar
                 </h6>
               ) : (
-                <h6 className="text-muted">
+                <h6
+                  style={{
+                    color:
+                      theme.palette.type == "dark"
+                        ? theme.palette.primary.light
+                        : theme.palette.secondary,
+                  }}
+                >
                   <ArrowDropUp /> Mostrar menos...
                 </h6>
               )}
@@ -364,6 +423,6 @@ export const OptionalInfo = ({
       ) : (
         <></>
       )}
-    </>
+    </ThemeProvider>
   );
 };

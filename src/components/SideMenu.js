@@ -71,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
 
 const SideMenu = ({
   getAllList,
-
   filtrarBUList,
   setListAll,
   listAll,
