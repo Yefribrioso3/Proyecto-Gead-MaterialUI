@@ -1,6 +1,7 @@
 import React from 'react'
-import { Paper, Card, Typography, makeStyles, Button } from '@material-ui/core'
-import icono from '../assets/icono.png';
+import { Paper, Typography, makeStyles } from '@material-ui/core'
+// , Button, Card,
+// import icono from '../assets/icono.png';
 const useStyles = makeStyles(theme => ({
     // root: {
     //     backgroundColor: '#fdfdff'

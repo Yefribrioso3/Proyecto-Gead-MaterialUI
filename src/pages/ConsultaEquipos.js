@@ -23,7 +23,7 @@ import ServiceInformation from './components/ServiceInformation';
 
 import PageHeader from "../components/PageHeader";
 import { Paper, makeStyles, Toolbar, InputAdornment, Grid, TextField } from '@material-ui/core';
-import useTable from "../components/useTable";
+// import useTable from "../components/useTable";
 import Controls from "../components/controls/Controls";
 import { Add, Delete, Edit, Search, Visibility } from "@material-ui/icons";
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
@@ -69,16 +69,16 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-const headCells = [
-    { id: 'Name', label: 'Equipo' },
-    { id: 'bu', label: 'BU', disableSorting: true },
-    { id: 'pais', label: 'País', disableSorting: true },
-    { id: 'area', label: 'Area', disableSorting: true },
-    { id: 'subarea', label: 'Subárea', disableSorting: true },
-    { id: 'planta', label: 'Planta', disableSorting: true },
-    { id: 'equipmentType', label: 'Tipo de Equipo', disableSorting: true },
-    { id: 'acciones', label: 'Acciones', disableSorting: true },
-];
+// const headCells = [
+//     { id: 'Name', label: 'Equipo' },
+//     { id: 'bu', label: 'BU', disableSorting: true },
+//     { id: 'pais', label: 'País', disableSorting: true },
+//     { id: 'area', label: 'Area', disableSorting: true },
+//     { id: 'subarea', label: 'Subárea', disableSorting: true },
+//     { id: 'planta', label: 'Planta', disableSorting: true },
+//     { id: 'equipmentType', label: 'Tipo de Equipo', disableSorting: true },
+//     { id: 'acciones', label: 'Acciones', disableSorting: true },
+// ];
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------
@@ -86,6 +86,7 @@ const headCells = [
 
 // const equipoImages = require.context('../assets/equipos/', true);
 
+let userToken = {};
 
 
 const ConsultaEquipos = () => {
@@ -107,17 +108,17 @@ const ConsultaEquipos = () => {
 
     // ----------------   Request API consultar   --------------------------
 
-    const [buList, setBuList] = useState([]);
+    // const [buList, setBuList] = useState([]);
 
-    const [operationsList, setOperationsList] = useState([])
+    // const [operationsList, setOperationsList] = useState([])
 
-    const [paisLis, setPaisLis] = useState([])
+    // const [paisLis, setPaisLis] = useState([])
 
-    const [areaList, setAreaList] = useState([])
+    // const [areaList, setAreaList] = useState([])
 
-    const [subareaList, setSubareaList] = useState([])
+    // const [subareaList, setSubareaList] = useState([])
 
-    const [lineTypeList, setLineTypeList] = useState([])
+    // const [lineTypeList, setLineTypeList] = useState([])
 
     const [getAllList, setGetAllList] = useState([]);
 
@@ -135,47 +136,66 @@ const ConsultaEquipos = () => {
             })
     }
 
+    const [userByToken, setUserByToken] = useState({}) //  -------   Consulta al Api de User
+
     useEffect(() => {
         allAquipmentRelation();
-        // getLine();
-        // getProcedencia();
-        // getEquipment();
-        // getServicesInfo();
-        // getNewServicesInformation();
-        // getTechnicalSpecification();
-        // getNewTechnicalSpec();
 
-        // Axios.get('http://localhost:3001/api/AllequipmentRelation').then((response) => {
-        //     setGetAllList(response.data.equipment)
-        // })
+            const accessToken = localStorage?.token;
+            const apiUrl = globalApi;
+    
+            const authAxios = Axios.create({
+                baseURL: apiUrl,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+    
+            const getUserByToken = async () => {   //  -------   Consulta al Api de User
+                if (localStorage?.token) {
+                    await authAxios.get(`/user/user-data`)
+                        .then((response) => {
+                            setUserByToken(response.data.data)
+                        });
+                }
+            }
+    
+            getUserByToken()
+    
+            userToken = userByToken;
+
+        
+
+        // Token( userByToken, setUserByToken );
+
         // Axios.get('http://localhost:3001/api/readExcel')
         //     .then((response) => {
         //         setReadExcel(response.data)
         //     })
 
-        Axios.get(`${globalApi}/bu`).then((response) => {
-            setBuList(response.data.Bu)
-        });
+        // Axios.get(`${globalApi}/bu`).then((response) => {
+        //     setBuList(response.data.Bu)
+        // });
 
-        Axios.get(`${globalApi}/planta`).then((response) => {
-            setOperationsList(response.data.planta)
-        });
+        // Axios.get(`${globalApi}/planta`).then((response) => {
+        //     setOperationsList(response.data.planta)
+        // });
 
-        Axios.get(`${globalApi}/countries`).then((response) => {
-            setPaisLis(response.data.countries)
-        });
+        // Axios.get(`${globalApi}/countries`).then((response) => {
+        //     setPaisLis(response.data.countries)
+        // });
 
-        Axios.get(`${globalApi}/area`).then((response) => {
-            setAreaList(response.data.area)
-        });
+        // Axios.get(`${globalApi}/area`).then((response) => {
+        //     setAreaList(response.data.area)
+        // });
 
-        Axios.get(`${globalApi}/subArea`).then((response) => {
-            setSubareaList(response.data.subarea)
-        });
+        // Axios.get(`${globalApi}/subArea`).then((response) => {
+        //     setSubareaList(response.data.subarea)
+        // });
 
-        Axios.get(`${globalApi}/lineType`).then((response) => {
-            setLineTypeList(response.data.lineTypes)
-        });
+        // Axios.get(`${globalApi}/lineType`).then((response) => {
+        //     setLineTypeList(response.data.lineTypes)
+        // });
 
         // peticionGet();
 
@@ -187,12 +207,12 @@ const ConsultaEquipos = () => {
 
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } })
 
-    const {
-        TblContainer,
-        TblHead,
-        TblPagination,
-        recordsAfterPagingAndSorting
-    } = useTable(getAllList, headCells, filterFn);
+    // const {
+    //     TblContainer,
+    //     TblHead,
+    //     TblPagination,
+    //     recordsAfterPagingAndSorting
+    // } = useTable(getAllList, headCells, filterFn);
 
 
     // const {
@@ -852,8 +872,6 @@ const ConsultaEquipos = () => {
         }).then(() => {
             alert("Successful Updated");
         });
-
-
     };
 
     // const updateNewServInfo = async (NSI) => {
@@ -1020,12 +1038,12 @@ const ConsultaEquipos = () => {
     //  ----------------------------------     insertar    -----------------------------
     const insertar = async () => {
 
-        
+
         let valorInsertar = equipoSeleccionado; //Variable auxiliar para modificar el equipo seleccionado
-        
+
         // valorInsertar.Id_Equipment = getAllList.length + 1;
         valorInsertar.Id_Equipment = uuidv4();
-        
+
         // bu.Id_BU = uuidv4();
         bu.Id_BU = valorInsertar.Id_Equipment;
 
@@ -1034,7 +1052,7 @@ const ConsultaEquipos = () => {
         countries.Id_BU = bu.Id_BU;
 
         // operations.Id_Operations = uuidv4();
-        operations.Id_Operations =valorInsertar.Id_Equipment;
+        operations.Id_Operations = valorInsertar.Id_Equipment;
         operations.Id_Countries = countries.Id_Countries;
 
         // areas.Id_Areas = uuidv4();
@@ -1052,8 +1070,8 @@ const ConsultaEquipos = () => {
         line.Id_Line = valorInsertar.Id_Equipment;
         line.Id_LineTypes = lineTypes.Id_LineTypes;
 
-        
-        valorInsertar.id =  valorInsertar.Id_Equipment;
+
+        valorInsertar.id = valorInsertar.Id_Equipment;
         technicalInformation.Id_TechnicalSpecification = valorInsertar.Id_Equipment;
         optionalTechInfo.Id_OptionalTechInfo = technicalInformation.Id_TechnicalSpecification;
         optionalTechInfo.Id_TechnicalSpecification = technicalInformation.Id_TechnicalSpecification
@@ -1294,7 +1312,7 @@ const ConsultaEquipos = () => {
             YearOfConstruction: valorInsertar.TechnicalSpecification.OptionalTechInfo.YearOfConstruction,
             EquipmentCurrentConditionsComments: valorInsertar.TechnicalSpecification.OptionalTechInfo.EquipmentCurrentConditionsComments,
             NotesAboutEquipment: valorInsertar.TechnicalSpecification.OptionalTechInfo.NotesAboutEquipment,
-            AssambledDissambled:valorInsertar.TechnicalSpecification.OptionalTechInfo.AssambledDissambled,
+            AssambledDissambled: valorInsertar.TechnicalSpecification.OptionalTechInfo.AssambledDissambled,
             PlantTechnicalInformationContact: valorInsertar.TechnicalSpecification.OptionalTechInfo.PlantTechnicalInformationContact,
             PlantFinancialInformationContact: valorInsertar.TechnicalSpecification.OptionalTechInfo.PlantFinancialInformationContact,
             Width: valorInsertar.TechnicalSpecification.OptionalTechInfo.Width,
@@ -1816,6 +1834,7 @@ const ConsultaEquipos = () => {
         {
             field: "Name",
             headerName: "Equipo",
+            flex: 1,
             width: 400,
             headerClassName: 'header',
 
@@ -1837,18 +1856,19 @@ const ConsultaEquipos = () => {
                 )
             }
         },
-        {
-            field: "serial",
-            headerName: "Número de serie",
-            width: 180,
-            valueGetter: (params) => {
-                return params.row.TechnicalSpecification.SerialNumber;
-            }
-        },
+        // {
+        //     field: "serial",
+        //     headerName: "Número de serie",
+        //     width: 180,
+        //     valueGetter: (params) => {
+        //         return params.row.TechnicalSpecification.SerialNumber;
+        //     }
+        // },
         {
             field: "bu",
             headerName: "BU",
-            flex: 1,
+            // flex: 1,
+            width: 150,
             valueGetter: (params) => {
                 return params.row.Procedencia.areas.operations.countries.bu.Name;
             },
@@ -1857,46 +1877,50 @@ const ConsultaEquipos = () => {
         {
             field: "country",
             headerName: "País",
+            // flex: 1,
             width: 150,
             valueGetter: (params) => {
                 return params.row.Procedencia.areas.operations.countries.Name;
             },
         },
         {
-            field: "area",
-            headerName: "Área",
-            width: 210,
-            valueGetter: (params) => {
-                return params.row.Procedencia.areas.Name
-            },
-        },
-        {
-            field: "subarea",
-            headerName: "Subárea",
-            width: 210,
-            valueGetter: (params) => {
-                return params.row.Procedencia.areas.SubArea.Name
-            },
-        },
-        {
             field: "plant",
             headerName: "Planta",
+            // flex: 1,
             width: 210,
             valueGetter: (params) => {
                 return params.row.Procedencia.areas.operations.Name
             },
         },
         {
-            field: "equipType",
-            headerName: "Tipo de Equipo",
+            field: "area",
+            headerName: "Área",
+            // flex: 1,
             width: 210,
             valueGetter: (params) => {
-                return params.row.TechnicalSpecification.EquipmentType
+                return params.row.Procedencia.areas.Name
             },
         },
+        // {
+        //     field: "subarea",
+        //     headerName: "Subárea",
+        //     width: 210,
+        //     valueGetter: (params) => {
+        //         return params.row.Procedencia.areas.SubArea.Name
+        //     },
+        // },
+        // {
+        //     field: "equipType",
+        //     headerName: "Tipo de Equipo",
+        //     width: 210,
+        //     valueGetter: (params) => {
+        //         return params.row.TechnicalSpecification.EquipmentType
+        //     },
+        // },
         {
             field: "actions",
             headerName: "Acciones",
+            // flex: 1,
             width: 210,
             sortable: false,
             disableColumnMenu: true,
@@ -1911,14 +1935,34 @@ const ConsultaEquipos = () => {
                         </IconButton>
                     </div>
 
-                    <div color="secondary" aria-label="delete"
+                    {
+                        userByToken?.roleId === 1 ? (
+                            <div color="secondary" aria-label="delete"
+                                onClick={() => seleccionarEquipo(params.row, 'Eliminar')}
+                                component="span"
+                            >
+                                <IconButton color="secondary" aria-label="delete">
+                                    <Delete />
+                                </IconButton>
+                            </div>
+                        ) : (
+                            <div color="secondary" aria-label="delete"
+                                component="span"
+                            >
+                                <IconButton color="secondary" disabled aria-label="delete">
+                                    <Delete />
+                                </IconButton>
+                            </div>
+                        )
+                    }
+                    {/* <div color="secondary" aria-label="delete"
                         onClick={() => seleccionarEquipo(params.row, 'Eliminar')}
                         component="span"
                     >
                         <IconButton color="secondary" aria-label="delete">
                             <Delete />
                         </IconButton>
-                    </div>
+                    </div> */}
                 </div>
             ),
         },
@@ -1956,7 +2000,8 @@ const ConsultaEquipos = () => {
                 listAll={listAll}
                 setListAll={setListAll}
             />
-            <Header />
+
+            <Header userByToken={userByToken} />
 
             <Paper className={classes.pageContent}>
                 {/* <EmployeeForm /> */}
@@ -1978,17 +2023,35 @@ const ConsultaEquipos = () => {
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                    <Controls.Button
-                        variant="outlined"
-                        size={"large"}
-                        color={"primary"}
-                        className={classes.btnAddNew}
-                        startIcon={<Add style={{ fontSize: 34, fontWeight: '800' }} />}
-                        onClick={() => abrirModalInsertar()}
-                        style={{ fontSize: 20, fontWeight: '600' }}
-                        text={"Nuevo"}
-                    >
-                    </Controls.Button>
+                    {
+                        userByToken?.roleId === 1 ? (
+                            <Controls.Button
+                                variant="outlined"
+                                size={"large"}
+                                color={"primary"}
+                                className={classes.btnAddNew}
+                                startIcon={<Add style={{ fontSize: 34, fontWeight: '800' }} />}
+                                onClick={() => abrirModalInsertar()}
+                                style={{ fontSize: 20, fontWeight: '600' }}
+                                text={"Nuevo"}
+                            >
+                            </Controls.Button>
+
+                        ) : (
+                            <Controls.Button
+                                disabled
+                                variant="outlined"
+                                size={"large"}
+                                color={"primary"}
+                                className={classes.btnAddNew}
+                                startIcon={<Add style={{ fontSize: 34, fontWeight: '800' }} />}
+                                style={{ fontSize: 20, fontWeight: '600' }}
+                                text={"Nuevo"}
+                            >
+                            </Controls.Button>
+
+                        )
+                    }
 
                     {/* -----------------------  Boton para insertar datos desde Excel   ----------------------------------- */}
                     {/* ---------------------------------------------------------------------------------------------------- */}
@@ -2045,7 +2108,7 @@ const ConsultaEquipos = () => {
                         rowsPerPageOptions={[13]}
                     />
                 </div>
-                
+
 
                 <Toolbar className={"mt-0"}>
                     <PageHeader
@@ -2452,42 +2515,6 @@ const ConsultaEquipos = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                                 <label>Planta:<b className="text-danger">*</b></label>
                                                 <select
                                                     className="form-select SelectBoostrap"
@@ -2800,8 +2827,17 @@ const ConsultaEquipos = () => {
                 }
                 {/* -------------------------    BOTONES ACEPTAR Y CANCELAR    ------------------------------- */}
 
+
                 <ModalFooter>
-                    <Button color='primary' onClick={() => editar()} >Aceptar</Button>
+                    {
+                        userByToken?.roleId === 1 ? (
+                            <Button color='primary' onClick={() => editar()} >Aceptar</Button>
+
+                        ) : (
+                            <Button color='primary' disabled>Aceptar</Button>
+                        )
+                    }
+
                     <Button
                         color="danger"
                         onClick={() => {
@@ -2856,7 +2892,7 @@ const ConsultaEquipos = () => {
                     item={item}
                     setItem={setItem}
                     setpruebaExcel={setpruebaExcel}
-                    setModalInsertarExcel={setModalInsertarExcel}
+                    // setModalInsertarExcel={setModalInsertarExcel}
                     setGetAllList={setGetAllList}
                     getAllList={getAllList}
                     actualizarTabla={actualizarTabla}
@@ -3760,4 +3796,7 @@ const ConsultaEquipos = () => {
         </div >
     )
 }
-export default ConsultaEquipos
+
+export const UserToken = userToken;
+
+export default ConsultaEquipos;

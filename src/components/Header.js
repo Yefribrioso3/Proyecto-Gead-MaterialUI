@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { AppBar, Toolbar, Grid, InputBase, IconButton, Badge, makeStyles, Typography } from '@material-ui/core'
-import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
-import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
-import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
-import SearchIcon from '@material-ui/icons/Search';
+import { AppBar, Grid, makeStyles } from '@material-ui/core'
+// import { useHistory } from "react-router-dom";
+// InputBase, IconButton, Badge, Toolbar, Typography
+// import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
+// import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
+// import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+// import SearchIcon from '@material-ui/icons/Search';
 
 import abinbev from '../assets/abinbev.jpeg';
 
@@ -11,7 +13,7 @@ import {
     Collapse,
     Navbar,
     NavbarToggler,
-    NavbarBrand,
+    // NavbarBrand,
     Nav,
     // NavItem,
     NavLink,
@@ -23,7 +25,7 @@ import {
     // NavbarText
 } from 'reactstrap';
 import PageHeader from './PageHeader';
-import { ArrowDownward } from '@material-ui/icons';
+// import { ArrowDownward } from '@material-ui/icons';
 // import { LinkContainer } from 'react-router-bootstrap';
 
 
@@ -45,13 +47,26 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export default function Header() {
+export default function Header({ userByToken }) {
+
+    // const history = useHistory();
+
+    // window.history.replaceState({}, title, position).
 
     const classes = useStyles();
 
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => setIsOpen(!isOpen);
+
+
+    const local = () => {    //Eliminar datos del localStorage y redireccionar al login
+        localStorage.removeItem("token")
+        console.log(localStorage)
+
+        // history.replace('/login');
+        // console.log(history)
+    }
 
     return (
         <AppBar position="static" className={classes.root}>
@@ -70,7 +85,7 @@ export default function Header() {
                 // subTitle="Form design with validation"
                 // icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
                 />
-               
+
                 <Grid item sm></Grid>
 
 
@@ -79,6 +94,21 @@ export default function Header() {
 
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ms-auto" navbar>
+
+                        {/* userByToken */}
+
+                        {
+                            userByToken.roleId === 1 ? (
+                                <div className="">
+                                    {/* <a href='../assets/Manual.pdf' className='btn' style={{color: "blue"}} download="Manual.pdf" title='Descargar proyecto'> Manual <ArrowDownward /></a> */}
+                                    <a href='/registro' className='btn' style={{ color: "blue" }} title='Crear Nuevo Usuario'> New User </a>
+                                    {/* src/assets/Manual.pdf */}
+                                </div>
+                            ) : (
+                                null
+                            )
+                        }
+
                         <div className="">
                             {/* <a href='../assets/Manual.pdf' className='btn' style={{color: "blue"}} download="Manual.pdf" title='Descargar proyecto'> Manual <ArrowDownward /></a> */}
                             <a href='https://anheuserbuschinbev.sharepoint.com/sites/MAZGEAD/GEAD%20manuales/Forms/AllItems.aspx' className='btn' style={{ color: "blue" }} title='Descargar proyecto'> Manual </a>
@@ -87,7 +117,12 @@ export default function Header() {
 
                         <UncontrolledDropdown nav inNavbar>
                             <DropdownToggle nav caret className="text-black">
-                                Admin@admin
+                                {
+                                    // userByToken?.roleId === 1 ? `${userByToken.Name} (ADMIN)` : `${userByToken.Name} (PLANTA)`
+                                    userByToken?.roleId === 1 ? ( `${userByToken.Name} (ADMIN)` ) : 
+                                    userByToken?.roleId === 2 ? ( `${userByToken.Name} (SUPERVISOR)` ) :
+                                    userByToken?.roleId === 3 ? ( `${userByToken.Name} (PLANTA)` ) : (null)  
+                                }
                             </DropdownToggle>
                             <DropdownMenu right>
                                 {/* 
@@ -98,8 +133,8 @@ export default function Header() {
                                     Configuraciones
                                 </DropdownItem> */}
                                 {/* <DropdownItem divider /> */}
-                                <DropdownItem >
-                                    <NavLink href="/login" className="text-dark p-0">Cerrar sesión</NavLink>
+                                <DropdownItem onClick={() => local()}>
+                                    <NavLink href='/login' className="text-dark p-0">Cerrar sesión</NavLink>
                                 </DropdownItem>
 
 

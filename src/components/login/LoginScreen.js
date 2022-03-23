@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types';
-// import { Button, Input, Label } from 'reactstrap';
-import { useForm } from 'react-hook-form';
 // import '../../index.css';
-
-// import 'bootstrap/dist/css/bootstrap.min.css';
 // import '../equipos/MaestroEquipos.scss';
-import { Button, createTheme, CssBaseline, Grid, Link, Paper, TextField, ThemeProvider, Typography } from '@material-ui/core';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import { Button, Input, Label } from 'reactstrap';
 
+import React, { useState } from 'react'
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import { useForm } from 'react-hook-form';
 import Gead from '../../assets/Gead.jpeg'
 import { globalApi } from '../../types/api.types';
-import axios from 'axios';
+import { Button, createTheme, CssBaseline, Grid, Link, Paper, TextField, ThemeProvider, Typography } from '@material-ui/core';
+
 
 const LoginScreen = ({ history }) => {
 
@@ -44,9 +44,6 @@ const LoginScreen = ({ history }) => {
         }
     })
 
-
-
-
     // const user = [
     //     {id: 1, usuario: "admin@admin", password: "admin12345"}
     // "claudio.zastrow@ab-inbev.com"
@@ -62,9 +59,9 @@ const LoginScreen = ({ history }) => {
     // ]
 
 
-    const handleLogin = () => {
+    // const handleLogin = () => {
 
-    }
+    // }
 
     // const [cuentas, setCuentas] = useState(
     //     {
@@ -106,17 +103,7 @@ const LoginScreen = ({ history }) => {
         // localStorage.removeItem("token")
 
 
-
-
-
-
-
-
-
-
-
         // if (e.password === "12345678") {
-
         // setTimeout(() => {
         //     if (e.user === cuentas.usuario1 || e.user === cuentas.usuario2 || e.user === cuentas.usuario3 || e.user === cuentas.usuario4 || e.user === cuentas.usuario5 || e.user === cuentas.usuario6 || e.user === cuentas.usuario7 || e.user === cuentas.usuario8 || e.user === cuentas.usuario9 || e.user === cuentas.usuario10) {
         //         console.log(e.user)
@@ -319,11 +306,7 @@ const LoginScreen = ({ history }) => {
                             </>
                         )
                     }
-
-
                 </Paper>
-
-
             </Grid>
 
 
@@ -333,7 +316,6 @@ const LoginScreen = ({ history }) => {
 
             <CssBaseline />
         </ThemeProvider>
-
     )
 }
 
