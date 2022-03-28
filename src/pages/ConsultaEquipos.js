@@ -10,19 +10,19 @@ import {
   FormGroup,
 } from "reactstrap";
 import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import { DataGrid } from "@mui/x-data-grid";
 import Axios from "axios";
 import { useForm } from "react-hook-form";
 import EditAddServInfo from "./components/EditAddServInfo";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+
 import ServiceInformation from "./components/ServiceInformation";
-import EditAddTechInfo from "./components/EditAddTechInfo";
-import AddIcon from "@material-ui/icons/Add";
-import { DataGrid } from "@mui/x-data-grid";
-
-//-------------------------------------------------------------------
-
+// import EditAddTechInfo from './components/EditAddTechInfo';
+import PageHeader from "../components/PageHeader";
 import {
   Paper,
+  withStyles,
+  makeStyles,
   TableRow,
   TableCell,
   Toolbar,
@@ -30,7 +30,7 @@ import {
   Grid,
   TextField,
 } from "@material-ui/core";
-import useTable from "../components/useTable";
+// import useTable from "../components/useTable";
 import Controls from "../components/controls/Controls";
 import { Add, Delete, Edit, Search, Visibility } from "@material-ui/icons";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
@@ -38,19 +38,21 @@ import IconButton from "@material-ui/core/IconButton";
 import SideMenu from "../components/SideMenu";
 import Header from "../components/Header";
 
-import planning from "../assets/planning.png";
+import planning from "../assets/planning.jpeg";
 
 import { DocPDF } from "./components/DocPDF";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+// import Excel from './components/Excel';
 import * as XLSX from "xlsx";
-import { Excel } from "./components/Excel";
+import { Excel, send } from "./components/Excel";
+import { OptionalInfo } from "./components/OptionalInfo";
+// import { fontSize } from '@mui/system';
+import { globalApi } from "../types/api.types";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { Pagination } from "@material-ui/lab";
-import { OptionalInfo } from "./components/OptionalInfo";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-import { globalApi } from "../types/api.types";
 
 //-----------------------------------------------------------------------
 const headCells = [
@@ -95,6 +97,7 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 //---------------------------------------------------------------
+let userToken = {};
 
 const ConsultaEquipos = () => {
   const [light, setLight] = useState(false);
@@ -170,17 +173,17 @@ const ConsultaEquipos = () => {
 
   // ----------------   Request API consultar   --------------------------
 
-  const [buList, setBuList] = useState([]);
+  // const [buList, setBuList] = useState([]);
 
-  const [operationsList, setOperationsList] = useState([]);
+  // const [operationsList, setOperationsList] = useState([])
 
-  const [paisLis, setPaisLis] = useState([]);
+  // const [paisLis, setPaisLis] = useState([])
 
-  const [areaList, setAreaList] = useState([]);
+  // const [areaList, setAreaList] = useState([])
 
-  const [subareaList, setSubareaList] = useState([]);
+  // const [subareaList, setSubareaList] = useState([])
 
-  const [lineTypeList, setLineTypeList] = useState([]);
+  // const [lineTypeList, setLineTypeList] = useState([])
 
   const [getAllList, setGetAllList] = useState([]);
 
@@ -194,46 +197,62 @@ const ConsultaEquipos = () => {
       }
     );
   };
+  const [userByToken, setUserByToken] = useState({}); //  -------   Consulta al Api de User
   useEffect(() => {
     allAquipmentRelation();
-    // getLine();
-    // getProcedencia();
-    // getEquipment();
-    // getServicesInfo();
-    // getNewServicesInformation();
-    // getTechnicalSpecification();
-    // getNewTechnicalSpec();
+    const accessToken = localStorage?.token;
+    const apiUrl = globalApi;
 
-    // Axios.get('http://localhost:3001/api/AllequipmentRelation').then((response) => {
-    //     setGetAllList(response.data.equipment)
-    // })
+    const authAxios = Axios.create({
+      baseURL: apiUrl,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const getUserByToken = async () => {
+      //  -------   Consulta al Api de User
+      if (localStorage?.token) {
+        await authAxios.get(`/user/user-data`).then((response) => {
+          setUserByToken(response.data.data);
+        });
+      }
+    };
+
+    getUserByToken();
+
+    userToken = userByToken;
+
+    // Token( userByToken, setUserByToken );
+
     // Axios.get('http://localhost:3001/api/readExcel')
     //     .then((response) => {
     //         setReadExcel(response.data)
     //     })
-    Axios.get(`${globalApi}/bu`).then((response) => {
-      setBuList(response.data.Bu);
-    });
 
-    Axios.get(`${globalApi}/planta`).then((response) => {
-      setOperationsList(response.data.planta);
-    });
+    // Axios.get(`${globalApi}/bu`).then((response) => {
+    //     setBuList(response.data.Bu)
+    // });
 
-    Axios.get(`${globalApi}/countries`).then((response) => {
-      setPaisLis(response.data.countries);
-    });
+    // Axios.get(`${globalApi}/planta`).then((response) => {
+    //     setOperationsList(response.data.planta)
+    // });
 
-    Axios.get(`${globalApi}/area`).then((response) => {
-      setAreaList(response.data.area);
-    });
+    // Axios.get(`${globalApi}/countries`).then((response) => {
+    //     setPaisLis(response.data.countries)
+    // });
 
-    Axios.get(`${globalApi}/subArea`).then((response) => {
-      setSubareaList(response.data.subarea);
-    });
+    // Axios.get(`${globalApi}/area`).then((response) => {
+    //     setAreaList(response.data.area)
+    // });
 
-    Axios.get(`${globalApi}/lineType`).then((response) => {
-      setLineTypeList(response.data.lineTypes);
-    });
+    // Axios.get(`${globalApi}/subArea`).then((response) => {
+    //     setSubareaList(response.data.subarea)
+    // });
+
+    // Axios.get(`${globalApi}/lineType`).then((response) => {
+    //     setLineTypeList(response.data.lineTypes)
+    // });
 
     // peticionGet();
   }, []);
@@ -243,9 +262,83 @@ const ConsultaEquipos = () => {
       return items;
     },
   });
+  // const {
+  //     TblContainer,
+  //     TblHead,
+  //     TblPagination,
+  //     recordsAfterPagingAndSorting
+  // } = useTable(getAllList, headCells, filterFn);
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    useTable(getAllList, headCells, filterFn);
+  // const {
+  //     TblContainer,
+  //     TblHead,
+  //     // TblPagination,
+  //     // recordsAfterPagingAndSorting
+  // } = useTable(getAllList, headCells );
+  // filterFn
+
+  // const [filterBU, setFilterBU] = useState({ fn: items => { return items; } })
+
+  // const filtrarBU = (e, caso) => {
+  //     console.log(`El caso es ${caso}`)
+  //     let target = e.target;
+  //     setFilterBU({
+  //         fn: items => {
+  //             if (target.value == "")
+  //                 return items;
+  //             else
+  //                 return items.filter(x => x.Procedencia.areas.operations.countries.bu.Name.toLowerCase().includes(target.value.toLowerCase()) )
+  //         }
+  //     })
+  // }
+
+  // x.Name.toLowerCase().indexOf(target.value) > -1 ||
+  // x.Procedencia.areas.operations.countries.bu.Name.toLowerCase().indexOf(target.value) > -1
+
+  //----------------------------------------      EXCEL   -------------------------------------------
+  // const peticionGet = async () => {
+  //     await Axios.get('http://localhost:3001/readExcel')
+  //         .then((response) => {
+  //             setExcelGet(response.data)
+  //         })
+  // }
+  //----------------------------------------      EXCEL   -------------------------------------------
+
+  // const [equipoSeleccionado, setEquipoSeleccionado] = useState({  //Hook para controlar el equipo seleccionado
+  //     Id_Equipment: '',
+  //     Name: '',
+  //     BU: '',
+  //     country: '',
+  //     planta: '',
+  //     img: '',
+  //     area: '',
+  //     subarea: '',
+  //     emplazam: '',
+  //     lineNumber: '',
+  //     lineType: '',
+  //     technicalInformation: {
+  //         EquipmentType: '',
+  //         weight: '',
+  //         OEM: '',
+  //         currentConditions: '',
+  //         descripcion: '',
+  //         modelNumber: '',
+  //         serialNumber: '',
+  //         vendor: '',
+  //         currentWorking: '',
+
+  //         currentConditionsComments: '',
+  //     },
+  //     newTechInfo: [],
+  //     servicesInformation: {
+  //         dateOfInstallation: '',
+  //         dateOfDesintallation: '',
+  //         desuseReason: '',
+  //         desinstallationReason: '',
+  //         procurementOrder: '',
+  //     },
+  //     newservicesInformation: [],
+  // });
 
   const [equipoSeleccionado, setEquipoSeleccionado] = useState({
     Id_Equipment: null,
@@ -542,9 +635,27 @@ const ConsultaEquipos = () => {
     Name: "",
   });
 
+  // const [newTechInfoSeleccionado, setNewTechInfoSeleccionado] = useState({
+  //     id: null,
+  //     techincal: '',
+  //     value: '',
+  // })
   const seleccionarEquipo = (elemento, caso) => {
+    //Funcion para editar y eliminar el quipo seleccionado
+    // setnewTechicInformation({
+    //     Id_NewTechSpec: null,
+    //     Id_TechnicalSpecification: null,
+    //     Name: '',
+    //     Value: '',
+    //     SelectNewTechSpec: {
+    //         Id_SelectNewTechSpec: null,
+    //         Id_TechnicalSpecification: null,
+    //         Id_NewTechSpec: null,
+    //     }
+    // });
     setEditing(false);
     setTechnicalInformation(elemento.TechnicalSpecification);
+    setOptionalTechInfo(elemento.TechnicalSpecification.OptionalTechInfo);
     setServicesInformation(elemento.ServicesInformation);
     setareas(elemento.Procedencia.areas);
 
@@ -776,6 +887,26 @@ const ConsultaEquipos = () => {
       }
     );
 
+    await Axios.put(`${globalApi}/area/${Equipo.Procedencia.areas.Id_Areas}`, {
+      Name: Equipo.Procedencia.areas.Name,
+      Id_Operations: Equipo.Procedencia.areas.Id_Operations,
+    });
+
+    await Axios.put(
+      `${globalApi}/SubArea/${Equipo.Procedencia.areas.SubArea.Id_SubAreas}`,
+      {
+        Name: Equipo.Procedencia.areas.SubArea.Name,
+        Id_Areas: Equipo.Procedencia.areas.Id_Areas,
+      }
+    );
+
+    await Axios.put(
+      `${globalApi}/lineType/${Equipo.Procedencia.line.lineTypes.Id_LineTypes}`,
+      {
+        Name: Equipo.Procedencia.line.lineTypes.Name,
+      }
+    );
+
     await Axios.put(`${globalApi}/line/${Equipo.Procedencia.line.Id_Line}`, {
       number: Equipo.Procedencia.line.number,
       Id_LineTypes: Equipo.Procedencia.line.lineTypes.Id_LineTypes,
@@ -873,6 +1004,25 @@ const ConsultaEquipos = () => {
     });
   };
 
+  // const updateNewServInfo = async (NSI) => {
+  //     Axios.put(`${globalApi}/newServInfo/${NSI.Id_NewServInfo}`, {
+  //         Id_ServicesInformation: NSI.Id_ServicesInformation,
+  //         Value: NSI.Value,
+  //         Name: NSI.Name
+  //     })
+  // };
+
+  // const updateNewTechSpec = async (NTS) => {
+  //     Axios.put(`${globalApi}/NewTechInfo/${NTS.Id_NewTechSpec}`, {
+  //         Id_TechnicalSpecification: NTS.Id_TechnicalSpecification,
+  //         Name: NTS.Name,
+  //         Value: NTS.Value
+  //     })
+  // };
+
+  //------------------        ELIMINAR EQUIPO     ---------------------------------
+
+  //Filtramos todos los datos que no contengan el Id seleccionado, dejamos fuera el no seleccionado y guardamos los demas
   // const updateNewServInfo = async (NSI) => {
   //     Axios.put(`${globalApi}/newServInfo/${NSI.Id_NewServInfo}`, {
   //         Id_ServicesInformation: NSI.Id_ServicesInformation,
@@ -1957,6 +2107,7 @@ const ConsultaEquipos = () => {
     {
       field: "Name",
       headerName: "Equipo",
+      flex: 1,
       width: 400,
       headerClassName: "header",
       fontWeight: 500,
@@ -1981,19 +2132,19 @@ const ConsultaEquipos = () => {
         );
       },
     },
-    {
-      field: "serial",
-      headerName: "Número de serie",
-      width: 180,
-
-      valueGetter: (params) => {
-        return params.row.TechnicalSpecification.SerialNumber;
-      },
-    },
+    // {
+    //     field: "serial",
+    //     headerName: "Número de serie",
+    //     width: 180,
+    //     valueGetter: (params) => {
+    //         return params.row.TechnicalSpecification.SerialNumber;
+    //     }
+    // },
     {
       field: "bu",
       headerName: "BU",
-      flex: 1,
+      // flex: 1,
+      width: 150,
       valueGetter: (params) => {
         return params.row.Procedencia.areas.operations.countries.bu.Name;
       },
@@ -2015,30 +2166,31 @@ const ConsultaEquipos = () => {
         return params.row.Procedencia.areas.Name;
       },
     },
-    {
-      field: "subarea",
-      headerName: "Subárea",
-      width: 210,
-      valueGetter: (params) => {
-        return params.row.Procedencia.areas.SubArea.Name;
-      },
-    },
+    // {
+    //     field: "subarea",
+    //     headerName: "Subárea",
+    //     width: 210,
+    //     valueGetter: (params) => {
+    //         return params.row.Procedencia.areas.SubArea.Name
+    //     },
+    // },
     {
       field: "plant",
       headerName: "Planta",
+
       width: 210,
       valueGetter: (params) => {
         return params.row.Procedencia.areas.operations.Name;
       },
     },
-    {
-      field: "equipType",
-      headerName: "Tipo de Equipo",
-      width: 210,
-      valueGetter: (params) => {
-        return params.row.TechnicalSpecification.EquipmentType;
-      },
-    },
+    // {
+    //     field: "equipType",
+    //     headerName: "Tipo de Equipo",
+    //     width: 210,
+    //     valueGetter: (params) => {
+    //         return params.row.TechnicalSpecification.EquipmentType
+    //     },
+    // },
     {
       field: "actions",
       headerName: "Acciones",
@@ -2103,7 +2255,7 @@ const ConsultaEquipos = () => {
           setListAll={setListAll}
           light={light}
         />
-        <Header setLight={setLight} light={light} />
+        <Header setLight={setLight} light={light} userByToken={userByToken} />
 
         <Paper
           light={light}
@@ -2180,6 +2332,22 @@ const ConsultaEquipos = () => {
               }}
             />
           </div>
+          <Toolbar className={"mt-0"}>
+            <PageHeader
+              contador={`${totalEncontrados} results`}
+              style={{ fontSize: 12 }}
+            />
+            <Grid item sm></Grid>
+            <Grid item sm></Grid>
+
+            <PageHeader subTitle="Date Updated:" />
+
+            <PageHeader subTitle={fecha} />
+
+            <Grid item sm></Grid>
+            <Grid item sm></Grid>
+            <Grid item sm></Grid>
+          </Toolbar>
         </Paper>
 
         {/* -----------------------------       FOOTER      ---------------------------- */}
@@ -2987,9 +3155,18 @@ const ConsultaEquipos = () => {
               </div>
             )
           }
-          {/* -------------------------    BOTONES ACEPTAR Y CANCELAR    ------------------------------- */}
+          {/* -------------------------    BOTONES gAR Y CANCELAR    ------------------------------- */}
 
           <ModalFooter>
+            {userByToken?.roleId === 1 ? (
+              <Button color="primary" onClick={() => editar()}>
+                Aceptar
+              </Button>
+            ) : (
+              <Button color="primary" disabled>
+                Aceptar
+              </Button>
+            )}
             <Button
               style={{
                 color:
@@ -4108,4 +4285,6 @@ const ConsultaEquipos = () => {
     </ThemeProvider>
   );
 };
+export const UserToken = userToken;
+
 export default ConsultaEquipos;

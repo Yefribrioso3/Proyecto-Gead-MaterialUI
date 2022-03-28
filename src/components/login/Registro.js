@@ -1,112 +1,72 @@
-import React from "react";
+/* eslint-disable react/jsx-pascal-case */
+// import { useForm } from 'react-hook-form';
+// import ExcelRegistro from './ExcelRegistro';
+import React, { useEffect, useState } from "react";
+// import Axios from "axios";
+import Head from "./Head";
 import PropTypes from "prop-types";
-import { useForm } from "react-hook-form";
-
+import { DataGrid } from "@mui/x-data-grid";
+import Controls from "../controls/Controls";
+// import { globalApi } from '../../types/api.types';
+import { ModalEditar } from "./components/ModalEditar";
+import { ModalInsertar } from "./components/ModalInsertar";
+import { Delete, Search, Visibility } from "@material-ui/icons";
 import {
   Button,
   createTheme,
   CssBaseline,
   Grid,
   IconButton,
-  Link,
+  InputAdornment,
   Paper,
-  TextField,
   ThemeProvider,
   Typography,
 } from "@material-ui/core";
-import Gead from "../../assets/Gead.jpeg";
-import { globalApi } from "../../types/api.types";
-import Axios from "axios";
-// import ExcelRegistro from './ExcelRegistro';
+import { authAxios } from "../../types/headerToken";
+import { UserToken } from "../../pages/ConsultaEquipos";
+import Gead from "../../assets/logo.png";
+import GeadWhite from "../../assets/logo-white.png";
+// makeStyles, TextField,
 
 const Registro = ({ history }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
+  const [light, setLight] = useState(false);
   const theme = createTheme({
     palette: {
+      type: light ? "light" : "dark",
+
       primary: {
-        main: "#333996",
-        light: "#3c44b126",
+        main: "#B3C8FC",
+        light: "#E6FBFF",
+        dark: "#8297C9",
       },
       secondary: {
-        main: "#f83245",
-        light: "#f8324526",
+        main: "#6200EE",
+        light: "#8F6CFF",
+        dark: "#14149A",
       },
       background: {
-        default: "#f4f5fd",
-      },
-    },
-    overrides: {
-      MuiAppBar: {
-        root: {
-          transform: "translateZ(0)",
-        },
-      },
-    },
-    props: {
-      MuiIconButton: {
-        disableRipple: true,
+        main: "#f4f5fd",
+        light: "#8F6CFF",
+        dark: "#14149A",
       },
     },
   });
 
-  const onSubmit = (e) => {
-    // setEditing(false)
-    // setPasswordEditing(false)
+  // const { register, handleSubmit, formState: { errors } } = useForm();
 
-    console.log(e);
-
-    Axios.post(`${globalApi}/register`, { ...e, roleId: 1 })
-      .then((x) => {
-        console.log(x);
-      })
-      .catch((x) => {
-        console.log(x?.response);
-      });
-
-    // history.replace('/consultaEquipos');
-
-    // if (e.password === "12345678") {
-
-    // setTimeout(() => {
-    //     if (e.user === cuentas.usuario1 || e.user === cuentas.usuario2 || e.user === cuentas.usuario3 || e.user === cuentas.usuario4 || e.user === cuentas.usuario5 || e.user === cuentas.usuario6 || e.user === cuentas.usuario7 || e.user === cuentas.usuario8 || e.user === cuentas.usuario9 || e.user === cuentas.usuario10) {
-    //         console.log(e.user)
-    //         if (e.password === cuentas.password) {
-    //             setUser(e)
-    //             setEditing(false)
-    //             console.log(e.password)
-    //             // history.push('/');      //Redireccion a la url indicada y se puede volver al login.
-    //             history.replace('/consultaEquipos');   //Redireccion a la url indicada, No se puede volver al login.
-
-    //         } else {
-    //             setPasswordEditing(true)
-    //         }
-
-    //     } else {
-    //         console.log("No funciona")
-
-    //         setUser(null)
-    //         setEditing(true)
-    //     }
-    // }, 1000);
-  };
-
-  //-----------------------------------------    CAMBIOS DEL LOGIN A MATERIAL UI   -------------------------------------
-  //--------------------------------------------------------------------------------------------------------------------
-
-  // const paperstyle = { padding: 20 };
+  // --------------------     Estilos     --------------------
+  // useEffect(() => {
+  //     getUser();
+  // }, []);
 
   const style = createTheme({
     paper: {
       padding: 40,
-      height: "650px",
-      width: "384px",
+      height: "50rem",
+      width: "70rem",
       margin: "130px auto",
       borderRadius: "24px",
+      backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
     },
     validation: {
       padding: 20,
@@ -123,21 +83,18 @@ const Registro = ({ history }) => {
       borderRadius: "24px",
     },
     logo: {
-      // padding: 10,
-      width: "7.2rem",
-      // height: '18.32px',
-      // left: '576px',
-      // top: '305px',
+      width: "9rem",
     },
     h4: {
-      // fontFamily: 'Roboto',
       fontStyle: "normal",
-      fontWeight: "bold",
+      fontWeight: "medium",
       fontSize: "34px",
       lineHeight: "140%",
       letterSpacing: "0.0025em",
-      color: "#14149A",
-      marginTop: "0.5rem",
+      color:
+        theme.palette.type == "dark"
+          ? theme.palette.primary.dark
+          : theme.palette.secondary.main,
       marginBottom: "0.5rem",
     },
     center: {
@@ -149,9 +106,9 @@ const Registro = ({ history }) => {
       fontWeight: "normal",
       fontSize: 14,
       lineHeight: "140%",
-      /* or 18px */
       letterSpacing: "-0.02em",
       marginBottom: "2rem",
+      /* or 18px */
     },
     TextField: {
       margin: "0.5rem 0",
@@ -168,168 +125,310 @@ const Registro = ({ history }) => {
     link: {
       margin: "15px 10px 0 0",
       fontFamily: "Noto Sans",
-      // fontWeight: 'normal',
       fontSize: 14,
       lineHeight: "140%",
       letterSpacing: "0.004em",
+      // fontWeight: 'normal',
     },
     linkColor: {
       fontColor: "#14149A",
     },
+    searchInput: {
+      width: "100%",
+    },
   });
 
-  //fadeInDown
+  const [allUser, setAllUser] = useState([]); //  -------   Consulta al Api de User
+
+  // const [userByToken, setUserByToken] = useState({}) //  -------   Consulta al Api de User
+
+  const getUser = async () => {
+    //  -------   Consulta al Api de User
+    await authAxios.get(`/user`).then(async (response) => {
+      let a = await Promise.all(
+        response.data.data.map((z) => ({ ...z, id: z.Id_Usuario }))
+      );
+      setAllUser(a);
+    });
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const [modalEditar, setModalEditar] = useState(false); //Hook para abrir y cerrar el modalEditar
+  const [modalEliminar, setModalEliminar] = useState(false); //Hook para abrir y cerrar el modal Eliminar
+  const [modalInsertar, setModalInsertar] = useState(false); //Hook para abrir y cerrar el modal Insertar
+
+  const [user, setUser] = useState({
+    Name: "",
+    LastName: "",
+    email: "",
+    roleId: "",
+    password: "",
+  });
+
+  const [userSeleccionado, setUserSeleccionado] = useState({
+    id: "",
+    Id_Usuario: "",
+    Name: "",
+    LastName: "",
+    email: "",
+    password: "",
+    roleId: "",
+  });
+
+  const seleccionarUser = (elemento, caso) => {
+    //Funcion para editar o eliminar el usuario seleccionado
+    setUserSeleccionado(elemento);
+
+    caso === "Editar" ? setModalEditar(true) : setModalEliminar(true);
+  };
+
+  const abrirModalInsertar = () => {
+    //Funcion para limpiar los valores y abrir el modal insertar
+    setUser({
+      Name: "",
+      LastName: "",
+      email: "",
+      roleId: "",
+      password: "",
+    });
+
+    console.log(UserToken);
+    setModalInsertar(true);
+  };
+
+  // Tabla menu
+
+  const columns = [
+    {
+      field: "Name",
+      headerName: "Usuario",
+      flex: 1,
+      width: 400,
+      headerClassName: "header",
+      renderCell: (params) => {
+        return (
+          <div
+            style={{
+              fontWeight: 600,
+              // color: "blue",
+              // width: "100%",
+              // textAlign: "center"
+            }}
+          >
+            {params.row.Name}
+          </div>
+        );
+      },
+    },
+    {
+      field: "LastName",
+      headerName: "Apellido",
+      flex: 1,
+      width: 150,
+      valueGetter: (params) => {
+        return params.row.LastName;
+      },
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 210,
+      flex: 1,
+      valueGetter: (params) => {
+        return params.row.email;
+      },
+    },
+    {
+      field: "actions",
+      headerName: "Acciones",
+      width: 210,
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (params) => (
+        <div className="d-flex justify-content-between">
+          <div
+            onClick={() => seleccionarUser(params.row, "Editar")}
+            component="span"
+          >
+            <IconButton color="primary" aria-label="edit" component="span">
+              <Visibility />
+            </IconButton>
+          </div>
+
+          <div
+            color="secondary"
+            aria-label="delete"
+            onClick={() => seleccionarUser(params.row, "Eliminar")}
+            component="span"
+          >
+            <IconButton color="secondary" aria-label="delete">
+              <Delete />
+            </IconButton>
+          </div>
+        </div>
+      ),
+    },
+    /* {
+          field: "a",
+          headerName: "Actions",
+          width: 100,
+          sortable: false,
+          align: "center",
+          disableColumnMenu: true,
+          renderCell: (params) => (
+            <div onClick={(e) => deleteGts(e, params.id)}>
+              <Tooltip title="Delete">
+                <IconButton>
+                  <Delete />
+                </IconButton>
+              </Tooltip>
+            </div>
+          ),
+        }, */
+  ];
+
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
+    },
+  });
+
+  const handleSearch = (e) => {
+    let target = e.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value === "") return items;
+        else
+          return items.filter(
+            (x) =>
+              x.Name.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.LastName.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.email.toLowerCase().includes(target.value.toLowerCase())
+          );
+      },
+    });
+  };
+
   return (
     <ThemeProvider theme={theme}>
-      <Grid>
-        <Paper elevation={10} style={style.paper}>
-          {/* <img src={Gead} /> */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid>
-              <img src={Gead} style={style.logo} alt="" />
-            </Grid>
+      <Head setLight={setLight} light={light} />
 
-            <Grid className="mt-4"> </Grid>
-            <Typography style={style.h4}>Registo</Typography>
-            {/* <Typography style={style.txt}>Inicia sesión con tu cuenta asignada por tu administrador.</Typography> */}
+      <Paper style={style.paper} light={light}>
+        {/* elevation={10} */}
+        {/* <img src={Gead} /> */}
+        <Grid>
+          <div className="row">
+            <div className="col-3">
+              <img
+                src={theme.palette.type == "dark" ? GeadWhite : Gead}
+                style={style.logo}
+                alt=""
+              />
+            </div>
+            <div className="col-9">
+              <Typography style={style.h4}>
+                {" "}
+                &nbsp; &nbsp; &nbsp;Registro de usuarios
+              </Typography>
+            </div>
+          </div>
+        </Grid>
 
-            <TextField
-              label="Nombre"
-              name="Name"
-              placeholder="Nombre"
-              variant="outlined"
-              style={style.TextField}
-              fullWidth
-              required
-              {...register("Name", {
-                required: {
-                  value: true,
-                  message: "Campo requerido",
-                },
-              })}
+        {/* // ------------------ Serch Input  ------------------------------- */}
+        <div className="row">
+          <div className="col-8">
+            <Controls.txt
+              label="Search User"
+              id="outlined-basic"
+              className={style.searchInput}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={handleSearch}
             />
-
-            <TextField
-              label="Apellido"
-              name="LastName"
-              placeholder="Apellido"
-              variant="outlined"
-              style={style.TextField}
-              fullWidth
-              required
-              {...register("LastName", {
-                required: {
-                  value: true,
-                  message: "Campo requerido",
-                },
-              })}
-            />
-
-            <TextField
-              label="Correo"
-              name="email"
-              placeholder="Correo"
-              variant="outlined"
-              style={style.TextField}
-              fullWidth
-              required
-              {...register("email", {
-                required: {
-                  value: true,
-                  message: "Campo requerido",
-                },
-              })}
-            />
-
-            <TextField
-              label="Contraseña"
-              name="password"
-              placeholder="password"
-              variant="outlined"
-              type="password"
-              style={style.TextField}
-              fullWidth
-              required
-              {...register("password", {
-                required: {
-                  value: true,
-                  message: "Campo requerido",
-                },
-              })}
-            />
-
-            <TextField
-              label="Repetir Contraseña"
-              name="password2"
-              placeholder="Contraseña"
-              variant="outlined"
-              type="password"
-              style={style.TextField}
-              fullWidth
-              required
-              {...register("password2", {
-                required: {
-                  value: true,
-                  message: "Campo requerido",
-                },
-              })}
-            />
-
+          </div>
+          {/* -----------------       Boton Nuevo Usuario     ------------------ */}
+          <div className="col-4">
             <Button
-              type="submit"
-              color="primary"
               variant="contained"
+              size="large"
+              color="secondary"
+              type="submit"
+              style={{ fontSize: 16, fontWeight: "600" }}
               fullWidth
-              style={style.btn}
+              onClick={() => {
+                abrirModalInsertar();
+              }}
             >
-              Crear Cuenta
+              {" "}
+              NUEVO USUARIO{" "}
             </Button>
+          </div>
+        </div>
+        {/* ------------------  Tabla   -------------------- */}
+        <div>
+          <div
+            style={{
+              height: 600,
+              width: "100%",
+              color:
+                theme.palette.type == "dark"
+                  ? theme.palette.background.dark
+                  : theme.palette.background.light,
+              backgroundColor:
+                theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
+              paddingTop: "1rem",
+            }}
+          >
+            <DataGrid
+              style={{
+                border: "0",
+                borderBottom: "0",
+                color:
+                  theme.palette.type == "dark"
+                    ? theme.palette.primary.light
+                    : theme.palette.primary.dark,
+                "&:nth-of-type(odd)": {
+                  backgroundColor: theme.palette.primary.dark,
+                },
+              }}
+              // sx={{ m: 2 }}
+              rows={filterFn.fn(allUser)}
+              // style={{ color:"blue"}}
+              columns={columns}
+              pageSize={9}
+              rowsPerPageOptions={[8]}
+            />
+          </div>
+        </div>
+      </Paper>
+      {/* </Grid> */}
 
-            {/* <Typography style={style.link}> Si aún no tienes cuenta,
-                            <Link href='#' style={style.linkColor} color="#14149A"> comunícate con tu administrador</Link>  para asistencia.
-                        </Typography> */}
-          </form>
-          {/* <Grid style={style.link}> */}
+      <ModalInsertar
+        modalInsertar={modalInsertar}
+        setModalInsertar={setModalInsertar}
+        user={user}
+        setUser={setUser}
+        allUser={allUser}
+        setAllUser={setAllUser}
+        light={light}
+      />
 
-          {/* -------------------------------    Agregar Desde Excel    --------------------------------------------- */}
-
-          {/* <ExcelRegistro /> */}
-
-          {/* -------------------------------    Agregar Desde Excel    --------------------------------------------- */}
-
-          {/* {
-                        editing ? (
-                            <>
-                                <Paper elevation={10} style={style.validation} >
-                                    <span className="text-danger text-small d-block mb-2">
-                                        Usuario incorrecto
-                                    </span>
-                                </Paper>
-                            </>
-                        ) : (
-                            <>
-                            </>
-                        )
-                    }
-
-                    {
-                        passwordEditing ? (
-                            <>
-                                <Paper elevation={10} style={style.validationPassword} >
-                                    <span className="text-danger text-small d-block mb-2">
-                                        Contraseña incorrecta
-                                    </span>
-                                </Paper>
-                            </>
-                        ) : (
-                            <>
-                            </>
-                        )
-                    } */}
-        </Paper>
-      </Grid>
-
-      <Grid></Grid>
+      <ModalEditar
+        modalEditar={modalEditar}
+        setModalEditar={setModalEditar}
+        userSeleccionado={userSeleccionado}
+        setUserSeleccionado={setUserSeleccionado}
+        allUser={allUser}
+        light={light}
+      />
 
       <CssBaseline />
     </ThemeProvider>
