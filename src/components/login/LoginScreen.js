@@ -1,8 +1,3 @@
-// import '../../index.css';
-// import '../equipos/MaestroEquipos.scss';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import { Button, Input, Label } from 'reactstrap';
-
 import React, { useState } from 'react'
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -10,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import Gead from '../../assets/Gead.jpeg'
 import { globalApi } from '../../types/api.types';
 import { Button, createTheme, CssBaseline, Grid, Link, Paper, TextField, ThemeProvider, Typography } from '@material-ui/core';
-
 
 const LoginScreen = ({ history }) => {
 
