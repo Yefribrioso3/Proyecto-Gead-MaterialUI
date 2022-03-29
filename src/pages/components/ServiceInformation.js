@@ -92,21 +92,11 @@ const ServiceInformation = ({ casoServInfo, setnewservInformation, seteditingNew
 
     // };
 
-
-
-
-
-
-
-
     // const editar = (elemento, caso) => {
     //     setfilaEditada(true);
 
     //     editRow(elemento, caso)
     // }
-
-
-
 
     // const eliminarAddTechInfo = (id) => {
 
@@ -155,8 +145,6 @@ const ServiceInformation = ({ casoServInfo, setnewservInformation, seteditingNew
     //             alert("successfully removed");
     //         });
     // };
-    
-    
 
     return (
         <>

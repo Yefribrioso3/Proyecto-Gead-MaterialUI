@@ -19,6 +19,7 @@ import { makeStyles, CssBaseline, ThemeProvider } from '@material-ui/core';
 import { createTheme } from '@material-ui/core/styles';
 // import Header from "../components/Header";
 import Registro from '../components/login/Registro';
+import { Transferencias } from '../pages/Transferencias';
 // import PageHeader from '../components/PageHeader';
 
 // import Employees from "../pages/Employees/Employees";
@@ -76,6 +77,8 @@ export const DashboardRoutes = () => {
                             <Route exact path="/Home" component={Home} />
                             <Route exact path="/consultaEquipos" component={ConsultaEquipos} />
                             <Route exact path="/registro" component={Registro} />
+                            <Route exact path="/transferencias" component={Transferencias} />
+                            
                             
                             {/* <Redirect to="/maestroEquipos" /> */}
                             <Redirect to="/ConsultaEquipos" />

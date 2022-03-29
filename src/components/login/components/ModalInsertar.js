@@ -212,6 +212,7 @@ export const ModalInsertar = ({ modalInsertar, setModalInsertar, user, setUser, 
                   <MenuItem value={1}>ADMIN</MenuItem>
                   <MenuItem value={2}>SUPERVISOR</MenuItem>
                   <MenuItem value={3}>PLANTA</MenuItem>
+                  <MenuItem value={4}>GERENTE</MenuItem>
                 </Select>
               </FormControl>
 
