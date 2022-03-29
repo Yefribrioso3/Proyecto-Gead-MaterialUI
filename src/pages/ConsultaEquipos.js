@@ -3158,15 +3158,6 @@ const ConsultaEquipos = () => {
           {/* -------------------------    BOTONES gAR Y CANCELAR    ------------------------------- */}
 
           <ModalFooter>
-            {userByToken?.roleId === 1 ? (
-              <Button color="primary" onClick={() => editar()}>
-                Aceptar
-              </Button>
-            ) : (
-              <Button color="primary" disabled>
-                Aceptar
-              </Button>
-            )}
             <Button
               style={{
                 color:
@@ -3185,20 +3176,37 @@ const ConsultaEquipos = () => {
             >
               Cancelar
             </Button>
-            <Button
-              style={{
-                color: "#ffffff",
-                backgroundColor:
-                  theme.palette.type == "dark"
-                    ? theme.palette.secondary.light
-                    : "#6200EE",
-              }}
-              variant="contained"
-              type="submit"
-              onClick={() => editar()}
-            >
-              Guardar Registro
-            </Button>
+            {userByToken?.roleId === 1 ? (
+              <Button
+                style={{
+                  color: "#ffffff",
+                  backgroundColor:
+                    theme.palette.type == "dark"
+                      ? theme.palette.secondary.light
+                      : "#6200EE",
+                }}
+                variant="contained"
+                type="submit"
+                onClick={() => editar()}
+              >
+                Guardar Registro
+              </Button>
+            ) : (
+              <Button
+                style={{
+                  color: "#ffffff",
+                  backgroundColor:
+                    theme.palette.type == "dark"
+                      ? theme.palette.secondary.light
+                      : "#6200EE",
+                }}
+                variant="contained"
+                type="submit"
+                disabled
+              >
+                Guardar Registro
+              </Button>
+            )}
           </ModalFooter>
         </Modal>
 
