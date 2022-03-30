@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     position: "absolute",
     left: "0px",
-    width: "250px",
+    width: "15.625rem",
     height: "100%",
     boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
     backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",

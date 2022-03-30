@@ -63,7 +63,7 @@ export const DashboardRoutes = () => {
 
   const useStyles = makeStyles((theme) => ({
     appMain: {
-      paddingLeft: "12.5rem",
+      paddingLeft: "15.625rem",
       width: "100%",
       height: "100%",
     },

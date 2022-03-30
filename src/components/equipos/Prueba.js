@@ -26,6 +26,7 @@ import TableTechnicalSpec from "./CrudsAPI/TableTechnicalSpec";
 import FormTechSpec from "./CrudsAPI/FormTechSpec";
 import TableTechSpecValue from "./CrudsAPI/TableTechSpecValue";
 import FormTechSpecValue from "./CrudsAPI/FormTechSpecValue";
+import { globalApi } from "../../types/api.types";
 // import { Button } from "bootstrap";
 
 // import {

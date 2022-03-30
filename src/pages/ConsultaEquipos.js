@@ -53,6 +53,7 @@ import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { Pagination } from "@material-ui/lab";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+import { TransferirModal } from "./components/TransferirModal";
 
 //-----------------------------------------------------------------------
 const headCells = [

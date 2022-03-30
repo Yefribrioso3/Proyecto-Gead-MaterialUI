@@ -3,6 +3,7 @@ import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { ModalBody, ModalFooter } from "reactstrap";
 import { v4 as uuidv4 } from "uuid";
+import { globalApi } from "../../types/api.types";
 
 export const Excel = ({
   item,

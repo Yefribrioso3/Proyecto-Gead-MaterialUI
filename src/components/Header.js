@@ -72,7 +72,13 @@ const useStyles = makeStyles((theme) => ({
     fill: theme.palette.type == "dark" ? "#B3C8FC" : "rgba(0, 0, 0, 0.38)",
   },
 }));
-export default function Header({ isOpen, setIsOpen, light, setLight }) {
+export default function Header({
+  userByToken,
+  isOpen,
+  setIsOpen,
+  light,
+  setLight,
+}) {
   const classes = useStyles();
   const toggle = () => setIsOpen(!isOpen);
   const local = () => {
