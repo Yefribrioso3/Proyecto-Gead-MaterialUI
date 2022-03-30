@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-
-// import { Button, Input, Label } from 'reactstrap';
 import { useForm } from "react-hook-form";
-// import '../../index.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import '../equipos/MaestroEquipos.scss';
 import { globalApi } from "../../types/api.types";
 import {
   Button,
@@ -25,17 +20,12 @@ import GeadWhite from "../../assets/logo-white.png";
 import Switch from "@mui/material/Switch";
 import Brightness2Icon from "@material-ui/icons/Brightness2";
 import { WbSunny } from "@material-ui/icons";
-//import Button from 'react-bootstrap/Button';
-//import Container from 'react-bootstrap/Container';
 
 const LoginScreen = ({ history }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, formState: { errors }, } = useForm();
 
   const [light, setLight] = useState(false);
+
   const theme = createTheme({
     palette: {
       type: light ? "light" : "dark",
@@ -175,6 +165,11 @@ const LoginScreen = ({ history }) => {
   const [editing, setEditing] = useState(false); // Para usuario incorrecto
   const [passwordEditing, setPasswordEditing] = useState(false);
 
+  const [leyendaEmail, setLeyendaEmail] = useState("");
+  const [leyendaError, setLeyendaError] = useState("");
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [errorPassword, setErrorPassword] = useState(false);
+  
   const onSubmit = (e) => {
     setEditing(false);
     setPasswordEditing(false);
@@ -190,6 +185,23 @@ const LoginScreen = ({ history }) => {
       })
       .catch((x) => {
         console.log(x?.response);
+        if (x?.response.data.msg === "user not found") {
+          setErrorEmail(true);
+          setLeyendaEmail("Usuario incorrecto")
+          setErrorPassword(false);
+          setLeyendaError("")
+        } else if (x?.response.data.msg === "pass not match") {
+          setErrorEmail(false);
+          setErrorPassword(true);
+          setLeyendaEmail("")
+          setLeyendaError("Contraseña incorrecta")
+        } else {
+          setErrorEmail(false);
+          setErrorPassword(false)
+          setLeyendaEmail("")
+          setLeyendaError("")
+        }
+        // console.log(x?.response.data.msg)
       });
 
     // localStorage.removeItem("token")
@@ -233,8 +245,9 @@ const LoginScreen = ({ history }) => {
               {/* <img src={Gead} /> */}
               <Grid xs={7}>
                 <img
-                  src={theme.palette.type == "dark" ? GeadWhite : Gead}
+                  src={theme.palette.type === "dark" ? GeadWhite : Gead}
                   style={style.logo}
+                  alt=""
                 />
               </Grid>
               <Grid xs={5}>
@@ -255,6 +268,9 @@ const LoginScreen = ({ history }) => {
             </Typography>
 
             <TextField
+              error={errorEmail}
+              helperText={leyendaEmail}
+              autoComplete="off"
               label="Nombre de usuario"
               name="email"
               placeholder="Name@example.com"
@@ -271,6 +287,9 @@ const LoginScreen = ({ history }) => {
             />
 
             <TextField
+              error={errorPassword}
+              helperText={leyendaError}
+              autoComplete="off"
               label="Contraseña"
               name="password"
               placeholder="password"

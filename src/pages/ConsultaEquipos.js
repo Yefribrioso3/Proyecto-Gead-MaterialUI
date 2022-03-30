@@ -1351,21 +1351,21 @@ const ConsultaEquipos = () => {
       nt.Id_NewTechSpec === null
         ? []
         : nt.map((NTS) => {
-            return (NTS = {
-              Id_NewTechSpec: NTS.Id_NewTechSpec,
+          return (NTS = {
+            Id_NewTechSpec: NTS.Id_NewTechSpec,
+            Id_TechnicalSpecification:
+              technicalInformation.Id_TechnicalSpecification,
+            Name: NTS.Name,
+            Value: NTS.Value,
+            SelectNewTechSpec: {
+              Id_SelectNewTechSpec:
+                NTS.SelectNewTechSpec.Id_SelectNewTechSpec,
               Id_TechnicalSpecification:
                 technicalInformation.Id_TechnicalSpecification,
-              Name: NTS.Name,
-              Value: NTS.Value,
-              SelectNewTechSpec: {
-                Id_SelectNewTechSpec:
-                  NTS.SelectNewTechSpec.Id_SelectNewTechSpec,
-                Id_TechnicalSpecification:
-                  technicalInformation.Id_TechnicalSpecification,
-                Id_NewTechSpec: NTS.SelectNewTechSpec.Id_NewTechSpec,
-              },
-            });
+              Id_NewTechSpec: NTS.SelectNewTechSpec.Id_NewTechSpec,
+            },
           });
+        });
 
     valorInsertar.TechnicalSpecification.newTechnicalSpecification =
       newTechicInformationAll;
@@ -1379,21 +1379,21 @@ const ConsultaEquipos = () => {
       ns.Id_NewServInfo === null
         ? []
         : ns.map((NSI) => {
-            return (NSI = {
-              Id_NewServInfo: NSI.Id_NewServInfo,
+          return (NSI = {
+            Id_NewServInfo: NSI.Id_NewServInfo,
+            Id_ServicesInformation:
+              servicesInformation.Id_ServicesInformation,
+            Name: NSI.Name,
+            Value: NSI.Value,
+            SelectNewServicesInfo: {
+              Id_SelectNewServInfo:
+                NSI.SelectNewServicesInfo.Id_SelectNewServInfo,
               Id_ServicesInformation:
                 servicesInformation.Id_ServicesInformation,
-              Name: NSI.Name,
-              Value: NSI.Value,
-              SelectNewServicesInfo: {
-                Id_SelectNewServInfo:
-                  NSI.SelectNewServicesInfo.Id_SelectNewServInfo,
-                Id_ServicesInformation:
-                  servicesInformation.Id_ServicesInformation,
-                Id_NewServInfo: NSI.SelectNewServicesInfo.Id_NewServInfo,
-              },
-            });
+              Id_NewServInfo: NSI.SelectNewServicesInfo.Id_NewServInfo,
+            },
           });
+        });
 
     valorInsertar.ServicesInformation.newServicesInformation =
       newservInformationAll;
@@ -1806,17 +1806,17 @@ const ConsultaEquipos = () => {
 
     caso === "technical"
       ? setTechnicalSpecEditado({
-          Id_NewTechSpec: techInfo.Id_NewTechSpec,
-          Id_TechnicalSpecification: techInfo.Id_TechnicalSpecification,
-          Name: techInfo.Name,
-          Value: techInfo.Value,
-        })
+        Id_NewTechSpec: techInfo.Id_NewTechSpec,
+        Id_TechnicalSpecification: techInfo.Id_TechnicalSpecification,
+        Name: techInfo.Name,
+        Value: techInfo.Value,
+      })
       : setTechInfoEditado({
-          Id_NewServInfo: techInfo.Id_NewServInfo,
-          Id_ServicesInformation: techInfo.Id_ServicesInformation,
-          Name: techInfo.Name,
-          Value: techInfo.Value,
-        });
+        Id_NewServInfo: techInfo.Id_NewServInfo,
+        Id_ServicesInformation: techInfo.Id_ServicesInformation,
+        Name: techInfo.Name,
+        Value: techInfo.Value,
+      });
   };
 
   // --------------------        ACTUALIZAR NEW SERVICES INFORMATION     -------------------------
@@ -2008,48 +2008,48 @@ const ConsultaEquipos = () => {
       file === undefined
         ? "undefined"
         : new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.readAsArrayBuffer(file);
+          const fileReader = new FileReader();
+          fileReader.readAsArrayBuffer(file);
 
-            fileReader.onload = (e) => {
-              const bufferArray = e.target.result;
+          fileReader.onload = (e) => {
+            const bufferArray = e.target.result;
 
-              const workbook = XLSX.read(bufferArray, { type: "buffer" });
+            const workbook = XLSX.read(bufferArray, { type: "buffer" });
 
-              const workbookSheetsName = workbook.SheetNames[0];
+            const workbookSheetsName = workbook.SheetNames[0];
 
-              const workbookSheet = workbook.Sheets[workbookSheetsName];
+            const workbookSheet = workbook.Sheets[workbookSheetsName];
 
-              const data = XLSX.utils.sheet_to_json(workbookSheet);
+            const data = XLSX.utils.sheet_to_json(workbookSheet);
 
-              const jData = [];
-              for (let i = 0; i < data.length; i++) {
-                const dato = data[i];
+            const jData = [];
+            for (let i = 0; i < data.length; i++) {
+              const dato = data[i];
 
-                jData.push({
-                  ...dato,
-                  Date_of_Installation: formatearFechaExcel(
-                    dato.Date_of_Installation
-                  ),
-                  Date_of_Desintallation: formatearFechaExcel(
-                    dato.Date_of_Desintallation
-                  ),
-                });
-              }
+              jData.push({
+                ...dato,
+                Date_of_Installation: formatearFechaExcel(
+                  dato.Date_of_Installation
+                ),
+                Date_of_Desintallation: formatearFechaExcel(
+                  dato.Date_of_Desintallation
+                ),
+              });
+            }
 
-              resolve(jData);
-            };
-            fileReader.onerror = (error) => {
-              reject(error);
-            };
-          });
+            resolve(jData);
+          };
+          fileReader.onerror = (error) => {
+            reject(error);
+          };
+        });
 
     promise === "undefined"
       ? console.log("undefined")
       : promise.then((d) => {
-          setModalInsertarExcel(true);
-          setItem(d);
-        });
+        setModalInsertarExcel(true);
+        setItem(d);
+      });
   };
 
   function formatearFechaExcel(fechaExcel) {
@@ -2084,6 +2084,7 @@ const ConsultaEquipos = () => {
       // console.log(Equipo)
     });
   };
+
   const columns = [
     {
       field: "Name",
@@ -2199,6 +2200,7 @@ const ConsultaEquipos = () => {
               <Visibility />
             </IconButton>
           </div>
+
           {userByToken?.roleId === 1 ? (
             <div
               aria-label="delete"
@@ -2233,7 +2235,9 @@ const ConsultaEquipos = () => {
       ),
     },
   ];
+
   const [tranferirModal, settranferirModal] = useState(false);
+
   return (
     <ThemeProvider theme={theme}>
       <div>
