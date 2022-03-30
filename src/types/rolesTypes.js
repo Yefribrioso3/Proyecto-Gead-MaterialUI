@@ -1,5 +1,5 @@
 export const rolesTypes = {
-    ADMIN: 'ADMIN',
-    SUPERVISOR: 'SUPERVISOR',
-    PLANTA: 'PLANTA'
-}
+  ADMIN: "ADMIN",
+  SUPERVISOR: "SUPERVISOR",
+  PLANTA: "PLANTA",
+};

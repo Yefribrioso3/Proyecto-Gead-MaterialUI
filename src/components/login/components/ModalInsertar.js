@@ -1,15 +1,39 @@
-import React from 'react'
+import React from "react";
 // { useState }
 import Axios from "axios";
-import { v4 as uuidv4 } from 'uuid';
-import { useForm } from 'react-hook-form';
-import { globalApi } from '../../../types/api.types';
-import { Button, createTheme, FormControl, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
-import { Modal, ModalHeader, ModalBody, ModalFooter, FormGroup } from 'reactstrap';
-
-export const ModalInsertar = ({ modalInsertar, setModalInsertar, user, setUser, allUser, setAllUser }) => {
-
-  const {  handleSubmit, formState: { errors } } = useForm();
+import { v4 as uuidv4 } from "uuid";
+import { useForm } from "react-hook-form";
+import { globalApi } from "../../../types/api.types";
+import {
+  Button,
+  createTheme,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@material-ui/core";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  FormGroup,
+} from "reactstrap";
+import { ThemeProvider } from "@material-ui/styles";
+export const ModalInsertar = ({
+  modalInsertar,
+  setModalInsertar,
+  user,
+  setUser,
+  allUser,
+  setAllUser,
+  light,
+}) => {
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   // register,
 
   const handleChange = (e) => {
@@ -17,28 +41,27 @@ export const ModalInsertar = ({ modalInsertar, setModalInsertar, user, setUser, 
 
     setUser((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
-  }
+  };
 
   const onSubmit = (e) => {
-
     Axios.post(`${globalApi}/register`, user)
       .then((x) => {
         console.log(x);
       })
       .catch((x) => {
         console.log(x?.response);
-      })
+      });
 
     let newUser = user;
     newUser.id = uuidv4();
 
-    setAllUser([ ...allUser, newUser ])
+    setAllUser([...allUser, newUser]);
 
     setModalInsertar(false);
 
-    // history.replace('/consultaEquipos'); 
+    // history.replace('/consultaEquipos');
     // if (e.password === "12345678") {
     // setTimeout(() => {
     //     if (e.user === cuentas.usuario1 || e.user === cuentas.usuario2 || e.user === cuentas.usuario3 || e.user === cuentas.usuario4 || e.user === cuentas.usuario5 || e.user === cuentas.usuario6 || e.user === cuentas.usuario7 || e.user === cuentas.usuario8 || e.user === cuentas.usuario9 || e.user === cuentas.usuario10) {
@@ -58,82 +81,118 @@ export const ModalInsertar = ({ modalInsertar, setModalInsertar, user, setUser, 
     //         setEditing(true)
     //     }
     // }, 1000);
-  }
+  };
+  const theme = createTheme({
+    palette: {
+      type: light ? "light" : "dark",
 
+      primary: {
+        main: "#B3C8FC",
+        light: "#E6FBFF",
+        dark: "#8297C9",
+      },
+      secondary: {
+        main: "#6200EE",
+        light: "#8F6CFF",
+        dark: "#14149A",
+      },
+      background: {
+        main: "#3F3857",
+        light: "#FFFFFF",
+        dark: "#3F3857",
+      },
+      alert: {
+        main: "#C60055",
+      },
+    },
+  });
   const style = createTheme({
     validationPassword: {
       padding: 20,
-      height: '60px',
-      width: '190px',
-      margin: '2rem auto',
-      borderRadius: '24px'
+      height: "60px",
+      width: "190px",
+      margin: "2rem auto",
+      borderRadius: "24px",
     },
     h4: {
-      fontStyle: 'normal',
-      fontWeight: 'bold',
-      fontSize: '34px',
-      lineHeight: '140%',
-      letterSpacing: '0.0025em',
-      color: '#14149A',
-      marginBottom: '0.5rem',
+      fontStyle: "normal",
+      fontWeight: "bold",
+      fontSize: "34px",
+      lineHeight: "140%",
+      letterSpacing: "0.0025em",
+      color: "#14149A",
+      marginBottom: "0.5rem",
       // marginTop: "0.5rem",
       // fontFamily: 'Roboto',
     },
     txt: {
-      fontFamily: 'Work Sans',
-      fontStyle: 'normal',
-      fontWeight: 'normal',
+      fontFamily: "Work Sans",
+      fontStyle: "normal",
+      fontWeight: "normal",
       fontSize: 14,
-      lineHeight: '140%',
-      letterSpacing: '-0.02em',
-      marginBottom: '2rem',
+      lineHeight: "140%",
+      letterSpacing: "-0.02em",
+      marginBottom: "2rem",
       /* or 18px */
     },
     TextField: {
-      margin: '0.5rem 0',
+      margin: "0.5rem 0",
     },
     btn: {
-      margin: '8px 0',
-      background: '#593FCC',
-      borderRadius: '8px',
-      fontFamily: 'Noto Sans',
+      margin: "8px 0",
+      background: "#593FCC",
+      borderRadius: "8px",
+      fontFamily: "Noto Sans",
       fontSize: 14,
-      lineHeight: '200%',
-      letterSpacing: '0.0125em',
-    }
-  })
+      lineHeight: "200%",
+      letterSpacing: "0.0125em",
+    },
+  });
 
   return (
-    <div>
-      < Modal isOpen={modalInsertar} style={{ maxWidth: 500, paddingTop: '9rem' }}>
+    <ThemeProvider theme={theme}>
+      <Modal
+        isOpen={modalInsertar}
+        className={`modalForm ${theme.palette.type}`}
+        style={{
+          maxWidth: 500,
+          marginTop: "9rem",
+        }}
+      >
         <ModalHeader>
           <div>
-            <h1>Crear usuario</h1>
+            <h1
+              style={{
+                color:
+                  theme.palette.type == "dark"
+                    ? theme.palette.primary.light
+                    : theme.palette.secondary,
+              }}
+            >
+              Crear usuario
+            </h1>
           </div>
         </ModalHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
-
           <ModalBody className="row animate__animated animate__fadeIn">
-
             {/* <Typography style={style.txt}>Inicia sesión con tu cuenta asignada por tu administrador.</Typography> */}
             <FormGroup className="col-6">
               <TextField
-
-                name='Name'
-                placeholder='Nombre'
-                value={user ? user.Name : ''}
+                name="Name"
+                placeholder="Nombre"
+                value={user ? user.Name : ""}
                 onChange={handleChange}
                 required
                 label="Nombre"
                 variant="outlined"
                 fullWidth
-              // style={style.TextField}
-              // {...register("Name", {
-              //   required: {
-              //     value: true,
-              //     message: 'Campo requerido'
-              //   }
-              // })}
+                // style={style.TextField}
+                // {...register("Name", {
+                //   required: {
+                //     value: true,
+                //     message: 'Campo requerido'
+                //   }
+                // })}
               />
 
               {/* -----------------   Prueba  --------------------- */}
@@ -154,56 +213,56 @@ export const ModalInsertar = ({ modalInsertar, setModalInsertar, user, setUser, 
                 variant="outlined"
                 fullWidth
               /> */}
-
             </FormGroup>
 
             <FormGroup className="col-6">
-              <TextField label="Apellido"
-                name='LastName'
-                placeholder='Apellido'
+              <TextField
+                label="Apellido"
+                name="LastName"
+                placeholder="Apellido"
                 variant="outlined"
-                value={user ? user.LastName : ''}
+                value={user ? user.LastName : ""}
                 onChange={handleChange}
                 fullWidth
                 required
-              // style={style.TextField}
-              // {...register("LastName", {
-              //   required: {
-              //     value: true,
-              //     message: 'Campo requerido'
-              //   }
-              // })}
+                // style={style.TextField}
+                // {...register("LastName", {
+                //   required: {
+                //     value: true,
+                //     message: 'Campo requerido'
+                //   }
+                // })}
               />
             </FormGroup>
 
             <FormGroup className="col-6">
-              <TextField label="Correo"
-                name='email'
-                placeholder='Correo'
+              <TextField
+                label="Correo"
+                name="email"
+                placeholder="Correo"
                 variant="outlined"
-                value={user ? user.email : ''}
+                value={user ? user.email : ""}
                 onChange={handleChange}
                 fullWidth
                 required
-              // style={style.TextField}
-              // {...register("email", {
-              //   required: {
-              //     value: true,
-              //     message: 'Campo requerido'
-              //   }
-              // })}
+                // style={style.TextField}
+                // {...register("email", {
+                //   required: {
+                //     value: true,
+                //     message: 'Campo requerido'
+                //   }
+                // })}
               />
             </FormGroup>
 
             <FormGroup className="col-6">
-
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Role</InputLabel>
                 <Select
-                  name='roleId'
+                  name="roleId"
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={user ? user.roleId : ''}
+                  value={user ? user.roleId : ""}
                   label="Role"
                   variant="outlined"
                   required
@@ -215,27 +274,27 @@ export const ModalInsertar = ({ modalInsertar, setModalInsertar, user, setUser, 
                   <MenuItem value={4}>GERENTE</MenuItem>
                 </Select>
               </FormControl>
-
             </FormGroup>
 
             <FormGroup>
-              <TextField label="Contraseña"
-                name='password'
-                placeholder='password'
+              <TextField
+                label="Contraseña"
+                name="password"
+                placeholder="password"
                 variant="outlined"
-                value={user ? user.password : ''}
+                value={user ? user.password : ""}
                 onChange={handleChange}
                 fullWidth
                 required
-              // type='password'
-              // obscureText="true"
-              // style={style.TextField}
-              // {...register("password", {
-              //   required: {
-              //     value: true,
-              //     message: 'Campo requerido'
-              //   }
-              // })}
+                // type='password'
+                // obscureText="true"
+                // style={style.TextField}
+                // {...register("password", {
+                //   required: {
+                //     value: true,
+                //     message: 'Campo requerido'
+                //   }
+                // })}
               />
             </FormGroup>
 
@@ -248,13 +307,11 @@ export const ModalInsertar = ({ modalInsertar, setModalInsertar, user, setUser, 
               Crear Cuenta
             </Button> */}
 
-
             {/* <Typography style={style.link}> Si aún no tienes cuenta,
                             <Link href='#' style={style.linkColor} color="#14149A"> comunícate con tu administrador</Link>  para asistencia.
                         </Typography> */}
 
             {/* <Grid style={style.link}> */}
-
 
             {/* -------------------------------    Agregar Desde Excel    --------------------------------------------- */}
 
@@ -291,30 +348,40 @@ export const ModalInsertar = ({ modalInsertar, setModalInsertar, user, setUser, 
                               </>
                               )
                             } */}
-
-
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              type='submit'
-              color='primary'
-              variant='contained'
-              style={style.btn}
-            >Aceptar</Button>
             {/* onClick={() => editar()} */}
             <Button
-              color='secondary'
-              variant='contained'
-              onClick={() => {
-                setModalInsertar(false)
+              style={{
+                color:
+                  theme.palette.type == "dark"
+                    ? theme.palette.primary.light
+                    : theme.palette.secondary.light,
               }}
-            >Cancelar
+              variant="outlined"
+              onClick={() => {
+                setModalInsertar(false);
+              }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              style={{
+                color: "#ffffff",
+                backgroundColor:
+                  theme.palette.type == "dark"
+                    ? theme.palette.secondary.light
+                    : "#6200EE",
+              }}
+              type="submit"
+              variant="contained"
+            >
+              Aceptar
             </Button>
           </ModalFooter>
-
         </form>
       </Modal>
-    </div>
-  )
-}
+    </ThemeProvider>
+  );
+};

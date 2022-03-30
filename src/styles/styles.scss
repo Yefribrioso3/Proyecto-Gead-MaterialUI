@@ -1,58 +1,31 @@
+$primary: #B3C8FC;
+$primary-light: #E6FBFF;
+$primary-dark: #8297C9;
 
+$secondary:#593FCC;
+$secondary-light:#8F6CFF;
+$secondary-dark:#14149A;
 
-
-
-
-
-
-
-
-
-// html, body {
-//     background-color: azure;
-// }
-
-// .bg-colorBody{
-//     background-color: azure;
-// }
-
-// * {
-//     margin: 0;
-//     padding: 0;
-//     box-sizing: border-box;
-// }
-
-
-
+.light{
   
+    --theme-page-background:#ffffff;
+    --theme-root-background:#ffffff;
+    --theme-text: #3F3857;
+}
 
+.dark {
+    --theme-page-background:#514A69;
+    --theme-root-background: #3F3857;
+    --theme-text: #E6FBFF;
+}
 
-
-
-
-
-
-
-
-
-
-
-  
-//   body {
-//     background-image: url('fondo.jpg');
-//   }
-  
 .form-register {
-    // width: 1400px !important;
-    background: #ffffff;
+    
     padding: 30px !important;
     margin: auto ;
     margin-top: 40px;
     border-radius: 10px;
-    // font-family: 'calibri';
     color: rgb(8, 8, 8);
-    // box-shadow: 0px 13px 20px #000;
-
     -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
     box-shadow: 0 10px 60px 0 rgba(0,0,0,0.3);
 }
@@ -85,7 +58,9 @@
     margin: 16px 0;
     font-size: 16px;
 }
-
+.form-select{
+    background-color:transparent !important;
+}
 .controls {
     width: 100%;
     background: #24303c;
@@ -97,6 +72,9 @@
     font-size: 18px;
     color: white;
 }
+
+
+
 //============================== FOOTER =====================================
 .footer{
     height: 100px;
@@ -104,9 +82,6 @@
     color: black;
 }
 
-.container{
-    min-height: calc(100vh - 250px);
-}
 
 @media (max-width) {
     .cont-tabla{
@@ -115,3 +90,51 @@
 }
 
 
+/* MODEL FORM */
+h1{
+    color: $secondary-dark
+}
+
+h4, h5, h6{
+    color: $secondary
+}
+
+.modalForm .modal-content{
+    border-radius: 12px !important;
+    border-style: solid !important;
+    border-width: 0;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.25);
+    padding: 25px;
+    background: transparent;
+   
+}
+
+.modalForm{
+    background-color: var(--theme-page-background);
+    color: var(--theme-text)
+}
+
+#imagen .MuiButton-outlinedPrimary{
+    border: 1px dashed #CCCCCC;
+    box-sizing: border-box;
+    border-radius: 12px;
+    width: 462px;
+    height: 130px;
+}
+
+.form-control{
+    background-color: transparent !important;
+    border-color: var(--theme-text);
+}
+
+
+.MuiButton-containedPrimary{
+    background: $secondary !important;
+    border-radius: 4px !important;
+}
+/* MODEL FORM */
+
+.main{
+    background-color: var(--theme-root-background);
+    min-height: 100vh;
+}
