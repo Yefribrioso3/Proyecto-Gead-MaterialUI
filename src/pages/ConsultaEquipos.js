@@ -32,7 +32,8 @@ import {
 } from "@material-ui/core";
 // import useTable from "../components/useTable";
 import Controls from "../components/controls/Controls";
-import { Add, Delete, Edit, Search, Visibility } from "@material-ui/icons";
+import { Add, Delete, Search, Visibility } from "@material-ui/icons";
+// Edit,
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import IconButton from "@material-ui/core/IconButton";
 import SideMenu from "../components/SideMenu";
@@ -44,7 +45,8 @@ import { DocPDF } from "./components/DocPDF";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 // import Excel from './components/Excel';
 import * as XLSX from "xlsx";
-import { Excel, send } from "./components/Excel";
+import { Excel } from "./components/Excel";
+// send
 import { OptionalInfo } from "./components/OptionalInfo";
 // import { fontSize } from '@mui/system';
 import { globalApi } from "../types/api.types";
@@ -56,27 +58,27 @@ import { ThemeProvider } from "@material-ui/styles";
 import { TransferirModal } from "./components/TransferirModal";
 
 //-----------------------------------------------------------------------
-const headCells = [
-  { id: "Name", label: "Equipo" },
-  { id: "bu", label: "BU", disableSorting: true },
-  { id: "pais", label: "País", disableSorting: true },
-  { id: "area", label: "Area", disableSorting: true },
-  { id: "subarea", label: "Subárea", disableSorting: true },
-  { id: "planta", label: "Planta", disableSorting: true },
-  { id: "equipmentType", label: "Tipo de Equipo", disableSorting: true },
-  { id: "acciones", label: "Acciones", disableSorting: true },
-];
+// const headCells = [
+//   { id: "Name", label: "Equipo" },
+//   { id: "bu", label: "BU", disableSorting: true },
+//   { id: "pais", label: "País", disableSorting: true },
+//   { id: "area", label: "Area", disableSorting: true },
+//   { id: "subarea", label: "Subárea", disableSorting: true },
+//   { id: "planta", label: "Planta", disableSorting: true },
+//   { id: "equipmentType", label: "Tipo de Equipo", disableSorting: true },
+//   { id: "acciones", label: "Acciones", disableSorting: true },
+// ];
 const StyledTableCell = withStyles((theme) => ({
   head: {
     color:
-      theme.palette.type == "dark"
+      theme.palette.type === "dark"
         ? theme.palette.primary.light
         : theme.palette.secondary.light,
   },
   body: {
     fontSize: 14,
     color:
-      theme.palette.type == "dark"
+      theme.palette.type === "dark"
         ? theme.palette.primary.light
         : theme.palette.secondary.light,
   },
@@ -85,11 +87,11 @@ const StyledTableCell = withStyles((theme) => ({
 const StyledTableRow = withStyles((theme) => ({
   root: {
     color:
-      theme.palette.type == "dark"
+      theme.palette.type === "dark"
         ? theme.palette.background.dark
         : theme.palette.background.light,
 
-    backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
+    backgroundColor: theme.palette.type === "dark" ? "#514A69" : "#FFFFFF",
 
     "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.action.hover,
@@ -152,14 +154,14 @@ const ConsultaEquipos = () => {
     },
 
     modalDetail: {
-      backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
+      backgroundColor: theme.palette.type === "dark" ? "#514A69" : "#FFFFFF",
     },
   }));
 
   const {
-    register,
+    // register,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
 
   // <MasterEquipos />
@@ -1659,71 +1661,71 @@ const ConsultaEquipos = () => {
   const [newTechicInformation, setnewTechicInformation] = useState([]);
   const [newservInformation, setnewservInformation] = useState([]);
 
-  const onSubmit = (data, e) => {
-    data.Id_NewTechSpec = uuidv4();
+  // const onSubmit = (data, e) => {
+  //   data.Id_NewTechSpec = uuidv4();
 
-    const newTechnicalSpec = {
-      Id_NewTechSpec: data.Id_NewTechSpec,
-      Id_TechnicalSpecification: null,
-      Name: data.Name,
-      Value: data.Value,
-      SelectNewTechSpec: {
-        Id_SelectNewTechSpec: uuidv4(),
-        Id_TechnicalSpecification: "",
-        Id_NewTechSpec: data.Id_NewTechSpec,
-      },
-    };
+  //   const newTechnicalSpec = {
+  //     Id_NewTechSpec: data.Id_NewTechSpec,
+  //     Id_TechnicalSpecification: null,
+  //     Name: data.Name,
+  //     Value: data.Value,
+  //     SelectNewTechSpec: {
+  //       Id_SelectNewTechSpec: uuidv4(),
+  //       Id_TechnicalSpecification: "",
+  //       Id_NewTechSpec: data.Id_NewTechSpec,
+  //     },
+  //   };
 
-    let newTechnicalSpecification =
-      equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification;
-    newTechnicalSpecification.push(newTechnicalSpec);
+  //   let newTechnicalSpecification =
+  //     equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification;
+  //   newTechnicalSpecification.push(newTechnicalSpec);
 
-    setnewTechicInformation(newTechnicalSpecification);
-    e.target.reset();
-  };
+  //   setnewTechicInformation(newTechnicalSpecification);
+  //   e.target.reset();
+  // };
 
   // ------------------------------       ADD NEW TECHINICAL INFORMATION EN MODAL EDITAR      ---------------------------
 
-  const onSubmitTechSpech = async (data, e) => {
-    data.Id_NewTechSpec = uuidv4();
+  // const onSubmitTechSpech = async (data, e) => {
+  //   data.Id_NewTechSpec = uuidv4();
 
-    const newTechnicalSpec = {
-      Id_NewTechSpec: data.Id_NewTechSpec,
-      Id_TechnicalSpecification:
-        equipoSeleccionado.TechnicalSpecification.Id_TechnicalSpecification,
-      Name: data.Name,
-      Value: data.Value,
-      SelectNewTechSpec: {
-        Id_SelectNewTechSpec: uuidv4(),
-        Id_TechnicalSpecification:
-          equipoSeleccionado.TechnicalSpecification.Id_TechnicalSpecification,
-        Id_NewTechSpec: data.Id_NewTechSpec,
-      },
-    };
+  //   const newTechnicalSpec = {
+  //     Id_NewTechSpec: data.Id_NewTechSpec,
+  //     Id_TechnicalSpecification:
+  //       equipoSeleccionado.TechnicalSpecification.Id_TechnicalSpecification,
+  //     Name: data.Name,
+  //     Value: data.Value,
+  //     SelectNewTechSpec: {
+  //       Id_SelectNewTechSpec: uuidv4(),
+  //       Id_TechnicalSpecification:
+  //         equipoSeleccionado.TechnicalSpecification.Id_TechnicalSpecification,
+  //       Id_NewTechSpec: data.Id_NewTechSpec,
+  //     },
+  //   };
 
-    let newTechnicalSpecification =
-      equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification;
-    newTechnicalSpecification.unshift(newTechnicalSpec);
+  //   let newTechnicalSpecification =
+  //     equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification;
+  //   newTechnicalSpecification.unshift(newTechnicalSpec);
 
-    await sendNewTechnicalSpecEDITMODAL(newTechnicalSpec);
-    e.target.reset();
-  };
+  //   await sendNewTechnicalSpecEDITMODAL(newTechnicalSpec);
+  //   e.target.reset();
+  // };
 
-  const sendNewTechnicalSpecEDITMODAL = async (valorInsertar) => {
-    await Axios.post(`${globalApi}/NewTechInfo`, {
-      Id_NewTechSpec: valorInsertar.Id_NewTechSpec,
-      Id_TechnicalSpecification: valorInsertar.Id_TechnicalSpecification,
-      Name: valorInsertar.Name,
-      Value: valorInsertar.Value,
-    });
+  // const sendNewTechnicalSpecEDITMODAL = async (valorInsertar) => {
+  //   await Axios.post(`${globalApi}/NewTechInfo`, {
+  //     Id_NewTechSpec: valorInsertar.Id_NewTechSpec,
+  //     Id_TechnicalSpecification: valorInsertar.Id_TechnicalSpecification,
+  //     Name: valorInsertar.Name,
+  //     Value: valorInsertar.Value,
+  //   });
 
-    await Axios.post(`${globalApi}/selectNewTechSpec`, {
-      Id_SelectNewTechSpec:
-        valorInsertar.SelectNewTechSpec.Id_SelectNewTechSpec,
-      Id_TechnicalSpecification: valorInsertar.Id_TechnicalSpecification,
-      Id_NewTechSpec: valorInsertar.Id_NewTechSpec,
-    });
-  };
+  //   await Axios.post(`${globalApi}/selectNewTechSpec`, {
+  //     Id_SelectNewTechSpec:
+  //       valorInsertar.SelectNewTechSpec.Id_SelectNewTechSpec,
+  //     Id_TechnicalSpecification: valorInsertar.Id_TechnicalSpecification,
+  //     Id_NewTechSpec: valorInsertar.Id_NewTechSpec,
+  //   });
+  // };
 
   //  -------------------------------------------------------     ELIMINAR AD TECHNICAL INFO       --------------------------
 
@@ -1760,13 +1762,13 @@ const ConsultaEquipos = () => {
     });
   };
 
-  const [prueba, setPrueba] = useState(null);
+  // const [prueba, setPrueba] = useState(null);
 
-  const update = (equipo) => {
-    //  Elimina New Services Information
-    setEquipoSeleccionado(equipo);
-    setPrueba(1);
-  };
+  // const update = (equipo) => {
+  //   //  Elimina New Services Information
+  //   setEquipoSeleccionado(equipo);
+  //   setPrueba(1);
+  // };
 
   // -------------------------------------------------------------
 
@@ -1792,13 +1794,13 @@ const ConsultaEquipos = () => {
     Value: "",
   });
 
-  const [filaEditada, setfilaEditada] = useState(false); // Para dar efecto a la fila editada
+  // const [filaEditada, setfilaEditada] = useState(false); // Para dar efecto a la fila editada
 
-  const editarTechSpec = (elemento, caso) => {
-    setId(null);
-    setfilaEditada(true);
-    editRow(elemento, caso);
-  };
+  // const editarTechSpec = (elemento, caso) => {
+  //   setId(null);
+  //   setfilaEditada(true);
+  //   editRow(elemento, caso);
+  // };
 
   const editRow = (techInfo, caso) => {
     //Capturar informacion tecnica seleccionada en variable
@@ -1842,21 +1844,21 @@ const ConsultaEquipos = () => {
 
   // --------------------------       ACTUALIZAR NEW TECHNICAL SPECIFICATION      ----------------------------------
 
-  const updateAddTechInfo = async (id, updatedTechInfo, e) => {
-    //Editar o actualizar informacion tecnica seleccionada
-    setEditingTechInfo(false);
-    let NewEquipment = equipoSeleccionado;
+  // const updateAddTechInfo = async (id, updatedTechInfo, e) => {
+  //   //Editar o actualizar informacion tecnica seleccionada
+  //   setEditingTechInfo(false);
+  //   let NewEquipment = equipoSeleccionado;
 
-    NewEquipment.TechnicalSpecification.newTechnicalSpecification.map((NSI) => {
-      if (NSI.Id_NewTechSpec === id) {
-        NSI.Name = updatedTechInfo.Name;
-        NSI.Value = updatedTechInfo.Value;
-      }
-    });
+  //   NewEquipment.TechnicalSpecification.newTechnicalSpecification.map((NSI) => {
+  //     if (NSI.Id_NewTechSpec === id) {
+  //       NSI.Name = updatedTechInfo.Name;
+  //       NSI.Value = updatedTechInfo.Value;
+  //     }
+  //   });
 
-    setEquipoSeleccionado(NewEquipment);
-    setId(updatedTechInfo.Id_NewTechSpec); //Para seleccionar la fila editada y dar efecto
-  };
+  //   setEquipoSeleccionado(NewEquipment);
+  //   setId(updatedTechInfo.Id_NewTechSpec); //Para seleccionar la fila editada y dar efecto
+  // };
 
   // ------------------          Subir imagen        -----------------------
 
@@ -2103,7 +2105,7 @@ const ConsultaEquipos = () => {
             style={{
               borderBottom: "0",
               color:
-                theme.palette.type == "dark"
+                theme.palette.type === "dark"
                   ? theme.palette.primary
                   : theme.palette.secondary.light,
               fontWeight: 500,
@@ -2189,7 +2191,7 @@ const ConsultaEquipos = () => {
             <IconButton
               style={{
                 color:
-                  theme.palette.type == "dark"
+                  theme.palette.type === "dark"
                     ? theme.palette.primary.dark
                     : theme.palette.secondary.dark,
                 fontWeight: 500,
@@ -2262,7 +2264,7 @@ const ConsultaEquipos = () => {
           className={classes.pageContent}
           style={{
             backgroundColor:
-              theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
+              theme.palette.type === "dark" ? "#514A69" : "#FFFFFF",
           }}
         >
           {/* <EmployeeForm /> */}
@@ -2313,11 +2315,11 @@ const ConsultaEquipos = () => {
               width: "100%",
               border: "0",
               color:
-                theme.palette.type == "dark"
+                theme.palette.type === "dark"
                   ? theme.palette.background.dark
                   : theme.palette.background.light,
               backgroundColor:
-                theme.palette.type == "dark"
+                theme.palette.type === "dark"
                   ? "#514A69"
                   : theme.palette.background.light,
               "&:nth-of-type(odd)": {
@@ -2337,7 +2339,7 @@ const ConsultaEquipos = () => {
                 border: "0",
                 borderBottom: "0",
                 color:
-                  theme.palette.type == "dark"
+                  theme.palette.type === "dark"
                     ? theme.palette.primary.light
                     : theme.palette.primary.dark,
                 "&:nth-of-type(odd)": {
@@ -2372,7 +2374,7 @@ const ConsultaEquipos = () => {
             </div>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div>
-              <img src={planning} style={{ width: "380px" }} />
+              <img src={planning} style={{ width: "380px" }} alt="" />
             </div>
           </div>
         </footer>
@@ -2391,7 +2393,7 @@ const ConsultaEquipos = () => {
               <h1
                 style={{
                   color:
-                    theme.palette.type == "dark"
+                    theme.palette.type === "dark"
                       ? theme.palette.primary.light
                       : theme.palette.secondary,
                 }}
@@ -2431,7 +2433,7 @@ const ConsultaEquipos = () => {
                       <h4
                         style={{
                           color:
-                            theme.palette.type == "dark"
+                            theme.palette.type === "dark"
                               ? theme.palette.primary.light
                               : theme.palette.secondary,
                         }}
@@ -2780,6 +2782,7 @@ const ConsultaEquipos = () => {
                                     <img
                                       src={equipoSeleccionado.img}
                                       style={{ width: "380px" }}
+                                      alt=""
                                     />
                                   </>
                                 )}
@@ -2790,7 +2793,7 @@ const ConsultaEquipos = () => {
                                 <input
                                   style={{
                                     color:
-                                      theme.palette.type == "dark"
+                                      theme.palette.type === "dark"
                                         ? theme.palette.primary.dark
                                         : theme.palette.secondary.dark,
                                     backgroundColor: "transparent",
@@ -3196,7 +3199,7 @@ const ConsultaEquipos = () => {
                                 <Button
                                   style={{
                                     color:
-                                      theme.palette.type == "dark"
+                                      theme.palette.type === "dark"
                                         ? "#ffffff"
                                         : "#000000",
                                   }}
@@ -3227,7 +3230,7 @@ const ConsultaEquipos = () => {
             <Button
               style={{
                 color:
-                  theme.palette.type == "dark"
+                  theme.palette.type === "dark"
                     ? theme.palette.primary.light
                     : theme.palette.secondary.light,
               }}
@@ -3248,7 +3251,7 @@ const ConsultaEquipos = () => {
                   style={{
                     color: "#ffffff",
                     backgroundColor:
-                      theme.palette.type == "dark"
+                      theme.palette.type === "dark"
                         ? theme.palette.secondary.light
                         : "#6200EE",
                   }}
@@ -3266,7 +3269,7 @@ const ConsultaEquipos = () => {
                     style={{
                       color: "#ffffff",
                       backgroundColor:
-                        theme.palette.type == "dark"
+                        theme.palette.type === "dark"
                           ? theme.palette.secondary.light
                           : "#6200EE",
                     }}
@@ -3281,7 +3284,7 @@ const ConsultaEquipos = () => {
                     style={{
                       color: "#ffffff",
                       backgroundColor:
-                        theme.palette.type == "dark"
+                        theme.palette.type === "dark"
                           ? theme.palette.secondary.light
                           : "#6200EE",
                     }}
@@ -3305,11 +3308,11 @@ const ConsultaEquipos = () => {
             style={{
               fontSize: "1.2rem",
               color:
-                theme.palette.type == "dark"
+                theme.palette.type === "dark"
                   ? theme.palette.primary.light
                   : theme.palette.secondary.dark,
               backgroundColor:
-                theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+                theme.palette.type === "dark" ? "#3F3857" : "#FFFFFF",
             }}
           >
             Estás seguro que deseas eliminar el equipo: <br />
@@ -3320,13 +3323,13 @@ const ConsultaEquipos = () => {
             className="justify-content-center"
             style={{
               backgroundColor:
-                theme.palette.type == "dark" ? "#3F3857" : "#FFFFFF",
+                theme.palette.type === "dark" ? "#3F3857" : "#FFFFFF",
             }}
           >
             <Button
               style={{
                 color:
-                  theme.palette.type == "dark"
+                  theme.palette.type === "dark"
                     ? theme.palette.primary.light
                     : theme.palette.secondary.light,
               }}
@@ -3339,7 +3342,7 @@ const ConsultaEquipos = () => {
               style={{
                 color: "#ffffff",
                 backgroundColor:
-                  theme.palette.type == "dark"
+                  theme.palette.type === "dark"
                     ? theme.palette.secondary.light
                     : "#6200EE",
               }}
@@ -3380,7 +3383,7 @@ const ConsultaEquipos = () => {
               <h1
                 style={{
                   color:
-                    theme.palette.type == "dark"
+                    theme.palette.type === "dark"
                       ? theme.palette.primary.light
                       : theme.palette.secondary,
                 }}
@@ -3428,7 +3431,7 @@ const ConsultaEquipos = () => {
                       <h4
                         style={{
                           color:
-                            theme.palette.type == "dark"
+                            theme.palette.type === "dark"
                               ? theme.palette.primary.light
                               : theme.palette.secondary,
                         }}
@@ -3808,7 +3811,7 @@ const ConsultaEquipos = () => {
                   <h6
                     style={{
                       color:
-                        theme.palette.type == "dark"
+                        theme.palette.type === "dark"
                           ? theme.palette.primary.light
                           : theme.palette.secondary,
                     }}
@@ -3832,6 +3835,7 @@ const ConsultaEquipos = () => {
                             <img
                               src={equipoSeleccionado.img}
                               style={{ width: "380px" }}
+                              alt=""
                             />
                           </>
                         )}
@@ -4254,7 +4258,7 @@ const ConsultaEquipos = () => {
                         <Button
                           style={{
                             color:
-                              theme.palette.type == "dark"
+                              theme.palette.type === "dark"
                                 ? "#ffffff"
                                 : "#000000",
                           }}
@@ -4294,7 +4298,7 @@ const ConsultaEquipos = () => {
               variant="outlined"
               style={{
                 color:
-                  theme.palette.type == "dark"
+                  theme.palette.type === "dark"
                     ? theme.palette.primary.light
                     : theme.palette.secondary.light,
               }}
@@ -4313,7 +4317,7 @@ const ConsultaEquipos = () => {
               style={{
                 color: "#ffffff",
                 backgroundColor:
-                  theme.palette.type == "dark"
+                  theme.palette.type === "dark"
                     ? theme.palette.secondary.light
                     : "#6200EE",
               }}

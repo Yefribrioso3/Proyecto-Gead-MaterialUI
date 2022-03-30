@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core";
 import "../styles/styles.scss";
-import Controls from "./controls/Controls";
+// import Controls from "./controls/Controls";
 import Axios from "axios";
-import abinbev from "../assets/abinbev.jpeg";
+// import abinbev from "../assets/abinbev.jpeg";
 import abiWhite from "../assets/abiWhite.png";
 import abiDark from "../assets/abiBlack.png";
 import GlobalIcon from "../assets/globalicon.svg";
 import Button from "@mui/material/Button";
-import manual from "../assets/Manual.pdf";
-import {
-  ArrowDownward,
-  FontDownload,
-  FontDownloadTwoTone,
-} from "@material-ui/icons";
+// import manual from "../assets/Manual.pdf";
+// import {
+//   ArrowDownward,
+//   FontDownload,
+//   FontDownloadTwoTone,
+// } from "@material-ui/icons";
 import { globalApi } from "../types/api.types";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
@@ -42,11 +42,11 @@ const useStyles = makeStyles((theme) => ({
     padding: "12px 20px !important",
     alignItems: "center",
     "& hover": {
-      backgroundColor: theme.palette.type == "dark" ? "#635D7A" : "#FBFBFB",
+      backgroundColor: theme.palette.type === "dark" ? "#635D7A" : "#FBFBFB",
     },
     "& h5": {
       color:
-        theme.palette.type == "dark"
+        theme.palette.type === "dark"
           ? theme.palette.primary.light
           : theme.palette.secondary,
       fontWeight: "700",
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     "& h6": {
       fontSize: "0.813rem",
       color:
-        theme.palette.type == "dark" ? "#B3C8FC" : theme.palette.primary.dark,
+        theme.palette.type === "dark" ? "#B3C8FC" : theme.palette.primary.dark,
       textTransform: "none",
       margin: "0px",
     },
@@ -104,7 +104,7 @@ const SideMenu = ({
   const [colCounter, setColCounter] = useState(0);
   const [contador, setCont] = useState(0);
 
-  const AllEquipment = getAllList;
+  // const AllEquipment = getAllList;
 
   useEffect(() => {
     allAquipmentRelation();
@@ -149,8 +149,8 @@ const SideMenu = ({
     // })
   };
 
-  const [List, setList] = useState([]);
-  const [contar, setContar] = useState(0);
+  // const [List, setList] = useState([]);
+  // const [contar, setContar] = useState(0);
 
   const allAquipmentRelation = async () => {
     await Axios.get(`${globalApi}/AllequipmentRelation`).then((response) => {
@@ -172,8 +172,9 @@ const SideMenu = ({
       <div className={`${classes.sideMenu}`}>
         <div className="pt-5 border-1">
           <img
-            src={theme.palette.type == "dark" ? abiWhite : abiDark}
+            src={theme.palette.type === "dark" ? abiWhite : abiDark}
             className={classes.logo}
+            alt=""
           />
         </div>
         <div className="p-2 mt-5">
@@ -184,7 +185,7 @@ const SideMenu = ({
             <div className="row align-items-center">
               <div className="col-3">
                 {" "}
-                <img src={GlobalIcon} className="img-fluid" />
+                <img src={GlobalIcon} className="img-fluid" alt="" />
               </div>
               <div className="col-9">
                 <div className="row justify-content-between">
@@ -212,7 +213,7 @@ const SideMenu = ({
             {" "}
             <div className="row align-items-center">
               <div className="col-3">
-                <img src={GlobalIcon} className="img-fluid" />
+                <img src={GlobalIcon} className="img-fluid" alt="" />
               </div>
               <div className="col-9">
                 <div className="row justify-content-between">
@@ -241,7 +242,7 @@ const SideMenu = ({
             <div className="row align-items-center">
               <div className="col-3">
                 {" "}
-                <img src={GlobalIcon} className="img-fluid" />
+                <img src={GlobalIcon} className="img-fluid" alt="" />
               </div>
               <div className="col-9">
                 {" "}
@@ -298,7 +299,7 @@ const SideMenu = ({
           >
             <div className="row  align-items-center">
               <div className="col-3">
-                <img src={GlobalIcon} className="img-fluid" />
+                <img src={GlobalIcon} className="img-fluid" alt="" />
               </div>
               <div className="col-9">
                 <div className="row justify-content-between">
@@ -320,7 +321,7 @@ const SideMenu = ({
             </div>
           </Button>
           <Button
-            href="https://anheuserbuschinbev.sharepoint.com/sites/MAZGEAD/GEAD%20manuales/Forms/AllItems.aspx"
+            href="https://app.powerbi.com/singleSignOn?route=links%2fFmp5PhWZi8%3fctid%3dcef04b19-7776-4a94-b89b-375c77a8f936%26pbi_source%3dlinkShare&ctid=cef04b19-7776-4a94-b89b-375c77a8f936&pbi_source=linkShare&ru=https:%2f%2fapp.powerbi.com%2f%3froute%3dlinks%252fFmp5PhWZi8%253fctid%253dcef04b19-7776-4a94-b89b-375c77a8f936%2526pbi_source%253dlinkShare%26ctid%3dcef04b19-7776-4a94-b89b-375c77a8f936%26pbi_source%3dlinkShare%26noSignUpCheck%3d1"
             className={
               "btn btn-large w-100 mb-2 align-items-center d-flex " +
               `${classes.filterCard}`

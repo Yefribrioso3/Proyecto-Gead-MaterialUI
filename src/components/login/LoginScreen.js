@@ -14,7 +14,7 @@ import {
   ThemeProvider,
   Typography,
 } from "@material-ui/core";
-import SwitchModeButton from "../controls/SwitchModeButton";
+// import SwitchModeButton from "../controls/SwitchModeButton";
 import Gead from "../../assets/logo.png";
 import GeadWhite from "../../assets/logo-white.png";
 import Switch from "@mui/material/Switch";
@@ -22,8 +22,8 @@ import Brightness2Icon from "@material-ui/icons/Brightness2";
 import { WbSunny } from "@material-ui/icons";
 
 const LoginScreen = ({ history }) => {
-  const { register, handleSubmit, formState: { errors }, } = useForm();
-
+  const { register, handleSubmit } = useForm();
+  // formState: { errors },
   const [light, setLight] = useState(false);
 
   const theme = createTheme({
@@ -66,7 +66,7 @@ const LoginScreen = ({ history }) => {
       width: "384px",
       margin: "230px auto",
       borderRadius: "24px",
-      backgroundColor: theme.palette.type == "dark" ? "#3B364E" : "#FFFFFF",
+      backgroundColor: theme.palette.type === "dark" ? "#3B364E" : "#FFFFFF",
     },
     validation: {
       padding: 20,
@@ -99,7 +99,7 @@ const LoginScreen = ({ history }) => {
       marginTop: "0.5rem",
       marginBottom: "0.5rem",
       color:
-        theme.palette.type == "dark"
+        theme.palette.type === "dark"
           ? theme.palette.primary.dark
           : theme.palette.secondary.main,
     },
@@ -124,7 +124,7 @@ const LoginScreen = ({ history }) => {
       lineHeight: "200%",
       letterSpacing: "0.0125em",
       background:
-        theme.palette.type == "dark"
+        theme.palette.type === "dark"
           ? theme.palette.secondary.light
           : theme.palette.secondary.main,
       color: "#FFFFFF",
@@ -139,7 +139,7 @@ const LoginScreen = ({ history }) => {
     },
     linkColor: {
       color:
-        theme.palette.type == "dark"
+        theme.palette.type === "dark"
           ? theme.palette.primary.main
           : theme.palette.secondary.main,
     },
@@ -161,7 +161,7 @@ const LoginScreen = ({ history }) => {
 
   // const handleLogin = () => {
 
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false); // Para usuario incorrecto
   const [passwordEditing, setPasswordEditing] = useState(false);
 
