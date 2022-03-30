@@ -78,20 +78,27 @@ const LoginScreen = ({ history }) => {
     const [editing, setEditing] = useState(false) // Para usuario incorrecto 
     const [passwordEditing, setPasswordEditing] = useState(false)
 
+    
+    const [email, setEmail] = useState("");
+    const [leyenda, setLeyenda] = useState("");
+    const [errorTitulo, setErrorTitulo] = useState(false);
+
     const onSubmit = (e) => {
         setEditing(false)
         setPasswordEditing(false)
+        // setEmail(e.target.value)
+        console.log(e)
 
         // console.log(e);
 
         axios.post(`${globalApi}/login`, e)
-        .then( (x) => {
-            console.log(x);
-            localStorage.setItem("token", x.data.token)
-            history.replace('/consultaEquipos');
-        })
-        .catch( (x) => {
-            console.log(x?.response);
+            .then((x) => {
+                console.log(x);
+                localStorage.setItem("token", x.data.token)
+                history.replace('/consultaEquipos');
+            })
+            .catch((x) => {
+                console.log(x?.response);
         })
 
         // localStorage.removeItem("token")
@@ -203,7 +210,6 @@ const LoginScreen = ({ history }) => {
         }
     })
 
-
     //fadeInDown
     return (
         <ThemeProvider theme={theme}>
@@ -220,20 +226,33 @@ const LoginScreen = ({ history }) => {
                         <Typography style={style.h4}>¡Bienvenido!</Typography>
                         <Typography style={style.txt}>Inicia sesión con tu cuenta asignada por tu administrador.</Typography>
 
-                        <TextField label="Nombre de usuario"
+                        <TextField 
+                            onChange={(e) => { 
+                                setEmail(e.target.value)
+                            }}
+                            error={errorTitulo}
+                            helperText={leyenda}
+                            label="Nombre de usuario"
                             name='email'
                             placeholder='Name@example.com'
                             variant="outlined"
                             style={style.TextField}
                             fullWidth
-                            required
+                            // required
                             {...register("email", {
                                 required: {
                                     value: true,
                                     message: 'Campo requerido'
+                                },
+                                pattern: {
+                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                                    message: "El formato no es correcto"
                                 }
                             })}
                         />
+                        {errors.email && <span>{errors.email.message}</span>}
+
+
 
                         <TextField label="Contraseña"
                             name='password'
@@ -242,17 +261,22 @@ const LoginScreen = ({ history }) => {
                             type='password'
                             style={style.TextField}
                             fullWidth
-                            required
+                            // required
                             {...register("password", {
                                 required: {
                                     value: true,
                                     message: 'Campo requerido'
+                                },
+                                minLength: {
+                                    value: 6,
+                                    message: "Caracteres minimos 6"
                                 }
                             })}
-                            />
+                        />
+                        {errors.password && <span>{errors.password.message}</span>}
 
-                            {/* {errors?.equipos?.message} */}
-                            
+                        {/* {errors?.equipos?.message} */}
+
                         <Button type='submit'
                             color="primary"
                             variant='contained'
