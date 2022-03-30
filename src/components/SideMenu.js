@@ -320,6 +320,7 @@ const SideMenu = ({
             </div>
           </Button>
           <Button
+            href="https://anheuserbuschinbev.sharepoint.com/sites/MAZGEAD/GEAD%20manuales/Forms/AllItems.aspx"
             className={
               "btn btn-large w-100 mb-2 align-items-center d-flex " +
               `${classes.filterCard}`

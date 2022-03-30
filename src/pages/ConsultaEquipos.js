@@ -887,26 +887,6 @@ const ConsultaEquipos = () => {
       }
     );
 
-    await Axios.put(`${globalApi}/area/${Equipo.Procedencia.areas.Id_Areas}`, {
-      Name: Equipo.Procedencia.areas.Name,
-      Id_Operations: Equipo.Procedencia.areas.Id_Operations,
-    });
-
-    await Axios.put(
-      `${globalApi}/SubArea/${Equipo.Procedencia.areas.SubArea.Id_SubAreas}`,
-      {
-        Name: Equipo.Procedencia.areas.SubArea.Name,
-        Id_Areas: Equipo.Procedencia.areas.Id_Areas,
-      }
-    );
-
-    await Axios.put(
-      `${globalApi}/lineType/${Equipo.Procedencia.line.lineTypes.Id_LineTypes}`,
-      {
-        Name: Equipo.Procedencia.line.lineTypes.Name,
-      }
-    );
-
     await Axios.put(`${globalApi}/line/${Equipo.Procedencia.line.Id_Line}`, {
       number: Equipo.Procedencia.line.number,
       Id_LineTypes: Equipo.Procedencia.line.lineTypes.Id_LineTypes,
@@ -2159,6 +2139,15 @@ const ConsultaEquipos = () => {
       },
     },
     {
+      field: "plant",
+      headerName: "Planta",
+
+      width: 210,
+      valueGetter: (params) => {
+        return params.row.Procedencia.areas.operations.Name;
+      },
+    },
+    {
       field: "area",
       headerName: "Área",
       width: 210,
@@ -2174,15 +2163,7 @@ const ConsultaEquipos = () => {
     //         return params.row.Procedencia.areas.SubArea.Name
     //     },
     // },
-    {
-      field: "plant",
-      headerName: "Planta",
 
-      width: 210,
-      valueGetter: (params) => {
-        return params.row.Procedencia.areas.operations.Name;
-      },
-    },
     // {
     //     field: "equipType",
     //     headerName: "Tipo de Equipo",
@@ -2217,27 +2198,41 @@ const ConsultaEquipos = () => {
               <Visibility />
             </IconButton>
           </div>
-
-          <div
-            aria-label="delete"
-            onClick={() => seleccionarEquipo(params.row, "Eliminar")}
-            component="span"
-          >
-            <IconButton
-              style={{
-                fontWeight: 500,
-                color: theme.palette.alert.main,
-              }}
+          {userByToken?.roleId === 1 ? (
+            <div
               aria-label="delete"
+              onClick={() => seleccionarEquipo(params.row, "Eliminar")}
+              component="span"
             >
-              <Delete />
-            </IconButton>
-          </div>
+              <IconButton
+                style={{
+                  fontWeight: 500,
+                  color: theme.palette.alert.main,
+                }}
+                aria-label="delete"
+              >
+                <Delete />
+              </IconButton>
+            </div>
+          ) : (
+            <div aria-label="delete" component="span">
+              <IconButton
+                style={{
+                  fontWeight: 500,
+                  color: theme.palette.alert.main,
+                }}
+                disabled
+                aria-label="delete"
+              >
+                <Delete />
+              </IconButton>
+            </div>
+          )}
         </div>
       ),
     },
   ];
-
+  const [tranferirModal, settranferirModal] = useState(false);
   return (
     <ThemeProvider theme={theme}>
       <div>
@@ -2282,17 +2277,31 @@ const ConsultaEquipos = () => {
               onChange={handleSearch}
             />
 
-            <Controls.Button
-              variant="contained"
-              size="large"
-              color="secondary"
-              startIcon={<Add style={{ fontSize: 16, fontWeight: "800" }} />}
-              onClick={() => abrirModalInsertar()}
-              style={{ fontSize: 16, fontWeight: "600" }}
-              text={"Nuevo"}
-            ></Controls.Button>
+            {userByToken?.roleId === 1 ? (
+              <Controls.Button
+                variant="contained"
+                size="large"
+                color="secondary"
+                startIcon={<Add style={{ fontSize: 16, fontWeight: "800" }} />}
+                onClick={() => abrirModalInsertar()}
+                style={{ fontSize: 16, fontWeight: "600" }}
+                text={"Nuevo"}
+              ></Controls.Button>
+            ) : (
+              <Controls.Button
+                disabled
+                variant="contained"
+                size="large"
+                color="secondary"
+                startIcon={<Add style={{ fontSize: 16, fontWeight: "800" }} />}
+                style={{ fontSize: 16, fontWeight: "600" }}
+                text={"Nuevo"}
+              ></Controls.Button>
+            )}
+
             {/* -----------------------  Boton para insertar datos desde Excel   ----------------------------------- */}
           </Toolbar>
+
           <div
             style={{
               height: 805,
@@ -2450,7 +2459,7 @@ const ConsultaEquipos = () => {
                           }
                           onChange={handleChange}
                         >
-                          <option value="">Select Current Working</option>
+                          <option value="">Seleccione Trabajo actual</option>
                           <option value="Installed and is working">
                             Instalado y funcionando
                           </option>
@@ -2476,13 +2485,11 @@ const ConsultaEquipos = () => {
                           }
                           onChange={handleChange}
                         >
-                          <option value="">Select Current Condition</option>
+                          <option value="">Seleccione Condición actual</option>
                           <option value="Excellent">Excelente</option>
-                          <option value="Very Good">Muy bueno</option>
                           <option value="Good">Bueno</option>
                           <option value="Regular">Regular</option>
                           <option value="Bad">Malo</option>
-                          <option value="Very Bad">Muy malo</option>
                           <option value="To be disposed">
                             Para ser desechado
                           </option>
@@ -2705,450 +2712,504 @@ const ConsultaEquipos = () => {
                       <Button color="primary">Descargar PDF</Button>
                     </PDFDownloadLink>
                     {/* -------------------------------------------------------------------------------------- */}
+                    <Button
+                      color="primary"
+                      className="ml-2"
+                      onClick={() => {
+                        settranferirModal(!tranferirModal);
+                      }}
+                    >
+                      {tranferirModal ? "Ocultar Transferir" : "Transferir"}
+                    </Button>
                   </FormGroup>
 
-                  {/* //-------------------------------------   Visualizar PDF   ------------------------------ */}
-                  {descargarPdf ? (
+                  {tranferirModal ? (
                     <>
-                      <ModalBody className="row text-align-center  animate__animated animate__fadeIn">
-                        <PDFViewer style={{ width: "100%", height: "90vh" }}>
-                          <DocPDF
-                            equipoSeleccionado={equipoSeleccionado}
-                            line={line}
-                            operations={operations}
-                            lineTypes={lineTypes}
-                            countries={countries}
-                            bu={bu}
-                            areas={areas}
-                            SubArea={SubArea}
-                            technicalInformation={technicalInformation}
-                            servicesInformation={servicesInformation}
-                          />
-                        </PDFViewer>
-                      </ModalBody>
+                      <TransferirModal
+                        equipoSeleccionado={equipoSeleccionado}
+                        operations={operations}
+                        tranferirModal={tranferirModal}
+                        settranferirModal={settranferirModal}
+                      />
                     </>
                   ) : (
-                    // ------------------------------    Editar Registro  -----------------------------------
                     <>
-                      <ModalBody className="row text-align-center  animate__animated animate__fadeIn">
-                        {/* ---------------------------------------------       Subir Imagen        --------------------------------------------- */}
-                        <FormGroup>
-                          <div
-                            id="imagen"
-                            className="card animate__animated animate__fadeInLeft"
-                            style={{ maxWidth: 380 }}
-                          >
-                            {/* ms-5 */}
-                            {loading ? (
-                              <h3>Loading...</h3>
-                            ) : (
-                              <>
-                                <img
-                                  src={equipoSeleccionado.img}
-                                  style={{ width: "380px" }}
+                      {/* //-------------------------------------   Visualizar PDF   ------------------------------ */}
+                      {descargarPdf ? (
+                        <>
+                          <ModalBody className="row text-align-center  animate__animated animate__fadeIn">
+                            <PDFViewer
+                              style={{ width: "100%", height: "90vh" }}
+                            >
+                              <DocPDF
+                                equipoSeleccionado={equipoSeleccionado}
+                                line={line}
+                                operations={operations}
+                                lineTypes={lineTypes}
+                                countries={countries}
+                                bu={bu}
+                                areas={areas}
+                                SubArea={SubArea}
+                                technicalInformation={technicalInformation}
+                                servicesInformation={servicesInformation}
+                              />
+                            </PDFViewer>
+                          </ModalBody>
+                        </>
+                      ) : (
+                        // ------------------------------    Editar Registro  -----------------------------------
+                        <>
+                          <ModalBody className="row text-align-center  animate__animated animate__fadeIn">
+                            {/* ---------------------------------------------       Subir Imagen        --------------------------------------------- */}
+                            <FormGroup>
+                              <div
+                                id="imagen"
+                                className="card animate__animated animate__fadeInLeft"
+                                style={{ maxWidth: 380 }}
+                              >
+                                {/* ms-5 */}
+                                {loading ? (
+                                  <h3>Loading...</h3>
+                                ) : (
+                                  <>
+                                    <img
+                                      src={equipoSeleccionado.img}
+                                      style={{ width: "380px" }}
+                                    />
+                                  </>
+                                )}
+                              </div>
+
+                              {/* ms-5 */}
+                              <div class="input-group my-3 input-group-lg justify-content-center">
+                                <input
+                                  style={{
+                                    color:
+                                      theme.palette.type == "dark"
+                                        ? theme.palette.primary.dark
+                                        : theme.palette.secondary.dark,
+                                    backgroundColor: "transparent",
+                                    maxWidth: 380,
+                                  }}
+                                  name="file"
+                                  type="file"
+                                  class="form-control "
+                                  id="inputGroupFile03"
+                                  aria-describedby="inputGroupFileAddon03"
+                                  aria-label="Upload an image"
+                                  onChange={uploadImage}
                                 />
-                              </>
-                            )}
-                          </div>
+                              </div>
+                            </FormGroup>
+                            {/* ----------------------------------------    Ubicacion ----------------------------------------------------------------- */}
 
-                          {/* ms-5 */}
-                          <div class="input-group my-3 input-group-lg justify-content-center">
-                            <input
-                              style={{
-                                color:
-                                  theme.palette.type == "dark"
-                                    ? theme.palette.primary.dark
-                                    : theme.palette.secondary.dark,
-                                backgroundColor: "transparent",
-                                maxWidth: 380,
-                              }}
-                              name="file"
-                              type="file"
-                              class="form-control "
-                              id="inputGroupFile03"
-                              aria-describedby="inputGroupFileAddon03"
-                              aria-label="Upload an image"
-                              onChange={uploadImage}
-                            />
-                          </div>
-                        </FormGroup>
-                        {/* ----------------------------------------    Ubicacion ----------------------------------------------------------------- */}
-
-                        <FormGroup className="col-6">
-                          <label>Id:</label>
-                          <input
-                            className="form-control"
-                            readOnly
-                            type="text text-align=center"
-                            name="id"
-                            value={
-                              equipoSeleccionado &&
-                              equipoSeleccionado.Id_Equipment
-                            }
-                          />
-                        </FormGroup>
-                        {/* -------------------------------------------------------------------------------------------
+                            <FormGroup className="col-6">
+                              <label>Id:</label>
+                              <input
+                                className="form-control"
+                                readOnly
+                                type="text text-align=center"
+                                name="id"
+                                value={
+                                  equipoSeleccionado &&
+                                  equipoSeleccionado.Id_Equipment
+                                }
+                              />
+                            </FormGroup>
+                            {/* -------------------------------------------------------------------------------------------
                                             -------------------------------------------------------------------------------------------
                                          ------------------------------------------------------------------------------------------- */}
 
-                        <FormGroup className="col-6">
-                          <label>Número de línea:</label>
-                          <input
-                            className="form-control"
-                            type="text text-align=center"
-                            name="number"
-                            value={line && line.number}
-                            onChange={handleChangeLine}
-                          />
-                        </FormGroup>
+                            <FormGroup className="col-6">
+                              <label>Número de línea:</label>
+                              <input
+                                className="form-control"
+                                type="text text-align=center"
+                                name="number"
+                                value={line && line.number}
+                                onChange={handleChangeLine}
+                              />
+                            </FormGroup>
 
-                        <FormGroup className="col-6">
-                          {/* <label>Planta:</label>
-                                                <input
-                                                    className="form-control"
-                                                    type="text text-align=center"
-                                                    name="Name"
-                                                    value={operations && operations.Name}
-                                                    onChange={handleChangeOperations} /> */}
-                          {/* ============== onChange =============== Captura los cambios, lo que el usuario escriba*/}
+                            <FormGroup className="col-6">
+                              {/* <label>Planta:</label>
+                                                  <input
+                                                      className="form-control"
+                                                      type="text text-align=center"
+                                                      name="Name"
+                                                      value={operations && operations.Name}
+                                                      onChange={handleChangeOperations} /> */}
+                              {/* ============== onChange =============== Captura los cambios, lo que el usuario escriba*/}
 
-                          <label>
-                            Planta:<b className="text-danger">*</b>
-                          </label>
-                          <select
-                            className="form-select SelectBoostrap"
-                            name="Name"
-                            required
-                            value={operations && operations.Name.toUpperCase()}
-                            onChange={handleChangeOperations}
-                          >
-                            <option value="">Seleccionar Planta</option>
-                            <option value="APAN">APAN</option>
-                            <option value="BARBADOS">BARBADOS</option>
-                            <option value="BARRANQUILLA">BARRANQUILLA</option>
-                            <option value="BOYACA">BOYACA</option>
-                            <option value="BUCARAMANGA">BUCARAMANGA</option>
-                            <option value="FABRICA DE TAPAS DE TOCANCIPA">
-                              FABRICA DE TAPAS DE TOCANCIPA
-                            </option>
-                            <option value="ETIQUETAS IMPRESUR & INDUGRAL">
-                              ETIQUETAS IMPRESUR & INDUGRAL
-                            </option>
-                            <option value="MEDELLIN">MEDELLIN</option>
-                            <option value="MALTERIA TIBITO">
-                              MALTERIA TIBITO
-                            </option>
-                            <option value="TONCACIPA">TONCACIPA</option>
-                            <option value="MALTERIA TROPICAL">
-                              MALTERIA TROPICAL
-                            </option>
-                            <option value="VALLE">VALLE</option>
-                            <option value="HOLGUIN">HOLGUIN</option>
-                            <option value="DOMINICANA">DOMINICANA</option>
-                            <option value="HATO NUEVO">HATO NUEVO</option>
-                            <option value="GUAYAQUIL">GUAYAQUIL</option>
-                            <option value="QUITO">QUITO</option>
-                            <option value="MALTERIA DE GUAYAQUIL">
-                              MALTERIA DE GUAYAQUIL
-                            </option>
-                            <option value="LA CONSTANCIA BEER">
-                              LA CONSTANCIA BEER
-                            </option>
-                            <option value="EL SALVADOR CSD">
-                              EL SALVADOR CSD
-                            </option>
-                            <option value="LA CONSTANCIA WALTER">
-                              LA CONSTANCIA WALTER
-                            </option>
-                            <option value="ZACAPA">ZACAPA</option>
-                            <option value="SAN PEDRO SULA BEER">
-                              SAN PEDRO SULA BEER
-                            </option>
-                            <option value="SAN PEDRO SULA CSD">
-                              SAN PEDRO SULA CSD
-                            </option>
-                            <option value="CEBADAS Y MALTAS">
-                              CEBADAS Y MALTAS
-                            </option>
-                            <option value="GUADALAJARA">GUADALAJARA</option>
-                            <option value="MALTERIA ZACATECAS">
-                              MALTERIA ZACATECAS
-                            </option>
-                            <option value="MAZATLÁN">MAZATLÁN</option>
-                            <option value="MODELO MÉXICO">MODELO MÉXICO</option>
-                            <option value="SALAMANCA (CASAL)">
-                              SALAMANCA (CASAL)
-                            </option>
-                            <option value="TORREÓN">TORREÓN</option>
-                            <option value="TUXTEPEC">TUXTEPEC</option>
-                            <option value="YUCATAN">YUCATAN</option>
-                            <option value="ZACATECAS">ZACATECAS</option>
-                            <option value="CUCAPÁ (CRAFT)">
-                              CUCAPÁ (CRAFT)
-                            </option>
-                            <option value="PASADENA">PASADENA</option>
-                            <option value="AREQUIPA">AREQUIPA</option>
-                            <option value="ATE">ATE</option>
-                            <option value="CUSCO">CUSCO</option>
-                            <option value="HUACHIPA">HUACHIPA</option>
-                            <option value="MALTERIA DE LIMA">
-                              MALTERIA DE LIMA
-                            </option>
-                            <option value="MOTUPE">MOTUPE</option>
-                            <option value="SAN JUAN (PUCALLPA)">
-                              SAN JUAN (PUCALLPA)
-                            </option>
-                            <option value="SAN MATEO (HUAROCHIRI)">
-                              SAN MATEO (HUAROCHIRI)
-                            </option>
-                            <option value="BARBARIAN (CRAFT)">
-                              BARBARIAN (CRAFT)
-                            </option>
-                            <option value="SAINT VINCENT">
-                              SAINT VINCENTt
-                            </option>
-                            <option value="BOGOTÁ BREWERY COMPANY (CRAFT)">
-                              BOGOTÁ BREWERY COMPANY (CRAFT)
-                            </option>
-                          </select>
-                        </FormGroup>
+                              <label>
+                                Planta:<b className="text-danger">*</b>
+                              </label>
+                              <select
+                                className="form-select SelectBoostrap"
+                                name="Name"
+                                required
+                                value={
+                                  operations && operations.Name.toUpperCase()
+                                }
+                                onChange={handleChangeOperations}
+                              >
+                                <option value="">Seleccionar Planta</option>
+                                <option value="APAN">APAN</option>
+                                <option value="BARBADOS">BARBADOS</option>
+                                <option value="BARRANQUILLA">
+                                  BARRANQUILLA
+                                </option>
+                                <option value="BOYACA">BOYACA</option>
+                                <option value="BUCARAMANGA">BUCARAMANGA</option>
+                                <option value="FABRICA DE TAPAS DE TOCANCIPA">
+                                  FABRICA DE TAPAS DE TOCANCIPA
+                                </option>
+                                <option value="ETIQUETAS IMPRESUR & INDUGRAL">
+                                  ETIQUETAS IMPRESUR & INDUGRAL
+                                </option>
+                                <option value="MEDELLIN">MEDELLIN</option>
+                                <option value="MALTERIA TIBITO">
+                                  MALTERIA TIBITO
+                                </option>
+                                <option value="TONCACIPA">TONCACIPA</option>
+                                <option value="MALTERIA TROPICAL">
+                                  MALTERIA TROPICAL
+                                </option>
+                                <option value="VALLE">VALLE</option>
+                                <option value="HOLGUIN">HOLGUIN</option>
+                                <option value="DOMINICANA">DOMINICANA</option>
+                                <option value="HATO NUEVO">HATO NUEVO</option>
+                                <option value="GUAYAQUIL">GUAYAQUIL</option>
+                                <option value="QUITO">QUITO</option>
+                                <option value="MALTERIA DE GUAYAQUIL">
+                                  MALTERIA DE GUAYAQUIL
+                                </option>
+                                <option value="LA CONSTANCIA BEER">
+                                  LA CONSTANCIA BEER
+                                </option>
+                                <option value="EL SALVADOR CSD">
+                                  EL SALVADOR CSD
+                                </option>
+                                <option value="LA CONSTANCIA WALTER">
+                                  LA CONSTANCIA WALTER
+                                </option>
+                                <option value="ZACAPA">ZACAPA</option>
+                                <option value="SAN PEDRO SULA BEER">
+                                  SAN PEDRO SULA BEER
+                                </option>
+                                <option value="SAN PEDRO SULA CSD">
+                                  SAN PEDRO SULA CSD
+                                </option>
+                                <option value="CEBADAS Y MALTAS">
+                                  CEBADAS Y MALTAS
+                                </option>
+                                <option value="GUADALAJARA">GUADALAJARA</option>
+                                <option value="MALTERIA ZACATECAS">
+                                  MALTERIA ZACATECAS
+                                </option>
+                                <option value="MAZATLÁN">MAZATLÁN</option>
+                                <option value="MODELO MÉXICO">
+                                  MODELO MÉXICO
+                                </option>
+                                <option value="SALAMANCA (CASAL)">
+                                  SALAMANCA (CASAL)
+                                </option>
+                                <option value="TORREÓN">TORREÓN</option>
+                                <option value="TUXTEPEC">TUXTEPEC</option>
+                                <option value="YUCATAN">YUCATAN</option>
+                                <option value="ZACATECAS">ZACATECAS</option>
+                                <option value="CUCAPÁ (CRAFT)">
+                                  CUCAPÁ (CRAFT)
+                                </option>
+                                <option value="PASADENA">PASADENA</option>
+                                <option value="AREQUIPA">AREQUIPA</option>
+                                <option value="ATE">ATE</option>
+                                <option value="CUSCO">CUSCO</option>
+                                <option value="HUACHIPA">HUACHIPA</option>
+                                <option value="MALTERIA DE LIMA">
+                                  MALTERIA DE LIMA
+                                </option>
+                                <option value="MOTUPE">MOTUPE</option>
+                                <option value="SAN JUAN (PUCALLPA)">
+                                  SAN JUAN (PUCALLPA)
+                                </option>
+                                <option value="SAN MATEO (HUAROCHIRI)">
+                                  SAN MATEO (HUAROCHIRI)
+                                </option>
+                                <option value="BARBARIAN (CRAFT)">
+                                  BARBARIAN (CRAFT)
+                                </option>
+                                <option value="SAINT VINCENT">
+                                  SAINT VINCENTt
+                                </option>
+                                <option value="BOGOTÁ BREWERY COMPANY (CRAFT)">
+                                  BOGOTÁ BREWERY COMPANY (CRAFT)
+                                </option>
+                              </select>
+                            </FormGroup>
 
-                        <FormGroup className="col-6">
-                          <label htmlFor="lineType">
-                            Tipo de línea:<b className="text-danger">*</b>
-                          </label>
-                          <select
-                            className="form-select SelectBoostrap"
-                            name="Name"
-                            value={lineTypes && lineTypes.Name.toUpperCase()}
-                            onChange={handleChangeLineTypes}
-                          >
-                            <option value="">Seleccionar Tipo de Línea</option>
-                            <option value="BREWLINE">BREWLINE</option>
-                            <option value="BOTTLE">BOTTLE</option>
-                            <option value="CAN">CAN</option>
-                            <option value="PET">PET</option>
-                            <option value="KEG">KEG</option>
-                            <option value="SPECIAL KEG">SPECIAL KEG</option>
-                            <option value="OTHER">OTHER</option>
-                          </select>
-                        </FormGroup>
+                            <FormGroup className="col-6">
+                              <label htmlFor="lineType">
+                                Tipo de línea:<b className="text-danger">*</b>
+                              </label>
+                              <select
+                                className="form-select SelectBoostrap"
+                                name="Name"
+                                value={
+                                  lineTypes && lineTypes.Name.toUpperCase()
+                                }
+                                onChange={handleChangeLineTypes}
+                              >
+                                <option value="">
+                                  Seleccionar Tipo de Línea
+                                </option>
+                                <option value="BREWLINE">BREWLINE</option>
+                                <option value="BOTTLE">BOTTLE</option>
+                                <option value="CAN">CAN</option>
+                                <option value="PET">PET</option>
+                                <option value="KEG">KEG</option>
+                                <option value="SPECIAL KEG">SPECIAL KEG</option>
+                                <option value="OTHER">OTHER</option>
+                              </select>
+                            </FormGroup>
 
-                        <FormGroup className="col-6">
-                          <label>
-                            País:<b className="text-danger">*</b>
-                          </label>
-                          <select
-                            className="form-select SelectBoostrap"
-                            name="Name"
-                            value={countries && countries.Name.toUpperCase()}
-                            required
-                            onChange={handleChangeCountries}
-                          >
-                            <option value="">Seleccionar País</option>
-                            <option value="BARBADOS">BARBADOS</option>
-                            <option value="COLOMBIA">COLOMBIA</option>
-                            <option value="CUBA">CUBA</option>
-                            <option value="DOMINICANA">DOMINICANA</option>
-                            <option value="ECUADOR">ECUADOR</option>
-                            <option value="EL SALVADOR">EL SALVADOR</option>
-                            <option value="GUATEMALA">GUATEMALA</option>
-                            <option value="HONDURAS">HONDURAS</option>
-                            <option value="MÉXICO">MÉXICO</option>
-                            <option value="PANAMA">PANAMA</option>
-                            <option value="PERÚ">PERÚ</option>
-                            <option value="SAINT VINCENT">SAINT VINCENT</option>
-                          </select>
-                        </FormGroup>
+                            <FormGroup className="col-6">
+                              <label>
+                                País:<b className="text-danger">*</b>
+                              </label>
+                              <select
+                                className="form-select SelectBoostrap"
+                                name="Name"
+                                value={
+                                  countries && countries.Name.toUpperCase()
+                                }
+                                required
+                                onChange={handleChangeCountries}
+                              >
+                                <option value="">Seleccionar País</option>
+                                <option value="BARBADOS">BARBADOS</option>
+                                <option value="COLOMBIA">COLOMBIA</option>
+                                <option value="CUBA">CUBA</option>
+                                <option value="DOMINICANA">DOMINICANA</option>
+                                <option value="ECUADOR">ECUADOR</option>
+                                <option value="EL SALVADOR">EL SALVADOR</option>
+                                <option value="GUATEMALA">GUATEMALA</option>
+                                <option value="HONDURAS">HONDURAS</option>
+                                <option value="MÉXICO">MÉXICO</option>
+                                <option value="PANAMA">PANAMA</option>
+                                <option value="PERÚ">PERÚ</option>
+                                <option value="SAINT VINCENT">
+                                  SAINT VINCENT
+                                </option>
+                              </select>
+                            </FormGroup>
 
-                        <FormGroup className="col-6">
-                          <label>
-                            BU:<b className="text-danger">*</b>
-                          </label>
-                          <select
-                            className="form-select SelectBoostrap"
-                            name="Name"
-                            value={bu && bu.Name.toUpperCase()}
-                            onChange={handleChangeBu}
-                          >
-                            {/* ------------------------------------------------   SELECT DESDE LA BASE DE DATOS   ------------------------------------ */}
-                            <option value="">Seleccionar BU</option>
-                            <option value="CAC">CAC</option>
-                            <option value="COL">COL</option>
-                            <option value="PEC">PEC</option>
-                            <option value="MEX">MEX</option>
-                          </select>
-                        </FormGroup>
+                            <FormGroup className="col-6">
+                              <label>
+                                BU:<b className="text-danger">*</b>
+                              </label>
+                              <select
+                                className="form-select SelectBoostrap"
+                                name="Name"
+                                value={bu && bu.Name.toUpperCase()}
+                                onChange={handleChangeBu}
+                              >
+                                {/* ------------------------------------------------   SELECT DESDE LA BASE DE DATOS   ------------------------------------ */}
+                                <option value="">Seleccionar BU</option>
+                                <option value="CAC">CAC</option>
+                                <option value="COL">COL</option>
+                                <option value="PEC">PEC</option>
+                                <option value="MEX">MEX</option>
+                              </select>
+                            </FormGroup>
 
-                        <FormGroup className="col-6">
-                          <label htmlFor="area">
-                            Área:<b className="text-danger">*</b>
-                          </label>
-                          <select
-                            className="form-select SelectBoostrap"
-                            name="Name"
-                            value={areas && areas.Name.toUpperCase()}
-                            onChange={handleChangeAreas}
-                          >
-                            <option value="">Seleccionar Área</option>
-                            <option value="GENERAL SERVICES">
-                              GENERAL SERVICES
-                            </option>
-                            <option value="SILOS">SILOS</option>
-                            <option value="MILLING">MILLING</option>
-                            <option value="BREWHOUSE">BREWHOUSE</option>
-                            <option value="BREWING">BREWING</option>
-                            <option value="FERMENTATION">FERMENTATION</option>
-                            <option value="MATURATION">MATURATION</option>
-                            <option value="CENTRIFUGE">CENTRIFUGE</option>
-                            <option value="FILTRATION">FILTRATION</option>
-                            <option value="DILUTION WATER">
-                              DILUTION WATER
-                            </option>
-                            <option value="BRIGHT BEER TANKS">
-                              BRIGHT BEER TANKS
-                            </option>
-                            <option value="PACKAGING">PACKAGING</option>
-                            <option value="CHEMICAL ISLAND & CIP">
-                              CHEMICAL ISLAND & CIP
-                            </option>
-                            <option value="SYRUP HOUSE">SYRUP HOUSE</option>
-                            <option value="LOGISTIC TIER 1">
-                              LOGISTIC TIER 1
-                            </option>
-                            <option value="LOGISTIC TIER 2">
-                              LOGISTIC TIER 2
-                            </option>
-                            <option value="CO2 RECOVERY">CO2 RECOVERY</option>
-                            <option value="REFRIGERATION">REFRIGERATION</option>
-                            <option value="WELLS">WELLS</option>
-                            <option value="WATER TREATMENT PLANT">
-                              WATER TREATMENT PLANT
-                            </option>
-                            <option value="COMPRESSED AIR">
-                              COMPRESSED AIR
-                            </option>
-                            <option value="ELECTRICAL SUBSTATION (HV)">
-                              ELECTRICAL SUBSTATION (HV)
-                            </option>
-                            <option value="ELECTRICAL SUBSTATION (MV)">
-                              ELECTRICAL SUBSTATION (MV)
-                            </option>
-                            <option value="ELECTRICAL SUBSTATION (LV)">
-                              ELECTRICAL SUBSTATION (LV)
-                            </option>
-                            <option value="STEAM GENERATION">
-                              STEAM GENERATION
-                            </option>
-                            <option value="BIOLOGICAL TREATMENT SYSTEM">
-                              BIOLOGICAL TREATMENT SYSTEM
-                            </option>
-                            <option value="TERTIARY SYSTEM">
-                              TERTIARY SYSTEM
-                            </option>
-                            <option value="SANITARY PLANT">
-                              SANITARY PLANT
-                            </option>
-                            <option value={["AUTOMATION & INDUSTRIAL NETWORK"]}>
-                              AUTOMATION & INDUSTRIAL NETWORK
-                            </option>
-                            <option value="MAINTENANCE">MAINTENANCE</option>
-                            <option value="IT">IT</option>
-                            <option value="LABORATORY">LABORATORY</option>
-                            <option value="WORKSHOP">WORKSHOP</option>
-                            <option value="OFFICES">OFFICES</option>
-                            <option value="SUBPRODUCTS">SUBPRODUCTS</option>
-                          </select>
-                        </FormGroup>
+                            <FormGroup className="col-6">
+                              <label htmlFor="area">
+                                Área:<b className="text-danger">*</b>
+                              </label>
+                              <select
+                                className="form-select SelectBoostrap"
+                                name="Name"
+                                value={areas && areas.Name.toUpperCase()}
+                                onChange={handleChangeAreas}
+                              >
+                                <option value="">Seleccionar Área</option>
+                                <option value="GENERAL SERVICES">
+                                  GENERAL SERVICES
+                                </option>
+                                <option value="SILOS">SILOS</option>
+                                <option value="MILLING">MILLING</option>
+                                <option value="BREWHOUSE">BREWHOUSE</option>
+                                <option value="BREWING">BREWING</option>
+                                <option value="FERMENTATION">
+                                  FERMENTATION
+                                </option>
+                                <option value="MATURATION">MATURATION</option>
+                                <option value="CENTRIFUGE">CENTRIFUGE</option>
+                                <option value="FILTRATION">FILTRATION</option>
+                                <option value="DILUTION WATER">
+                                  DILUTION WATER
+                                </option>
+                                <option value="BRIGHT BEER TANKS">
+                                  BRIGHT BEER TANKS
+                                </option>
+                                <option value="PACKAGING">PACKAGING</option>
+                                <option value="CHEMICAL ISLAND & CIP">
+                                  CHEMICAL ISLAND & CIP
+                                </option>
+                                <option value="SYRUP HOUSE">SYRUP HOUSE</option>
+                                <option value="LOGISTIC TIER 1">
+                                  LOGISTIC TIER 1
+                                </option>
+                                <option value="LOGISTIC TIER 2">
+                                  LOGISTIC TIER 2
+                                </option>
+                                <option value="CO2 RECOVERY">
+                                  CO2 RECOVERY
+                                </option>
+                                <option value="REFRIGERATION">
+                                  REFRIGERATION
+                                </option>
+                                <option value="WELLS">WELLS</option>
+                                <option value="WATER TREATMENT PLANT">
+                                  WATER TREATMENT PLANT
+                                </option>
+                                <option value="COMPRESSED AIR">
+                                  COMPRESSED AIR
+                                </option>
+                                <option value="ELECTRICAL SUBSTATION (HV)">
+                                  ELECTRICAL SUBSTATION (HV)
+                                </option>
+                                <option value="ELECTRICAL SUBSTATION (MV)">
+                                  ELECTRICAL SUBSTATION (MV)
+                                </option>
+                                <option value="ELECTRICAL SUBSTATION (LV)">
+                                  ELECTRICAL SUBSTATION (LV)
+                                </option>
+                                <option value="STEAM GENERATION">
+                                  STEAM GENERATION
+                                </option>
+                                <option value="BIOLOGICAL TREATMENT SYSTEM">
+                                  BIOLOGICAL TREATMENT SYSTEM
+                                </option>
+                                <option value="TERTIARY SYSTEM">
+                                  TERTIARY SYSTEM
+                                </option>
+                                <option value="SANITARY PLANT">
+                                  SANITARY PLANT
+                                </option>
+                                <option
+                                  value={["AUTOMATION & INDUSTRIAL NETWORK"]}
+                                >
+                                  AUTOMATION & INDUSTRIAL NETWORK
+                                </option>
+                                <option value="MAINTENANCE">MAINTENANCE</option>
+                                <option value="IT">IT</option>
+                                <option value="LABORATORY">LABORATORY</option>
+                                <option value="WORKSHOP">WORKSHOP</option>
+                                <option value="OFFICES">OFFICES</option>
+                                <option value="SUBPRODUCTS">SUBPRODUCTS</option>
+                              </select>
+                            </FormGroup>
 
-                        <FormGroup className="col-6">
-                          <label htmlFor="Subarea">
-                            Subárea <b className="text-danger">*</b>
-                          </label>
-                          <select
-                            className="form-select SelectBoostrap"
-                            name="Name"
-                            value={SubArea && SubArea.Name.toUpperCase()}
-                            onChange={handleChangeSubArea}
-                          >
-                            <option value="">Seleccionar Subárea</option>
-                            <option value="WORT KETTLE">WORT KETTLE</option>
-                            <option value="TORRE DE MOLIENDA">
-                              TORRE DE MOLIENDA
-                            </option>
-                            <option value="CONOCIMIENTOS">CONOCIMIENTOS</option>
-                            <option value="BAGAZO/SYE">BAGAZO/SYE</option>
-                            <option value="BLOQUE FRIO">BLOQUE FRIO</option>
-                            <option value="GENERAL">GENERAL</option>
-                            <option value="NO DATA AVAILABLE">
-                              No data available
-                            </option>
-                          </select>
-                        </FormGroup>
+                            <FormGroup className="col-6">
+                              <label htmlFor="Subarea">
+                                Subárea <b className="text-danger">*</b>
+                              </label>
+                              <select
+                                className="form-select SelectBoostrap"
+                                name="Name"
+                                value={SubArea && SubArea.Name.toUpperCase()}
+                                onChange={handleChangeSubArea}
+                              >
+                                <option value="">Seleccionar Subárea</option>
+                                <option value="WORT KETTLE">WORT KETTLE</option>
+                                <option value="TORRE DE MOLIENDA">
+                                  TORRE DE MOLIENDA
+                                </option>
+                                <option value="CONOCIMIENTOS">
+                                  CONOCIMIENTOS
+                                </option>
+                                <option value="BAGAZO/SYE">BAGAZO/SYE</option>
+                                <option value="BLOQUE FRIO">BLOQUE FRIO</option>
+                                <option value="GENERAL">GENERAL</option>
+                                <option value="NO DATA AVAILABLE">
+                                  No data available
+                                </option>
+                              </select>
+                            </FormGroup>
 
-                        <FormGroup className="col-12">
-                          {/* Para obtener el correo */}
-                          <TextField
-                            label="Correo de la Planta"
-                            className="form-control"
-                            variant="outlined"
-                            name="code" //--------- CORREO  --------
-                            value={
-                              equipoSeleccionado && equipoSeleccionado.code
-                            }
-                            onChange={handleChange}
-                          />
-                        </FormGroup>
-                        <br />
+                            <FormGroup className="col-12">
+                              {/* Para obtener el correo */}
+                              <TextField
+                                label="Correo de la Planta"
+                                className="form-control"
+                                variant="outlined"
+                                name="code" //--------- CORREO  --------
+                                value={
+                                  equipoSeleccionado && equipoSeleccionado.code
+                                }
+                                onChange={handleChange}
+                              />
+                            </FormGroup>
+                            <br />
 
-                        {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
-                        <FormGroup className="row justify-content-between align-items-center">
-                          <Grid xs={4} className="d-flex justify-content-start">
-                            <Button
-                              color="secondary"
-                              className="d-none"
-                              onClick={() => setEditing(false)}
-                            >
-                              Consulta de Equipos
-                              <ArrowBackIcon />
-                            </Button>
-                          </Grid>
-                          <Grid
-                            xs={4}
-                            className="d-flex justify-content-center"
-                          >
-                            {" "}
-                            <Pagination
-                              count={3}
-                              hidePrevButton
-                              hideNextButton
-                              defaultPage={1}
-                              size="small"
-                              color="primary"
-                              disabled
-                            />
-                          </Grid>
-                          <Grid xs={4} className="d-flex justify-content-end">
-                            <Button
-                              style={{
-                                color:
-                                  theme.palette.type == "dark"
-                                    ? "#ffffff"
-                                    : "#000000",
-                              }}
-                              onClick={() => {
-                                setEditing(true);
-                                setEditingTechInfo(false);
-                              }}
-                            >
-                              Technical Information
-                              <ArrowForwardIcon />
-                            </Button>
-                          </Grid>
+                            {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
+                            <FormGroup className="row justify-content-between align-items-center">
+                              <Grid
+                                xs={4}
+                                className="d-flex justify-content-start"
+                              >
+                                <Button
+                                  color="secondary"
+                                  className="d-none"
+                                  onClick={() => setEditing(false)}
+                                >
+                                  Consulta de Equipos
+                                  <ArrowBackIcon />
+                                </Button>
+                              </Grid>
+                              <Grid
+                                xs={4}
+                                className="d-flex justify-content-center"
+                              >
+                                {" "}
+                                <Pagination
+                                  count={3}
+                                  hidePrevButton
+                                  hideNextButton
+                                  defaultPage={1}
+                                  size="small"
+                                  color="primary"
+                                  disabled
+                                />
+                              </Grid>
+                              <Grid
+                                xs={4}
+                                className="d-flex justify-content-end"
+                              >
+                                <Button
+                                  style={{
+                                    color:
+                                      theme.palette.type == "dark"
+                                        ? "#ffffff"
+                                        : "#000000",
+                                  }}
+                                  onClick={() => {
+                                    setEditing(true);
+                                    setEditingTechInfo(false);
+                                  }}
+                                >
+                                  Technical Information
+                                  <ArrowForwardIcon />
+                                </Button>
+                              </Grid>
 
-                          {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
-                        </FormGroup>
-                      </ModalBody>
+                              {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
+                            </FormGroup>
+                          </ModalBody>
+                        </>
+                      )}
                     </>
                   )}
                 </ModalBody>
@@ -3176,36 +3237,57 @@ const ConsultaEquipos = () => {
             >
               Cancelar
             </Button>
-            {userByToken?.roleId === 1 ? (
-              <Button
-                style={{
-                  color: "#ffffff",
-                  backgroundColor:
-                    theme.palette.type == "dark"
-                      ? theme.palette.secondary.light
-                      : "#6200EE",
-                }}
-                variant="contained"
-                type="submit"
-                onClick={() => editar()}
-              >
-                Guardar Registro
-              </Button>
+            {tranferirModal ? (
+              <>
+                <Button
+                  style={{
+                    color: "#ffffff",
+                    backgroundColor:
+                      theme.palette.type == "dark"
+                        ? theme.palette.secondary.light
+                        : "#6200EE",
+                  }}
+                  variant="contained"
+                  type="submit"
+                  disabled
+                >
+                  Guardar Registro
+                </Button>
+              </>
             ) : (
-              <Button
-                style={{
-                  color: "#ffffff",
-                  backgroundColor:
-                    theme.palette.type == "dark"
-                      ? theme.palette.secondary.light
-                      : "#6200EE",
-                }}
-                variant="contained"
-                type="submit"
-                disabled
-              >
-                Guardar Registro
-              </Button>
+              <>
+                {userByToken?.roleId === 1 ? (
+                  <Button
+                    style={{
+                      color: "#ffffff",
+                      backgroundColor:
+                        theme.palette.type == "dark"
+                          ? theme.palette.secondary.light
+                          : "#6200EE",
+                    }}
+                    variant="contained"
+                    type="submit"
+                    onClick={() => editar()}
+                  >
+                    Guardar Registro
+                  </Button>
+                ) : (
+                  <Button
+                    style={{
+                      color: "#ffffff",
+                      backgroundColor:
+                        theme.palette.type == "dark"
+                          ? theme.palette.secondary.light
+                          : "#6200EE",
+                    }}
+                    variant="contained"
+                    type="submit"
+                    disabled
+                  >
+                    Guardar Registro
+                  </Button>
+                )}
+              </>
             )}
           </ModalFooter>
         </Modal>
@@ -3368,7 +3450,7 @@ const ConsultaEquipos = () => {
                       <FormGroup className="col-4">
                         <label>Trabajo actual:</label>
                         <select
-                          className="form-select"
+                          className="form-select "
                           style={{ margin: "0px !important" }}
                           name="currentWorking"
                           value={
@@ -3404,13 +3486,13 @@ const ConsultaEquipos = () => {
                           onChange={handleChange}
                         >
                           <option value="">Seleccione Condición actual</option>
-                          <option value="Excellent">Excellent</option>
-                          <option value="Very Good">Very Good</option>
-                          <option value="Good">Good</option>
+                          <option value="Excellent">Excelente</option>
+                          <option value="Good">Bueno</option>
                           <option value="Regular">Regular</option>
-                          <option value="Bad">Bad</option>
-                          <option value="Very Bad">Very Bad</option>
-                          <option value="To be disposed">To be disposed</option>
+                          <option value="Bad">Malo</option>
+                          <option value="To be disposed">
+                            Para ser desechado
+                          </option>
                         </select>
                       </FormGroup>
 
@@ -3914,15 +3996,15 @@ const ConsultaEquipos = () => {
 
                     <FormGroup className="col-6">
                       {/* <Autocomplete
-                                            disablePortal
-                                            id="combo-box-demo"
-                                            name="Name"
-                                            onChange={handleChangeLineTypes}
-                                            options={lineTypesSelect}
-                                            sx={{ width: 370 }}
-                                            renderInput={(params) => 
-                                                <TextField {...params} label="Line Type" variant='outlined' />}
-                                        /> */}
+                                          disablePortal
+                                          id="combo-box-demo"
+                                          name="Name"
+                                          onChange={handleChangeLineTypes}
+                                          options={lineTypesSelect}
+                                          sx={{ width: 370 }}
+                                          renderInput={(params) => 
+                                              <TextField {...params} label="Line Type" variant='outlined' />}
+                                      /> */}
 
                       <label htmlFor="lineType">
                         Tipo de línea <b className="text-danger">*</b>
@@ -3943,9 +4025,9 @@ const ConsultaEquipos = () => {
                       </select>
 
                       {/* {lineTypeList.map((elemento) => (
-                                                <option value={elemento.Name}>{elemento.Name}</option>
-                                            ))
-                                            } */}
+                                              <option value={elemento.Name}>{elemento.Name}</option>
+                                          ))
+                                          } */}
                     </FormGroup>
 
                     <FormGroup className="col-6">
@@ -4106,15 +4188,15 @@ const ConsultaEquipos = () => {
                     </FormGroup>
 
                     {/* <FormGroup className="col-12">
-                                        <label>Correo de planta:</label>
-                                        <input
-                                            className="form-control"
-                                            required
-                                            type="text text-align=center"
-                                            name="correo"
-                                            onChange={handleChange}
-                                        />
-                                    </FormGroup> */}
+                                      <label>Correo de planta:</label>
+                                      <input
+                                          className="form-control"
+                                          required
+                                          type="text text-align=center"
+                                          name="correo"
+                                          onChange={handleChange}
+                                      />
+                                  </FormGroup> */}
 
                     <FormGroup className="col-12">
                       {/* Para obtener el correo */}
@@ -4128,14 +4210,14 @@ const ConsultaEquipos = () => {
                     </FormGroup>
 
                     {/* <FormGroup className="col-6">
-                                        <label>Subárea:</label>
-                                        <input
-                                            className="form-control"
-                                            type="text text-align=center"
-                                            name="subarea"
-                                            value={equipoSeleccionado ? equipoSeleccionado.subarea : ''}
-                                            onChange={handleChange} />
-                                    </FormGroup> */}
+                                      <label>Subárea:</label>
+                                      <input
+                                          className="form-control"
+                                          type="text text-align=center"
+                                          name="subarea"
+                                          value={equipoSeleccionado ? equipoSeleccionado.subarea : ''}
+                                          onChange={handleChange} />
+                                  </FormGroup> */}
 
                     {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
                     <FormGroup className="row align-items-center justify-content-between">

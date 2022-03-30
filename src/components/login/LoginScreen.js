@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import axios from "axios";
 import PropTypes from "prop-types";
+
 // import { Button, Input, Label } from 'reactstrap';
 import { useForm } from "react-hook-form";
 // import '../../index.css';
@@ -25,7 +27,6 @@ import Brightness2Icon from "@material-ui/icons/Brightness2";
 import { WbSunny } from "@material-ui/icons";
 //import Button from 'react-bootstrap/Button';
 //import Container from 'react-bootstrap/Container';
-import axios from "axios";
 
 const LoginScreen = ({ history }) => {
   const {
@@ -168,7 +169,7 @@ const LoginScreen = ({ history }) => {
   // "carlos.razo-ext@ab-inbev.com"
   // ]
 
-  const handleLogin = () => {};
+  // const handleLogin = () => {
 
   const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false); // Para usuario incorrecto

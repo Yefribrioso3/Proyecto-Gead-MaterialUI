@@ -8,7 +8,8 @@ import {
   ThemeProvider,
   createTheme,
 } from "@material-ui/core";
-import icono from "../assets/icono.png";
+// , Button, Card,
+// import icono from '../assets/icono.png';
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",

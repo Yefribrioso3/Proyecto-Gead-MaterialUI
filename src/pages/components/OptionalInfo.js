@@ -73,7 +73,7 @@ export const OptionalInfo = ({
                 <ArrowDropDown />
               </IconButton>
             )}
-            Información de Técnica Opcional.
+            Información Técnica Opcional.
           </h5>
         </a>
       </div>

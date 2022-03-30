@@ -21,9 +21,7 @@ import {
   Collapse,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Nav,
-  // NavItem,
   NavLink,
   UncontrolledDropdown,
   DropdownToggle,
@@ -77,7 +75,14 @@ const useStyles = makeStyles((theme) => ({
 export default function Header({ isOpen, setIsOpen, light, setLight }) {
   const classes = useStyles();
   const toggle = () => setIsOpen(!isOpen);
+  const local = () => {
+    //Eliminar datos del localStorage y redireccionar al login
+    localStorage.removeItem("token");
+    console.log(localStorage);
 
+    // history.replace('/login');
+    // console.log(history)
+  };
   const theme = createTheme({
     palette: {
       type: light ? "light" : "dark",
@@ -123,9 +128,26 @@ export default function Header({ isOpen, setIsOpen, light, setLight }) {
 
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ms-auto" navbar>
+              {/* userByToken */}
+
+              {userByToken.roleId === 1 ? (
+                <div className="">
+                  {/* <a href='../assets/Manual.pdf' className='btn' style={{color: "blue"}} download="Manual.pdf" title='Descargar proyecto'> Manual <ArrowDownward /></a> */}
+                  <a
+                    href="/registro"
+                    className="btn"
+                    style={{ color: "blue" }}
+                    title="Crear Nuevo Usuario"
+                  >
+                    {" "}
+                    New User{" "}
+                  </a>
+                  {/* src/assets/Manual.pdf */}
+                </div>
+              ) : null}
               <div className="">
                 <a
-                  href="../assets/Manual.pdf"
+                  href="https://anheuserbuschinbev.sharepoint.com/sites/MAZGEAD/GEAD%20manuales/Forms/AllItems.aspx"
                   className="btn"
                   style={{
                     color:
@@ -151,7 +173,16 @@ export default function Header({ isOpen, setIsOpen, light, setLight }) {
                         : theme.palette.secondary.dark,
                   }}
                 >
-                  Bienvenid@ Admin@admin
+                  {
+                    // userByToken?.roleId === 1 ? `${userByToken.Name} (ADMIN)` : `${userByToken.Name} (PLANTA)`
+                    userByToken?.roleId === 1
+                      ? `${userByToken.Name} (ADMIN)`
+                      : userByToken?.roleId === 2
+                      ? `${userByToken.Name} (SUPERVISOR)`
+                      : userByToken?.roleId === 3
+                      ? `${userByToken.Name} (PLANTA)`
+                      : null
+                  }
                 </DropdownToggle>
                 <DropdownMenu
                   right
