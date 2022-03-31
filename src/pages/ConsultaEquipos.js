@@ -56,6 +56,8 @@ import { Pagination } from "@material-ui/lab";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { TransferirModal } from "./components/TransferirModal";
+import { Autocomplete } from "@mui/material";
+import { select } from "./components/select";
 
 //-----------------------------------------------------------------------
 // const headCells = [
@@ -720,6 +722,7 @@ const ConsultaEquipos = () => {
 
   const handleChangeSubArea = (e) => {
     const { name, value } = e.target;
+    console.log(e.target.value)
 
     setSubArea((prevState) => ({
       ...prevState,
@@ -765,6 +768,8 @@ const ConsultaEquipos = () => {
 
   const handleChangeLineTypes = (e) => {
     const { name, value } = e.target;
+
+    console.log(e.target.value)
 
     setLineTypes((prevState) => ({
       ...prevState,
@@ -931,57 +936,45 @@ const ConsultaEquipos = () => {
       }
     );
 
-    await Axios.put(
-      `${globalApi}/optionalTechInfo/${Equipo.TechnicalSpecification.Id_TechnicalSpecification}`,
-      {
-        NominalCapacity:
-          Equipo.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
-        YearOfConstruction:
-          Equipo.TechnicalSpecification.OptionalTechInfo.YearOfConstruction,
-        EquipmentCurrentConditionsComments:
-          Equipo.TechnicalSpecification.OptionalTechInfo
-            .EquipmentCurrentConditionsComments,
-        NotesAboutEquipment:
-          Equipo.TechnicalSpecification.OptionalTechInfo.NotesAboutEquipment,
-        AssambledDissambled:
-          Equipo.TechnicalSpecification.OptionalTechInfo.AssambledDissambled,
-        PlantTechnicalInformationContact:
-          Equipo.TechnicalSpecification.OptionalTechInfo
-            .PlantTechnicalInformationContact,
-        PlantFinancialInformationContact:
-          Equipo.TechnicalSpecification.OptionalTechInfo
-            .PlantFinancialInformationContact,
-        Width: Equipo.TechnicalSpecification.OptionalTechInfo.Width,
-        Height: Equipo.TechnicalSpecification.OptionalTechInfo.Height,
-        Depth: Equipo.TechnicalSpecification.OptionalTechInfo.Depth,
-        ConstructionMaterials:
-          Equipo.TechnicalSpecification.OptionalTechInfo.ConstructionMaterials,
-        ExternalCoating:
-          Equipo.TechnicalSpecification.OptionalTechInfo.ExternalCoating,
-        CommunicationProtocol:
-          Equipo.TechnicalSpecification.OptionalTechInfo.CommunicationProtocol,
-        MeasurementVariable:
-          Equipo.TechnicalSpecification.OptionalTechInfo.MeasurementVariable,
-        ElectricalConsumption:
-          Equipo.TechnicalSpecification.OptionalTechInfo.ElectricalConsumption,
-        ProtectionGrade:
-          Equipo.TechnicalSpecification.OptionalTechInfo.ProtectionGrade,
-        SanitaryGrade:
-          Equipo.TechnicalSpecification.OptionalTechInfo.SanitaryGrade,
-        AvailableWarranty:
-          Equipo.TechnicalSpecification.OptionalTechInfo.AvailableWarranty,
-        RemainingWarrantyYears:
-          Equipo.TechnicalSpecification.OptionalTechInfo.RemainingWarrantyYears,
-        PeripheralDevicesAccesories:
-          Equipo.TechnicalSpecification.OptionalTechInfo
-            .PeripheralDevicesAccesories,
-        WorkingHours:
-          Equipo.TechnicalSpecification.OptionalTechInfo.WorkingHours,
-        LaboratoryEquipment:
-          Equipo.TechnicalSpecification.OptionalTechInfo.LaboratoryEquipment,
-        Id_TechnicalSpecification:
-          Equipo.TechnicalSpecification.Id_TechnicalSpecification,
-      }
+    await Axios.put(`${globalApi}/optionalTechInfo/${Equipo.TechnicalSpecification.Id_TechnicalSpecification}`, {
+      NominalCapacity: Equipo.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
+      YearOfConstruction: Equipo.TechnicalSpecification.OptionalTechInfo.YearOfConstruction,
+      EquipmentCurrentConditionsComments: Equipo.TechnicalSpecification.OptionalTechInfo.EquipmentCurrentConditionsComments,
+      NotesAboutEquipment: Equipo.TechnicalSpecification.OptionalTechInfo.NotesAboutEquipment,
+      AssambledDissambled: Equipo.TechnicalSpecification.OptionalTechInfo.AssambledDissambled,
+      PlantTechnicalInformationContact: Equipo.TechnicalSpecification.OptionalTechInfo.PlantTechnicalInformationContact,
+      PlantFinancialInformationContact: Equipo.TechnicalSpecification.OptionalTechInfo.PlantFinancialInformationContact,
+      Width: Equipo.TechnicalSpecification.OptionalTechInfo.Width,
+      Height: Equipo.TechnicalSpecification.OptionalTechInfo.Height,
+      Depth: Equipo.TechnicalSpecification.OptionalTechInfo.Depth,
+      ConstructionMaterials:
+        Equipo.TechnicalSpecification.OptionalTechInfo.ConstructionMaterials,
+      ExternalCoating:
+        Equipo.TechnicalSpecification.OptionalTechInfo.ExternalCoating,
+      CommunicationProtocol:
+        Equipo.TechnicalSpecification.OptionalTechInfo.CommunicationProtocol,
+      MeasurementVariable:
+        Equipo.TechnicalSpecification.OptionalTechInfo.MeasurementVariable,
+      ElectricalConsumption:
+        Equipo.TechnicalSpecification.OptionalTechInfo.ElectricalConsumption,
+      ProtectionGrade:
+        Equipo.TechnicalSpecification.OptionalTechInfo.ProtectionGrade,
+      SanitaryGrade:
+        Equipo.TechnicalSpecification.OptionalTechInfo.SanitaryGrade,
+      AvailableWarranty:
+        Equipo.TechnicalSpecification.OptionalTechInfo.AvailableWarranty,
+      RemainingWarrantyYears:
+        Equipo.TechnicalSpecification.OptionalTechInfo.RemainingWarrantyYears,
+      PeripheralDevicesAccesories:
+        Equipo.TechnicalSpecification.OptionalTechInfo
+          .PeripheralDevicesAccesories,
+      WorkingHours:
+        Equipo.TechnicalSpecification.OptionalTechInfo.WorkingHours,
+      LaboratoryEquipment:
+        Equipo.TechnicalSpecification.OptionalTechInfo.LaboratoryEquipment,
+      Id_TechnicalSpecification:
+        Equipo.TechnicalSpecification.Id_TechnicalSpecification,
+    }
     ).then(() => {
       alert("Successful Updated");
     });
@@ -1411,7 +1404,7 @@ const ConsultaEquipos = () => {
 
     console.log(getAllList);
 
-    await sendData(valorInsertar);
+    // await sendData(valorInsertar);
 
     setModalInsertar(false);
     seteditingNewServInfo(true);
@@ -2239,6 +2232,18 @@ const ConsultaEquipos = () => {
   ];
 
   const [tranferirModal, settranferirModal] = useState(false);
+
+  //--------- Campos Selects  -------------
+
+  const BUList = [
+    { label: "WORT KETTLE" },
+    { label: "TORRE DE MOLIENDA" },
+    { label: "CONOCIMIENTOS" },
+    { label: "BAGAZO/SYE" },
+    { label: "BLOQUE FRIO" },
+    { label: "GENERAL" },
+    { label: "NO DATA AVAILABLE" }
+  ];
 
   return (
     <ThemeProvider theme={theme}>
@@ -3901,10 +3906,22 @@ const ConsultaEquipos = () => {
 
                     <FormGroup className="col-6">
                       {/* <div className="dropdown">
-                                            <div className="control">
-                                                <div className="select-value">Seleccionar Planta...</div>
-                                            </div>
-                                        </div> */}
+                        <div className="control">
+                        <div className="select-value">Seleccionar Planta...</div>
+                        </div>
+                      </div> */}
+
+                      {/* ----------------------------------------------------------------------------------- */}
+
+                      {/* <Autocomplete
+                        disablePortal
+                        required
+                        id="combo-box-demo"
+                        options={select.Planta}
+                        sx={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Seleccione Planta *" variant="outlined" onChange={handleChangeOperations} />}
+                      /> */}
+                      {/* ----------------------------------------------------------------------------------- */}
 
                       <label>
                         Planta <b className="text-danger">*</b>
@@ -3916,11 +3933,6 @@ const ConsultaEquipos = () => {
                         onChange={handleChangeOperations}
                       >
                         <option value="">Seleccione Planta</option>
-                        {/* {
-                                                operationsList.map((elemento) => (
-                                                    <option value={elemento.Id_Operations}>{elemento.Name}</option>
-                                                ))
-                                            } */}
                         <option value="APAN">APAN</option>
                         <option value="BARBADOS">BARBADOS</option>
                         <option value="BARRANQUILLA">BARRANQUILLA</option>
@@ -3996,28 +4008,43 @@ const ConsultaEquipos = () => {
                         <option value="BARBARIAN (CRAFT)">
                           BARBARIAN (CRAFT)
                         </option>
-                        <option value="SAINT VINCENT">SAINT VINCENTt</option>
+                        <option value="SAINT VINCENT">SAINT VINCENT</option>
                         <option value="BOGOTÁ BREWERY COMPANY (CRAFT)">
                           BOGOTÁ BREWERY COMPANY (CRAFT)
                         </option>
                       </select>
+
+                      {/* {
+                          operationsList.map((elemento) => (
+                          <option value={elemento.Id_Operations}>{elemento.Name}</option>
+                          ))
+                        } */}
                     </FormGroup>
 
                     <FormGroup className="col-6">
+
+                      {/* ----------------------------------------------------------------------------------- */}
                       {/* <Autocomplete
-                                          disablePortal
-                                          id="combo-box-demo"
-                                          name="Name"
-                                          onChange={handleChangeLineTypes}
-                                          options={lineTypesSelect}
-                                          sx={{ width: 370 }}
-                                          renderInput={(params) => 
-                                              <TextField {...params} label="Line Type" variant='outlined' />}
-                                      /> */}
+                        disablePortal
+                        required
+                        id="combo-box-demo"
+                        options={select.TipoLinea}
+                        sx={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Seleccione Tipo de Línea *" variant="outlined" />}
+                        onChange={ handleChangeLineTypes }
+                        /> */}
+                      {/* ----------------------------------------------------------------------------------- */}
+
+
+
+
+                      {/* // value={lineTypes ? lineTypes : ""}
+                          // onChange={handleChangeLineTypes} */}
+
 
                       <label htmlFor="lineType">
                         Tipo de línea <b className="text-danger">*</b>
-                      </label>
+                        </label>
                       <select
                         className="form-select SelectBoostrap"
                         name="Name"
@@ -4034,12 +4061,25 @@ const ConsultaEquipos = () => {
                       </select>
 
                       {/* {lineTypeList.map((elemento) => (
-                                              <option value={elemento.Name}>{elemento.Name}</option>
-                                          ))
-                                          } */}
+                        <option value={elemento.Name}>{elemento.Name}</option>
+                        ))
+                      } */}
                     </FormGroup>
 
                     <FormGroup className="col-6">
+
+                      {/* ----------------------------------------------------------------------------------- */}
+                      {/* <Autocomplete
+                        disablePortal
+                        required
+                        id="combo-box-demo"
+                        options={select.Pais}
+                        sx={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Seleccione País *" variant="outlined" onChange={handleChangeCountries} />}
+                      /> */}
+                      {/* ----------------------------------------------------------------------------------- */}
+
+
                       <label>
                         País <b className="text-danger">*</b>
                       </label>
@@ -4050,11 +4090,6 @@ const ConsultaEquipos = () => {
                         onChange={handleChangeCountries}
                       >
                         <option value="">Seleccione País</option>
-                        {/* {paisLis.map((elemento) => (
-                                                <option value={elemento.Id_Countries}>{elemento.Name}</option>
-                                            ))
-                                            } */}
-
                         <option value="BARBADOS">BARBADOS</option>
                         <option value="COLOMBIA">COLOMBIA</option>
                         <option value="CUBA">CUBA</option>
@@ -4068,6 +4103,12 @@ const ConsultaEquipos = () => {
                         <option value="PERÚ">PERÚ</option>
                         <option value="SAINT VINCENT">SAINT VINCENT</option>
                       </select>
+
+                      {/* {paisLis.map((elemento) => (
+                        <option value={elemento.Id_Countries}>{elemento.Name}</option>
+                        ))
+                      } */}
+
                     </FormGroup>
 
                     <FormGroup className="col-6">
@@ -4079,19 +4120,31 @@ const ConsultaEquipos = () => {
                         name="Name"
                         onChange={handleChangeBu}
                       >
-                        {/* ------------------------------------------------   SELECT DESDE LA BASE DE DATOS   ------------------------------------ */}
                         <option value="">Seleccione BU</option>
-                        {/* {
-                                                buList.map((elemento) => (
-                                                    <option value={elemento.Id_BU}>{elemento.Name}</option>
-                                                ))
-                                            } */}
-
                         <option value="CAC">CAC</option>
                         <option value="COL">COL</option>
                         <option value="PEC">PEC</option>
                         <option value="MEX">MEX</option>
                       </select>
+
+                      {/* ------------------------------------------------   SELECT DESDE LA BASE DE DATOS   ------------------------------------ */}
+                      {/* {
+                        buList.map((elemento) => (
+                        <option value={elemento.Id_BU}>{elemento.Name}</option>
+                        ))
+                      } */}
+
+                      {/* ----------------------------------------------------------------------------------- */}
+                      {/* <Autocomplete
+                        disablePortal
+                        required
+                        id="combo-box-demo"
+                        options={BUList}
+                        sx={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Seleccione BU *" variant="outlined" onChange={handleChangeBu} />}
+                      /> */}
+                      {/* ----------------------------------------------------------------------------------- */}
+
                     </FormGroup>
 
                     <FormGroup className="col-6">
@@ -4104,15 +4157,7 @@ const ConsultaEquipos = () => {
                         onChange={handleChangeAreas}
                       >
                         <option value="">Seleccione Area</option>
-                        {/* {
-                                                areaList.map((elemento) => (
-                                                    <option value={elemento.Id_Areas}>{elemento.Name}</option>
-                                                ))
-                                            } */}
-
-                        <option value="GENERAL SERVICES">
-                          GENERAL SERVICES
-                        </option>
+                        <option value="GENERAL SERVICES"> GENERAL SERVICES </option>
                         <option value="SILOS">SILOS</option>
                         <option value="MILLING">MILLING</option>
                         <option value="BREWHOUSE">BREWHOUSE</option>
@@ -4122,43 +4167,25 @@ const ConsultaEquipos = () => {
                         <option value="CENTRIFUGE">CENTRIFUGE</option>
                         <option value="FILTRATION">FILTRATION</option>
                         <option value="DILUTION WATER">DILUTION WATER</option>
-                        <option value="BRIGHT BEER TANKS">
-                          BRIGHT BEER TANKS
-                        </option>
+                        <option value="BRIGHT BEER TANKS"> BRIGHT BEER TANKS </option>
                         <option value="PACKAGING">PACKAGING</option>
-                        <option value="CHEMICAL ISLAND & CIP">
-                          CHEMICAL ISLAND & CIP
-                        </option>
+                        <option value="CHEMICAL ISLAND & CIP"> CHEMICAL ISLAND & CIP </option>
                         <option value="SYRUP HOUSE">SYRUP HOUSE</option>
                         <option value="LOGISTIC TIER 1">LOGISTIC TIER 1</option>
                         <option value="LOGISTIC TIER 2">LOGISTIC TIER 2</option>
                         <option value="CO2 RECOVERY">CO2 RECOVERY</option>
                         <option value="REFRIGERATION">REFRIGERATION</option>
                         <option value="WELLS">WELLS</option>
-                        <option value="WATER TREATMENT PLANT">
-                          WATER TREATMENT PLANT
-                        </option>
+                        <option value="WATER TREATMENT PLANT"> WATER TREATMENT PLANT </option>
                         <option value="COMPRESSED AIR">COMPRESSED AIR</option>
-                        <option value="ELECTRICAL SUBSTATION (HV)">
-                          ELECTRICAL SUBSTATION (HV)
-                        </option>
-                        <option value="ELECTRICAL SUBSTATION (MV)">
-                          ELECTRICAL SUBSTATION (MV)
-                        </option>
-                        <option value="ELECTRICAL SUBSTATION (LV)">
-                          ELECTRICAL SUBSTATION (LV)
-                        </option>
-                        <option value="STEAM GENERATION">
-                          STEAM GENERATION
-                        </option>
-                        <option value="BIOLOGICAL TREATMENT SYSTEM">
-                          BIOLOGICAL TREATMENT SYSTEM
-                        </option>
+                        <option value="ELECTRICAL SUBSTATION (HV)"> ELECTRICAL SUBSTATION (HV) </option>
+                        <option value="ELECTRICAL SUBSTATION (MV)"> ELECTRICAL SUBSTATION (MV) </option>
+                        <option value="ELECTRICAL SUBSTATION (LV)"> ELECTRICAL SUBSTATION (LV) </option>
+                        <option value="STEAM GENERATION"> STEAM GENERATION </option>
+                        <option value="BIOLOGICAL TREATMENT SYSTEM"> BIOLOGICAL TREATMENT SYSTEM </option>
                         <option value="TERTIARY SYSTEM">TERTIARY SYSTEM</option>
                         <option value="SANITARY PLANT">SANITARY PLANT</option>
-                        <option value={["AUTOMATION & INDUSTRIAL NETWORK"]}>
-                          AUTOMATION & INDUSTRIAL NETWORK
-                        </option>
+                        <option value={["AUTOMATION & INDUSTRIAL NETWORK"]}> AUTOMATION & INDUSTRIAL NETWORK </option>
                         <option value="MAINTENANCE">MAINTENANCE</option>
                         <option value="IT">IT</option>
                         <option value="LABORATORY">LABORATORY</option>
@@ -4166,46 +4193,71 @@ const ConsultaEquipos = () => {
                         <option value="OFFICES">OFFICES</option>
                         <option value="SUBPRODUCTS">SUBPRODUCTS</option>
                       </select>
+
+                      {/* {
+                        areaList.map((elemento) => (
+                        <option value={elemento.Id_Areas}>{elemento.Name}</option>
+                        ))
+                        } */}
+
+                        {/* ----------------------------------------------------------------------------------- */}
+                      {/* <Autocomplete
+                        disablePortal
+                        required
+                        id="combo-box-demo"
+                        options={select.Areas}
+                        sx={{ width: 300 }}
+                        onChange={handleChangeAreas}
+                        renderInput={(params) => <TextField {...params} label="Seleccione Area *" variant="outlined" />}
+                      /> */}
+                      {/* ----------------------------------------------------------------------------------- */}
+
                     </FormGroup>
 
                     <FormGroup className="col-6">
-                      <label htmlFor="Subarea">
-                        Subárea <b className="text-danger">*</b>
-                      </label>
+                      <label htmlFor="Subarea"> Subárea <b className="text-danger">*</b> </label>
                       <select
                         className="form-select SelectBoostrap"
                         name="Name"
                         onChange={handleChangeSubArea}
                       >
                         <option value="">Seleccione Subárea</option>
-                        {/* {subareaList.map((elemento) => (
-                                                <option value={elemento.Id_SubAreas}>{elemento.Name}</option>
-                                            ))
-                                            } */}
                         <option value="WORT KETTLE">WORT KETTLE</option>
-                        <option value="TORRE DE MOLIENDA">
-                          TORRE DE MOLIENDA
-                        </option>
+                        <option value="TORRE DE MOLIENDA"> TORRE DE MOLIENDA </option>
                         <option value="CONOCIMIENTOS">CONOCIMIENTOS</option>
                         <option value="BAGAZO/SYE">BAGAZO/SYE</option>
                         <option value="BLOQUE FRIO">BLOQUE FRIO</option>
                         <option value="GENERAL">GENERAL</option>
-                        <option value="NO DATA AVAILABLE">
-                          No data available
-                        </option>
+                        <option value="NO DATA AVAILABLE"> No data available </option>
                       </select>
+
+                      {/* {subareaList.map((elemento) => (
+                      <option value={elemento.Id_SubAreas}>{elemento.Name}</option>
+                      )) } */}
+
+                      {/* ----------------------------------------------------------------------------------- */}
+                      {/* <Autocomplete
+                        disablePortal
+                        required
+                        id="combo-box-demo"
+                        options={select.SubArea}
+                        sx={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Seleccione Subárea *" variant="outlined" onChange={handleChangeSubArea} />}
+                      /> */}
+                      {/* ----------------------------------------------------------------------------------- */}
+
                     </FormGroup>
 
                     {/* <FormGroup className="col-12">
-                                      <label>Correo de planta:</label>
-                                      <input
-                                          className="form-control"
-                                          required
-                                          type="text text-align=center"
-                                          name="correo"
-                                          onChange={handleChange}
-                                      />
-                                  </FormGroup> */}
+                    <label>Correo de planta:</label>
+                    <input
+                    className="form-control"
+                    required
+                    type="text text-align=center"
+                    name="correo"
+                    onChange={handleChange}
+                      />
+                    </FormGroup> */}
 
                     <FormGroup className="col-12">
                       {/* Para obtener el correo */}
@@ -4219,14 +4271,14 @@ const ConsultaEquipos = () => {
                     </FormGroup>
 
                     {/* <FormGroup className="col-6">
-                                      <label>Subárea:</label>
-                                      <input
-                                          className="form-control"
-                                          type="text text-align=center"
-                                          name="subarea"
-                                          value={equipoSeleccionado ? equipoSeleccionado.subarea : ''}
-                                          onChange={handleChange} />
-                                  </FormGroup> */}
+                    <label>Subárea:</label>
+                    <input
+                    className="form-control"
+                    type="text text-align=center"
+                    name="subarea"
+                    value={equipoSeleccionado ? equipoSeleccionado.subarea : ''}
+                    onChange={handleChange} />
+                    </FormGroup> */}
 
                     {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
                     <FormGroup className="row align-items-center justify-content-between">

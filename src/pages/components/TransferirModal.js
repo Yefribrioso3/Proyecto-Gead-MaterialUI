@@ -111,8 +111,8 @@ export const TransferirModal = ({ equipoSeleccionado, operations, tranferirModal
                             InputProps={{
                                 readOnly: true,
                             }}
-                            // placeholder='Equipo'
-                            // onChange={handleChange}
+                        // placeholder='Equipo'
+                        // onChange={handleChange}
                         />
                     </div>
 
@@ -128,9 +128,9 @@ export const TransferirModal = ({ equipoSeleccionado, operations, tranferirModal
                             InputProps={{
                                 readOnly: true,
                             }}
-                            // placeholder='Planta origen'
-                            // disabled
-                            // onChange={handleChange}
+                        // placeholder='Planta origen'
+                        // disabled
+                        // onChange={handleChange}
                         />
                     </div>
 
@@ -175,8 +175,8 @@ export const TransferirModal = ({ equipoSeleccionado, operations, tranferirModal
                 </div>
 
                 <div className='col-8 p-2 d-flex justify-content-center'>
-                    <Button 
-                        type='submit' 
+                    <Button
+                        type='submit'
                         color="primary"
                         variant='contained'
                         style={style.btn}
