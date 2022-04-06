@@ -737,7 +737,7 @@ const ConsultaEquipos = () => {
       ...prevState,
       "Name": label,
     }));
-    console.log(areas)
+    // console.log(areas)
   };
 
   const handleChangeSubArea = (e) => {
@@ -757,7 +757,7 @@ const ConsultaEquipos = () => {
       ...prevState,
       "Name": label,
     }));
-    console.log(SubArea)
+    // console.log(SubArea)
   };
 
   const handleChangeOperations = (e) => {
@@ -771,7 +771,7 @@ const ConsultaEquipos = () => {
       ...prevState,
       "Name": label,
     }));
-    console.log(operations)
+    // console.log(operations)
   };
 
   const handleChangeCountries = (e) => {
@@ -800,7 +800,7 @@ const ConsultaEquipos = () => {
       ...prevState,
       "Name": label,
     }));
-    console.log(bu)
+    // console.log(bu)
   };
 
   const handleChangeLine = (e) => {
@@ -1592,9 +1592,9 @@ const ConsultaEquipos = () => {
 
       setGetAllList([...getAllList, valorInsertar]); //Agregamos la dataNueva al estado.
 
-      console.log(getAllList);
+      // console.log(getAllList);
 
-      // await sendData(valorInsertar);
+      await sendData(valorInsertar);
 
       setModalInsertar(false);
       seteditingNewServInfo(true);
@@ -2450,7 +2450,7 @@ const ConsultaEquipos = () => {
 
   //--------- Campos Selects  -------------
   const onSubmit = (e) => {
-    console.log(e)
+    // console.log(e)
     setEditing(true);
     setEditingTechInfo(false);
   }

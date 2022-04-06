@@ -194,8 +194,7 @@ const Registro = ({ history }) => {
       roleId: "",
       password: "",
     });
-
-    console.log(UserToken);
+    // console.log(UserToken);
     setModalInsertar(true);
   };
 
