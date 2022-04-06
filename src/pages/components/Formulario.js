@@ -7,11 +7,7 @@ import { globalApi } from "../../types/api.types";
 const Formulario = ({ addEquipos, dataInfo }) => {
   // const [dataInfo, setData] = useState(dataInfo);
   // const {register, errors, handleSubmit} = useForm();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, formState: { errors }, } = useForm();
 
   // ----------------   Operations   --------------------------
   // const [bu, setBu] = useState();

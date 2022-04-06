@@ -62,17 +62,17 @@ const ServiceInformation = ({
     },
   });
   // casoServInfo, setCasoServInfo
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm();
 
   // let { newServicesInformation } = equipoSeleccionado.ServicesInformation;
 
   // let { ServicesInformation } = equipoSeleccionado;
 
-  const [filaEditada, setfilaEditada] = useState(false);
+  // const [filaEditada, setfilaEditada] = useState(false);
 
   // const onSubmit = (data, e) => {
 
