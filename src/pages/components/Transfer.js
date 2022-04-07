@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Gead from "../../assets/Gead.jpeg";
 import { DataGrid, esES } from "@mui/x-data-grid";
 import Controls from "../../components/controls/Controls";
@@ -13,7 +13,30 @@ import {
   Typography,
 } from "@material-ui/core";
 
-export const Transfer = ({ setmostrarMenus }) => {
+import { ThemeProvider } from "@material-ui/styles";
+
+export const Transfer = ({ setmostrarMenus, light }) => {
+  const theme = createTheme({
+    palette: {
+      type: light ? "light" : "dark",
+
+      primary: {
+        main: "#B3C8FC",
+        light: "#E6FBFF",
+        dark: "#8297C9",
+      },
+      secondary: {
+        main: "#6200EE",
+        light: "#8F6CFF",
+        dark: "#14149A",
+      },
+      background: {
+        main: "#3F3857",
+        light: "#FFFFFF",
+        dark: "#3F3857",
+      },
+    },
+  });
   const style = createTheme({
     paper: {
       padding: 40,
@@ -49,8 +72,14 @@ export const Transfer = ({ setmostrarMenus }) => {
       fontSize: "34px",
       lineHeight: "140%",
       letterSpacing: "0.0025em",
-      color: "#14149A",
+
       marginBottom: "0.5rem",
+
+      color:
+        theme.palette.type == "dark"
+          ? theme.palette.primary.light
+          : theme.palette.secondary,
+
       // marginTop: "0.5rem",
       // fontFamily: 'Roboto',
     },
@@ -186,7 +215,7 @@ export const Transfer = ({ setmostrarMenus }) => {
   ];
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Paper style={style.paper}>
         <Grid>
           <div className="row">
@@ -223,7 +252,6 @@ export const Transfer = ({ setmostrarMenus }) => {
           <div className="col-4">
             <Button
               type="submit"
-              color="primary"
               variant="contained"
               fullWidth
               style={style.btn}
@@ -258,6 +286,6 @@ export const Transfer = ({ setmostrarMenus }) => {
           </div>
         </div>
       </Paper>
-    </>
+    </ThemeProvider>
   );
 };

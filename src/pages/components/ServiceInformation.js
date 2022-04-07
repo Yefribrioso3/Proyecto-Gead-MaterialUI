@@ -265,7 +265,7 @@ const ServiceInformation = ({
         </FormGroup>
 
         <FormGroup className="col-4">
-          <label>Procurement Order:</label>
+          <label>Orden de adquisición</label>
           <input
             className="form-control"
             type="text text-align=center"
@@ -294,7 +294,7 @@ const ServiceInformation = ({
             >
               {" "}
               <ArrowBackIcon />
-              Technical Information
+              Información Técnica
             </Button>
           </Grid>
           <Grid xs={4} className="d-flex justify-content-center">

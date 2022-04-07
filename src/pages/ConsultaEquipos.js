@@ -2649,7 +2649,7 @@ const ConsultaEquipos = () => {
                               setId(null);
                             }}
                           >
-                            Services Information
+                            Información de servicios
                             <ArrowForwardIcon />
                           </Button>
                         </Grid>
@@ -2724,6 +2724,7 @@ const ConsultaEquipos = () => {
                   {tranferirModal ? (
                     <>
                       <TransferirModal
+                        light={light}
                         equipoSeleccionado={equipoSeleccionado}
                         operations={operations}
                         tranferirModal={tranferirModal}
@@ -3199,7 +3200,7 @@ const ConsultaEquipos = () => {
                                     setEditingTechInfo(false);
                                   }}
                                 >
-                                  Technical Information
+                                  Información técnica
                                   <ArrowForwardIcon />
                                 </Button>
                               </Grid>
@@ -3785,7 +3786,7 @@ const ConsultaEquipos = () => {
                               setCasoServInfo("Add");
                             }}
                           >
-                            Services Information
+                            Información de servicios
                             <ArrowForwardIcon />
                           </Button>
                         </Grid>
@@ -4334,7 +4335,7 @@ const ConsultaEquipos = () => {
                           }}
                         >
                           {" "}
-                          Technical Information
+                          Información Técnica
                           <ArrowForwardIcon />
                         </Button>
                       </Grid>
