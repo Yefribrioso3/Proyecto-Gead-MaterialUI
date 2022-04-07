@@ -11,7 +11,7 @@ import {
 } from "reactstrap";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, esES } from "@mui/x-data-grid";
 import Axios from "axios";
 import { useForm } from "react-hook-form";
 import EditAddServInfo from "./components/EditAddServInfo";
@@ -70,36 +70,6 @@ import { select } from "./components/select";
 //   { id: "equipmentType", label: "Tipo de Equipo", disableSorting: true },
 //   { id: "acciones", label: "Acciones", disableSorting: true },
 // ];
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    color:
-      theme.palette.type === "dark"
-        ? theme.palette.primary.light
-        : theme.palette.secondary.light,
-  },
-  body: {
-    fontSize: 14,
-    color:
-      theme.palette.type === "dark"
-        ? theme.palette.primary.light
-        : theme.palette.secondary.light,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    color:
-      theme.palette.type === "dark"
-        ? theme.palette.background.dark
-        : theme.palette.background.light,
-
-    backgroundColor: theme.palette.type === "dark" ? "#514A69" : "#FFFFFF",
-
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
 
 //---------------------------------------------------------------
 let userToken = {};
@@ -107,30 +77,33 @@ let userToken = {};
 const ConsultaEquipos = () => {
   const [light, setLight] = useState(false);
 
-  const theme = createTheme({
-    palette: {
-      type: light ? "light" : "dark",
+  const theme = createTheme(
+    {
+      palette: {
+        type: light ? "light" : "dark",
 
-      primary: {
-        main: "#B3C8FC",
-        light: "#E6FBFF",
-        dark: "#8297C9",
-      },
-      secondary: {
-        main: "#6200EE",
-        light: "#8F6CFF",
-        dark: "#14149A",
-      },
-      background: {
-        main: "#3F3857",
-        light: "#FFFFFF",
-        dark: "#3F3857",
-      },
-      alert: {
-        main: "#C60055",
+        primary: {
+          main: "#B3C8FC",
+          light: "#E6FBFF",
+          dark: "#8297C9",
+        },
+        secondary: {
+          main: "#6200EE",
+          light: "#8F6CFF",
+          dark: "#14149A",
+        },
+        background: {
+          main: "#3F3857",
+          light: "#FFFFFF",
+          dark: "#3F3857",
+        },
+        alert: {
+          main: "#C60055",
+        },
       },
     },
-  });
+    esES
+  );
 
   const useStyles = makeStyles((theme) => ({
     pageContent: {
@@ -722,7 +695,7 @@ const ConsultaEquipos = () => {
 
   const handleChangeSubArea = (e) => {
     const { name, value } = e.target;
-    console.log(e.target.value)
+    console.log(e.target.value);
 
     setSubArea((prevState) => ({
       ...prevState,
@@ -769,7 +742,7 @@ const ConsultaEquipos = () => {
   const handleChangeLineTypes = (e) => {
     const { name, value } = e.target;
 
-    console.log(e.target.value)
+    console.log(e.target.value);
 
     setLineTypes((prevState) => ({
       ...prevState,
@@ -936,45 +909,57 @@ const ConsultaEquipos = () => {
       }
     );
 
-    await Axios.put(`${globalApi}/optionalTechInfo/${Equipo.TechnicalSpecification.Id_TechnicalSpecification}`, {
-      NominalCapacity: Equipo.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
-      YearOfConstruction: Equipo.TechnicalSpecification.OptionalTechInfo.YearOfConstruction,
-      EquipmentCurrentConditionsComments: Equipo.TechnicalSpecification.OptionalTechInfo.EquipmentCurrentConditionsComments,
-      NotesAboutEquipment: Equipo.TechnicalSpecification.OptionalTechInfo.NotesAboutEquipment,
-      AssambledDissambled: Equipo.TechnicalSpecification.OptionalTechInfo.AssambledDissambled,
-      PlantTechnicalInformationContact: Equipo.TechnicalSpecification.OptionalTechInfo.PlantTechnicalInformationContact,
-      PlantFinancialInformationContact: Equipo.TechnicalSpecification.OptionalTechInfo.PlantFinancialInformationContact,
-      Width: Equipo.TechnicalSpecification.OptionalTechInfo.Width,
-      Height: Equipo.TechnicalSpecification.OptionalTechInfo.Height,
-      Depth: Equipo.TechnicalSpecification.OptionalTechInfo.Depth,
-      ConstructionMaterials:
-        Equipo.TechnicalSpecification.OptionalTechInfo.ConstructionMaterials,
-      ExternalCoating:
-        Equipo.TechnicalSpecification.OptionalTechInfo.ExternalCoating,
-      CommunicationProtocol:
-        Equipo.TechnicalSpecification.OptionalTechInfo.CommunicationProtocol,
-      MeasurementVariable:
-        Equipo.TechnicalSpecification.OptionalTechInfo.MeasurementVariable,
-      ElectricalConsumption:
-        Equipo.TechnicalSpecification.OptionalTechInfo.ElectricalConsumption,
-      ProtectionGrade:
-        Equipo.TechnicalSpecification.OptionalTechInfo.ProtectionGrade,
-      SanitaryGrade:
-        Equipo.TechnicalSpecification.OptionalTechInfo.SanitaryGrade,
-      AvailableWarranty:
-        Equipo.TechnicalSpecification.OptionalTechInfo.AvailableWarranty,
-      RemainingWarrantyYears:
-        Equipo.TechnicalSpecification.OptionalTechInfo.RemainingWarrantyYears,
-      PeripheralDevicesAccesories:
-        Equipo.TechnicalSpecification.OptionalTechInfo
-          .PeripheralDevicesAccesories,
-      WorkingHours:
-        Equipo.TechnicalSpecification.OptionalTechInfo.WorkingHours,
-      LaboratoryEquipment:
-        Equipo.TechnicalSpecification.OptionalTechInfo.LaboratoryEquipment,
-      Id_TechnicalSpecification:
-        Equipo.TechnicalSpecification.Id_TechnicalSpecification,
-    }
+    await Axios.put(
+      `${globalApi}/optionalTechInfo/${Equipo.TechnicalSpecification.Id_TechnicalSpecification}`,
+      {
+        NominalCapacity:
+          Equipo.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
+        YearOfConstruction:
+          Equipo.TechnicalSpecification.OptionalTechInfo.YearOfConstruction,
+        EquipmentCurrentConditionsComments:
+          Equipo.TechnicalSpecification.OptionalTechInfo
+            .EquipmentCurrentConditionsComments,
+        NotesAboutEquipment:
+          Equipo.TechnicalSpecification.OptionalTechInfo.NotesAboutEquipment,
+        AssambledDissambled:
+          Equipo.TechnicalSpecification.OptionalTechInfo.AssambledDissambled,
+        PlantTechnicalInformationContact:
+          Equipo.TechnicalSpecification.OptionalTechInfo
+            .PlantTechnicalInformationContact,
+        PlantFinancialInformationContact:
+          Equipo.TechnicalSpecification.OptionalTechInfo
+            .PlantFinancialInformationContact,
+        Width: Equipo.TechnicalSpecification.OptionalTechInfo.Width,
+        Height: Equipo.TechnicalSpecification.OptionalTechInfo.Height,
+        Depth: Equipo.TechnicalSpecification.OptionalTechInfo.Depth,
+        ConstructionMaterials:
+          Equipo.TechnicalSpecification.OptionalTechInfo.ConstructionMaterials,
+        ExternalCoating:
+          Equipo.TechnicalSpecification.OptionalTechInfo.ExternalCoating,
+        CommunicationProtocol:
+          Equipo.TechnicalSpecification.OptionalTechInfo.CommunicationProtocol,
+        MeasurementVariable:
+          Equipo.TechnicalSpecification.OptionalTechInfo.MeasurementVariable,
+        ElectricalConsumption:
+          Equipo.TechnicalSpecification.OptionalTechInfo.ElectricalConsumption,
+        ProtectionGrade:
+          Equipo.TechnicalSpecification.OptionalTechInfo.ProtectionGrade,
+        SanitaryGrade:
+          Equipo.TechnicalSpecification.OptionalTechInfo.SanitaryGrade,
+        AvailableWarranty:
+          Equipo.TechnicalSpecification.OptionalTechInfo.AvailableWarranty,
+        RemainingWarrantyYears:
+          Equipo.TechnicalSpecification.OptionalTechInfo.RemainingWarrantyYears,
+        PeripheralDevicesAccesories:
+          Equipo.TechnicalSpecification.OptionalTechInfo
+            .PeripheralDevicesAccesories,
+        WorkingHours:
+          Equipo.TechnicalSpecification.OptionalTechInfo.WorkingHours,
+        LaboratoryEquipment:
+          Equipo.TechnicalSpecification.OptionalTechInfo.LaboratoryEquipment,
+        Id_TechnicalSpecification:
+          Equipo.TechnicalSpecification.Id_TechnicalSpecification,
+      }
     ).then(() => {
       alert("Successful Updated");
     });
@@ -1346,21 +1331,21 @@ const ConsultaEquipos = () => {
       nt.Id_NewTechSpec === null
         ? []
         : nt.map((NTS) => {
-          return (NTS = {
-            Id_NewTechSpec: NTS.Id_NewTechSpec,
-            Id_TechnicalSpecification:
-              technicalInformation.Id_TechnicalSpecification,
-            Name: NTS.Name,
-            Value: NTS.Value,
-            SelectNewTechSpec: {
-              Id_SelectNewTechSpec:
-                NTS.SelectNewTechSpec.Id_SelectNewTechSpec,
+            return (NTS = {
+              Id_NewTechSpec: NTS.Id_NewTechSpec,
               Id_TechnicalSpecification:
                 technicalInformation.Id_TechnicalSpecification,
-              Id_NewTechSpec: NTS.SelectNewTechSpec.Id_NewTechSpec,
-            },
+              Name: NTS.Name,
+              Value: NTS.Value,
+              SelectNewTechSpec: {
+                Id_SelectNewTechSpec:
+                  NTS.SelectNewTechSpec.Id_SelectNewTechSpec,
+                Id_TechnicalSpecification:
+                  technicalInformation.Id_TechnicalSpecification,
+                Id_NewTechSpec: NTS.SelectNewTechSpec.Id_NewTechSpec,
+              },
+            });
           });
-        });
 
     valorInsertar.TechnicalSpecification.newTechnicalSpecification =
       newTechicInformationAll;
@@ -1374,21 +1359,21 @@ const ConsultaEquipos = () => {
       ns.Id_NewServInfo === null
         ? []
         : ns.map((NSI) => {
-          return (NSI = {
-            Id_NewServInfo: NSI.Id_NewServInfo,
-            Id_ServicesInformation:
-              servicesInformation.Id_ServicesInformation,
-            Name: NSI.Name,
-            Value: NSI.Value,
-            SelectNewServicesInfo: {
-              Id_SelectNewServInfo:
-                NSI.SelectNewServicesInfo.Id_SelectNewServInfo,
+            return (NSI = {
+              Id_NewServInfo: NSI.Id_NewServInfo,
               Id_ServicesInformation:
                 servicesInformation.Id_ServicesInformation,
-              Id_NewServInfo: NSI.SelectNewServicesInfo.Id_NewServInfo,
-            },
+              Name: NSI.Name,
+              Value: NSI.Value,
+              SelectNewServicesInfo: {
+                Id_SelectNewServInfo:
+                  NSI.SelectNewServicesInfo.Id_SelectNewServInfo,
+                Id_ServicesInformation:
+                  servicesInformation.Id_ServicesInformation,
+                Id_NewServInfo: NSI.SelectNewServicesInfo.Id_NewServInfo,
+              },
+            });
           });
-        });
 
     valorInsertar.ServicesInformation.newServicesInformation =
       newservInformationAll;
@@ -1801,17 +1786,17 @@ const ConsultaEquipos = () => {
 
     caso === "technical"
       ? setTechnicalSpecEditado({
-        Id_NewTechSpec: techInfo.Id_NewTechSpec,
-        Id_TechnicalSpecification: techInfo.Id_TechnicalSpecification,
-        Name: techInfo.Name,
-        Value: techInfo.Value,
-      })
+          Id_NewTechSpec: techInfo.Id_NewTechSpec,
+          Id_TechnicalSpecification: techInfo.Id_TechnicalSpecification,
+          Name: techInfo.Name,
+          Value: techInfo.Value,
+        })
       : setTechInfoEditado({
-        Id_NewServInfo: techInfo.Id_NewServInfo,
-        Id_ServicesInformation: techInfo.Id_ServicesInformation,
-        Name: techInfo.Name,
-        Value: techInfo.Value,
-      });
+          Id_NewServInfo: techInfo.Id_NewServInfo,
+          Id_ServicesInformation: techInfo.Id_ServicesInformation,
+          Name: techInfo.Name,
+          Value: techInfo.Value,
+        });
   };
 
   // --------------------        ACTUALIZAR NEW SERVICES INFORMATION     -------------------------
@@ -2003,48 +1988,48 @@ const ConsultaEquipos = () => {
       file === undefined
         ? "undefined"
         : new Promise((resolve, reject) => {
-          const fileReader = new FileReader();
-          fileReader.readAsArrayBuffer(file);
+            const fileReader = new FileReader();
+            fileReader.readAsArrayBuffer(file);
 
-          fileReader.onload = (e) => {
-            const bufferArray = e.target.result;
+            fileReader.onload = (e) => {
+              const bufferArray = e.target.result;
 
-            const workbook = XLSX.read(bufferArray, { type: "buffer" });
+              const workbook = XLSX.read(bufferArray, { type: "buffer" });
 
-            const workbookSheetsName = workbook.SheetNames[0];
+              const workbookSheetsName = workbook.SheetNames[0];
 
-            const workbookSheet = workbook.Sheets[workbookSheetsName];
+              const workbookSheet = workbook.Sheets[workbookSheetsName];
 
-            const data = XLSX.utils.sheet_to_json(workbookSheet);
+              const data = XLSX.utils.sheet_to_json(workbookSheet);
 
-            const jData = [];
-            for (let i = 0; i < data.length; i++) {
-              const dato = data[i];
+              const jData = [];
+              for (let i = 0; i < data.length; i++) {
+                const dato = data[i];
 
-              jData.push({
-                ...dato,
-                Date_of_Installation: formatearFechaExcel(
-                  dato.Date_of_Installation
-                ),
-                Date_of_Desintallation: formatearFechaExcel(
-                  dato.Date_of_Desintallation
-                ),
-              });
-            }
+                jData.push({
+                  ...dato,
+                  Date_of_Installation: formatearFechaExcel(
+                    dato.Date_of_Installation
+                  ),
+                  Date_of_Desintallation: formatearFechaExcel(
+                    dato.Date_of_Desintallation
+                  ),
+                });
+              }
 
-            resolve(jData);
-          };
-          fileReader.onerror = (error) => {
-            reject(error);
-          };
-        });
+              resolve(jData);
+            };
+            fileReader.onerror = (error) => {
+              reject(error);
+            };
+          });
 
     promise === "undefined"
       ? console.log("undefined")
       : promise.then((d) => {
-        setModalInsertarExcel(true);
-        setItem(d);
-      });
+          setModalInsertarExcel(true);
+          setItem(d);
+        });
   };
 
   function formatearFechaExcel(fechaExcel) {
@@ -2099,7 +2084,7 @@ const ConsultaEquipos = () => {
               borderBottom: "0",
               color:
                 theme.palette.type === "dark"
-                  ? theme.palette.primary
+                  ? theme.palette.primary.light
                   : theme.palette.secondary.light,
               fontWeight: 500,
             }}
@@ -2242,7 +2227,7 @@ const ConsultaEquipos = () => {
     { label: "BAGAZO/SYE" },
     { label: "BLOQUE FRIO" },
     { label: "GENERAL" },
-    { label: "NO DATA AVAILABLE" }
+    { label: "NO DATA AVAILABLE" },
   ];
 
   return (
@@ -2275,7 +2260,7 @@ const ConsultaEquipos = () => {
           {/* <EmployeeForm /> */}
           <Toolbar className="align-items-center">
             <Controls.txt
-              label="Search Equipment"
+              label="Buscar equipos"
               id="outlined-basic"
               variant="outlined"
               className={classes.searchInput}
@@ -2333,8 +2318,9 @@ const ConsultaEquipos = () => {
             }}
           >
             <DataGrid
+              localeText={esES.components.MuiDataGrid.defaultProps.localeText}
               // sx={{ m: 2 }}
-              lght={light}
+              light={light}
               rows={filterFn.fn(getAllList)}
               // style={{ color:"blue"}}
               columns={columns}
@@ -2347,7 +2333,7 @@ const ConsultaEquipos = () => {
                   theme.palette.type === "dark"
                     ? theme.palette.primary.light
                     : theme.palette.primary.dark,
-                "&:nth-of-type(odd)": {
+                "&:MuiDataGrid-menuList": {
                   backgroundColor: theme.palette.primary.dark,
                 },
               }}
@@ -2355,13 +2341,13 @@ const ConsultaEquipos = () => {
           </div>
           <Toolbar className={"mt-0"}>
             <PageHeader
-              contador={`${totalEncontrados} results`}
+              contador={`${totalEncontrados} resultados`}
               style={{ fontSize: 12 }}
             />
             <Grid item sm></Grid>
             <Grid item sm></Grid>
 
-            <PageHeader subTitle="Date Updated:" />
+            <PageHeader subTitle="Fecha actualizada:" />
 
             <PageHeader subTitle={fecha} />
 
@@ -4022,7 +4008,6 @@ const ConsultaEquipos = () => {
                     </FormGroup>
 
                     <FormGroup className="col-6">
-
                       {/* ----------------------------------------------------------------------------------- */}
                       {/* <Autocomplete
                         disablePortal
@@ -4035,16 +4020,12 @@ const ConsultaEquipos = () => {
                         /> */}
                       {/* ----------------------------------------------------------------------------------- */}
 
-
-
-
                       {/* // value={lineTypes ? lineTypes : ""}
                           // onChange={handleChangeLineTypes} */}
 
-
                       <label htmlFor="lineType">
                         Tipo de línea <b className="text-danger">*</b>
-                        </label>
+                      </label>
                       <select
                         className="form-select SelectBoostrap"
                         name="Name"
@@ -4067,7 +4048,6 @@ const ConsultaEquipos = () => {
                     </FormGroup>
 
                     <FormGroup className="col-6">
-
                       {/* ----------------------------------------------------------------------------------- */}
                       {/* <Autocomplete
                         disablePortal
@@ -4078,7 +4058,6 @@ const ConsultaEquipos = () => {
                         renderInput={(params) => <TextField {...params} label="Seleccione País *" variant="outlined" onChange={handleChangeCountries} />}
                       /> */}
                       {/* ----------------------------------------------------------------------------------- */}
-
 
                       <label>
                         País <b className="text-danger">*</b>
@@ -4108,7 +4087,6 @@ const ConsultaEquipos = () => {
                         <option value={elemento.Id_Countries}>{elemento.Name}</option>
                         ))
                       } */}
-
                     </FormGroup>
 
                     <FormGroup className="col-6">
@@ -4144,7 +4122,6 @@ const ConsultaEquipos = () => {
                         renderInput={(params) => <TextField {...params} label="Seleccione BU *" variant="outlined" onChange={handleChangeBu} />}
                       /> */}
                       {/* ----------------------------------------------------------------------------------- */}
-
                     </FormGroup>
 
                     <FormGroup className="col-6">
@@ -4157,7 +4134,10 @@ const ConsultaEquipos = () => {
                         onChange={handleChangeAreas}
                       >
                         <option value="">Seleccione Area</option>
-                        <option value="GENERAL SERVICES"> GENERAL SERVICES </option>
+                        <option value="GENERAL SERVICES">
+                          {" "}
+                          GENERAL SERVICES{" "}
+                        </option>
                         <option value="SILOS">SILOS</option>
                         <option value="MILLING">MILLING</option>
                         <option value="BREWHOUSE">BREWHOUSE</option>
@@ -4167,25 +4147,52 @@ const ConsultaEquipos = () => {
                         <option value="CENTRIFUGE">CENTRIFUGE</option>
                         <option value="FILTRATION">FILTRATION</option>
                         <option value="DILUTION WATER">DILUTION WATER</option>
-                        <option value="BRIGHT BEER TANKS"> BRIGHT BEER TANKS </option>
+                        <option value="BRIGHT BEER TANKS">
+                          {" "}
+                          BRIGHT BEER TANKS{" "}
+                        </option>
                         <option value="PACKAGING">PACKAGING</option>
-                        <option value="CHEMICAL ISLAND & CIP"> CHEMICAL ISLAND & CIP </option>
+                        <option value="CHEMICAL ISLAND & CIP">
+                          {" "}
+                          CHEMICAL ISLAND & CIP{" "}
+                        </option>
                         <option value="SYRUP HOUSE">SYRUP HOUSE</option>
                         <option value="LOGISTIC TIER 1">LOGISTIC TIER 1</option>
                         <option value="LOGISTIC TIER 2">LOGISTIC TIER 2</option>
                         <option value="CO2 RECOVERY">CO2 RECOVERY</option>
                         <option value="REFRIGERATION">REFRIGERATION</option>
                         <option value="WELLS">WELLS</option>
-                        <option value="WATER TREATMENT PLANT"> WATER TREATMENT PLANT </option>
+                        <option value="WATER TREATMENT PLANT">
+                          {" "}
+                          WATER TREATMENT PLANT{" "}
+                        </option>
                         <option value="COMPRESSED AIR">COMPRESSED AIR</option>
-                        <option value="ELECTRICAL SUBSTATION (HV)"> ELECTRICAL SUBSTATION (HV) </option>
-                        <option value="ELECTRICAL SUBSTATION (MV)"> ELECTRICAL SUBSTATION (MV) </option>
-                        <option value="ELECTRICAL SUBSTATION (LV)"> ELECTRICAL SUBSTATION (LV) </option>
-                        <option value="STEAM GENERATION"> STEAM GENERATION </option>
-                        <option value="BIOLOGICAL TREATMENT SYSTEM"> BIOLOGICAL TREATMENT SYSTEM </option>
+                        <option value="ELECTRICAL SUBSTATION (HV)">
+                          {" "}
+                          ELECTRICAL SUBSTATION (HV){" "}
+                        </option>
+                        <option value="ELECTRICAL SUBSTATION (MV)">
+                          {" "}
+                          ELECTRICAL SUBSTATION (MV){" "}
+                        </option>
+                        <option value="ELECTRICAL SUBSTATION (LV)">
+                          {" "}
+                          ELECTRICAL SUBSTATION (LV){" "}
+                        </option>
+                        <option value="STEAM GENERATION">
+                          {" "}
+                          STEAM GENERATION{" "}
+                        </option>
+                        <option value="BIOLOGICAL TREATMENT SYSTEM">
+                          {" "}
+                          BIOLOGICAL TREATMENT SYSTEM{" "}
+                        </option>
                         <option value="TERTIARY SYSTEM">TERTIARY SYSTEM</option>
                         <option value="SANITARY PLANT">SANITARY PLANT</option>
-                        <option value={["AUTOMATION & INDUSTRIAL NETWORK"]}> AUTOMATION & INDUSTRIAL NETWORK </option>
+                        <option value={["AUTOMATION & INDUSTRIAL NETWORK"]}>
+                          {" "}
+                          AUTOMATION & INDUSTRIAL NETWORK{" "}
+                        </option>
                         <option value="MAINTENANCE">MAINTENANCE</option>
                         <option value="IT">IT</option>
                         <option value="LABORATORY">LABORATORY</option>
@@ -4200,7 +4207,7 @@ const ConsultaEquipos = () => {
                         ))
                         } */}
 
-                        {/* ----------------------------------------------------------------------------------- */}
+                      {/* ----------------------------------------------------------------------------------- */}
                       {/* <Autocomplete
                         disablePortal
                         required
@@ -4211,11 +4218,13 @@ const ConsultaEquipos = () => {
                         renderInput={(params) => <TextField {...params} label="Seleccione Area *" variant="outlined" />}
                       /> */}
                       {/* ----------------------------------------------------------------------------------- */}
-
                     </FormGroup>
 
                     <FormGroup className="col-6">
-                      <label htmlFor="Subarea"> Subárea <b className="text-danger">*</b> </label>
+                      <label htmlFor="Subarea">
+                        {" "}
+                        Subárea <b className="text-danger">*</b>{" "}
+                      </label>
                       <select
                         className="form-select SelectBoostrap"
                         name="Name"
@@ -4223,12 +4232,18 @@ const ConsultaEquipos = () => {
                       >
                         <option value="">Seleccione Subárea</option>
                         <option value="WORT KETTLE">WORT KETTLE</option>
-                        <option value="TORRE DE MOLIENDA"> TORRE DE MOLIENDA </option>
+                        <option value="TORRE DE MOLIENDA">
+                          {" "}
+                          TORRE DE MOLIENDA{" "}
+                        </option>
                         <option value="CONOCIMIENTOS">CONOCIMIENTOS</option>
                         <option value="BAGAZO/SYE">BAGAZO/SYE</option>
                         <option value="BLOQUE FRIO">BLOQUE FRIO</option>
                         <option value="GENERAL">GENERAL</option>
-                        <option value="NO DATA AVAILABLE"> No data available </option>
+                        <option value="NO DATA AVAILABLE">
+                          {" "}
+                          No data available{" "}
+                        </option>
                       </select>
 
                       {/* {subareaList.map((elemento) => (
@@ -4245,7 +4260,6 @@ const ConsultaEquipos = () => {
                         renderInput={(params) => <TextField {...params} label="Seleccione Subárea *" variant="outlined" onChange={handleChangeSubArea} />}
                       /> */}
                       {/* ----------------------------------------------------------------------------------- */}
-
                     </FormGroup>
 
                     {/* <FormGroup className="col-12">

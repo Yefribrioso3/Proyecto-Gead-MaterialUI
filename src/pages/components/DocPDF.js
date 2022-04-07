@@ -8,7 +8,7 @@ import {
   Image,
   Line,
 } from "@react-pdf/renderer";
-
+import logo from "../../assets/logo.png";
 export const DocPDF = ({
   equipoSeleccionado,
   line,
@@ -24,6 +24,9 @@ export const DocPDF = ({
   return (
     <Document>
       <Page size="A4">
+        <View style={{ width: "100%", padding: "20px" }}>
+          <Image src={logo} style={{ width: "120px", marginBottom: "20px" }} />
+        </View>
         <View style={{ padding: "20px" }}>
           <View
             className="col-12"
