@@ -9,6 +9,23 @@ import {
   Line,
 } from "@react-pdf/renderer";
 import logo from "../../assets/logo.png";
+import logoABI from "../../assets/abiBlack.png";
+
+// Create styles
+const styles = StyleSheet.create({
+  row: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    padding: "20px",
+  },
+  section: {
+    margin: 10,
+    padding: 10,
+    flexGrow: 1,
+  },
+});
+
 export const DocPDF = ({
   equipoSeleccionado,
   line,
@@ -24,9 +41,15 @@ export const DocPDF = ({
   return (
     <Document>
       <Page size="A4">
-        <View style={{ width: "100%", padding: "20px" }}>
-          <Image src={logo} style={{ width: "120px", marginBottom: "20px" }} />
+        <View style={styles.row}>
+          <View style={{ width: "50%" }}>
+            <Image src={logo} style={{ width: "120px" }} />
+          </View>
+          <View style={{ width: "50%" }}>
+            <Image src={logoABI} style={{ width: "120px", float: "right" }} />
+          </View>
         </View>
+
         <View style={{ padding: "20px" }}>
           <View
             className="col-12"
