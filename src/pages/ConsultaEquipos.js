@@ -109,7 +109,7 @@ const StyledTableRow = withStyles((theme) => ({
 //---------------------------------------------------------------
 let userToken = {};
 
-const ConsultaEquipos = () => {
+const ConsultaEquipos = ({ history }) => {
   const [light, setLight] = useState(false);
 
   const theme = createTheme({
@@ -227,15 +227,28 @@ const ConsultaEquipos = () => {
     const getUserByToken = async () => {
       //  -------   Consulta al Api de User
       if (localStorage?.token) {
-        await authAxios.get(`/user/user-data`).then((response) => {
-          setUserByToken(response.data.data);
-        });
+        await authAxios.get(`/user/user-data`)
+          .then((response) => {
+            setUserByToken(response.data.data);
+          })
+          .catch((x) => {
+            console.log(x?.response);
+            if (x?.response.data.error.message === "jwt expired") {
+              // console.log("hola");
+              history.replace('/login');
+            }
+            // console.log(x?.response.data.msg)
+          });
+        // console.log(x?.response);
+        // console.log(userByToken);
       }
     };
 
     getUserByToken();
 
     userToken = userByToken;
+    // console.log(userByToken);
+
 
     // Token( userByToken, setUserByToken );
 
@@ -2934,7 +2947,7 @@ const ConsultaEquipos = () => {
                       <Button color="primary">Descargar PDF</Button>
                     </PDFDownloadLink>
                     {/* -------------------------------------------------------------------------------------- */}
-                    <Button
+                    {/* <Button
                       color="primary"
                       className="ml-2"
                       onClick={() => {
@@ -2942,7 +2955,7 @@ const ConsultaEquipos = () => {
                       }}
                     >
                       {tranferirModal ? "Ocultar Transferir" : "Transferir"}
-                    </Button>
+                    </Button> */}
                   </FormGroup>
 
                   {tranferirModal ? (

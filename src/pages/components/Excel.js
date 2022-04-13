@@ -1,276 +1,27 @@
 import { Button } from "@material-ui/core";
 import Axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
+// , { useEffect, useState }
 import { ModalBody, ModalFooter } from "reactstrap";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import { globalApi } from "../../types/api.types";
 
 export const Excel = ({
   item,
   setItem,
   setModalInsertarExcel,
-  setGetAllList,
-  getAllList,
-  setListAll,
-  actualizarTabla,
-  setpruebaExcel,
+  // setGetAllList,
+  // getAllList,
+  // setListAll,
+  // actualizarTabla,
+  // setpruebaExcel,
 }) => {
-  // ---- Variables
-
-  const [equipoSeleccionado, setEquipoSeleccionado] = useState({
-    Id_Equipment: null,
-    Name: "",
-    code: "",
-    img: "",
-    Id_Procedencia: null,
-    Estado: "",
-    createdAt: "",
-    updatedAt: "",
-    Procedencia: {
-      Id_Procedencia: null,
-      Id_Line: null,
-      Id_Areas: null,
-      areas: {
-        Id_Areas: null,
-        Name: "",
-        Id_Operations: null,
-        operations: {
-          Id_Operations: null,
-          Name: "",
-          Id_Countries: null,
-          countries: {
-            Id_Countries: null,
-            Name: "",
-            Id_BU: null,
-            bu: { Id_BU: null, Name: "" },
-          },
-        },
-        SubArea: { Id_SubAreas: null, Name: "", Id_Areas: null },
-      },
-      line: {
-        Id_Line: null,
-        number: "",
-        Id_LineTypes: null,
-        lineTypes: { Id_LineTypes: null, Name: "" },
-      },
-    },
-    FinancialInformation: {
-      EquipmentValueInUSD: null,
-      Activo_fijo: null,
-      Soc: null,
-      Concatenar: null,
-      Clase: null,
-      Centro: null,
-      CodPM: null,
-      Centro_de_costos: null,
-      Fecha_de_capitalizacion: null,
-      Valor_Adquirido: null,
-      Amortizacion_acumulada: null,
-      Valor_Contable: null,
-      Cantidad: null,
-      Moneda: null,
-      Tipo: null,
-      Screen: null,
-      Nom_Clase: null,
-      Nom_Ce: null,
-      Encontrado_SI_NO: null,
-      Estado_del_Activo: null,
-      Categoria: null,
-      Gerencia: null,
-      Codigo_De_Barras: null,
-      DI: null,
-      SN: null,
-      Depreciacion_acumulada_ajustada: null,
-      Tasa_Cambio_contra_dolar: null,
-      Latitud: null,
-      Longitud: null,
-      Period_Time: null,
-      Id_Equipment: null,
-    },
-    ServicesInformation: {
-      Id_ServicesInformation: null,
-      DateOfInstallation: "",
-      DateOfDesintallation: "",
-      DesuseReason: "",
-      DesinstallationReason: "",
-      ProcurementOrder: "",
-      Id_Equipment: null,
-      newServicesInformation: [
-        {
-          Id_NewServInfo: null,
-          Id_ServicesInformation: null,
-          Name: "",
-          Value: "",
-          SelectNewServicesInfo: {
-            Id_SelectNewServInfo: null,
-            Id_ServicesInformation: null,
-            Id_NewServInfo: null,
-          },
-        },
-      ],
-    },
-    TechnicalSpecification: {
-      Id_TechnicalSpecification: null,
-      EquipmentType: "",
-      CurrentConditions: "",
-      Weight: "",
-      OEM: "",
-      Description: "",
-      ModelNumber: "",
-      SerialNumber: "",
-      vendor: "",
-      currentWorking: "",
-      Id_Equipment: null,
-      newTechnicalSpecification: [
-        {
-          Id_NewTechSpec: "",
-          Id_TechnicalSpecification: "",
-          Name: "",
-          Value: "",
-          SelectNewTechSpec: {
-            Id_SelectNewTechSpec: "",
-            Id_TechnicalSpecification: "",
-            Id_NewTechSpec: "",
-          },
-        },
-      ],
-    },
-  });
-
-  const [servicesInformation, setServicesInformation] = useState({
-    Id_ServicesInformation: "",
-    DateOfInstallation: "",
-    DateOfDesintallation: "",
-    DesuseReason: "",
-    DesinstallationReason: "",
-    ProcurementOrder: "",
-    Id_Equipment: "",
-    newServicesInformation: [
-      {
-        Id_NewServInfo: "",
-        Id_ServicesInformation: "",
-        Name: "",
-        Value: "",
-        SelectNewServicesInfo: {
-          Id_SelectNewServInfo: "",
-          Id_ServicesInformation: "",
-          Id_NewServInfo: "",
-        },
-      },
-    ],
-  });
-
-  const [technicalInformation, setTechnicalInformation] = useState({
-    //Para guardar informacion tecnica seleccionada a editar
-    Id_TechnicalSpecification: "",
-    EquipmentType: "",
-    CurrentConditions: "",
-    Weight: "",
-    OEM: "",
-    Description: "",
-    ModelNumber: "",
-    SerialNumber: "",
-    vendor: "",
-    currentWorking: "",
-    Id_Equipment: "",
-    newTechnicalSpecification: [
-      {
-        Id_NewTechSpec: "",
-        Id_TechnicalSpecification: "",
-        Name: "",
-        Value: "",
-        SelectNewTechSpec: {
-          Id_SelectNewTechSpec: "",
-          Id_TechnicalSpecification: "",
-          Id_NewTechSpec: "",
-        },
-      },
-    ],
-  });
-
-  const [areas, setareas] = useState({
-    Id_Areas: "",
-    Name: "",
-    Id_Operations: "",
-    operations: {
-      Id_Operations: null,
-      Name: "",
-      Id_Countries: null,
-      countries: {
-        Id_Countries: null,
-        Name: "",
-        Id_BU: null,
-        bu: { Id_BU: null, Name: "" },
-      },
-    },
-  });
-
-  const [operations, setOperations] = useState({
-    Id_Operations: "",
-    Name: "",
-    Id_Countries: "",
-    countries: {
-      Id_Countries: null,
-      Name: "",
-      Id_BU: null,
-      bu: { Id_BU: null, Name: "" },
-    },
-  });
-
-  const [countries, setCountries] = useState({
-    Id_Countries: "",
-    Name: "",
-    Id_BU: "",
-    bu: { Id_BU: null, Name: "" },
-  });
-
-  const [bu, setBu] = useState({ Id_BU: "", Name: "" });
-
-  const [SubArea, setSubArea] = useState({
-    Id_SubAreas: "",
-    Name: "",
-    Id_Areas: "",
-  });
-
-  const [line, setLine] = useState({
-    Id_Line: "",
-    number: "",
-    Id_LineTypes: "",
-  });
-
-  const [lineTypes, setLineTypes] = useState({ Id_LineTypes: "", Name: "" });
-
-  const [newTechicInformation, setnewTechicInformation] = useState({
-    Id_NewTechSpec: null,
-    Id_TechnicalSpecification: null,
-    Name: "",
-    Value: "",
-    SelectNewTechSpec: {
-      Id_SelectNewTechSpec: uuidv4(),
-      Id_TechnicalSpecification: "",
-      Id_NewTechSpec: "",
-    },
-  });
-
-  const [newservInformation, setnewservInformation] = useState({
-    Id_NewServInfo: null,
-    Id_ServicesInformation: null,
-    Name: "",
-    Value: "",
-    SelectNewServicesInfo: {
-      Id_SelectNewServInfo: "",
-      Id_ServicesInformation: "",
-      Id_NewServInfo: "",
-    },
-  });
-
-  const [Datos, setDatos] = useState([]);
 
   const send = async (item) => {
     const Excel = item.map((equipo) => {
       return (equipo = {
         Id_Equipment: equipo.ID_GEAD.toString(),
-        Name: equipo.Equipment_Name === undefined ? "" : equipo.Equipment_Name,
+        Name: equipo.Equipment_Name === undefined ? "NO DATA AVAILABLE" : equipo.Equipment_Name,
         code: "",
         img: "",
         Id_Procedencia: equipo.ID_GEAD.toString(),
@@ -283,23 +34,23 @@ export const Excel = ({
           Id_Areas: equipo.ID_GEAD.toString(),
           areas: {
             Id_Areas: equipo.ID_GEAD.toString(),
-            Name: equipo.Area === undefined ? "" : equipo.Area.toUpperCase(),
+            Name: equipo.Area === undefined ? "NO DATA AVAILABLE" : equipo.Area.toUpperCase(),
             Id_Operations: equipo.ID_GEAD.toString(),
             operations: {
               Id_Operations: equipo.ID_GEAD.toString(),
               Name:
-                equipo.Plant === undefined ? "" : equipo.Plant.toUpperCase(),
+                equipo.Plant === undefined ? "NO DATA AVAILABLE" : equipo.Plant.toUpperCase(),
               Id_Countries: equipo.ID_GEAD.toString(),
               countries: {
                 Id_Countries: equipo.ID_GEAD.toString(),
                 Name:
                   equipo.Country === undefined
-                    ? ""
+                    ? "NO DATA AVAILABLE"
                     : equipo.Country.toUpperCase(),
                 Id_BU: equipo.ID_GEAD.toString(),
                 bu: {
                   Id_BU: equipo.ID_GEAD.toString(),
-                  Name: equipo.BU === undefined ? "" : equipo.BU.toUpperCase(),
+                  Name: equipo.BU === undefined ? "NO DATA AVAILABLE" : equipo.BU.toUpperCase(),
                 },
               },
             },
@@ -307,7 +58,7 @@ export const Excel = ({
               Id_SubAreas: equipo.ID_GEAD.toString(),
               Name:
                 equipo.Subarea === undefined
-                  ? ""
+                  ? "NO DATA AVAILABLE"
                   : equipo.Subarea.toUpperCase(),
               Id_Areas: equipo.ID_GEAD.toString(),
             },
@@ -315,138 +66,130 @@ export const Excel = ({
           line: {
             Id_Line: equipo.ID_GEAD.toString(),
             number:
-              equipo.Line_Number === undefined ? null : equipo.Line_Number,
+              equipo.Line_Number === undefined ? "NO DATA AVAILABLE" : equipo.Line_Number, //Numeric
             Id_LineTypes: equipo.ID_GEAD.toString(),
             lineTypes: {
               Id_LineTypes: equipo.ID_GEAD.toString(),
               Name:
                 equipo.Line_Type === undefined
-                  ? ""
+                  ? "NO DATA AVAILABLE"
                   : equipo.Line_Type.toUpperCase(),
             },
           },
         },
         FinancialInformation: {
-          EquipmentValueInUSD:
-            equipo.Current_equipment_value_in_USD === undefined
-              ? null
-              : equipo.Current_equipment_value_in_USD,
-          Activo_fijo:
-            equipo.Activo_fijo === undefined ? null : equipo.Activo_fijo,
-          Soc: equipo[" Soc "] === undefined ? null : equipo[" Soc "],
-          Concatenar:
-            equipo[" Concatenar "] === undefined
-              ? null
-              : equipo[" Concatenar "].toUpperCase(),
-          Clase:
-            equipo[" Clase "] === undefined
-              ? null
-              : equipo[" Clase "].toString(),
-          Centro: equipo[" Centro "] === undefined ? null : equipo[" Centro "],
-          CodPM:
-            equipo[" CodPM "] === undefined
-              ? null
-              : equipo[" CodPM "].toString(),
-          Centro_de_costos:
-            equipo[" Centro_de_costos "] === undefined
-              ? null
-              : equipo[" Centro_de_costos "].toString(),
-          Fecha_de_capitalizacion:
-            equipo[" Fecha_de_capitalizacion "] === undefined
-              ? null
-              : equipo[" Fecha_de_capitalizacion "],
-          Valor_Adquirido:
-            equipo[" Valor_Adquirido "] === undefined
-              ? null
-              : equipo[" Valor_Adquirido "],
-          Amortizacion_acumulada:
-            equipo[" Amortizacion_acumulada "] === undefined
-              ? null
-              : equipo[" Amortizacion_acumulada "],
-          Valor_Contable:
-            equipo[" Valor_Contable "] === undefined
-              ? null
-              : equipo[" Valor_Contable "],
-          Cantidad:
-            equipo[" Cantidad "] === undefined ? null : equipo[" Cantidad "],
-          Moneda: equipo[" Moneda "] === undefined ? null : equipo[" Moneda "],
-          Tipo: equipo[" Tipo "] === undefined ? null : equipo[" Tipo "],
-          Screen: equipo[" Screen "] === undefined ? null : equipo[" Screen "],
-          Nom_Clase:
-            equipo[" Nom_Clase "] === undefined ? null : equipo[" Nom_Clase "],
-          Nom_Ce:
-            equipo[" Nom_Ce. "] === undefined ? null : equipo[" Nom_Ce. "],
-          Encontrado_SI_NO:
-            equipo[" Encontrado_SI_NO "] === undefined
-              ? null
-              : equipo[" Encontrado_SI_NO "].toUpperCase(),
-          Estado_del_Activo:
-            equipo[" Estado_del_Activo "] === undefined
-              ? null
-              : equipo[" Estado_del_Activo "],
-          Categoria:
-            equipo[" Categoria "] === undefined
-              ? null
-              : equipo[" Categoria "].toUpperCase(),
-          Gerencia:
-            equipo[" Gerencia "] === undefined
-              ? null
-              : equipo[" Gerencia "].toUpperCase(),
-          Codigo_De_Barras:
-            equipo[" Codigo_De_Barras "] === undefined
-              ? null
-              : equipo[" Codigo_De_Barras "].toString(),
-          DI: equipo[" DI "] === undefined ? null : equipo[" DI "].toString(),
-          SN: equipo[" SN "] === undefined ? null : equipo[" SN "],
+          EquipmentValueInUSD: equipo.Current_equipment_value_in_USD === undefined || equipo.Current_equipment_value_in_USD === "NO DATA AVAILABLE"
+            ? null
+            : equipo.Current_equipment_value_in_USD,
+          Activo_fijo: equipo.Activo_fijo === undefined || equipo.Activo_fijo === "NO DATA AVAILABLE" //Numeric
+            ? null
+            : equipo.Activo_fijo,
+          Soc: equipo[" Soc "] === undefined //String
+            ? "NO DATA AVAILABLE"
+            : equipo[" Soc "],
+          Concatenar: equipo[" Concatenar "] === undefined //String
+            ? "NO DATA AVAILABLE"
+            : equipo[" Concatenar "].toUpperCase(),
+          Clase: equipo[" Clase "] === undefined //String
+            ? "NO DATA AVAILABLE"
+            : equipo[" Clase "].toString(),
+          Centro: equipo[" Centro "] === undefined || equipo[" Centro "] === "NO DATA AVAILABLE"
+            ? null
+            : equipo[" Centro "],
+          CodPM: equipo[" CodPM "] === undefined //String
+            ? "NO DATA AVAILABLE"
+            : equipo[" CodPM "].toString(),
+          Centro_de_costos: equipo[" Centro_de_costos "] === undefined //String
+            ? "NO DATA AVAILABLE"
+            : equipo[" Centro_de_costos "].toString(),
+          Fecha_de_capitalizacion: equipo[" Fecha_de_capitalizacion "] === undefined //String
+            ? "NO DATA AVAILABLE"
+            : equipo[" Fecha_de_capitalizacion "],
+          Valor_Adquirido: equipo[" Valor_Adquirido "] === undefined || equipo[" Valor_Adquirido "] === "NO DATA AVAILABLE" //Numeric
+            ? null
+            : equipo[" Valor_Adquirido "],
+          Amortizacion_acumulada: equipo[" Amortizacion_acumulada "] === undefined || equipo[" Amortizacion_acumulada "] === "NO DATA AVAILABLE" //Numeric
+            ? null
+            : equipo[" Amortizacion_acumulada "],
+          Valor_Contable: equipo[" Valor_Contable "] === undefined || equipo[" Valor_Contable "] === "NO DATA AVAILABLE" //Numeric
+            ? null
+            : equipo[" Valor_Contable "],
+          Cantidad: equipo[" Cantidad "] === undefined || equipo[" Cantidad "] === "NO DATA AVAILABLE" //Numeric
+            ? null
+            : equipo[" Cantidad "],
+          Moneda: equipo[" Moneda "] === undefined //String
+            ? "NO DATA AVAILABLE"
+            : equipo[" Moneda "],
+          Tipo: equipo[" Tipo "] === undefined //String
+            ? "NO DATA AVAILABLE"
+            : equipo[" Tipo "],
+          Screen: equipo[" Screen "] === undefined //String
+            ? "NO DATA AVAILABLE"
+            : equipo[" Screen "],
+          Nom_Clase: equipo[" Nom_Clase "] === undefined //String
+            ? "NO DATA AVAILABLE"
+            : equipo[" Nom_Clase "],
+          Nom_Ce: equipo[" Nom_Ce. "] === undefined //String
+            ? "NO DATA AVAILABLE"
+            : equipo[" Nom_Ce. "],
+          Encontrado_SI_NO: equipo[" Encontrado_SI_NO "] === undefined //String
+            ? "NO DATA AVAILABLE"
+            : equipo[" Encontrado_SI_NO "].toUpperCase(),
+          Estado_del_Activo: equipo[" Estado_del_Activo "] === undefined //string
+            ? "NO DATA AVAILABLE"
+            : equipo[" Estado_del_Activo "],
+          Categoria: equipo[" Categoria "] === undefined //string
+            ? "NO DATA AVAILABLE"
+            : equipo[" Categoria "].toUpperCase(),
+          Gerencia: equipo[" Gerencia "] === undefined //string
+            ? "NO DATA AVAILABLE"
+            : equipo[" Gerencia "].toUpperCase(),
+          Codigo_De_Barras: equipo[" Codigo_De_Barras "] === undefined //string
+            ? null
+            : equipo[" Codigo_De_Barras "].toString(),
+          DI: equipo[" DI "] === undefined ? "NO DATA AVAILABLE" : equipo[" DI "].toString(), //string
+          SN: equipo[" SN "] === undefined || equipo[" SN "] === "NO DATA AVAILABLE" //Numeric
+            ? null
+            : equipo[" SN "],
           Depreciacion_acumulada_ajustada:
-            equipo[" Depreciacion_acumulada_ajustada "] === undefined
+            equipo[" Depreciacion_acumulada_ajustada "] === undefined || equipo[" Depreciacion_acumulada_ajustada "] === "NO DATA AVAILABLE" //Numeric
               ? null
               : equipo[" Depreciacion_acumulada_ajustada "],
           Tasa_Cambio_contra_dolar:
-            equipo.Tasa_Cambio_contra_dolar === undefined
+            equipo.Tasa_Cambio_contra_dolar === undefined || equipo.Tasa_Cambio_contra_dolar === "NO DATA AVAILABLE" //Numeric
               ? null
               : equipo.Tasa_Cambio_contra_dolar,
-          Latitud: equipo.Latitud === undefined ? null : equipo.Latitud,
-          Longitud: equipo.Longitud === undefined ? null : equipo.Longitud,
+          Latitud: equipo.Latitud === undefined || equipo.Latitud === "NO DATA AVAILABLE" //Numeric
+            ? null
+            : equipo.Latitud,
+          Longitud: equipo.Longitud === undefined || equipo.Longitud === "NO DATA AVAILABLE" //Numeric
+            ? null
+            : equipo.Longitud,
           Period_Time:
-            equipo.Period_Time === undefined ? null : equipo.Period_Time,
+            equipo.Period_Time === undefined || equipo.Period_Time === "NO DATA AVAILABLE" //Numeric
+              ? null
+              : equipo.Period_Time,
           Id_Equipment: equipo.ID_GEAD.toString(),
-        },
-        FinancialInformation: {
-            EquipmentValueInUSD: null,  Activo_fijo:null,
-            Soc:null, Concatenar: null,
-            Clase:null, Centro: null,
-            CodPM: null,  Centro_de_costos: null,
-            Fecha_de_capitalizacion: null,  Valor_Adquirido: null,
-            Amortizacion_acumulada: null, Valor_Contable: null, 
-            Cantidad: null, Moneda: null,
-            Tipo: null, Screen: null,  Nom_Clase: null,
-            Nom_Ce: null, Encontrado_SI_NO: null,  Estado_del_Activo: null, Categoria: null,
-            Gerencia: null, Codigo_De_Barras: null,
-            DI: null, SN: null,
-            Depreciacion_acumulada_ajustada: null,
-            Tasa_Cambio_contra_dolar: null,
-            Latitud: null, Longitud:null, Period_Time: null, Id_Equipment: null
         },
         ServicesInformation: {
           Id_ServicesInformation: equipo.ID_GEAD.toString(),
           DateOfInstallation:
             equipo.Date_of_Installation === undefined
-              ? ""
+              ? "NO DATA AVAILABLE"
               : equipo.Date_of_Installation,
           DateOfDesintallation:
             equipo.Date_of_Desintallation === undefined
-              ? ""
+              ? "NO DATA AVAILABLE"
               : equipo.Date_of_Desintallation,
           DesuseReason:
             equipo.Desuse_reason === undefined
-              ? ""
+              ? "NO DATA AVAILABLE"
               : equipo.Desuse_reason.toUpperCase(),
           DesinstallationReason:
             equipo.Desinstallation_reason === undefined
-              ? ""
+              ? "NO DATA AVAILABLE"
               : equipo.Desinstallation_reason.toUpperCase(),
-          ProcurementOrder: "",
+          ProcurementOrder: "NO DATA AVAILABLE",
           Id_Equipment: equipo.ID_GEAD.toString(),
           newServicesInformation: [],
         },
@@ -454,122 +197,118 @@ export const Excel = ({
           Id_TechnicalSpecification: equipo.ID_GEAD.toString(),
           EquipmentType:
             equipo.Equipment_Type === undefined
-              ? ""
+              ? "NO DATA AVAILABLE"
               : equipo.Equipment_Type.toUpperCase(),
           CurrentConditions:
             equipo.Equipment_Current_Conditions === undefined
-              ? ""
+              ? "NO DATA AVAILABLE"
               : equipo.Equipment_Current_Conditions.toUpperCase(),
           Weight:
-            equipo.Weight === undefined ? "" : equipo.Weight.toUpperCase(),
-          OEM: equipo.OEM === undefined ? "" : equipo.OEM.toUpperCase(),
+            equipo.Weight === undefined ? "NO DATA AVAILABLE" : equipo.Weight.toUpperCase(),
+          OEM: equipo.OEM === undefined ? "NO DATA AVAILABLE" : equipo.OEM.toUpperCase(),
           Description:
             equipo.Equipment_description === undefined
-              ? ""
+              ? "NO DATA AVAILABLE"
               : equipo.Equipment_description,
           ModelNumber:
-            equipo.Model_Number === undefined ? "" : equipo.Model_Number,
+            equipo.Model_Number === undefined ? "NO DATA AVAILABLE" : equipo.Model_Number,
           SerialNumber:
-            equipo.Serial_Number === undefined ? "" : equipo.Serial_Number,
+            equipo.Serial_Number === undefined ? "NO DATA AVAILABLE" : equipo.Serial_Number,
           vendor:
             equipo["Vendor / Integrator name"] === undefined
-              ? ""
+              ? "NO DATA AVAILABLE"
               : equipo["Vendor / Integrator name"].toUpperCase(),
           currentWorking:
-            equipo[
-              "Equipment_currently_working_(Installed,_connected_on_process_line,)"
-            ] === undefined
-              ? ""
-              : equipo[
-                  "Equipment_currently_working_(Installed,_connected_on_process_line,)"
-                ],
+            equipo["Equipment_currently_working_(Installed,_connected_on_process_line,)"] === undefined
+              ? "NO DATA AVAILABLE"
+              : equipo["Equipment_currently_working_(Installed,_connected_on_process_line,)"],
           Id_Equipment: equipo.ID_GEAD.toString(),
           newTechnicalSpecification: [],
           OptionalTechInfo: {
             Id_OptionalTechInfo: equipo.ID_GEAD.toString(),
             NominalCapacity:
               equipo.Nominal_Capacity === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo.Nominal_Capacity,
             YearOfConstruction:
               equipo.Year_of_construction === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo.Year_of_construction,
             EquipmentCurrentConditionsComments:
               equipo.Equipment_current_conditions_comments === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo.Equipment_current_conditions_comments,
             NotesAboutEquipment:
               equipo.Notes_about_equipment === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo.Notes_about_equipment,
             AssambledDissambled:
               equipo["Assambled / Dissambled"] === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo["Assambled / Dissambled"],
             PlantTechnicalInformationContact:
               equipo.Plant_Technical_Information_Contact === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo.Plant_Technical_Information_Contact,
             PlantFinancialInformationContact:
               equipo.Plant_Financial_Information_Contact === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo.Plant_Financial_Information_Contact,
             Width:
               equipo["Equipment_Dimensions - Width"] === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo["Equipment_Dimensions - Width"],
             Height:
               equipo["Equipment_Dimensions - Height"] === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo["Equipment_Dimensions - Height"],
             Depth:
               equipo["Equipment_Dimensions - Depth"] === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo["Equipment_Dimensions - Depth"],
             ConstructionMaterials:
               equipo.Construction_materials === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo.Construction_materials,
             ExternalCoating:
               equipo.External_coating === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo.External_coating,
             CommunicationProtocol:
               equipo.Communication_protocol === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo.Communication_protocol,
             MeasurementVariable:
               equipo.Measurement_variable === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo.Measurement_variable,
             ElectricalConsumption:
               equipo.Electrical_Consumption === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo.Electrical_Consumption,
             ProtectionGrade:
               equipo.Protection_Grade === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo.Protection_Grade,
             SanitaryGrade:
               equipo.Sanitary_Grade === undefined ? "" : equipo.Sanitary_Grade,
             AvailableWarranty:
               equipo.Available_warranty === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo.Available_warranty,
             RemainingWarrantyYears:
               equipo.Remaining_warranty_years === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo.Remaining_warranty_years,
             PeripheralDevicesAccesories:
               equipo["Peripheral Devices / Accesories"] === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo["Peripheral Devices / Accesories"],
             WorkingHours:
               equipo.Working_Hours === undefined ? "" : equipo.Working_Hours,
             LaboratoryEquipment:
               equipo.Laboratory_Equipment === undefined
-                ? ""
+                ? "NO DATA AVAILABLE"
                 : equipo.Laboratory_Equipment,
             Id_TechnicalSpecification: equipo.ID_GEAD.toString(),
           },
@@ -577,37 +316,37 @@ export const Excel = ({
       });
     });
 
-    let newTechSpec = [];
+    // let newTechSpec = [];
 
-    Excel.map((equipo) => {
-      // equipo.Id_Procedencia = equipo.Procedencia.Id_Procedencia
-      // equipo.Procedencia.Id_Line = equipo.Procedencia.line.Id_Line
-      // equipo.Procedencia.Id_Areas = equipo.Procedencia.areas.Id_Areas
-      // equipo.Procedencia.areas.Id_Operations = equipo.Procedencia.areas.operations.Id_Operations
-      // equipo.Procedencia.areas.operations.Id_Countries = equipo.Procedencia.areas.operations.countries.Id_Countries
-      // equipo.Procedencia.areas.operations.countries.Id_BU = equipo.Procedencia.areas.operations.countries.bu.Id_BU
-      // equipo.Procedencia.areas.SubArea.Id_Areas = equipo.Procedencia.areas.Id_Areas
-      // equipo.Procedencia.line.Id_LineTypes = equipo.Procedencia.line.lineTypes.Id_LineTypes
-      // equipo.ServicesInformation.Id_Equipment = equipo.Id_Equipment
-      // equipo.TechnicalSpecification.Id_Equipment = equipo.Id_Equipment
-      // equipo.FinancialInformation.Id_Equipment = equipo.Id_Equipment
+    // Excel.map((equipo) => {
+    // equipo.Id_Procedencia = equipo.Procedencia.Id_Procedencia
+    // equipo.Procedencia.Id_Line = equipo.Procedencia.line.Id_Line
+    // equipo.Procedencia.Id_Areas = equipo.Procedencia.areas.Id_Areas
+    // equipo.Procedencia.areas.Id_Operations = equipo.Procedencia.areas.operations.Id_Operations
+    // equipo.Procedencia.areas.operations.Id_Countries = equipo.Procedencia.areas.operations.countries.Id_Countries
+    // equipo.Procedencia.areas.operations.countries.Id_BU = equipo.Procedencia.areas.operations.countries.bu.Id_BU
+    // equipo.Procedencia.areas.SubArea.Id_Areas = equipo.Procedencia.areas.Id_Areas
+    // equipo.Procedencia.line.Id_LineTypes = equipo.Procedencia.line.lineTypes.Id_LineTypes
+    // equipo.ServicesInformation.Id_Equipment = equipo.Id_Equipment
+    // equipo.TechnicalSpecification.Id_Equipment = equipo.Id_Equipment
+    // equipo.FinancialInformation.Id_Equipment = equipo.Id_Equipment
 
-      newTechSpec = equipo.TechnicalSpecification.newTechnicalSpecification;
+    // newTechSpec = equipo.TechnicalSpecification.newTechnicalSpecification;
 
-      // if (newTechSpec.Id_NewTechSpec !== []) {
-      //     newTechSpec.Id_TechnicalSpecification = equipo.TechnicalSpecification.Id_TechnicalSpecification
-      //     equipo.TechnicalSpecification.newTechnicalSpecification = newTechSpec
+    // if (newTechSpec.Id_NewTechSpec !== []) {
+    //     newTechSpec.Id_TechnicalSpecification = equipo.TechnicalSpecification.Id_TechnicalSpecification
+    //     equipo.TechnicalSpecification.newTechnicalSpecification = newTechSpec
 
-      // }
+    // }
 
-      // !equipo.TechnicalSpecification.newTechnicalSpecification.Id_NewTechSpec ? (equipo.TechnicalSpecification.newTechnicalSpecification.Id_TechnicalSpecification = []) : ( equipo.TechnicalSpecification.newTechnicalSpecification.Id_TechnicalSpecification = equipo.TechnicalSpecification.Id_TechnicalSpecification )
+    // !equipo.TechnicalSpecification.newTechnicalSpecification.Id_NewTechSpec ? (equipo.TechnicalSpecification.newTechnicalSpecification.Id_TechnicalSpecification = []) : ( equipo.TechnicalSpecification.newTechnicalSpecification.Id_TechnicalSpecification = equipo.TechnicalSpecification.Id_TechnicalSpecification )
 
-      // equipo.TechnicalSpecification.newTechnicalSpecification.Id_NewTechSpec ? equipo.TechnicalSpecification.newTechnicalSpecification.SelectNewTechSpec.Id_NewTechSpec =  equipo.TechnicalSpecification.newTechnicalSpecification.Id_NewTechSpec : null
+    // equipo.TechnicalSpecification.newTechnicalSpecification.Id_NewTechSpec ? equipo.TechnicalSpecification.newTechnicalSpecification.SelectNewTechSpec.Id_NewTechSpec =  equipo.TechnicalSpecification.newTechnicalSpecification.Id_NewTechSpec : null
 
-      // equipo.TechnicalSpecification.Id_TechnicalSpecification
+    // equipo.TechnicalSpecification.Id_TechnicalSpecification
 
-      // equipo.TechnicalSpecification.newTechnicalSpecification.SelectNewTechSpec.Id_TechnicalSpecification =  equipo.TechnicalSpecification.Id_TechnicalSpecification
-    });
+    // equipo.TechnicalSpecification.newTechnicalSpecification.SelectNewTechSpec.Id_TechnicalSpecification =  equipo.TechnicalSpecification.Id_TechnicalSpecification
+    // });
 
     // console.log(Excel)
 
