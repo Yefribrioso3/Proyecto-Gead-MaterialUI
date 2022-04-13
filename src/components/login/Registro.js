@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 // import Axios from "axios";
 import Head from "./Head";
 import PropTypes from "prop-types";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, esES } from "@mui/x-data-grid";
 import Controls from "../controls/Controls";
 // import { globalApi } from '../../types/api.types';
 import { ModalEditar } from "./components/ModalEditar";
@@ -340,7 +340,7 @@ const Registro = ({ history }) => {
         <div className="row">
           <div className="col-8">
             <Controls.txt
-              label="Search User"
+              label="Buscar Usuario"
               id="outlined-basic"
               className={style.searchInput}
               InputProps={{
@@ -387,6 +387,7 @@ const Registro = ({ history }) => {
             }}
           >
             <DataGrid
+              localeText={esES.components.MuiDataGrid.defaultProps.localeText}
               style={{
                 border: "0",
                 borderBottom: "0",
