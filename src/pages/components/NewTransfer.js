@@ -210,6 +210,7 @@ export default function NewTransfer({ setmostrarMenus }) {
                                     id="demo-simple-select"
                                     label="Planta destino"
                                     variant="outlined"
+                                    sx={{ width: 300 }}
                                     required
                                 // value={userSeleccionado && userSeleccionado.roleId}
                                 // onChange={handleChange}

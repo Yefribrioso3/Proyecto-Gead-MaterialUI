@@ -173,18 +173,16 @@ const LoginScreen = ({ history }) => {
   const onSubmit = (e) => {
     setEditing(false);
     setPasswordEditing(false);
-
     // console.log(e);
-
     axios
       .post(`${globalApi}/login`, e)
       .then((x) => {
-        console.log(x);
+        // console.log(x);
         localStorage.setItem("token", x.data.token);
         history.replace("/consultaEquipos");
       })
       .catch((x) => {
-        console.log(x?.response);
+        // console.log(x?.response);
         if (x?.response.data.msg === "user not found") {
           setErrorEmail(true);
           setLeyendaEmail("Usuario incorrecto")
@@ -203,11 +201,8 @@ const LoginScreen = ({ history }) => {
         }
         // console.log(x?.response.data.msg)
       });
-
     // localStorage.removeItem("token")
-
     // if (e.password === "12345678") {
-
     // setTimeout(() => {
     //     if (e.user === cuentas.usuario1 || e.user === cuentas.usuario2 || e.user === cuentas.usuario3 || e.user === cuentas.usuario4 || e.user === cuentas.usuario5 || e.user === cuentas.usuario6 || e.user === cuentas.usuario7 || e.user === cuentas.usuario8 || e.user === cuentas.usuario9 || e.user === cuentas.usuario10) {
     //         console.log(e.user)

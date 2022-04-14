@@ -1,7 +1,8 @@
 import { IconButton, TextField } from "@material-ui/core";
 import { ArrowDropDown, ArrowDropUp } from "@material-ui/icons";
 import React, { useState } from "react";
-import { FormGroup, ModalBody } from "reactstrap";
+import { FormGroup } from "reactstrap";
+// , ModalBody
 
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
@@ -59,7 +60,7 @@ export const OptionalInfo = ({
           <h5
             style={{
               color:
-                theme.palette.type == "dark"
+                theme.palette.type === "dark"
                   ? theme.palette.primary.light
                   : theme.palette.secondary,
             }}
@@ -73,7 +74,7 @@ export const OptionalInfo = ({
                 <ArrowDropDown />
               </IconButton>
             )}
-            Información Técnica Opcional.
+            Información Técnica Detallada.
           </h5>
         </a>
       </div>
@@ -379,7 +380,7 @@ export const OptionalInfo = ({
                 <h6
                   style={{
                     color:
-                      theme.palette.type == "dark"
+                      theme.palette.type === "dark"
                         ? theme.palette.primary.light
                         : theme.palette.secondary,
                   }}
@@ -398,7 +399,7 @@ export const OptionalInfo = ({
                 <h6
                   style={{
                     color:
-                      theme.palette.type == "dark"
+                      theme.palette.type === "dark"
                         ? theme.palette.primary.light
                         : theme.palette.secondary,
                   }}
@@ -409,7 +410,7 @@ export const OptionalInfo = ({
                 <h6
                   style={{
                     color:
-                      theme.palette.type == "dark"
+                      theme.palette.type === "dark"
                         ? theme.palette.primary.light
                         : theme.palette.secondary,
                   }}

@@ -44,7 +44,7 @@ export default function Head({ light, setLight }) {
       },
     },
     icons: {
-      fill: theme.palette.type == "dark" ? "#B3C8FC" : "rgba(0, 0, 0, 0.38)",
+      fill: theme.palette.type === "dark" ? "#B3C8FC" : "rgba(0, 0, 0, 0.38)",
     },
   }));
 
@@ -78,7 +78,7 @@ export default function Head({ light, setLight }) {
 
   const style = createTheme({
     bar: {
-      backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
+      backgroundColor: theme.palette.type === "dark" ? "#514A69" : "#FFFFFF",
       height: "4rem",
       boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
     },
@@ -95,7 +95,7 @@ export default function Head({ light, setLight }) {
       marginTop: "0.5rem",
       marginBottom: "0.5rem",
       color:
-        theme.palette.type == "dark"
+        theme.palette.type === "dark"
           ? theme.palette.primary.dark
           : theme.palette.secondary.main,
     },
@@ -117,7 +117,7 @@ export default function Head({ light, setLight }) {
       lineHeight: "200%",
       letterSpacing: "0.0125em",
       background:
-        theme.palette.type == "dark"
+        theme.palette.type === "dark"
           ? theme.palette.secondary.light
           : theme.palette.secondary.main,
       color: "#FFFFFF",
@@ -132,7 +132,7 @@ export default function Head({ light, setLight }) {
     },
     linkColor: {
       color:
-        theme.palette.type == "dark"
+        theme.palette.type === "dark"
           ? theme.palette.primary.main
           : theme.palette.secondary.main,
     },
@@ -143,7 +143,7 @@ export default function Head({ light, setLight }) {
       <AppBar className={classes.root}>
         <Navbar expand="md" style={style.bar}>
           <img
-            src={theme.palette.type == "dark" ? GeadWhite : Gead}
+            src={theme.palette.type === "dark" ? GeadWhite : Gead}
             style={style.logo}
             alt=""
           />
@@ -164,7 +164,7 @@ export default function Head({ light, setLight }) {
                   caret
                   style={{
                     color:
-                      theme.palette.type == "dark"
+                      theme.palette.type === "dark"
                         ? theme.palette.primary.light
                         : theme.palette.secondary.dark,
                   }}
@@ -175,7 +175,7 @@ export default function Head({ light, setLight }) {
                   right
                   style={{
                     backgroundColor:
-                      theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
+                      theme.palette.type === "dark" ? "#514A69" : "#FFFFFF",
                     boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
                   }}
                 >
@@ -185,7 +185,7 @@ export default function Head({ light, setLight }) {
                       className="p-0"
                       style={{
                         color:
-                          theme.palette.type == "dark"
+                          theme.palette.type === "dark"
                             ? theme.palette.primary.light
                             : theme.palette.secondary.dark,
                       }}

@@ -29,6 +29,11 @@ import {
   InputAdornment,
   Grid,
   TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText,
 } from "@material-ui/core";
 // import useTable from "../components/useTable";
 import Controls from "../components/controls/Controls";
@@ -74,7 +79,7 @@ import { select } from "./components/select";
 //---------------------------------------------------------------
 let userToken = {};
 
-const ConsultaEquipos = () => {
+const ConsultaEquipos = ({ history }) => {
   const [light, setLight] = useState(false);
 
   const theme = createTheme(
@@ -131,10 +136,14 @@ const ConsultaEquipos = () => {
     modalDetail: {
       backgroundColor: theme.palette.type === "dark" ? "#514A69" : "#FFFFFF",
     },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    }
   }));
 
   const {
-    // register,
+    register,
     handleSubmit,
     // formState: { errors },
   } = useForm();
@@ -191,15 +200,28 @@ const ConsultaEquipos = () => {
     const getUserByToken = async () => {
       //  -------   Consulta al Api de User
       if (localStorage?.token) {
-        await authAxios.get(`/user/user-data`).then((response) => {
-          setUserByToken(response.data.data);
-        });
+        await authAxios.get(`/user/user-data`)
+          .then((response) => {
+            setUserByToken(response.data.data);
+          })
+          .catch((x) => {
+            console.log(x?.response);
+            if (x?.response.data.error.message === "jwt expired") {
+              // console.log("hola");
+              history.replace('/login');
+            }
+            // console.log(x?.response.data.msg)
+          });
+        // console.log(x?.response);
+        // console.log(userByToken);
       }
     };
 
     getUserByToken();
 
     userToken = userByToken;
+    // console.log(userByToken);
+
 
     // Token( userByToken, setUserByToken );
 
@@ -574,7 +596,7 @@ const ConsultaEquipos = () => {
 
   const [operations, setOperations] = useState({
     Id_Operations: "",
-    Name: "",
+    Name: '',
     Id_Countries: "",
     countries: {
       Id_Countries: null,
@@ -654,6 +676,10 @@ const ConsultaEquipos = () => {
   const handleChange = (e) => {
     //Funcion para capturar lo que escriba el usuario
     const { name, value } = e.target;
+    if (value !== "null") {
+      setErrorNombre(false);
+      setLeyendaErrorNombre("")
+    }
 
     setEquipoSeleccionado((prevState) => ({
       ...prevState,
@@ -668,7 +694,7 @@ const ConsultaEquipos = () => {
 
   const handleChangeOptionalInfo = (e) => {
     const { name, value } = e.target;
-
+    // const { label } = e;
     setOptionalTechInfo((prevState) => ({
       ...prevState,
       [name]: value,
@@ -677,6 +703,7 @@ const ConsultaEquipos = () => {
 
   const handleChangeServicesInformation = (e) => {
     const { name, value } = e.target;
+    // const { label } = e;
 
     setServicesInformation((prevState) => ({
       ...prevState,
@@ -685,53 +712,90 @@ const ConsultaEquipos = () => {
   };
 
   const handleChangeAreas = (e) => {
-    const { name, value } = e.target;
+    // const { name, value } = e.target;
+    const { label } = e ? e : e = { label: 'null' };
+    if (label !== "null") {
+      setErrorAreas(false);
+      setLeyendaErrorAreas("")
+    }
 
     setareas((prevState) => ({
       ...prevState,
-      [name]: value,
+      "Name": label,
     }));
+    // console.log(areas)
   };
 
   const handleChangeSubArea = (e) => {
-    const { name, value } = e.target;
-    console.log(e.target.value);
+    // const { name, value } = e.target;
+    // console.log(e.target.value)
+    // setSubArea((prevState) => ({
+    //   ...prevState,
+    //   [name]: value,
+    // }));
+    const { label } = e ? e : e = { label: 'null' };
+    if (label !== "null") {
+      setErrorSubArea(false);
+      setLeyendaErrorSubArea("")
+    }
 
     setSubArea((prevState) => ({
       ...prevState,
-      [name]: value,
+      "Name": label,
     }));
+    // console.log(SubArea)
   };
 
   const handleChangeOperations = (e) => {
-    const { name, value } = e.target;
+    const { label } = e ? e : e = { label: 'null' };
+    if (label !== "null") {
+      setErrorPlanta(false);
+      setLeyendaErrorPlanta("")
+    }
 
     setOperations((prevState) => ({
       ...prevState,
-      [name]: value,
+      "Name": label,
     }));
+    // console.log(operations)
   };
 
   const handleChangeCountries = (e) => {
-    const { name, value } = e.target;
+    // const { name, value } = e.target;
+    const { label } = e ? e : e = { label: 'null' };
+    if (label !== "null") {
+      setErrorCountries(false);
+      setLeyendaErrorCountries("")
+    }
 
     setCountries((prevState) => ({
       ...prevState,
-      [name]: value,
+      "Name": label,
     }));
   };
 
   const handleChangeBu = (e) => {
-    const { name, value } = e.target;
+    // const { name, value } = e.target;
+    const { label } = e ? e : e = { label: 'null' };
+    if (label !== "null") {
+      setErrorBU(false);
+      setLeyendaErrorBU("")
+    }
 
     setBu((prevState) => ({
       ...prevState,
-      [name]: value,
+      "Name": label,
     }));
+    // console.log(bu)
   };
 
   const handleChangeLine = (e) => {
     const { name, value } = e.target;
+    // const { label } = e ? e : e = { label: 'null' };
+    if (value !== "null") {
+      setErrorLineNumber(false);
+      setLeyendaErrorLineNumber("")
+    }
 
     setLine((prevState) => ({
       ...prevState,
@@ -740,13 +804,17 @@ const ConsultaEquipos = () => {
   };
 
   const handleChangeLineTypes = (e) => {
-    const { name, value } = e.target;
-
-    console.log(e.target.value);
+    // const { name, value } = e.target;
+    // console.log(e.target.value)
+    const { label } = e ? e : e = { label: 'null' };
+    if (label !== "null") {
+      setErrorLineTypes(false);
+      setLeyendaLineTypes("")
+    }
 
     setLineTypes((prevState) => ({
       ...prevState,
-      [name]: value,
+      "Name": label,
     }));
   };
 
@@ -1259,78 +1327,213 @@ const ConsultaEquipos = () => {
         Id_NewServInfo: null,
       },
     });
+    setareas({
+      Id_Areas: "",
+      Name: "",
+      Id_Operations: "",
+      operations: {
+        Id_Operations: null,
+        Name: "",
+        Id_Countries: null,
+        countries: {
+          Id_Countries: null, Name: "", Id_BU: null,
+          bu: { Id_BU: null, Name: "", },
+        },
+      },
+    });
+    setOperations({
+      Id_Operations: "",
+      Name: '',
+      Id_Countries: "",
+      countries: {
+        Id_Countries: null,
+        Name: "",
+        Id_BU: null,
+        bu: { Id_BU: null, Name: "" },
+      },
+    });
+    setCountries({
+      Id_Countries: "",
+      Name: "",
+      Id_BU: "",
+      bu: { Id_BU: null, Name: "" },
+    });
+    setBu({
+      Id_BU: "",
+      Name: "",
+    });
+    setSubArea({
+      Id_SubAreas: "",
+      Name: "",
+      Id_Areas: "",
+    });
+    setLineTypes({
+      Id_LineTypes: "",
+      Name: "",
+    });
+
+
     seteditingNewServInfo(false);
     setModalInsertar(true);
   };
+
+
+
+
 
   // const arbirModalConsultaAv = () => {
   //     setModalConsultaAv(true);
   // }
 
-  //  ----------------------------------     insertar    -----------------------------
+  //  ----------------------------------     insertar    ------------------------------------------------------
+
+  const [leyendaErrorPlanta, setLeyendaErrorPlanta] = useState(""); //--------- Manejo de campos vacios -----------
+  const [leyendaErrorLineTypes, setLeyendaLineTypes] = useState("");
+  const [leyendaErrorCountries, setLeyendaErrorCountries] = useState("");
+  const [leyendaErrorBU, setLeyendaErrorBU] = useState("");
+  const [leyendaErrorAreas, setLeyendaErrorAreas] = useState("");
+  const [leyendaErrorSubArea, setLeyendaErrorSubArea] = useState("");
+  const [leyendaErrorLineNumber, setLeyendaErrorLineNumber] = useState("");
+  const [leyendaErrorNombre, setLeyendaErrorNombre] = useState("");
+  const [errorPlanta, setErrorPlanta] = useState(false);
+  const [errorLineTypes, setErrorLineTypes] = useState(false);
+  const [errorCountries, setErrorCountries] = useState(false);
+  const [errorBU, setErrorBU] = useState(false);
+  const [errorAreas, setErrorAreas] = useState(false);
+  const [errorSubArea, setErrorSubArea] = useState(false);
+  const [errorLineNumber, setErrorLineNumber] = useState(false);  //--------- Manejo de campos vacios -----------
+  const [errorNombre, setErrorNombre] = useState(false);
+
   const insertar = async () => {
-    let valorInsertar = equipoSeleccionado; //Variable auxiliar para modificar el equipo seleccionado
+    if (line?.number === "") {
+      setLeyendaErrorLineNumber("Campo requerido");
+      setErrorLineNumber(true);
 
-    // valorInsertar.Id_Equipment = getAllList.length + 1;
-    valorInsertar.Id_Equipment = uuidv4();
+    } else if (operations?.Name === "") {
+      setErrorLineNumber(false);
+      setLeyendaErrorLineNumber("");
+      setLeyendaErrorPlanta("Campo requerido");
+      setErrorPlanta(true);
 
-    // bu.Id_BU = uuidv4();
-    bu.Id_BU = valorInsertar.Id_Equipment;
+    } else if (lineTypes?.Name === "") {
+      setErrorPlanta(false);
+      setLeyendaErrorPlanta("");
+      setLeyendaLineTypes("Campo requerido");
+      setErrorLineTypes(true);
 
-    // countries.Id_Countries = uuidv4();
-    countries.Id_Countries = valorInsertar.Id_Equipment;
-    countries.Id_BU = bu.Id_BU;
+    } else if (countries?.Name === "") {
+      setErrorLineTypes(false);
+      setLeyendaLineTypes("");
+      setLeyendaErrorCountries("Campo requerido");
+      setErrorCountries(true);
 
-    // operations.Id_Operations = uuidv4();
-    operations.Id_Operations = valorInsertar.Id_Equipment;
-    operations.Id_Countries = countries.Id_Countries;
+    } else if (bu?.Name === "") {
+      setErrorCountries(false);
+      setLeyendaErrorCountries("")
+      setLeyendaErrorBU("Campo requerido");
+      setErrorBU(true);
 
-    // areas.Id_Areas = uuidv4();
-    areas.Id_Areas = valorInsertar.Id_Equipment;
-    areas.Id_Operations = operations.Id_Operations;
+    } else if (areas?.Name === "") {
+      setErrorBU(false);
+      setLeyendaErrorBU("")
+      setLeyendaErrorAreas("Campo requerido");
+      setErrorAreas(true);
 
-    // SubArea.Id_SubAreas = uuidv4();
-    SubArea.Id_SubAreas = valorInsertar.Id_Equipment;
-    SubArea.Id_Areas = areas.Id_Areas;
+    } else if (SubArea?.Name === "") {
+      setErrorAreas(false);
+      setLeyendaErrorAreas("")
+      setLeyendaErrorSubArea("Campo requerido");
+      setErrorSubArea(true);
 
-    // lineTypes.Id_LineTypes = uuidv4();
-    lineTypes.Id_LineTypes = valorInsertar.Id_Equipment;
+    } else if (equipoSeleccionado.Name === "") {
+      setErrorAreas(false);
+      setLeyendaErrorAreas("")
+      setEditing(true);
+      setEditingServiceInfo(false);
+      // technicalInformation
+      // editingServiceInfo
+      setErrorNombre(true);
+      setLeyendaErrorNombre("Campo requerido")
 
-    // line.Id_Line = uuidv4();
-    line.Id_Line = valorInsertar.Id_Equipment;
-    line.Id_LineTypes = lineTypes.Id_LineTypes;
+    }
+    else {
+      setLeyendaErrorLineNumber("");
+      setLeyendaErrorPlanta("");
+      setLeyendaLineTypes("");
+      setLeyendaErrorCountries("");
+      setLeyendaErrorBU("");
+      setLeyendaErrorAreas("");
+      setLeyendaErrorSubArea("");
+      setErrorLineNumber(false);
+      setErrorPlanta(false);
+      setErrorLineTypes(false);
+      setErrorCountries(false);
+      setErrorBU(false);
+      setErrorAreas(false);
+      setErrorSubArea(false);
 
-    valorInsertar.id = valorInsertar.Id_Equipment;
-    technicalInformation.Id_TechnicalSpecification = valorInsertar.Id_Equipment;
-    optionalTechInfo.Id_OptionalTechInfo =
-      technicalInformation.Id_TechnicalSpecification;
-    optionalTechInfo.Id_TechnicalSpecification =
-      technicalInformation.Id_TechnicalSpecification;
+      let valorInsertar = equipoSeleccionado; //Variable auxiliar para modificar el equipo seleccionado
 
-    // servicesInformation.Id_ServicesInformation = uuidv4();
-    // valorInsertar.Procedencia.Id_Procedencia = uuidv4();
+      // valorInsertar.Id_Equipment = getAllList.length + 1;
+      valorInsertar.Id_Equipment = uuidv4();
 
-    servicesInformation.Id_ServicesInformation = valorInsertar.Id_Equipment;
-    valorInsertar.Procedencia.Id_Procedencia = valorInsertar.Id_Equipment;
-    valorInsertar.Procedencia.Id_Line = line.Id_Line;
-    valorInsertar.Procedencia.Id_Areas = areas.Id_Areas;
+      // bu.Id_BU = uuidv4();
+      bu.Id_BU = valorInsertar.Id_Equipment;
 
-    valorInsertar.Id_Procedencia = valorInsertar.Procedencia.Id_Procedencia;
+      // countries.Id_Countries = uuidv4();
+      countries.Id_Countries = valorInsertar.Id_Equipment;
+      countries.Id_BU = bu.Id_BU;
 
-    valorInsertar.Name = equipoSeleccionado.Name;
-    valorInsertar.code = equipoSeleccionado.code;
-    valorInsertar.img = equipoSeleccionado.img;
-    valorInsertar.Estado = true;
+      // operations.Id_Operations = uuidv4();
+      operations.Id_Operations = valorInsertar.Id_Equipment;
+      operations.Id_Countries = countries.Id_Countries;
 
-    valorInsertar.TechnicalSpecification = technicalInformation;
-    valorInsertar.TechnicalSpecification.OptionalTechInfo = optionalTechInfo;
+      // areas.Id_Areas = uuidv4();
+      areas.Id_Areas = valorInsertar.Id_Equipment;
+      areas.Id_Operations = operations.Id_Operations;
 
-    let nt = newTechicInformation;
+      // SubArea.Id_SubAreas = uuidv4();
+      SubArea.Id_SubAreas = valorInsertar.Id_Equipment;
+      SubArea.Id_Areas = areas.Id_Areas;
 
-    const newTechicInformationAll =
-      nt.Id_NewTechSpec === null
-        ? []
-        : nt.map((NTS) => {
+      // lineTypes.Id_LineTypes = uuidv4();
+      lineTypes.Id_LineTypes = valorInsertar.Id_Equipment;
+
+      // line.Id_Line = uuidv4();
+      line.Id_Line = valorInsertar.Id_Equipment;
+      line.Id_LineTypes = lineTypes.Id_LineTypes;
+
+      valorInsertar.id = valorInsertar.Id_Equipment;
+      technicalInformation.Id_TechnicalSpecification = valorInsertar.Id_Equipment;
+      optionalTechInfo.Id_OptionalTechInfo =
+        technicalInformation.Id_TechnicalSpecification;
+      optionalTechInfo.Id_TechnicalSpecification =
+        technicalInformation.Id_TechnicalSpecification;
+
+      // servicesInformation.Id_ServicesInformation = uuidv4();
+      // valorInsertar.Procedencia.Id_Procedencia = uuidv4();
+
+      servicesInformation.Id_ServicesInformation = valorInsertar.Id_Equipment;
+      valorInsertar.Procedencia.Id_Procedencia = valorInsertar.Id_Equipment;
+      valorInsertar.Procedencia.Id_Line = line.Id_Line;
+      valorInsertar.Procedencia.Id_Areas = areas.Id_Areas;
+
+      valorInsertar.Id_Procedencia = valorInsertar.Procedencia.Id_Procedencia;
+
+      valorInsertar.Name = equipoSeleccionado.Name;
+      valorInsertar.code = equipoSeleccionado.code;
+      valorInsertar.img = equipoSeleccionado.img;
+      valorInsertar.Estado = true;
+
+      valorInsertar.TechnicalSpecification = technicalInformation;
+      valorInsertar.TechnicalSpecification.OptionalTechInfo = optionalTechInfo;
+
+      let nt = newTechicInformation;
+
+      const newTechicInformationAll =
+        nt.Id_NewTechSpec === null
+          ? []
+          : nt.map((NTS) => {
             return (NTS = {
               Id_NewTechSpec: NTS.Id_NewTechSpec,
               Id_TechnicalSpecification:
@@ -1347,18 +1550,18 @@ const ConsultaEquipos = () => {
             });
           });
 
-    valorInsertar.TechnicalSpecification.newTechnicalSpecification =
-      newTechicInformationAll;
-    valorInsertar.ServicesInformation = servicesInformation;
-    valorInsertar.FinancialInformation.Id_Equipment =
-      valorInsertar.Id_Equipment;
+      valorInsertar.TechnicalSpecification.newTechnicalSpecification =
+        newTechicInformationAll;
+      valorInsertar.ServicesInformation = servicesInformation;
+      valorInsertar.FinancialInformation.Id_Equipment =
+        valorInsertar.Id_Equipment;
 
-    let ns = newservInformation;
+      let ns = newservInformation;
 
-    const newservInformationAll =
-      ns.Id_NewServInfo === null
-        ? []
-        : ns.map((NSI) => {
+      const newservInformationAll =
+        ns.Id_NewServInfo === null
+          ? []
+          : ns.map((NSI) => {
             return (NSI = {
               Id_NewServInfo: NSI.Id_NewServInfo,
               Id_ServicesInformation:
@@ -1375,29 +1578,31 @@ const ConsultaEquipos = () => {
             });
           });
 
-    valorInsertar.ServicesInformation.newServicesInformation =
-      newservInformationAll;
-    valorInsertar.Procedencia.areas = areas;
-    valorInsertar.Procedencia.areas.SubArea = SubArea;
-    valorInsertar.Procedencia.areas.operations = operations;
-    valorInsertar.Procedencia.areas.operations.countries = countries;
-    valorInsertar.Procedencia.areas.operations.countries.bu = bu;
-    valorInsertar.Procedencia.line = line;
-    valorInsertar.Procedencia.line.lineTypes = lineTypes;
+      valorInsertar.ServicesInformation.newServicesInformation =
+        newservInformationAll;
+      valorInsertar.Procedencia.areas = areas;
+      valorInsertar.Procedencia.areas.SubArea = SubArea;
+      valorInsertar.Procedencia.areas.operations = operations;
+      valorInsertar.Procedencia.areas.operations.countries = countries;
+      valorInsertar.Procedencia.areas.operations.countries.bu = bu;
+      valorInsertar.Procedencia.line = line;
+      valorInsertar.Procedencia.line.lineTypes = lineTypes;
 
-    setGetAllList([...getAllList, valorInsertar]); //Agregamos la dataNueva al estado.
+      setGetAllList([...getAllList, valorInsertar]); //Agregamos la dataNueva al estado.
 
-    console.log(getAllList);
+      // console.log(getAllList);
 
-    // await sendData(valorInsertar);
+      await sendData(valorInsertar);
 
-    setModalInsertar(false);
-    seteditingNewServInfo(true);
-    setTechInfoEditado(false);
-    setModalEditar(false);
-    setEditing(false);
-    setEditingTechInfo(false);
-    setEditingServiceInfo(false);
+      setModalInsertar(false);
+      seteditingNewServInfo(true);
+      setTechInfoEditado(false);
+      setModalEditar(false);
+      setEditing(false);
+      setEditingTechInfo(false);
+      setEditingServiceInfo(false);
+
+    }
   };
 
   const sendData = async (valorInsertar) => {
@@ -2137,6 +2342,30 @@ const ConsultaEquipos = () => {
         return params.row.Procedencia.areas.Name;
       },
     },
+    {
+      field: "currendCondition",
+      headerName: "Condición actual",
+      width: 170,
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (params) => (
+        <div className="d-flex justify-content-between">
+          <div
+            // onClick={() => seleccionarEquipo(params.row, "Editar")}
+            component="span"
+          >
+            {
+              params.row.TechnicalSpecification.CurrentConditions === "Excellent" ? ("⭐⭐⭐⭐⭐") :
+                params.row.TechnicalSpecification.CurrentConditions === "Good" ? ("⭐⭐⭐⭐") :
+                  params.row.TechnicalSpecification.CurrentConditions === "Regular" ? ("⭐⭐⭐") :
+                    params.row.TechnicalSpecification.CurrentConditions === "Bad" ? ("⭐⭐") :
+                      params.row.TechnicalSpecification.CurrentConditions === "To be disposed" ? ("⭐") :
+                        params.row.TechnicalSpecification.CurrentConditions === "Deshecho" ? ("") : "NO DATA AVAILABLE"
+            }
+          </div>
+        </div>
+      ),
+    },
     // {
     //     field: "subarea",
     //     headerName: "Subárea",
@@ -2145,7 +2374,6 @@ const ConsultaEquipos = () => {
     //         return params.row.Procedencia.areas.SubArea.Name
     //     },
     // },
-
     // {
     //     field: "equipType",
     //     headerName: "Tipo de Equipo",
@@ -2219,16 +2447,11 @@ const ConsultaEquipos = () => {
   const [tranferirModal, settranferirModal] = useState(false);
 
   //--------- Campos Selects  -------------
-
-  const BUList = [
-    { label: "WORT KETTLE" },
-    { label: "TORRE DE MOLIENDA" },
-    { label: "CONOCIMIENTOS" },
-    { label: "BAGAZO/SYE" },
-    { label: "BLOQUE FRIO" },
-    { label: "GENERAL" },
-    { label: "NO DATA AVAILABLE" },
-  ];
+  const onSubmit = (e) => {
+    // console.log(e)
+    setEditing(true);
+    setEditingTechInfo(false);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -2488,9 +2711,9 @@ const ConsultaEquipos = () => {
                           <option value="Good">Bueno</option>
                           <option value="Regular">Regular</option>
                           <option value="Bad">Malo</option>
-                          <option value="To be disposed">
-                            Para ser desechado
-                          </option>
+                          <option value="To be disposed"> Para ser desechado </option>
+                          <option value="Deshecho"> Deshecho </option>
+
                         </select>
                       </FormGroup>
 
@@ -2710,7 +2933,7 @@ const ConsultaEquipos = () => {
                       <Button color="primary">Descargar PDF</Button>
                     </PDFDownloadLink>
                     {/* -------------------------------------------------------------------------------------- */}
-                    <Button
+                    {/* <Button
                       color="primary"
                       className="ml-2"
                       onClick={() => {
@@ -2718,7 +2941,7 @@ const ConsultaEquipos = () => {
                       }}
                     >
                       {tranferirModal ? "Ocultar Transferir" : "Transferir"}
-                    </Button>
+                    </Button> */}
                   </FormGroup>
 
                   {tranferirModal ? (
@@ -2804,7 +3027,17 @@ const ConsultaEquipos = () => {
                             {/* ----------------------------------------    Ubicacion ----------------------------------------------------------------- */}
 
                             <FormGroup className="col-6">
-                              <label>Id:</label>
+                              <TextField
+                                readOnly
+                                label="Id"
+                                className="form-control"
+                                variant="outlined"
+                                name="Id_Equipment"
+                                // value={getAllList.length + 1}
+                                value={equipoSeleccionado && equipoSeleccionado.Id_Equipment}
+                              />
+
+                              {/* <label>Id:</label>
                               <input
                                 className="form-control"
                                 readOnly
@@ -2814,24 +3047,46 @@ const ConsultaEquipos = () => {
                                   equipoSeleccionado &&
                                   equipoSeleccionado.Id_Equipment
                                 }
-                              />
+                              /> */}
                             </FormGroup>
                             {/* -------------------------------------------------------------------------------------------
                                             -------------------------------------------------------------------------------------------
                                          ------------------------------------------------------------------------------------------- */}
 
                             <FormGroup className="col-6">
-                              <label>Número de línea:</label>
+                              <TextField
+                                label="Número de línea"
+                                className="form-control"
+                                variant="outlined"
+                                name="number"
+                                required
+                                // fullWidth
+                                value={line && line.number}
+                                onChange={handleChangeLine}
+                              />
+
+                              {/* <label>Número de línea:</label>
                               <input
                                 className="form-control"
                                 type="text text-align=center"
                                 name="number"
                                 value={line && line.number}
                                 onChange={handleChangeLine}
-                              />
+                              /> */}
                             </FormGroup>
 
+
                             <FormGroup className="col-6">
+                              <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                options={select.Planta}
+                                // sx={{ width: 300 }}
+                                fullWidth
+                                defaultValue={operations && operations.Name}
+                                renderInput={(params) => <TextField {...params} label="Seleccionar Planta" variant="outlined" required />}
+                                onChange={(e, newValue) => { handleChangeAreas(newValue) }}
+                              />
                               {/* <label>Planta:</label>
                                                   <input
                                                       className="form-control"
@@ -2841,7 +3096,7 @@ const ConsultaEquipos = () => {
                                                       onChange={handleChangeOperations} /> */}
                               {/* ============== onChange =============== Captura los cambios, lo que el usuario escriba*/}
 
-                              <label>
+                              {/* <label>
                                 Planta:<b className="text-danger">*</b>
                               </label>
                               <select
@@ -2945,11 +3200,21 @@ const ConsultaEquipos = () => {
                                 <option value="BOGOTÁ BREWERY COMPANY (CRAFT)">
                                   BOGOTÁ BREWERY COMPANY (CRAFT)
                                 </option>
-                              </select>
+                              </select> */}
                             </FormGroup>
 
                             <FormGroup className="col-6">
-                              <label htmlFor="lineType">
+                              <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                options={select.TipoLinea}
+                                // sx={{ width: 300 }}
+                                fullWidth
+                                defaultValue={lineTypes && lineTypes.Name}
+                                renderInput={(params) => <TextField {...params} label="Seleccionar Tipo de Línea" variant="outlined" required />}
+                                onChange={(e, newValue) => { handleChangeAreas(newValue) }}
+                              />
+                              {/* <label htmlFor="lineType">
                                 Tipo de línea:<b className="text-danger">*</b>
                               </label>
                               <select
@@ -2970,11 +3235,22 @@ const ConsultaEquipos = () => {
                                 <option value="KEG">KEG</option>
                                 <option value="SPECIAL KEG">SPECIAL KEG</option>
                                 <option value="OTHER">OTHER</option>
-                              </select>
+                              </select> */}
                             </FormGroup>
 
                             <FormGroup className="col-6">
-                              <label>
+
+                              <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                options={select.Pais}
+                                // sx={{ width: 300 }}
+                                fullWidth
+                                defaultValue={countries && countries.Name}
+                                renderInput={(params) => <TextField {...params} label="Seleccionar País" variant="outlined" required />}
+                                onChange={(e, newValue) => { handleChangeAreas(newValue) }}
+                              />
+                              {/* <label>
                                 País:<b className="text-danger">*</b>
                               </label>
                               <select
@@ -3001,11 +3277,22 @@ const ConsultaEquipos = () => {
                                 <option value="SAINT VINCENT">
                                   SAINT VINCENT
                                 </option>
-                              </select>
+                              </select> */}
                             </FormGroup>
 
                             <FormGroup className="col-6">
-                              <label>
+                              <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                options={select.BU}
+                                // sx={{ width: 300 }}
+                                fullWidth
+                                defaultValue={bu && bu.Name}
+                                renderInput={(params) => <TextField {...params} label="Seleccionar BU" variant="outlined" required />}
+                                onChange={(e, newValue) => { handleChangeAreas(newValue) }}
+                              />
+
+                              {/* <label>
                                 BU:<b className="text-danger">*</b>
                               </label>
                               <select
@@ -3014,17 +3301,27 @@ const ConsultaEquipos = () => {
                                 value={bu && bu.Name.toUpperCase()}
                                 onChange={handleChangeBu}
                               >
-                                {/* ------------------------------------------------   SELECT DESDE LA BASE DE DATOS   ------------------------------------ */}
                                 <option value="">Seleccionar BU</option>
                                 <option value="CAC">CAC</option>
                                 <option value="COL">COL</option>
                                 <option value="PEC">PEC</option>
                                 <option value="MEX">MEX</option>
-                              </select>
+                              </select> */}
+                              {/* ------------------------------------------------   SELECT DESDE LA BASE DE DATOS   ------------------------------------ */}
                             </FormGroup>
 
                             <FormGroup className="col-6">
-                              <label htmlFor="area">
+                              <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                options={select.Areas}
+                                // sx={{ width: 300 }}
+                                fullWidth
+                                defaultValue={areas && areas.Name}
+                                renderInput={(params) => <TextField {...params} label="Seleccionar Área" variant="outlined" required />}
+                                onChange={(e, newValue) => { handleChangeAreas(newValue) }}
+                              />
+                              {/* <label htmlFor="area">
                                 Área:<b className="text-danger">*</b>
                               </label>
                               <select
@@ -3109,11 +3406,22 @@ const ConsultaEquipos = () => {
                                 <option value="WORKSHOP">WORKSHOP</option>
                                 <option value="OFFICES">OFFICES</option>
                                 <option value="SUBPRODUCTS">SUBPRODUCTS</option>
-                              </select>
+                              </select> */}
                             </FormGroup>
 
                             <FormGroup className="col-6">
-                              <label htmlFor="Subarea">
+
+                              <Autocomplete disablePortal
+                                id="combo-box-demo"
+                                options={select.SubArea}
+                                // sx={{ width: 300 }}
+                                fullWidth
+                                defaultValue={SubArea && SubArea.Name}
+                                renderInput={(params) => <TextField {...params} label="Seleccionar Subárea" variant="outlined" required />}
+                                onChange={(e, newValue) => { handleChangeSubArea(newValue) }}
+                              />
+
+                              {/* <label htmlFor="Subarea">
                                 Subárea <b className="text-danger">*</b>
                               </label>
                               <select
@@ -3136,7 +3444,7 @@ const ConsultaEquipos = () => {
                                 <option value="NO DATA AVAILABLE">
                                   No data available
                                 </option>
-                              </select>
+                              </select> */}
                             </FormGroup>
 
                             <FormGroup className="col-12">
@@ -3152,6 +3460,29 @@ const ConsultaEquipos = () => {
                                 onChange={handleChange}
                               />
                             </FormGroup>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             <br />
 
                             {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
@@ -3292,6 +3623,11 @@ const ConsultaEquipos = () => {
           </ModalFooter>
         </Modal>
 
+
+
+
+
+
         {/*============================= Modal Eliminar =========================================*/}
 
         <Modal isOpen={modalEliminar}>
@@ -3346,6 +3682,7 @@ const ConsultaEquipos = () => {
           </ModalFooter>
         </Modal>
 
+
         {/*============================= Modal Insertar por excel =========================================*/}
 
         <Modal isOpen={modalInsertarExcel}>
@@ -3360,6 +3697,10 @@ const ConsultaEquipos = () => {
             setListAll={setListAll}
           />
         </Modal>
+
+
+
+
 
         {/*======================================================= Modal Insertar =======================================================*/}
 
@@ -3399,7 +3740,6 @@ const ConsultaEquipos = () => {
                       setEditingTechInfo={setEditingTechInfo}
                       editingTechInfo={editingTechInfo}
                       EditAddServInfo={EditAddServInfo}
-                      handleSubmit={handleSubmit}
                       setnewservInformation={setnewservInformation}
                       newservInformation={newservInformation}
                       equipoSeleccionado={equipoSeleccionado}
@@ -3433,22 +3773,64 @@ const ConsultaEquipos = () => {
                     </div>
 
                     <ModalBody className="row animate__animated animate__fadeIn">
+
                       <FormGroup className="col-4">
-                        <label htmlFor="url_input">Equipo:</label>
+
+                        {/* <label htmlFor="url_input">Equipo:</label>
                         <input
                           className="form-control"
                           required
                           type="text text-align=center"
                           name="Name"
-                          value={
-                            equipoSeleccionado ? equipoSeleccionado.Name : ""
-                          }
+                          error={errorNombre}
+                          helperText={leyendaErrorNombre}
+                          value={ equipoSeleccionado ? equipoSeleccionado.Name : "" }
+                          onChange={handleChange}
+                        /> */}
+
+                        <TextField
+                          label="Equipo"
+                          className="form-control"
+                          variant="outlined"
+                          name="Name"
+                          required
+                          error={errorNombre}
+                          helperText={leyendaErrorNombre}
+                          value={equipoSeleccionado ? equipoSeleccionado.Name : ""}
                           onChange={handleChange}
                         />
+
+
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Trabajo actual:</label>
+                        <FormControl fullWidth>
+                          {/* error */}
+                          <InputLabel id="demo-simple-select">Trabajo actual</InputLabel>
+                          <Select
+                            name="currentWorking"
+                            labelId="demo-simple-select"
+                            // id="demo-simple-select"
+                            value={technicalInformation && technicalInformation.currentWorking}
+                            label="Trabajo actual"
+                            variant="outlined"
+                            required
+                            onChange={handleChange}
+                          // className="form-control"
+                          // renderValue={(value) => `⭐  - ${value}` }
+                          >
+                            {/* // ⚠️ */}
+                            <MenuItem value="">
+                              <em>None</em>
+                            </MenuItem>
+                            <MenuItem value="Installed and is working">Instalado y funcionando</MenuItem>
+                            <MenuItem value="Installed and is not working">Instalado y no trabajando</MenuItem>
+                            <MenuItem value="Not Installed and is not working">No instalado</MenuItem>
+                          </Select>
+                          {/* <FormHelperText>Error</FormHelperText> */}
+                        </FormControl>
+
+                        {/* <label>Trabajo actual:</label>
                         <select
                           className="form-select "
                           style={{ margin: "0px !important" }}
@@ -3460,20 +3842,45 @@ const ConsultaEquipos = () => {
                           onChange={handleChange}
                         >
                           <option value="">Seleccione Trabajo actual</option>
-                          <option value="Installed and is working">
-                            Instalado y funcionando
-                          </option>
-                          <option value="Installed and is not working">
-                            Instalado y no trabajando
-                          </option>
-                          <option value="Not Installed and is not working">
-                            No instalado
-                          </option>
-                        </select>
+                          <option value="Installed and is working"> Instalado y funcionando </option>
+                          <option value="Installed and is not working"> Instalado y no trabajando </option>
+                          <option value="Not Installed and is not working"> No instalado </option>
+                        </select> */}
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label htmlFor="CurrentConditions">
+
+
+                        <FormControl fullWidth>
+                          {/* error */}
+                          <InputLabel id="demo-simple-select-label">Condición actual</InputLabel>
+                          <Select
+                            name="CurrentConditions"
+                            labelId="demo-simple-select-label"
+                            // id="demo-simple-select"
+                            value={technicalInformation ? technicalInformation.CurrentConditions : ""}
+                            label="Condición actual"
+                            variant="outlined"
+                            required
+                            onChange={handleChange}
+                          // className="form-control"
+                          // renderValue={(value) => `⭐  - ${value}` }
+                          >
+                            {/* // ⚠️ */}
+                            <MenuItem value="">
+                              <em>None</em>
+                            </MenuItem>
+                            <MenuItem value="Excellent">Excelente</MenuItem>
+                            <MenuItem value="Good">Bueno</MenuItem>
+                            <MenuItem value="Regular">Regular</MenuItem>
+                            <MenuItem value="Bad">Malo</MenuItem>
+                            <MenuItem value="To be disposed">Para ser desechado</MenuItem>
+                            <MenuItem value="Deshecho">Deshecho</MenuItem>
+                          </Select>
+                          {/* <FormHelperText>Error</FormHelperText> */}
+                        </FormControl>
+
+                        {/* <label htmlFor="CurrentConditions">
                           Condición actual:
                         </label>
                         <select
@@ -3493,18 +3900,48 @@ const ConsultaEquipos = () => {
                           <option value="To be disposed">
                             Para ser desechado
                           </option>
-                        </select>
+                        </select> */}
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Tipo de equipo:</label>
-                        {/* <input
-                                                    className="form-control"
-                                                    type="text text-align=center"
-                                                    name="EquipmentType"
-                                                    value={technicalInformation && technicalInformation.EquipmentType}
-                                                    onChange={handleChange} /> */}
+                        <FormControl fullWidth>
+                          {/* error */}
+                          <InputLabel id="demo-simple-select">Tipo de equipo</InputLabel>
+                          <Select
+                            name="EquipmentType"
+                            labelId="demo-simple-select"
+                            // id="demo-simple-select"
+                            value={technicalInformation && technicalInformation.EquipmentType}
+                            label="Tipo de equipo"
+                            variant="outlined"
+                            required
+                            onChange={handleChange}
+                          // className="form-control"
+                          // renderValue={(value) => `⭐  - ${value}` }
+                          >
+                            {/* // ⚠️ */}
+                            <MenuItem value="">
+                              <em>None</em>
+                            </MenuItem>
+                            <MenuItem value="Automation / Electronic">Automation / Electronic</MenuItem>
+                            <MenuItem value="Electrical">Electrical</MenuItem>
+                            <MenuItem value="Mechanical">Mechanical</MenuItem>
+                          </Select>
+                          {/* <FormHelperText>Error</FormHelperText> */}
+                        </FormControl>
 
+
+
+                        {/* <input
+                          className="form-control"
+                          type="text text-align=center"
+                          name="EquipmentType"
+                          value={technicalInformation && technicalInformation.EquipmentType}
+                        onChange={handleChange} /> */}
+
+
+
+                        {/* <label>Tipo de equipo:</label>
                         <select
                           className="form-select "
                           name="EquipmentType"
@@ -3520,11 +3957,23 @@ const ConsultaEquipos = () => {
                           </option>
                           <option value="Electrical">Electrical</option>
                           <option value="Mechanical">Mechanical</option>
-                        </select>
+                        </select> */}
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Número de serial:</label>
+                        <TextField
+                          label="Número de serial"
+                          className="form-control"
+                          variant="outlined"
+                          name="SerialNumber"
+                          required
+                          // error={errorNombre}
+                          // helperText={leyendaErrorNombre}
+                          value={technicalInformation && technicalInformation.SerialNumber}
+                          onChange={handleChange}
+                        />
+
+                        {/* <label>Número de serial:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -3534,38 +3983,69 @@ const ConsultaEquipos = () => {
                             technicalInformation.SerialNumber
                           }
                           onChange={handleChange}
-                        />
+                        /> */}
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Número de modelo:</label>
+                        <TextField
+                          label="Número de modelo"
+                          className="form-control"
+                          variant="outlined"
+                          name="ModelNumber"
+                          required
+                          // error={errorNombre}
+                          // helperText={leyendaErrorNombre}
+                          value={technicalInformation && technicalInformation.ModelNumber}
+                          onChange={handleChange}
+                        />
+
+                        {/* <label>Número de modelo:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
                           name="ModelNumber"
-                          value={
-                            technicalInformation &&
-                            technicalInformation.ModelNumber
-                          }
+                          value={ technicalInformation && technicalInformation.ModelNumber }
                           onChange={handleChange}
-                        />
+                        /> */}
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Peso:</label>
+                        <TextField
+                          label="Peso"
+                          className="form-control"
+                          variant="outlined"
+                          name="Weight"
+                          required
+                          // error={errorNombre}
+                          // helperText={leyendaErrorNombre}
+                          value={technicalInformation && technicalInformation.Weight}
+                          onChange={handleChange}
+                        />
+
+                        {/* <label>Peso:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
                           name="Weight"
-                          value={
-                            technicalInformation && technicalInformation.Weight
-                          }
+                          value={ technicalInformation && technicalInformation.Weight }
                           onChange={handleChange}
-                        />
+                        /> */}
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>OEM:</label>
+                        <TextField
+                          label="OEM"
+                          className="form-control"
+                          variant="outlined"
+                          name="OEM"
+                          required
+                          // error={errorNombre}
+                          // helperText={leyendaErrorNombre}
+                          value={technicalInformation && technicalInformation.OEM}
+                          onChange={handleChange}
+                        />
+
+                        {/* <label>OEM:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -3574,11 +4054,23 @@ const ConsultaEquipos = () => {
                             technicalInformation && technicalInformation.OEM
                           }
                           onChange={handleChange}
-                        />
+                        /> */}
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Vendedor:</label>
+                        <TextField
+                          label="Vendedor"
+                          className="form-control"
+                          variant="outlined"
+                          name="vendor"
+                          required
+                          // error={errorNombre}
+                          // helperText={leyendaErrorNombre}
+                          value={technicalInformation && technicalInformation.vendor}
+                          onChange={handleChange}
+                        />
+
+                        {/* <label>Vendedor:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -3587,11 +4079,23 @@ const ConsultaEquipos = () => {
                             technicalInformation && technicalInformation.vendor
                           }
                           onChange={handleChange}
-                        />
+                        /> */}
                       </FormGroup>
 
                       <FormGroup className="col-4">
-                        <label>Descripción:</label>
+                        <TextField
+                          label="Descripción"
+                          className="form-control"
+                          variant="outlined"
+                          name="Description"
+                          required
+                          // error={errorNombre}
+                          // helperText={leyendaErrorNombre}
+                          value={technicalInformation && technicalInformation.Description}
+                          onChange={handleChange}
+                        />
+
+                        {/* <label>Descripción:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -3601,7 +4105,7 @@ const ConsultaEquipos = () => {
                             technicalInformation.Description
                           }
                           onChange={handleChange}
-                        />
+                        /> */}
                       </FormGroup>
 
                       {/* vendor: "", nominalCapacity: "", yearConstruction: "", currentConditionsComments: "", : "" */}
@@ -3811,81 +4315,105 @@ const ConsultaEquipos = () => {
                     Detalles Generales
                   </h6>
                 </div>
-                <form>
-                  <ModalBody className="row text-align-center justify-content-center animate__animated animate__fadeIn">
-                    <FormGroup>
-                      {/* -------------------------       Subir Imagen        ------------------ */}
-                      <div
-                        id="imagen"
-                        className="justify-content-center text-center animate__animated animate__fadeInLeft agregar-imagen"
-                        style={{ maxWidth: 380, alignContent: "center" }}
-                      >
-                        {loading ? (
-                          <h3 className="aling-items-center">Loading...</h3>
-                        ) : (
-                          <>
-                            <img
-                              src={equipoSeleccionado.img}
-                              style={{ width: "380px" }}
-                              alt=""
-                            />
-                          </>
-                        )}
-                      </div>
 
-                      <div
-                        id="imagen"
-                        className="mt-2 justify-content-center text-center animate__animated animate__fadeInLeft"
-                        style={{ alignContent: "center" }}
-                      >
-                        {/* ms-5 */}
+                <ModalBody className="row text-align-center justify-content-center animate__animated animate__fadeIn">
+                  <FormGroup>
+                    {/* -------------------------       Subir Imagen        ------------------ */}
+                    <div
+                      id="imagen"
+                      className="justify-content-center text-center animate__animated animate__fadeInLeft agregar-imagen"
+                      style={{ maxWidth: 380, alignContent: "center" }}
+                    >
+                      {loading ? (
+                        <h3 className="aling-items-center">Loading...</h3>
+                      ) : (
+                        <>
+                          <img
+                            src={equipoSeleccionado.img}
+                            style={{ width: "380px" }}
+                            alt=""
+                          />
+                        </>
+                      )}
+                    </div>
 
-                        <input
-                          accept="image/*"
-                          id="icon-button-file"
-                          type="file"
-                          style={{ display: "none" }}
-                          onChange={uploadImage}
-                        />
+                    <div
+                      id="imagen"
+                      className="mt-2 justify-content-center text-center animate__animated animate__fadeInLeft"
+                      style={{ alignContent: "center" }}
+                    >
+                      <input
+                        accept="image/*"
+                        id="icon-button-file"
+                        type="file"
+                        style={{ display: "none" }}
+                        onChange={uploadImage}
+                      />
 
-                        <label htmlFor="icon-button-file">
-                          <Button
-                            aria-label="upload picture"
-                            variant="outlined"
-                            color="primary"
-                            size="large"
-                            component="span"
-                          >
-                            <PhotoCamera fontSize="large" /> Agregar imagen
-                          </Button>
-                        </label>
+                      <label htmlFor="icon-button-file">
+                        <Button
+                          aria-label="upload picture"
+                          variant="outlined"
+                          color="primary"
+                          size="large"
+                          component="span"
+                        >
+                          <PhotoCamera fontSize="large" /> Agregar imagen
+                        </Button>
+                      </label>
 
-                        {/* <input
-                                                type="file"
-                                                name="file"
-                                                placeholder="Upload an image"
-                                                onChange={uploadImage}
-                                            /> */}
-                      </div>
-                    </FormGroup>
+                      {/* <input
+                        type="file"
+                        name="file"
+                        placeholder="Upload an image"
+                        onChange={uploadImage}
+                       > */}
+                    </div>
+                  </FormGroup>
+
+                  <form onSubmit={handleSubmit(onSubmit)} className="row">
 
                     <FormGroup className="col-6">
-                      <label>Id:</label>
+                      {/* <label>Id:</label>
                       <input
                         className="form-control"
                         readOnly
                         type="text text-align=center"
                         name="Id_Equipment"
                         value={getAllList.length + 1}
+                      /> */}
+
+                      <TextField
+                        readOnly
+                        label="Id"
+                        className="form-control"
+                        variant="outlined"
+                        name="Id_Equipment"
+                        value={getAllList.length + 1}
+                      // fullWidth
                       />
                     </FormGroup>
 
                     <FormGroup className="col-6">
-                      <label>Número de línea:</label>
+                      {/* <label>Número de línea:</label>
                       <input
                         className="form-control"
                         type="text text-align=center"
                         name="number"
+                        value={line ? line.number : ""}
+                        onChange={handleChangeLine}
+                        required
+                      /> */}
+
+                      <TextField
+                        label="Número de línea"
+                        className="form-control"
+                        variant="outlined"
+                        name="number"
+                        required
+                        error={errorLineNumber}
+                        helperText={leyendaErrorLineNumber}
+                        // fullWidth
                         value={line ? line.number : ""}
                         onChange={handleChangeLine}
                       />
@@ -3900,17 +4428,29 @@ const ConsultaEquipos = () => {
 
                       {/* ----------------------------------------------------------------------------------- */}
 
-                      {/* <Autocomplete
+                      <Autocomplete
                         disablePortal
-                        required
                         id="combo-box-demo"
                         options={select.Planta}
-                        sx={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} label="Seleccione Planta *" variant="outlined" onChange={handleChangeOperations} />}
-                      /> */}
+                        // sx={{ width: 300 }}
+                        fullWidth
+                        name="operation"
+                        defaultValue={operations ? operations.Name : null}
+                        renderInput={(params) =>
+                          <TextField
+                            {...params}
+                            error={errorPlanta}
+                            helperText={leyendaErrorPlanta}
+                            label="Seleccione Planta"
+                            variant="outlined"
+                            required
+                          />}
+                        onChange={(e, newValue) => { handleChangeOperations(newValue) }}
+                      />
+
                       {/* ----------------------------------------------------------------------------------- */}
 
-                      <label>
+                      {/* <label>
                         Planta <b className="text-danger">*</b>
                       </label>
                       <select
@@ -3999,7 +4539,7 @@ const ConsultaEquipos = () => {
                         <option value="BOGOTÁ BREWERY COMPANY (CRAFT)">
                           BOGOTÁ BREWERY COMPANY (CRAFT)
                         </option>
-                      </select>
+                      </select> */}
 
                       {/* {
                           operationsList.map((elemento) => (
@@ -4010,21 +4550,29 @@ const ConsultaEquipos = () => {
 
                     <FormGroup className="col-6">
                       {/* ----------------------------------------------------------------------------------- */}
-                      {/* <Autocomplete
+                      <Autocomplete
                         disablePortal
-                        required
                         id="combo-box-demo"
                         options={select.TipoLinea}
-                        sx={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} label="Seleccione Tipo de Línea *" variant="outlined" />}
-                        onChange={ handleChangeLineTypes }
-                        /> */}
+                        // sx={{ width: 300 }}
+                        fullWidth
+                        defaultValue={lineTypes && lineTypes.Name}
+                        renderInput={(params) => <
+                          TextField
+                          {...params}
+                          label="Seleccione Tipo de Línea"
+                          required variant="outlined"
+                          error={errorLineTypes}
+                          helperText={leyendaErrorLineTypes}
+                        />}
+                        onChange={(e, newValue) => { handleChangeLineTypes(newValue) }}
+                      />
                       {/* ----------------------------------------------------------------------------------- */}
 
                       {/* // value={lineTypes ? lineTypes : ""}
                           // onChange={handleChangeLineTypes} */}
 
-                      <label htmlFor="lineType">
+                      {/* <label htmlFor="lineType">
                         Tipo de línea <b className="text-danger">*</b>
                       </label>
                       <select
@@ -4040,7 +4588,7 @@ const ConsultaEquipos = () => {
                         <option value="KEG">KEG</option>
                         <option value="SPECIAL KEG">SPECIAL KEG</option>
                         <option value="OTHER">OTHER</option>
-                      </select>
+                      </select> */}
 
                       {/* {lineTypeList.map((elemento) => (
                         <option value={elemento.Name}>{elemento.Name}</option>
@@ -4050,17 +4598,28 @@ const ConsultaEquipos = () => {
 
                     <FormGroup className="col-6">
                       {/* ----------------------------------------------------------------------------------- */}
-                      {/* <Autocomplete
+                      <Autocomplete
                         disablePortal
-                        required
                         id="combo-box-demo"
                         options={select.Pais}
-                        sx={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} label="Seleccione País *" variant="outlined" onChange={handleChangeCountries} />}
-                      /> */}
+                        // sx={{ width: 300 }}
+                        fullWidth
+                        defaultValue={countries && countries.Name}
+                        renderInput={(params) => <
+                          TextField
+                          {...params}
+                          label="Seleccione País"
+                          variant="outlined"
+                          required
+                          error={errorCountries}
+                          helperText={leyendaErrorCountries}
+                        />}
+                        onChange={(e, newValue) => { handleChangeCountries(newValue) }}
+                      />
                       {/* ----------------------------------------------------------------------------------- */}
 
-                      <label>
+
+                      {/* <label>
                         País <b className="text-danger">*</b>
                       </label>
                       <select
@@ -4082,7 +4641,7 @@ const ConsultaEquipos = () => {
                         <option value="PANAMA">PANAMA</option>
                         <option value="PERÚ">PERÚ</option>
                         <option value="SAINT VINCENT">SAINT VINCENT</option>
-                      </select>
+                      </select> */}
 
                       {/* {paisLis.map((elemento) => (
                         <option value={elemento.Id_Countries}>{elemento.Name}</option>
@@ -4091,7 +4650,7 @@ const ConsultaEquipos = () => {
                     </FormGroup>
 
                     <FormGroup className="col-6">
-                      <label>
+                      {/* <label>
                         BU <b className="text-danger">*</b>
                       </label>
                       <select
@@ -4104,7 +4663,7 @@ const ConsultaEquipos = () => {
                         <option value="COL">COL</option>
                         <option value="PEC">PEC</option>
                         <option value="MEX">MEX</option>
-                      </select>
+                      </select> */}
 
                       {/* ------------------------------------------------   SELECT DESDE LA BASE DE DATOS   ------------------------------------ */}
                       {/* {
@@ -4114,19 +4673,29 @@ const ConsultaEquipos = () => {
                       } */}
 
                       {/* ----------------------------------------------------------------------------------- */}
-                      {/* <Autocomplete
+                      <Autocomplete
                         disablePortal
-                        required
                         id="combo-box-demo"
-                        options={BUList}
-                        sx={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} label="Seleccione BU *" variant="outlined" onChange={handleChangeBu} />}
-                      /> */}
+                        options={select.BU}
+                        // sx={{ width: 300 }}
+                        fullWidth
+                        defaultValue={bu && bu.Name}
+                        renderInput={(params) => <
+                          TextField
+                          {...params}
+                          label="Seleccione BU"
+                          variant="outlined"
+                          required
+                          error={errorBU}
+                          helperText={leyendaErrorBU}
+                        />}
+                        onChange={(e, newValue) => { handleChangeBu(newValue) }}
+                      />
                       {/* ----------------------------------------------------------------------------------- */}
                     </FormGroup>
 
                     <FormGroup className="col-6">
-                      <label htmlFor="area">
+                      {/* <label htmlFor="area">
                         Area <b className="text-danger">*</b>
                       </label>
                       <select
@@ -4200,7 +4769,7 @@ const ConsultaEquipos = () => {
                         <option value="WORKSHOP">WORKSHOP</option>
                         <option value="OFFICES">OFFICES</option>
                         <option value="SUBPRODUCTS">SUBPRODUCTS</option>
-                      </select>
+                      </select> */}
 
                       {/* {
                         areaList.map((elemento) => (
@@ -4209,23 +4778,30 @@ const ConsultaEquipos = () => {
                         } */}
 
                       {/* ----------------------------------------------------------------------------------- */}
-                      {/* <Autocomplete
+                      <Autocomplete
                         disablePortal
-                        required
                         id="combo-box-demo"
                         options={select.Areas}
-                        sx={{ width: 300 }}
-                        onChange={handleChangeAreas}
-                        renderInput={(params) => <TextField {...params} label="Seleccione Area *" variant="outlined" />}
-                      /> */}
+                        // sx={{ width: 300 }}
+                        fullWidth
+                        defaultValue={areas && areas.Name}
+                        renderInput={(params) => <
+                          TextField
+                          {...params}
+                          label="Seleccione Area"
+                          variant="outlined"
+                          required
+                          error={errorAreas}
+                          helperText={leyendaErrorAreas}
+                        />}
+                        onChange={(e, newValue) => { handleChangeAreas(newValue) }}
+                      />
+
                       {/* ----------------------------------------------------------------------------------- */}
                     </FormGroup>
 
                     <FormGroup className="col-6">
-                      <label htmlFor="Subarea">
-                        {" "}
-                        Subárea <b className="text-danger">*</b>{" "}
-                      </label>
+                      {/* <label htmlFor="Subarea"> Subárea <b className="text-danger">*</b> </label>
                       <select
                         className="form-select SelectBoostrap"
                         name="Name"
@@ -4241,25 +4817,31 @@ const ConsultaEquipos = () => {
                         <option value="BAGAZO/SYE">BAGAZO/SYE</option>
                         <option value="BLOQUE FRIO">BLOQUE FRIO</option>
                         <option value="GENERAL">GENERAL</option>
-                        <option value="NO DATA AVAILABLE">
-                          {" "}
-                          No data available{" "}
-                        </option>
-                      </select>
+                        <option value="NO DATA AVAILABLE"> No data available </option>
+                      </select> */}
 
                       {/* {subareaList.map((elemento) => (
                       <option value={elemento.Id_SubAreas}>{elemento.Name}</option>
                       )) } */}
 
                       {/* ----------------------------------------------------------------------------------- */}
-                      {/* <Autocomplete
-                        disablePortal
-                        required
+                      <Autocomplete disablePortal
                         id="combo-box-demo"
                         options={select.SubArea}
-                        sx={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} label="Seleccione Subárea *" variant="outlined" onChange={handleChangeSubArea} />}
-                      /> */}
+                        // sx={{ width: 300 }}
+                        fullWidth
+                        defaultValue={SubArea && SubArea.Name}
+                        renderInput={(params) => <
+                          TextField
+                          {...params}
+                          label="Seleccione Subárea"
+                          variant="outlined"
+                          required
+                          error={errorSubArea}
+                          helperText={leyendaErrorSubArea}
+                        />}
+                        onChange={(e, newValue) => { handleChangeSubArea(newValue) }}
+                      />
                       {/* ----------------------------------------------------------------------------------- */}
                     </FormGroup>
 
@@ -4281,8 +4863,12 @@ const ConsultaEquipos = () => {
                         className="form-control"
                         variant="outlined"
                         name="code"
+                        required
+                        fullWidth
+                        value={equipoSeleccionado ? equipoSeleccionado.code : ""}
                         onChange={handleChange}
                       />
+
                     </FormGroup>
 
                     {/* <FormGroup className="col-6">
@@ -4295,8 +4881,23 @@ const ConsultaEquipos = () => {
                     onChange={handleChange} />
                     </FormGroup> */}
 
+                    {/* <div>
+
+                      <Button type="submit"
+                          style={{
+                            color:
+                              theme.palette.type === "dark"
+                                ? "#ffffff"
+                                : "#000000",
+                          }}
+                          >
+                        pasar
+                      </Button>
+                    </div> */}
+
                     {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
                     <FormGroup className="row align-items-center justify-content-between">
+
                       <Grid xs={4}>
                         <Button
                           className="d-none"
@@ -4323,16 +4924,17 @@ const ConsultaEquipos = () => {
                         className="d-flex justify-content-end align-items-center"
                       >
                         <Button
+                          type="submit"
                           style={{
                             color:
                               theme.palette.type === "dark"
                                 ? "#ffffff"
                                 : "#000000",
                           }}
-                          onClick={() => {
-                            setEditing(true);
-                            setEditingTechInfo(false);
-                          }}
+                        // onClick={() => {
+                        //   setEditing(true);
+                        //   setEditingTechInfo(false);
+                        // }}
                         >
                           {" "}
                           Información Técnica
@@ -4343,7 +4945,9 @@ const ConsultaEquipos = () => {
                       {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
                     </FormGroup>
 
-                    {/* <ModalFooter>
+                  </form>
+
+                  {/* <ModalFooter>
                                         <Button type="submit" color='primary' onClick={() => insertar()}>Insertar</Button>
                                         <Button color='danger'
                                             onClick={() => {
@@ -4354,8 +4958,8 @@ const ConsultaEquipos = () => {
                                                 setEditingServiceInfo(false)
                                             }}>Cancelar</Button>
                                     </ModalFooter> */}
-                  </ModalBody>
-                </form>
+                </ModalBody>
+
               </div>
             )
           }

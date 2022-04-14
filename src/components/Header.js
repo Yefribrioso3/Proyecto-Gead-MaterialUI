@@ -1,21 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
+// , { useState }
 import {
   AppBar,
-  Toolbar,
+  // Toolbar,
   Grid,
-  InputBase,
-  IconButton,
-  Badge,
+  // InputBase,
+  // IconButton,
+  // Badge,
   ThemeProvider,
   makeStyles,
   createTheme,
 } from "@material-ui/core";
-import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
-import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import SearchIcon from "@material-ui/icons/Search";
+// import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
+// import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+// import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+// import SearchIcon from "@material-ui/icons/Search";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import abinbev from "../assets/abinbev.jpeg";
+// import abinbev from "../assets/abinbev.jpeg";
 
 import {
   Collapse,
@@ -46,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "none",
   },
   bar: {
-    backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
+    backgroundColor: theme.palette.type === "dark" ? "#514A69" : "#FFFFFF",
     paddingTop: theme.spacing(5),
     borderRadius: "12px",
     boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     // top: '305px',
   },
   icons: {
-    fill: theme.palette.type == "dark" ? "#B3C8FC" : "rgba(0, 0, 0, 0.38)",
+    fill: theme.palette.type === "dark" ? "#B3C8FC" : "rgba(0, 0, 0, 0.38)",
   },
 }));
 export default function Header({
@@ -116,7 +117,8 @@ export default function Header({
       <AppBar position="static" className={classes.root}>
         <Navbar className={classes.bar} expand="md">
           <img
-            src={theme.palette.type == "dark" ? GeadWhite : Gead}
+            alt=""
+            src={theme.palette.type === "dark" ? GeadWhite : Gead}
             className={classes.logo}
           />
 
@@ -157,7 +159,7 @@ export default function Header({
                   className="btn"
                   style={{
                     color:
-                      theme.palette.type == "dark"
+                      theme.palette.type === "dark"
                         ? theme.palette.primary.light
                         : theme.palette.secondary.dark,
                   }}
@@ -174,7 +176,7 @@ export default function Header({
                   caret
                   style={{
                     color:
-                      theme.palette.type == "dark"
+                      theme.palette.type === "dark"
                         ? theme.palette.primary.light
                         : theme.palette.secondary.dark,
                   }}
@@ -194,7 +196,7 @@ export default function Header({
                   right
                   style={{
                     backgroundColor:
-                      theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
+                      theme.palette.type === "dark" ? "#514A69" : "#FFFFFF",
                     boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
                   }}
                 >
@@ -204,7 +206,7 @@ export default function Header({
                       className="p-0"
                       style={{
                         color:
-                          theme.palette.type == "dark"
+                          theme.palette.type === "dark"
                             ? theme.palette.primary.light
                             : theme.palette.secondary.dark,
                       }}
