@@ -144,15 +144,42 @@ const Registro = ({ history }) => {
 
   const getUser = async () => {
     //  -------   Consulta al Api de User
-    await authAxios.get(`/user`).then(async (response) => {
-      let a = await Promise.all(
-        response.data.data.map((z) => ({ ...z, id: z.Id_Usuario }))
-      );
-      setAllUser(a);
-    });
+    await authAxios.get(`/user`)
+      .then(async (response) => {
+        let a = await Promise.all(
+          response.data.data.map((z) => ({ ...z, id: z.Id_Usuario }))
+        );
+        setAllUser(a);
+      });
+  };
+
+  const [userByToken, setUserByToken] = useState({}); //  -------   Consulta al Api de User
+
+  const getUserByToken = async () => {
+    //  -------   Consulta al Api de User
+    if (localStorage?.token) {
+      await authAxios.get(`/user/user-data`)
+        .then((response) => {
+          setUserByToken(response.data.data);
+          console.log(response);
+        })
+        .catch((x) => {
+          console.log(x?.response);
+          if (x?.response.data.error.message === "jwt expired") {
+            // console.log("hola");
+            history.replace('/login');
+          }
+          // console.log(x?.response.data.msg)
+        });
+      // console.log(x?.response);
+      // console.log(userByToken);
+    } else {
+      history.replace('/login');
+    }
   };
 
   useEffect(() => {
+    getUserByToken();
     getUser();
   }, []);
 
@@ -313,7 +340,7 @@ const Registro = ({ history }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Head setLight={setLight} light={light} />
+      <Head setLight={setLight} light={light} history={history}/>
 
       <Paper style={style.paper} light={light}>
         {/* elevation={10} */}
@@ -422,6 +449,7 @@ const Registro = ({ history }) => {
       />
 
       <ModalEditar
+        authAxios={authAxios}
         modalEditar={modalEditar}
         setModalEditar={setModalEditar}
         userSeleccionado={userSeleccionado}
