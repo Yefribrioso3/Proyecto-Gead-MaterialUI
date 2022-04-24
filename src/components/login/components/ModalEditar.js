@@ -24,6 +24,7 @@ export const ModalEditar = ({
   setUserSeleccionado,
   allUser,
   light,
+  authAxios
 }) => {
   const { handleSubmit } = useForm();
 
@@ -108,8 +109,9 @@ export const ModalEditar = ({
   const onSubmit = (e) => {
     // -------- Peticion al Api para actualizar usuario
     let Users = allUser;
+    console.log(userSeleccionado)
 
-    Axios.put(`${globalApi}/user/${userSeleccionado.Id_Usuario}`, {
+    authAxios.put(`${globalApi}/user/${userSeleccionado.Id_Usuario}`, {
       Name: userSeleccionado.Name,
       LastName: userSeleccionado.LastName,
       email: userSeleccionado.email,
@@ -218,6 +220,7 @@ export const ModalEditar = ({
                     <MenuItem value={1}>ADMIN</MenuItem>
                     <MenuItem value={2}>SUPERVISOR</MenuItem>
                     <MenuItem value={3}>PLANTA</MenuItem>
+                    <MenuItem value={4}>GERENTE</MenuItem>
                   </Select>
                 </FormControl>
               </FormGroup>

@@ -25,7 +25,7 @@ import { WbSunny } from "@material-ui/icons";
 import Gead from "../../assets/logo.png";
 import GeadWhite from "../../assets/logo-white.png";
 
-export default function Head({ light, setLight }) {
+export default function Head({ light, setLight, history }) {
   const useStyles = makeStyles((theme) => ({
     root: {
       backgroundColor: "transparent",
@@ -138,6 +138,11 @@ export default function Head({ light, setLight }) {
     },
   });
 
+  const cerrar = () => {
+    history.replace("/login");
+    localStorage.removeItem("token")
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <AppBar className={classes.root}>
@@ -181,7 +186,8 @@ export default function Head({ light, setLight }) {
                 >
                   <DropdownItem>
                     <NavLink
-                      href="/login"
+                      // href="/login"
+                      onClick={()=>{ cerrar() }}
                       className="p-0"
                       style={{
                         color:

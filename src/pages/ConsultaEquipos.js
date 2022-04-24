@@ -203,6 +203,7 @@ const ConsultaEquipos = ({ history }) => {
         await authAxios.get(`/user/user-data`)
           .then((response) => {
             setUserByToken(response.data.data);
+            console.log(response);
           })
           .catch((x) => {
             console.log(x?.response);
@@ -214,6 +215,8 @@ const ConsultaEquipos = ({ history }) => {
           });
         // console.log(x?.response);
         // console.log(userByToken);
+      } else {
+        history.replace('/login');
       }
     };
 
@@ -2470,7 +2473,7 @@ const ConsultaEquipos = ({ history }) => {
           setListAll={setListAll}
           light={light}
         />
-        <Header setLight={setLight} light={light} userByToken={userByToken} />
+        <Header setLight={setLight} light={light} userByToken={userByToken} history={history} />
 
         <Paper
           light={light}

@@ -73,23 +73,18 @@ const useStyles = makeStyles((theme) => ({
     fill: theme.palette.type === "dark" ? "#B3C8FC" : "rgba(0, 0, 0, 0.38)",
   },
 }));
+
 export default function Header({
   userByToken,
   isOpen,
   setIsOpen,
   light,
   setLight,
+  history
 }) {
   const classes = useStyles();
   const toggle = () => setIsOpen(!isOpen);
-  const local = () => {
-    //Eliminar datos del localStorage y redireccionar al login
-    localStorage.removeItem("token");
-    console.log(localStorage);
-
-    // history.replace('/login');
-    // console.log(history)
-  };
+  
   const theme = createTheme({
     palette: {
       type: light ? "light" : "dark",
@@ -111,6 +106,11 @@ export default function Header({
       },
     },
   });
+
+  const cerrar = () => {
+    history.replace("/login");
+    localStorage.removeItem("token")
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -189,6 +189,8 @@ export default function Header({
                       ? `${userByToken.Name} (SUPERVISOR)`
                       : userByToken?.roleId === 3
                       ? `${userByToken.Name} (PLANTA)`
+                      : userByToken?.roleId === 4 
+                      ? `${userByToken.Name} (GERENTE)`
                       : null
                   }
                 </DropdownToggle>
@@ -202,7 +204,8 @@ export default function Header({
                 >
                   <DropdownItem>
                     <NavLink
-                      href="/login"
+                      // href="/login"
+                      onClick={()=>{ cerrar() }}
                       className="p-0"
                       style={{
                         color:
