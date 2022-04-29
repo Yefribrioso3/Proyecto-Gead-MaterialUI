@@ -82,12 +82,7 @@ export const DashboardRoutes = () => {
             <Switch>
               <Route exact path="/prueba" component={Prueba} />
               <Route exact path="/Home" component={Home} />
-              <Route
-                exact
-                path="/consultaEquipos"
-                component={ConsultaEquipos}
-                setLight={setLight}
-              />
+              <Route exact path="/consultaEquipos" component={ConsultaEquipos} setLight={setLight} />
               <Route exact path="/registro" component={Registro} />
               <Route
                 exact

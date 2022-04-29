@@ -1,44 +1,49 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { v4 as uuidv4 } from "uuid";
-import { Button, FormGroup, ModalBody } from "reactstrap";
-import Axios from "axios";
+import React from "react";
+// , { useState } 
+// import { useForm } from "react-hook-form";
+// import { v4 as uuidv4 } from "uuid";
+import { FormGroup, ModalBody } from "reactstrap";
+// Button,
+import Button from "@material-ui/core/Button";
+// import Axios from "axios";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { Grid } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
-import AddIcon from "@material-ui/icons/Add";
+// import AddIcon from "@material-ui/icons/Add";
 //
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 
 const ServiceInformation = ({
-  casoServInfo,
-  id,
-  editingNewServInfo,
-  setnewservInformation,
-  newservInformation,
-  setModalInsertarServiInfo,
-  ModalInsertarServiInfo,
-  seteditingNewServInfo,
-  update,
-  prueba,
-  setPrueba,
-  allAquipmentRelation,
   handleChangeServicesInformation,
   servicesInformation,
-  setServicesInformation,
-  equipoSeleccionado,
-  setEquipoSeleccionado,
-  editRow,
   setEditing,
   setEditingServiceInfo,
-  editingTechInfo,
-  EditAddServInfo,
   setEditingTechInfo,
-  techInfoEditado,
-  updateAddServInfo,
   light,
+  backForm,
+  nextForm
+  // casoServInfo,
+  // id,
+  // editingNewServInfo,
+  // setnewservInformation,
+  // newservInformation,
+  // setModalInsertarServiInfo,
+  // ModalInsertarServiInfo,
+  // seteditingNewServInfo,
+  // update,
+  // prueba,
+  // setPrueba,
+  // allAquipmentRelation,
+  // setServicesInformation,
+  // equipoSeleccionado,
+  // setEquipoSeleccionado,
+  // editRow,
+  // editingTechInfo,
+  // EditAddServInfo,
+  // techInfoEditado,
+  // updateAddServInfo,
 }) => {
   const theme = createTheme({
     palette: {
@@ -203,7 +208,7 @@ const ServiceInformation = ({
         <h4
           style={{
             color:
-              theme.palette.type == "dark"
+              theme.palette.type === "dark"
                 ? theme.palette.primary.light
                 : theme.palette.secondary,
           }}
@@ -283,13 +288,14 @@ const ServiceInformation = ({
             <Button
               style={{
                 border: "0px",
-                backgroundColor: "transparent",
-                color: theme.palette.type == "dark" ? "#ffffff" : "#000000",
+                // backgroundColor: "transparent",
+                color: theme.palette.type === "dark" ? "#ffffff" : "#000000",
               }}
               onClick={() => {
-                setEditing(true);
-                setEditingServiceInfo(false);
-                setEditingTechInfo(false);
+                backForm();
+                // setEditing(true);
+                // setEditingServiceInfo(false);
+                // setEditingTechInfo(false);
               }}
             >
               {" "}
@@ -300,7 +306,7 @@ const ServiceInformation = ({
           <Grid xs={4} className="d-flex justify-content-center">
             {" "}
             <Pagination
-              count={3}
+              count={4}
               hidePrevButton
               hideNextButton
               defaultPage={3}
@@ -309,7 +315,30 @@ const ServiceInformation = ({
               disabled
             />
           </Grid>
-          <Grid xs={4}>
+
+          <Grid
+            xs={4}
+            className="d-flex justify-content-end"
+          >
+            <Button
+              style={{
+                border: "0px",
+                // backgroundColor: "transparent",
+                color: theme.palette.type === "dark" ? "#ffffff" : "#000000",
+              }}
+              onClick={() => {
+                nextForm();
+                // setEditing(true);
+                // setEditingServiceInfo(false);
+                // setEditingTechInfo(false);
+              }}
+            >
+              INFORMACIÓN FINANCIERA
+              <ArrowForwardIcon />
+            </Button>
+          </Grid>
+
+          {/* <Grid xs={4}>
             <Button
               style={{
                 backgroundColor: "transparent",
@@ -320,9 +349,10 @@ const ServiceInformation = ({
                 setEditingServiceInfo(true);
               }}
             >
+              INFORMACIÓN FINANCIERA
               <ArrowForwardIcon />
             </Button>
-          </Grid>
+          </Grid> */}
 
           {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
         </FormGroup>

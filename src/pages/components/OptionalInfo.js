@@ -369,7 +369,7 @@ export const OptionalInfo = ({
                 <h6
                   style={{
                     color:
-                      theme.palette.type == "dark"
+                      theme.palette.type === "dark"
                         ? theme.palette.primary.light
                         : theme.palette.secondary,
                   }}

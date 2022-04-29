@@ -29,7 +29,7 @@ const ExcelRegistro = () => {
           equipo.Apellido === undefined ? "No Data Available" : equipo.Apellido,
         email:
           equipo.correo === undefined ? "No Data Available" : equipo.correo,
-        password: "Prueba@1",
+        // password: "Prueba@1",
         roleId: 1,
       });
     });
