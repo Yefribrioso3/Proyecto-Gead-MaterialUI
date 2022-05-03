@@ -205,7 +205,7 @@ const ConsultaEquipos = ({ history }) => {
         await authAxios.get(`/user/user-data`)
           .then((response) => {
             setUserByToken(response.data.data);
-            console.log(response);
+            console.log(response.data.data);
           })
           .catch((x) => {
             console.log(x?.response);
@@ -424,6 +424,8 @@ const ConsultaEquipos = ({ history }) => {
       Longitud: null,
       Period_Time: null,
       Id_Equipment: null,
+      EncargadoActualizacion: null,
+      FechaActualizacion: null
     },
     ServicesInformation: {
       Id_ServicesInformation: null,
@@ -892,6 +894,9 @@ const ConsultaEquipos = ({ history }) => {
     equipo.TechnicalSpecification.OptionalTechInfo = optionalTechInfo;
     equipo.ServicesInformation = servicesInformation;
     equipo.FinancialInformation = financialInformation;
+    equipo.FinancialInformation.FechaActualizacion = fecha
+    equipo.FinancialInformation.EncargadoActualizacion = `${userByToken.Name} ${userByToken.LastName}`
+
     // equipo.ServicesInformation.newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
     equipo.Procedencia.Id_Areas = areas.Id_Areas;
     equipo.Procedencia.Id_Line = line.Id_Line;
@@ -2198,6 +2203,8 @@ const ConsultaEquipos = ({ history }) => {
 
   const [listAll, setListAll] = useState([]);
 
+  // --------------------------  FILTRAR POR BU EN SIDEMENU ------------------
+
   const filtrarBUList = async (bu, n, setCont) => {
     const list = getAllList;
 
@@ -2206,31 +2213,63 @@ const ConsultaEquipos = ({ history }) => {
     if (contador === 0) {
       setList(list);
       setGetAllList(
-        getAllList.filter(
+        filterPlantaFn.fn(getAllList.filter(
           (equipo) =>
             equipo.Procedencia.areas.operations.countries.bu.Name === bu
-        )
+        ))
       );
       setContador(++counter);
     } else {
       setGetAllList(
-        List.filter(
+        filterPlantaFn.fn(List.filter(
           (equipo) =>
             equipo.Procedencia.areas.operations.countries.bu.Name === bu
-        )
+        ))
       );
     }
 
     if (n === "total") {
-      setGetAllList(List);
+      setGetAllList(filterPlantaFn.fn(List));
       // allAquipmentRelation()
       // setListAll(List.length)
     }
   };
+  const [filterPlantaFn, setFilterPlantaFn] = useState({
+    fn: (items) => {
+      return items;
+    },
+  });
+
+  const handleSearchPlanta = (e) => {   // -------------- Filtrar por planta en el menu desplegable
+    // let target = e.target;
+    setFilterPlantaFn({
+      fn: (items) => {
+        if (e === null) return items;
+        else
+          return items.filter(
+            (x) =>
+            x.Procedencia.areas.operations.Name.toLowerCase().includes(e.toLowerCase())
+          );
+      },
+    });
+  };
+
+  useEffect(() => {
+    setGetAllList(filterPlantaFn.fn(getAllList));
+    // filtrarBUList()
+  }, [filterPlantaFn])
+
+
+
+
+
+
+
+  
 
   const [totalEncontrados, setTotalEncontrados] = useState(getAllList.length);
 
-  const handleSearch = (e) => {
+  const handleSearch = (e, filtro) => {
     let target = e.target;
     setFilterFn({
       fn: (items) => {
@@ -2239,34 +2278,21 @@ const ConsultaEquipos = ({ history }) => {
           return items.filter(
             (x) =>
               x.Name.toLowerCase().includes(target.value.toLowerCase()) ||
-              x.Procedencia.areas.operations.countries.bu.Name.toLowerCase().includes(
-                target.value.toLowerCase()
-              ) ||
-              x.Procedencia.areas.operations.countries.Name.toLowerCase().includes(
-                target.value.toLowerCase()
-              ) ||
-              x.Procedencia.areas.Name.toLowerCase().includes(
-                target.value.toLowerCase()
-              ) ||
-              x.Procedencia.areas.SubArea.Name.toLowerCase().includes(
-                target.value.toLowerCase()
-              ) ||
-              x.Procedencia.areas.operations.Name.toLowerCase().includes(
-                target.value.toLowerCase()
-              ) ||
+              x.Procedencia.areas.operations.countries.bu.Name.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.Procedencia.areas.operations.countries.Name.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.Procedencia.areas.Name.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.Procedencia.areas.SubArea.Name.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.Procedencia.areas.operations.Name.toLowerCase().includes(target.value.toLowerCase()) ||
               // x.TechnicalSpecification.OEM.toLowerCase().includes(target.value.toLowerCase()) ||
-              x.TechnicalSpecification.SerialNumber.toLowerCase().includes(
-                target.value.toLowerCase()
-              ) ||
-              x.TechnicalSpecification.EquipmentType.toLowerCase().includes(
-                target.value.toLowerCase()
-              )
+              x.TechnicalSpecification.SerialNumber.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.TechnicalSpecification.EquipmentType.toLowerCase().includes(target.value.toLowerCase())
           );
       },
     });
 
     let TotalEncontrado = filterFn.fn(getAllList).length;
     setTotalEncontrados(TotalEncontrado);
+
   };
 
   //  ------------------------    PDF     ----------------------------------
@@ -2571,7 +2597,10 @@ const ConsultaEquipos = ({ history }) => {
           listAll={listAll}
           setListAll={setListAll}
           light={light}
+          handleSearchPlanta={handleSearchPlanta}
         />
+
+
         <Header setLight={setLight} light={light} userByToken={userByToken} history={history} />
 
         <Paper
@@ -2596,7 +2625,7 @@ const ConsultaEquipos = ({ history }) => {
                   </InputAdornment>
                 ),
               }}
-              onChange={handleSearch}
+              onChange={(e) => { handleSearch(e, 'all') }}
             />
 
             {userByToken?.roleId === 1 ? (
@@ -2864,6 +2893,7 @@ const ConsultaEquipos = ({ history }) => {
                             <FormGroup className="col-6">
                               <TextField
                                 readOnly
+                                autoComplete="off"
                                 label="Id"
                                 className="form-control"
                                 variant="outlined"
@@ -3291,7 +3321,10 @@ const ConsultaEquipos = ({ history }) => {
                 financialInformation={financialInformation}
                 handleChangeFinancialInfo={handleChangeFinancialInfo}
                 backForm={backForm}
-                nextForm={nextForm} />
+                nextForm={nextForm}
+                light={light}
+                fecha={fecha}
+              />
             )
           }
 

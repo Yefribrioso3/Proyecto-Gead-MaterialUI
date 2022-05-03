@@ -7,7 +7,7 @@ import { Pagination } from "@material-ui/lab";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 
-const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeFinancialInfo, financialInformation, setEditingTechInfo, backForm, nextForm }) => {
+const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeFinancialInfo, financialInformation, backForm, fecha }) => {
 
     const theme = createTheme({
         palette: {
@@ -81,26 +81,79 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
 
                 <FormGroup className="col-4">
                     <TextField
-                        label="Fecha de Actualizacion"
+                        readOnly
+                        label="Activo fijo"
                         className="form-control"
                         variant="outlined"
-                        name="FechaActualizacion"
-                    value={ financialInformation && financialInformation.FechaActualizacion }
+                        name="Activo_fijo"
+                        value={ financialInformation && financialInformation.Activo_fijo }
                     onChange={handleChangeFinancialInfo}
                     />
                 </FormGroup>
 
                 <FormGroup className="col-4">
                     <TextField
+                        readOnly
+                        label="Valor Adquirido"
+                        className="form-control"
+                        variant="outlined"
+                        name="Valor_Adquirido"
+                        value={ financialInformation && financialInformation.Valor_Adquirido }
+                    onChange={handleChangeFinancialInfo}
+                    />
+                </FormGroup>
+
+                <FormGroup className="col-4">
+                    <TextField
+                        readOnly
+                        label="Amortizacion acumulada"
+                        className="form-control"
+                        variant="outlined"
+                        name="Amortizacion_acumulada"
+                        value={ financialInformation && financialInformation.Amortizacion_acumulada }
+                    onChange={handleChangeFinancialInfo}
+                    />
+                </FormGroup>
+
+                <FormGroup className="col-4">
+                    <TextField
+                        readOnly
+                        label="Cantidad"
+                        className="form-control"
+                        variant="outlined"
+                        name="Cantidad"
+                        value={ financialInformation && financialInformation.Cantidad }
+                    onChange={handleChangeFinancialInfo}
+                    />
+                </FormGroup>
+
+                <FormGroup className="col-4">
+                    <TextField
+                        readOnly
+                        // disabled
+                        autoComplete="off"
+                        label="Fecha de Actualizacion"
+                        className="form-control"
+                        variant="outlined"
+                        name="FechaActualizacion"
+                    value={ financialInformation && financialInformation.FechaActualizacion }
+                    // onChange={handleChangeFinancialInfo}
+                    />
+                </FormGroup>
+
+                <FormGroup className="col-4">
+                    <TextField
+                        readOnly
                         label="Encargado de Actualizacion"
                         className="form-control"
                         variant="outlined"
                         name="EncargadoActualizacion"
                         value={ financialInformation && financialInformation.EncargadoActualizacion }
-                    onChange={handleChangeFinancialInfo}
+                    // onChange={handleChangeFinancialInfo}
                     />
                 </FormGroup>
 
+                
                 <hr />
 
                 {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}

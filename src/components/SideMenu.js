@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { withStyles, makeStyles } from "@material-ui/core";
+import { withStyles, makeStyles, TextField, MenuItem, Menu, IconButton, ListItemIcon } from "@material-ui/core";
 import "../styles/styles.scss";
 // import Controls from "./controls/Controls";
 import Axios from "axios";
@@ -17,6 +17,7 @@ import Button from "@mui/material/Button";
 import { globalApi } from "../types/api.types";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+// import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const useStyles = makeStyles((theme) => ({
   sideMenu: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     width: "15.625rem",
     height: "100%",
     boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
-    backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
+    backgroundColor: theme.palette.type === "dark" ? "#514A69" : "#FFFFFF",
   },
   logo: {
     margin: "auto",
@@ -69,12 +70,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const ITEM_HEIGHT = 48;
+
+const options = [
+  'None',
+  'Atria',
+  'Callisto',
+  'Dione',
+  'Ganymede',
+  'Hangouts Call',
+  'Luna',
+  'Oberon',
+  'Phobos',
+  'Pyxis',
+  'Sedna',
+  'Titania',
+  'Triton',
+  'Umbriel',
+];
+
 const SideMenu = ({
   getAllList,
   filtrarBUList,
   setListAll,
   listAll,
   light,
+  handleSearchPlanta
 }) => {
   const theme = createTheme({
     palette: {
@@ -167,6 +188,32 @@ const SideMenu = ({
 
   // const { classes } = props;
 
+
+
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <ThemeProvider theme={theme}>
       <div className={`${classes.sideMenu}`}>
@@ -181,6 +228,8 @@ const SideMenu = ({
           <Button
             className={"btn btn-large w-100 mb-2 " + `${classes.filterCard}`}
             onClick={(e) => filtrarBUList("total", "total", setListAll)}
+          // onClick={(e) => handleSearch(null, "bu")}
+
           >
             <div className="row align-items-center">
               <div className="col-3">
@@ -209,6 +258,7 @@ const SideMenu = ({
           <Button
             className={"btn btn-large w-100 mb-2 " + `${classes.filterCard}`}
             onClick={(e) => filtrarBUList("MEX")}
+          // onClick={(e) => handleSearchPlanta(e="MEDELLIN")}
           >
             {" "}
             <div className="row align-items-center">
@@ -271,7 +321,7 @@ const SideMenu = ({
           >
             <div className="row align-items-center">
               <div className="col-3">
-                <img src={GlobalIcon} className="img-fluid" />
+                <img src={GlobalIcon} alt="" className="img-fluid" />
               </div>
               <div className="col-9">
                 {" "}
@@ -363,6 +413,111 @@ const SideMenu = ({
               </div>
             </div>
           </Button>
+
+
+
+
+          {/* <Button
+            className={"btn btn-large w-100 mb-2 " + `${classes.filterCard}`}
+            onClick={(e) => handleSearchPlanta(e = "MEDELLIN")}
+          >
+            <div className="row  align-items-center">
+              <div className="col-3">
+                <img src={GlobalIcon} className="img-fluid" alt="" />
+              </div>
+              <div className="col-9">
+                <div className="row justify-content-between">
+                  <div xs={12}>
+                    <h5>Medellin</h5>
+                  </div>
+                  <div className="col-6 me-auto">
+                    <h6>Equipos:</h6>
+                  </div>
+                  <div className="col-6 text-end">
+                    <h6>
+                      <strong
+                        className={classes.counter}
+                      >{`${colCounter}`}</strong>
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Button> */}
+
+
+
+          {/* <Button
+            className={"btn btn-large w-100 mb-2 " + `${classes.filterCard}`}
+            onClick={(e) => handleSearchPlanta(e = "BARRANQUILLA")}
+          >
+            <div className="row  align-items-center">
+              <div className="col-3">
+                <img src={GlobalIcon} className="img-fluid" alt="" />
+              </div>
+              <div className="col-9">
+                <div className="row justify-content-between">
+                  <div xs={12}>
+                    <h5>plantas</h5>
+                  </div>
+                  <div className="col-6 me-auto">
+                    <h6>Equipos:</h6>
+                  </div>
+                  <div className="col-6 text-end">
+                    <h6>
+                      <strong
+                        className={classes.counter}
+                      >{`${colCounter}`}</strong>
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Button> */}
+
+
+          <div>
+              <IconButton
+                aria-label="more"
+                id="long-button"
+                aria-controls={open ? 'long-menu' : undefined}
+                aria-expanded={open ? 'true' : undefined}
+                aria-haspopup="true"
+                onClick={handleClick}
+              >
+                <ListItemIcon />
+              </IconButton>
+              <Menu
+                id="long-menu"
+                MenuListProps={{
+                  'aria-labelledby': 'long-button',
+                }}
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                PaperProps={{
+                  style: {
+                    maxHeight: ITEM_HEIGHT * 4.5,
+                    width: '20ch',
+                  },
+                }}
+              >
+                {options.map((option) => (
+                  <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </div>
+
+          {/* <TextField
+            label="planta"
+            name="operations"
+            className="form-control"
+            variant="outlined"
+            onChange={handleSearchPlanta}
+          /> */}
+
         </div>
       </div>
     </ThemeProvider>
