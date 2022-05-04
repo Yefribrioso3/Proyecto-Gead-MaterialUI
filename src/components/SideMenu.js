@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { withStyles, makeStyles, TextField, MenuItem, Menu, IconButton, ListItemIcon } from "@material-ui/core";
+import { withStyles, makeStyles, TextField, IconButton, Menu } from "@material-ui/core";
 import "../styles/styles.scss";
-// import Controls from "./controls/Controls";
 import Axios from "axios";
-// import abinbev from "../assets/abinbev.jpeg";
 import abiWhite from "../assets/abiWhite.png";
 import abiDark from "../assets/abiBlack.png";
 import GlobalIcon from "../assets/globalicon.svg";
 import Button from "@mui/material/Button";
+import { globalApi } from "../types/api.types";
+import { createTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+import { MenuItem } from "@mui/material";
+import MoreVert from "@material-ui/icons/MoreVert";
+// import Controls from "./controls/Controls";
+// import abinbev from "../assets/abinbev.jpeg";
 // import manual from "../assets/Manual.pdf";
 // import {
 //   ArrowDownward,
 //   FontDownload,
 //   FontDownloadTwoTone,
 // } from "@material-ui/icons";
-import { globalApi } from "../types/api.types";
-import { createTheme } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
 // import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     position: "absolute",
     left: "0px",
+    // width: "16rem",
     width: "15.625rem",
     height: "100%",
     boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
@@ -70,24 +73,55 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ITEM_HEIGHT = 48;
+const ITEM_HEIGHT = 50;
 
-const options = [
+const optionsMEX = [
   'None',
-  'Atria',
-  'Callisto',
-  'Dione',
-  'Ganymede',
-  'Hangouts Call',
-  'Luna',
-  'Oberon',
-  'Phobos',
-  'Pyxis',
-  'Sedna',
-  'Titania',
-  'Triton',
-  'Umbriel',
+  'TORREÓN',
+  'MAZATLAN',
+  'TUXTEPEC',
+  'ZACATECAS',
+  'GUADALAJARA',
+  'MEXICO CITY',
+  'ENVASES Y TAPAS',
+  'VIDRIERA POTOSÍ',
 ];
+
+const optionsCAC = [
+  'None',
+  'PASADENA',
+  'DOMINICANA',
+  'EL SALVADOR CSD',
+  'EL SALVADOR BEER',
+  'EL SALVADOR WATER',
+  'SAN PEDRO SULA CSD',
+  'SAN PEDRO SULA BEER',
+];
+
+const optionsPEC = [
+  'None',
+  'ATE',
+  'CUSCO',
+  'QUITO',
+  'MOTUPE',
+  'PUCALLPA',
+  'AREQUIPA',
+  'GUAYAQUIL',
+  'HUAROCHIRI',
+  'MALTERIA DE LIMA',
+];
+
+const optionsCOL = [
+  'None',
+  'VALLE',
+  'BOYACA',
+  'MEDELLIN',
+  'TOCANCIPA',
+  'BUCARAMANGA',
+  'BARRANQUILLA',
+];
+
+
 
 const SideMenu = ({
   getAllList,
@@ -189,15 +223,41 @@ const SideMenu = ({
   // const { classes } = props;
 
 
+  const [anchorElMEX, setAnchorElMEX] = React.useState(null);
+  const [anchorElCAC, setAnchorElCAC] = React.useState(null);
+  const [anchorElPEC, setAnchorElPEC] = React.useState(null);
+  const [anchorElCOL, setAnchorElCOL] = React.useState(null);
 
+  const openMEX = Boolean(anchorElMEX);
+  const openCAC = Boolean(anchorElCAC);
+  const openPEC = Boolean(anchorElPEC);
+  const openCOL = Boolean(anchorElCOL);
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (event, bu) => {
+    if (bu === "MEX"){
+      setAnchorElMEX(event.currentTarget);
+    } else if (bu === "CAC") {
+      setAnchorElCAC(event.currentTarget);
+    } else if (bu === "PEC") {
+      setAnchorElPEC(event.currentTarget);      
+    } else if (bu === "COL") {
+      setAnchorElCOL(event.currentTarget);      
+    }
   };
+
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorElMEX(null);
+    setAnchorElCAC(null);
+    setAnchorElPEC(null);
+    setAnchorElCOL(null);
+  };
+
+  const handleSelect = (option) => {
+    handleSearchPlanta(option);
+    setAnchorElMEX(null);
+    setAnchorElCAC(null);
+    setAnchorElPEC(null);
+    setAnchorElCOL(null);
   };
 
 
@@ -227,7 +287,7 @@ const SideMenu = ({
         <div className="p-2 mt-5">
           <Button
             className={"btn btn-large w-100 mb-2 " + `${classes.filterCard}`}
-            onClick={(e) => filtrarBUList("total", "total", setListAll)}
+            onClick={(e) => filtrarBUList("total", "total")}
           // onClick={(e) => handleSearch(null, "bu")}
 
           >
@@ -265,7 +325,7 @@ const SideMenu = ({
               <div className="col-3">
                 <img src={GlobalIcon} className="img-fluid" alt="" />
               </div>
-              <div className="col-9">
+              <div className="col-6">
                 <div className="row justify-content-between">
                   <div xs={12}>
                     <h5>MEX</h5>
@@ -282,8 +342,46 @@ const SideMenu = ({
                   </div>
                 </div>
               </div>
+
+              {/* ---------------------------   FILTRO DESPLEGABLE POR PLANTA MEX --------------------- */}
+              <div className="col-3">
+                <IconButton
+                  // aria-label="more"
+                  // id="long-button-MEX"
+                  // aria-controls={openMEX ? 'long-menu-MEX' : undefined}
+                  // aria-expanded={openMEX ? 'true' : undefined}
+                  // aria-haspopup="true"
+                  onClick={(e)=>{handleClick(e, "MEX")}}
+                >
+                  {/* <ListItemIcon /> */}
+                  {/* <Apps /> */}
+                  <MoreVert style={{ fontSize: "20px" }}/>
+                </IconButton>
+                <Menu
+                  // id="long-menu-MEX"
+                  // MenuListProps={{
+                  //   'aria-labelledby': 'long-button-MEX',
+                  // }}
+                  anchorEl={anchorElMEX}
+                  open={openMEX}
+                  onClose={handleClose}
+                  PaperProps={{
+                    style: {
+                      maxHeight: ITEM_HEIGHT * 4.5,
+                      width: '24ch',
+                    },
+                  }}
+                >
+                  {optionsMEX.map((option) => (
+                    <MenuItem key={option} selected={option === 'ZACATECAS'} onClick={() => { handleSelect(option) }}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </div>
             </div>
           </Button>
+
           <Button
             className={"btn btn-large w-100 mb-2 " + `${classes.filterCard}`}
             onClick={(e) => filtrarBUList("CAC")}
@@ -294,7 +392,7 @@ const SideMenu = ({
                 {" "}
                 <img src={GlobalIcon} className="img-fluid" alt="" />
               </div>
-              <div className="col-9">
+              <div className="col-6">
                 {" "}
                 <div className="row justify-content-between">
                   <div xs={12}>
@@ -312,6 +410,42 @@ const SideMenu = ({
                   </div>
                 </div>
               </div>
+              {/* ---------------------------   FILTRO DESPLEGABLE POR PLANTA CAC --------------------- */}
+              <div className="col-3">
+                <IconButton
+                  aria-label="more"
+                  id="long-button"
+                  aria-controls={openCAC ? 'long-menu' : undefined}
+                  aria-expanded={openCAC ? 'true' : undefined}
+                  aria-haspopup="true"
+                  onClick={(e)=>{handleClick(e, "CAC")}}
+                >
+                  {/* <ListItemIcon /> */}
+                  {/* <Apps /> */}
+                  <MoreVert style={{ fontSize: "20px" }}/>
+                </IconButton>
+                <Menu
+                  id="long-menu"
+                  MenuListProps={{
+                    'aria-labelledby': 'long-button',
+                  }}
+                  anchorEl={anchorElCAC}
+                  open={openCAC}
+                  onClose={handleClose}
+                  PaperProps={{
+                    style: {
+                      maxHeight: ITEM_HEIGHT * 4.5,
+                      width: '28ch',
+                    },
+                  }}
+                >
+                  {optionsCAC.map((option) => (
+                    <MenuItem key={option} selected={option === 'None'} onClick={() => { handleSelect(option) }}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </div>
             </div>
           </Button>
 
@@ -323,7 +457,7 @@ const SideMenu = ({
               <div className="col-3">
                 <img src={GlobalIcon} alt="" className="img-fluid" />
               </div>
-              <div className="col-9">
+              <div className="col-6">
                 {" "}
                 <div className="row justify-content-between">
                   <div xs={12}>
@@ -341,17 +475,54 @@ const SideMenu = ({
                   </div>
                 </div>
               </div>
+              {/* ---------------------------   FILTRO DESPLEGABLE POR PLANTA PEC --------------------- */}
+              <div className="col-3">
+                <IconButton
+                  aria-label="more"
+                  id="long-button"
+                  aria-controls={openPEC ? 'long-menu' : undefined}
+                  aria-expanded={openPEC ? 'true' : undefined}
+                  aria-haspopup="true"
+                  onClick={(e)=>{handleClick(e, "PEC")}}
+                >
+                  {/* <ListItemIcon /> */}
+                  {/* <Apps /> */}
+                  <MoreVert style={{ fontSize: "20px" }}/>
+                </IconButton>
+                <Menu
+                  id="long-menu"
+                  MenuListProps={{
+                    'aria-labelledby': 'long-button',
+                  }}
+                  anchorEl={anchorElPEC}
+                  open={openPEC}
+                  onClose={handleClose}
+                  PaperProps={{
+                    style: {
+                      maxHeight: ITEM_HEIGHT * 4.5,
+                      width: '24ch',
+                    },
+                  }}
+                >
+                  {optionsPEC.map((option) => (
+                    <MenuItem key={option} selected={option === 'None'} onClick={() => { handleSelect(option) }}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </div>
             </div>
           </Button>
+
           <Button
             className={"btn btn-large w-100 mb-2 " + `${classes.filterCard}`}
             onClick={(e) => filtrarBUList("COL")}
           >
-            <div className="row  align-items-center">
+            <div className="row align-items-center">
               <div className="col-3">
                 <img src={GlobalIcon} className="img-fluid" alt="" />
               </div>
-              <div className="col-9">
+              <div className="col-6">
                 <div className="row justify-content-between">
                   <div xs={12}>
                     <h5>COL</h5>
@@ -367,6 +538,42 @@ const SideMenu = ({
                     </h6>
                   </div>
                 </div>
+              </div>
+              {/* ---------------------------   FILTRO DESPLEGABLE POR PLANTA COL   --------------------- */}
+              <div className="col-3">
+                <IconButton
+                  aria-label="more"
+                  id="long-button"
+                  aria-controls={openCOL ? 'long-menu' : undefined}
+                  aria-expanded={openCOL ? 'true' : undefined}
+                  aria-haspopup="true"
+                  onClick={(e)=>{handleClick(e, "COL")}}
+                >
+                  {/* <ListItemIcon /> */}
+                  {/* <Apps /> */}
+                  <MoreVert style={{ fontSize: "20px" }}/>
+                </IconButton>
+                <Menu
+                  id="long-menu"
+                  MenuListProps={{
+                    'aria-labelledby': 'long-button',
+                  }}
+                  anchorEl={anchorElCOL}
+                  open={openCOL}
+                  onClose={handleClose}
+                  PaperProps={{
+                    style: {
+                      maxHeight: ITEM_HEIGHT * 4.5,
+                      width: '24ch',
+                    },
+                  }}
+                >
+                  {optionsCOL.map((option) => (
+                    <MenuItem key={option} selected={option === 'None'} onClick={() => { handleSelect(option) }}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Menu>
               </div>
             </div>
           </Button>
@@ -476,39 +683,7 @@ const SideMenu = ({
           </Button> */}
 
 
-          <div>
-              <IconButton
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? 'long-menu' : undefined}
-                aria-expanded={open ? 'true' : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <ListItemIcon />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                MenuListProps={{
-                  'aria-labelledby': 'long-button',
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: '20ch',
-                  },
-                }}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </div>
+
 
           {/* <TextField
             label="planta"
@@ -517,6 +692,8 @@ const SideMenu = ({
             variant="outlined"
             onChange={handleSearchPlanta}
           /> */}
+
+
 
         </div>
       </div>

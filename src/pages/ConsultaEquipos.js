@@ -205,12 +205,14 @@ const ConsultaEquipos = ({ history }) => {
         await authAxios.get(`/user/user-data`)
           .then((response) => {
             setUserByToken(response.data.data);
-            console.log(response.data.data);
+            // console.log(response.data.data);
           })
           .catch((x) => {
             console.log(x?.response);
             if (x?.response.data.error.message === "jwt expired") {
               // console.log("hola");
+              history.replace('/login');
+            } else if (x?.response.statusText === "Unauthorized"){
               history.replace('/login');
             }
             // console.log(x?.response.data.msg)
@@ -2205,31 +2207,35 @@ const ConsultaEquipos = ({ history }) => {
 
   // --------------------------  FILTRAR POR BU EN SIDEMENU ------------------
 
-  const filtrarBUList = async (bu, n, setCont) => {
+  const filtrarBUList = async (bu, n) => {
     const list = getAllList;
 
     let counter = 0;
 
     if (contador === 0) {
       setList(list);
-      setGetAllList(
-        filterPlantaFn.fn(getAllList.filter(
-          (equipo) =>
-            equipo.Procedencia.areas.operations.countries.bu.Name === bu
-        ))
-      );
+      if (bu === "total") {
+        return null
+      } else {
+        setGetAllList(
+          filterPlantaFn.fn(getAllList.filter(
+            (equipo) =>
+              equipo.Procedencia.areas.operations.countries.bu.Name === bu
+          ))
+        );
+      }
       setContador(++counter);
     } else {
       setGetAllList(
-        filterPlantaFn.fn(List.filter(
+        List.filter(
           (equipo) =>
             equipo.Procedencia.areas.operations.countries.bu.Name === bu
-        ))
+        )
       );
     }
 
     if (n === "total") {
-      setGetAllList(filterPlantaFn.fn(List));
+      setGetAllList(List);
       // allAquipmentRelation()
       // setListAll(List.length)
     }
@@ -2244,7 +2250,7 @@ const ConsultaEquipos = ({ history }) => {
     // let target = e.target;
     setFilterPlantaFn({
       fn: (items) => {
-        if (e === null) return items;
+        if (e === "None") return items;
         else
           return items.filter(
             (x) =>
@@ -2428,7 +2434,7 @@ const ConsultaEquipos = ({ history }) => {
       field: "bu",
       headerName: "BU",
       // flex: 1,
-      width: 150,
+      width: 100,
       valueGetter: (params) => {
         return params.row.Procedencia.areas.operations.countries.bu.Name;
       },
@@ -2446,7 +2452,7 @@ const ConsultaEquipos = ({ history }) => {
       field: "plant",
       headerName: "Planta",
 
-      width: 210,
+      width: 180,
       valueGetter: (params) => {
         return params.row.Procedencia.areas.operations.Name;
       },
@@ -2460,9 +2466,17 @@ const ConsultaEquipos = ({ history }) => {
       },
     },
     {
+      field: "FechaActualizacion",
+      headerName: "Fecha Actualizacion",
+      width: 170,
+      valueGetter: (params) => {
+        return params.row.FinancialInformation.FechaActualizacion ? params.row.FinancialInformation.FechaActualizacion : "NO DATA AVAILABLE"
+      },
+    },
+    {
       field: "currendCondition",
       headerName: "Condición actual",
-      width: 170,
+      width: 155,
       sortable: false,
       disableColumnMenu: true,
       renderCell: (params) => (
@@ -2483,6 +2497,7 @@ const ConsultaEquipos = ({ history }) => {
         </div>
       ),
     },
+    
     // {
     //     field: "subarea",
     //     headerName: "Subárea",
