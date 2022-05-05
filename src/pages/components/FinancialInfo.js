@@ -129,8 +129,8 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
 
                 <FormGroup className="col-4">
                     <TextField
-                        readOnly
-                        // disabled
+                        // readOnly
+                        disabled
                         autoComplete="off"
                         label="Fecha de Actualizacion"
                         className="form-control"
@@ -143,7 +143,8 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
 
                 <FormGroup className="col-4">
                     <TextField
-                        readOnly
+                        // readOnly
+                        disabled
                         label="Encargado de Actualizacion"
                         className="form-control"
                         variant="outlined"

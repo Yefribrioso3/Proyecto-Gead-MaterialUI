@@ -159,6 +159,7 @@ const ConsultaEquipos = ({ history }) => {
   const [modalInsertar, setModalInsertar] = useState(false); //Hook para abrir y cerrar el modal Insertar
   const [modalInsertarExcel, setModalInsertarExcel] = useState(false);
   const [formStep, setFormStep] = useState(0);
+  const [formStepInsertar, setFormStepInsertar] = useState(0);
 
   // ----------------   Request API consultar   --------------------------
 
@@ -212,7 +213,7 @@ const ConsultaEquipos = ({ history }) => {
             if (x?.response.data.error.message === "jwt expired") {
               // console.log("hola");
               history.replace('/login');
-            } else if (x?.response.statusText === "Unauthorized"){
+            } else if (x?.response.statusText === "Unauthorized") {
               history.replace('/login');
             }
             // console.log(x?.response.data.msg)
@@ -874,8 +875,8 @@ const ConsultaEquipos = ({ history }) => {
     }));
   };
 
+  //------------- Editar los datos de la tabla en el Modal Editar -------------
   const editar = async (e) => {
-    //------------- Editar los datos de la tabla en el Modal Editar -------------
     // let dataNueva = data;
     let NewEquipment = getAllList; // Para actualizar la variable flotante, la lista de equipos en la tabla
 
@@ -1343,6 +1344,41 @@ const ConsultaEquipos = ({ history }) => {
         },
       ],
     });
+    setFinancialInformation({
+      EquipmentValueInUSD: null,
+      Activo_fijo: null,
+      Soc: null,
+      Concatenar: null,
+      Clase: null,
+      Centro: null,
+      CodPM: null,
+      Centro_de_costos: null,
+      Fecha_de_capitalizacion: null,
+      Valor_Adquirido: null,
+      Amortizacion_acumulada: null,
+      Valor_Contable: null,
+      Cantidad: null,
+      Moneda: null,
+      Tipo: null,
+      Screen: null,
+      Nom_Clase: null,
+      Nom_Ce: null,
+      Encontrado_SI_NO: null,
+      Estado_del_Activo: null,
+      Categoria: null,
+      Gerencia: null,
+      Codigo_De_Barras: null,
+      DI: null,
+      SN: null,
+      Depreciacion_acumulada_ajustada: null,
+      Tasa_Cambio_contra_dolar: null,
+      Latitud: null,
+      Longitud: null,
+      Period_Time: null,
+      Id_Equipment: null,
+      EncargadoActualizacion: null,
+      FechaActualizacion: null
+    });
 
     setTechnicalInformation({
       //Para guardar informacion tecnica seleccionada a editar
@@ -1473,6 +1509,7 @@ const ConsultaEquipos = ({ history }) => {
 
     seteditingNewServInfo(false);
     setModalInsertar(true);
+    setFormStepInsertar(1)
   };
 
 
@@ -1603,10 +1640,8 @@ const ConsultaEquipos = ({ history }) => {
 
       valorInsertar.id = valorInsertar.Id_Equipment;
       technicalInformation.Id_TechnicalSpecification = valorInsertar.Id_Equipment;
-      optionalTechInfo.Id_OptionalTechInfo =
-        technicalInformation.Id_TechnicalSpecification;
-      optionalTechInfo.Id_TechnicalSpecification =
-        technicalInformation.Id_TechnicalSpecification;
+      optionalTechInfo.Id_OptionalTechInfo = technicalInformation.Id_TechnicalSpecification;
+      optionalTechInfo.Id_TechnicalSpecification = technicalInformation.Id_TechnicalSpecification;
 
       // servicesInformation.Id_ServicesInformation = uuidv4();
       // valorInsertar.Procedencia.Id_Procedencia = uuidv4();
@@ -1625,7 +1660,9 @@ const ConsultaEquipos = ({ history }) => {
 
       valorInsertar.TechnicalSpecification = technicalInformation;
       valorInsertar.TechnicalSpecification.OptionalTechInfo = optionalTechInfo;
-
+      // valorInsertar.TechnicalSpecification.OptionalTechInfo.Id_OptionalTechInfo = valorInsertar.TechnicalSpecification.Id_TechnicalSpecification
+      
+      // NO DATA AVAILABLE
       let nt = newTechicInformation;
 
       const newTechicInformationAll =
@@ -1648,11 +1685,12 @@ const ConsultaEquipos = ({ history }) => {
             });
           });
 
-      valorInsertar.TechnicalSpecification.newTechnicalSpecification =
-        newTechicInformationAll;
+      valorInsertar.TechnicalSpecification.newTechnicalSpecification = newTechicInformationAll;
       valorInsertar.ServicesInformation = servicesInformation;
-      valorInsertar.FinancialInformation.Id_Equipment =
-        valorInsertar.Id_Equipment;
+      valorInsertar.FinancialInformation = financialInformation;
+      valorInsertar.FinancialInformation.FechaActualizacion = fecha
+      valorInsertar.FinancialInformation.EncargadoActualizacion = `${userByToken.Name} ${userByToken.LastName}`
+      valorInsertar.FinancialInformation.Id_Equipment = valorInsertar.Id_Equipment;
 
       let ns = newservInformation;
 
@@ -1699,7 +1737,7 @@ const ConsultaEquipos = ({ history }) => {
       setEditing(false);
       setEditingTechInfo(false);
       setEditingServiceInfo(false);
-
+      setFormStepInsertar(0);
     }
   };
 
@@ -1713,6 +1751,7 @@ const ConsultaEquipos = ({ history }) => {
     await sendline(valorInsertar);
     await sendProcedencia(valorInsertar);
     await sendEquipment(valorInsertar); // Equipment
+    await sendFinancialInformation(valorInsertar);
     await sendSercivesInformation(valorInsertar); // Services Information
     await sendNewServicesInformation(valorInsertar);
     await sendTechnicalSpecification(valorInsertar); //Technical Specification
@@ -1799,6 +1838,45 @@ const ConsultaEquipos = ({ history }) => {
     });
   };
 
+  const sendFinancialInformation = async (valorInsertar) => {
+    await Axios.post(`${globalApi}/financialInformation`, {
+      EquipmentValueInUSD: valorInsertar.FinancialInformation.EquipmentValueInUSD,
+      Activo_fijo: valorInsertar.FinancialInformation.Activo_fijo,
+      Soc: valorInsertar.FinancialInformation.Soc,
+      Concatenar: valorInsertar.FinancialInformation.Concatenar,
+      Clase: valorInsertar.FinancialInformation.Clase,
+      Centro: valorInsertar.FinancialInformation.Centro,
+      CodPM: valorInsertar.FinancialInformation.CodPM,
+      Centro_de_costos: valorInsertar.FinancialInformation.Centro_de_costos,
+      Fecha_de_capitalizacion: valorInsertar.FinancialInformation.Fecha_de_capitalizacion,
+      Valor_Adquirido: valorInsertar.FinancialInformation.Valor_Adquirido,
+      Amortizacion_acumulada: valorInsertar.FinancialInformation.Amortizacion_acumulada,
+      Valor_Contable: valorInsertar.FinancialInformation.Valor_Contable,
+      Cantidad: valorInsertar.FinancialInformation.Cantidad,
+      Moneda: valorInsertar.FinancialInformation.Moneda,
+      Tipo: valorInsertar.FinancialInformation.Tipo,
+      Screen: valorInsertar.FinancialInformation.Screen,
+      Nom_Clase: valorInsertar.FinancialInformation.Nom_Clase,
+      Nom_Ce: valorInsertar.FinancialInformation.Nom_Ce,
+      Encontrado_SI_NO: valorInsertar.FinancialInformation.Encontrado_SI_NO,
+      Estado_del_Activo: valorInsertar.FinancialInformation.Estado_del_Activo,
+      Categoria: valorInsertar.FinancialInformation.Categoria,
+      Gerencia: valorInsertar.FinancialInformation.Gerencia,
+      Codigo_De_Barras: valorInsertar.FinancialInformation.Codigo_De_Barras,
+      DI: valorInsertar.FinancialInformation.DI,
+      SN: valorInsertar.FinancialInformation.SN,
+      Depreciacion_acumulada_ajustada: valorInsertar.FinancialInformation.Depreciacion_acumulada_ajustada,
+      Tasa_Cambio_contra_dolar: valorInsertar.FinancialInformation.Tasa_Cambio_contra_dolar,
+      Latitud: valorInsertar.FinancialInformation.Latitud,
+      Longitud: valorInsertar.FinancialInformation.Longitud,
+      Period_Time: valorInsertar.FinancialInformation.Period_Time,
+      FechaActualizacion: valorInsertar.FinancialInformation.FechaActualizacion,
+      EncargadoActualizacion: valorInsertar.FinancialInformation.EncargadoActualizacion,
+      Id_Equipment: valorInsertar.Id_Equipment,
+    }
+    );
+  };
+
   const sendSercivesInformation = async (valorInsertar) => {
     await Axios.post(`${globalApi}/servicesInformation`, {
       Id_ServicesInformation:
@@ -1854,20 +1932,11 @@ const ConsultaEquipos = ({ history }) => {
 
   const sendOptionalTechInfo = async (valorInsertar) => {
     await Axios.post(`${globalApi}/optionalTechInfo`, {
-      Id_OptionalTechInfo:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .Id_OptionalTechInfo,
-      NominalCapacity:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
-      YearOfConstruction:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .YearOfConstruction,
-      EquipmentCurrentConditionsComments:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .EquipmentCurrentConditionsComments,
-      NotesAboutEquipment:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .NotesAboutEquipment,
+      Id_OptionalTechInfo: valorInsertar.TechnicalSpecification.OptionalTechInfo.Id_OptionalTechInfo,
+      NominalCapacity: valorInsertar.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
+      YearOfConstruction: valorInsertar.TechnicalSpecification.OptionalTechInfo.YearOfConstruction,
+      EquipmentCurrentConditionsComments: valorInsertar.TechnicalSpecification.OptionalTechInfo.EquipmentCurrentConditionsComments,
+      NotesAboutEquipment: valorInsertar.TechnicalSpecification.OptionalTechInfo.NotesAboutEquipment,
       AssambledDissambled:
         valorInsertar.TechnicalSpecification.OptionalTechInfo
           .AssambledDissambled,
@@ -2254,7 +2323,7 @@ const ConsultaEquipos = ({ history }) => {
         else
           return items.filter(
             (x) =>
-            x.Procedencia.areas.operations.Name.toLowerCase().includes(e.toLowerCase())
+              x.Procedencia.areas.operations.Name.toLowerCase().includes(e.toLowerCase())
           );
       },
     });
@@ -2271,7 +2340,7 @@ const ConsultaEquipos = ({ history }) => {
 
 
 
-  
+
 
   const [totalEncontrados, setTotalEncontrados] = useState(getAllList.length);
 
@@ -2465,39 +2534,39 @@ const ConsultaEquipos = ({ history }) => {
         return params.row.Procedencia.areas.Name;
       },
     },
-    {
-      field: "FechaActualizacion",
-      headerName: "Fecha Actualizacion",
-      width: 170,
-      valueGetter: (params) => {
-        return params.row.FinancialInformation.FechaActualizacion ? params.row.FinancialInformation.FechaActualizacion : "NO DATA AVAILABLE"
-      },
-    },
-    {
-      field: "currendCondition",
-      headerName: "Condición actual",
-      width: 155,
-      sortable: false,
-      disableColumnMenu: true,
-      renderCell: (params) => (
-        <div className="d-flex justify-content-between">
-          <div
-            // onClick={() => seleccionarEquipo(params.row, "Editar")}
-            component="span"
-          >
-            {
-              params.row.TechnicalSpecification.CurrentConditions === "Excellent" ? ("⭐⭐⭐⭐⭐") :
-                params.row.TechnicalSpecification.CurrentConditions === "Good" ? ("⭐⭐⭐⭐") :
-                  params.row.TechnicalSpecification.CurrentConditions === "Regular" ? ("⭐⭐⭐") :
-                    params.row.TechnicalSpecification.CurrentConditions === "Bad" ? ("⭐⭐") :
-                      params.row.TechnicalSpecification.CurrentConditions === "To be disposed" ? ("⭐") :
-                        params.row.TechnicalSpecification.CurrentConditions === "Deshecho" ? ("") : "NO DATA AVAILABLE"
-            }
-          </div>
-        </div>
-      ),
-    },
-    
+    // {
+    //   field: "FechaActualizacion",
+    //   headerName: "Fecha Actualizacion",
+    //   width: 170,
+    //   valueGetter: (params) => {
+    //     return params.row.FinancialInformation.FechaActualizacion ? params.row.FinancialInformation.FechaActualizacion : "NO DATA AVAILABLE"
+    //   },
+    // },
+    // {
+    //   field: "currendCondition",
+    //   headerName: "Condición actual",
+    //   width: 155,
+    //   sortable: false,
+    //   disableColumnMenu: true,
+    //   renderCell: (params) => (
+    //     <div className="d-flex justify-content-between">
+    //       <div
+    //         // onClick={() => seleccionarEquipo(params.row, "Editar")}
+    //         component="span"
+    //       >
+    //         {
+    //           params.row.TechnicalSpecification.CurrentConditions === "Excellent" ? ("⭐⭐⭐⭐⭐") :
+    //             params.row.TechnicalSpecification.CurrentConditions === "Good" ? ("⭐⭐⭐⭐") :
+    //               params.row.TechnicalSpecification.CurrentConditions === "Regular" ? ("⭐⭐⭐") :
+    //                 params.row.TechnicalSpecification.CurrentConditions === "Bad" ? ("⭐⭐") :
+    //                   params.row.TechnicalSpecification.CurrentConditions === "To be disposed" ? ("⭐") :
+    //                     params.row.TechnicalSpecification.CurrentConditions === "Deshecho" ? ("") : "NO DATA AVAILABLE"
+    //         }
+    //       </div>
+    //     </div>
+    //   ),
+    // },
+
     // {
     //     field: "subarea",
     //     headerName: "Subárea",
@@ -2525,7 +2594,7 @@ const ConsultaEquipos = ({ history }) => {
           <div
             onClick={() => {
               seleccionarEquipo(params.row, "Editar")
-              nextForm();
+              setFormStep(1);
             }}
             component="span"
           >
@@ -2581,19 +2650,22 @@ const ConsultaEquipos = ({ history }) => {
 
   const [tranferirModal, settranferirModal] = useState(false);
 
-  //--------- Campos Selects  -------------
+  //--------- Validar Campos Selects  -------------
   const onSubmit = (e) => {
     // console.log(e)
-    setEditing(true);
-    setEditingTechInfo(false);
+    // setEditing(true);
+    // setEditingTechInfo(false);
+    setFormStepInsertar((cur) => cur + 1);
   }
 
   const nextForm = () => {
     setFormStep((cur) => cur + 1);
+    setFormStepInsertar((cur) => cur + 1);
   };
 
   const backForm = () => {
     setFormStep((cur) => cur - 1);
+    setFormStepInsertar((cur) => cur - 1);
   };
 
   return (
@@ -3314,19 +3386,20 @@ const ConsultaEquipos = ({ history }) => {
 
           {
             formStep === 3 && ( // Informacion de servicio
-              <ServiceInformation casoServInfo={casoServInfo}
-                setEditingTechInfo={setEditingTechInfo}
-                equipoSeleccionado={equipoSeleccionado}
-                editRow={editRow}
-                setEditing={setEditing}
-                setEditingServiceInfo={setEditingServiceInfo}
-                servicesInformation={servicesInformation}
+              <ServiceInformation
                 handleChangeServicesInformation={handleChangeServicesInformation}
-                seteditingNewServInfo={seteditingNewServInfo}
-                setnewservInformation={setnewservInformation}
+                servicesInformation={servicesInformation}
+                light={light}
                 backForm={backForm}
                 nextForm={nextForm}
-                light={light}
+              // casoServInfo={casoServInfo}
+              // setEditingTechInfo={setEditingTechInfo}
+              // equipoSeleccionado={equipoSeleccionado}
+              // editRow={editRow}
+              // setEditing={setEditing}
+              // setEditingServiceInfo={setEditingServiceInfo}
+              // seteditingNewServInfo={seteditingNewServInfo}
+              // setnewservInformation={setnewservInformation}
               />
             )
           }
@@ -3526,12 +3599,12 @@ const ConsultaEquipos = ({ history }) => {
 
 
 
-        {/*======================================================= Modal Insertar =======================================================*/}
+        {/*================================================ Modal Insertar - Crear Nuevo Equipo =================================================*/}
 
         <Modal
           isOpen={modalInsertar}
           style={{
-            maxWidth: 700,
+            maxWidth: 800,
           }}
           className={`modalForm ${theme.palette.type}`}
         >
@@ -3551,581 +3624,7 @@ const ConsultaEquipos = ({ history }) => {
           </ModalHeader>
 
           {
-            // Condicional para mostros un formulaio u otro
-            editing ? (
-              // ---------------------------------- Modal ---------------------------------
-              <div>
-                {editingServiceInfo ? (
-                  <>
-                    <ServiceInformation
-                      casoServInfo={casoServInfo}
-                      techInfoEditado={techInfoEditado}
-                      updateAddServInfo={updateAddServInfo}
-                      setEditingTechInfo={setEditingTechInfo}
-                      editingTechInfo={editingTechInfo}
-                      EditAddServInfo={EditAddServInfo}
-                      setnewservInformation={setnewservInformation}
-                      newservInformation={newservInformation}
-                      equipoSeleccionado={equipoSeleccionado}
-                      editRow={editRow}
-                      eliminarAddTechInfo={eliminarAddTechInfo}
-                      setEditing={setEditing}
-                      setEditingServiceInfo={setEditingServiceInfo}
-                      servicesInformation={servicesInformation}
-                      setEquipoSeleccionado={setEquipoSeleccionado}
-                      handleChangeServicesInformation={
-                        handleChangeServicesInformation
-                      }
-                      editingNewServInfo={editingNewServInfo}
-                      id={id} // Para seleccionar que fila editada tendra el efecto
-                      light={light}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <div className="p-3">
-                      <h4
-                        style={{
-                          color:
-                            theme.palette.type === "dark"
-                              ? theme.palette.primary.light
-                              : theme.palette.secondary,
-                        }}
-                      >
-                        Información técnica
-                      </h4>
-                    </div>
-
-                    <ModalBody className="row animate__animated animate__fadeIn">
-
-                      <FormGroup className="col-4">
-
-                        {/* <label htmlFor="url_input">Equipo:</label>
-                        <input
-                          className="form-control"
-                          required
-                          type="text text-align=center"
-                          name="Name"
-                          error={errorNombre}
-                          helperText={leyendaErrorNombre}
-                          value={ equipoSeleccionado ? equipoSeleccionado.Name : "" }
-                          onChange={handleChange}
-                        /> */}
-
-                        <TextField
-                          label="Equipo"
-                          className="form-control"
-                          variant="outlined"
-                          name="Name"
-                          required
-                          error={errorNombre}
-                          helperText={leyendaErrorNombre}
-                          value={equipoSeleccionado ? equipoSeleccionado.Name : ""}
-                          onChange={handleChange}
-                        />
-
-
-                      </FormGroup>
-
-                      <FormGroup className="col-4">
-                        <FormControl fullWidth>
-                          {/* error */}
-                          <InputLabel id="demo-simple-select">Trabajo actual</InputLabel>
-                          <Select
-                            name="currentWorking"
-                            labelId="demo-simple-select"
-                            // id="demo-simple-select"
-                            value={technicalInformation && technicalInformation.currentWorking}
-                            label="Trabajo actual"
-                            variant="outlined"
-                            required
-                            onChange={handleChange}
-                          // className="form-control"
-                          // renderValue={(value) => `⭐  - ${value}` }
-                          >
-                            {/* // ⚠️ */}
-                            <MenuItem value="">
-                              <em>None</em>
-                            </MenuItem>
-                            <MenuItem value="Installed and is working">Instalado y funcionando</MenuItem>
-                            <MenuItem value="Installed and is not working">Instalado y no trabajando</MenuItem>
-                            <MenuItem value="Not Installed and is not working">No instalado</MenuItem>
-                          </Select>
-                          {/* <FormHelperText>Error</FormHelperText> */}
-                        </FormControl>
-
-                        {/* <label>Trabajo actual:</label>
-                        <select
-                          className="form-select "
-                          style={{ margin: "0px !important" }}
-                          name="currentWorking"
-                          value={
-                            technicalInformation &&
-                            technicalInformation.currentWorking
-                          }
-                          onChange={handleChange}
-                        >
-                          <option value="">Seleccione Trabajo actual</option>
-                          <option value="Installed and is working"> Instalado y funcionando </option>
-                          <option value="Installed and is not working"> Instalado y no trabajando </option>
-                          <option value="Not Installed and is not working"> No instalado </option>
-                        </select> */}
-                      </FormGroup>
-
-                      <FormGroup className="col-4">
-
-
-                        <FormControl fullWidth>
-                          {/* error */}
-                          <InputLabel id="demo-simple-select-label">Condición actual</InputLabel>
-                          <Select
-                            name="CurrentConditions"
-                            labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            value={technicalInformation ? technicalInformation.CurrentConditions : ""}
-                            label="Condición actual"
-                            variant="outlined"
-                            required
-                            onChange={handleChange}
-                          // className="form-control"
-                          // renderValue={(value) => `⭐  - ${value}` }
-                          >
-                            {/* // ⚠️ */}
-                            <MenuItem value="">
-                              <em>None</em>
-                            </MenuItem>
-                            <MenuItem value="Excellent">Excelente</MenuItem>
-                            <MenuItem value="Good">Bueno</MenuItem>
-                            <MenuItem value="Regular">Regular</MenuItem>
-                            <MenuItem value="Bad">Malo</MenuItem>
-                            <MenuItem value="To be disposed">Para ser desechado</MenuItem>
-                            <MenuItem value="Deshecho">Deshecho</MenuItem>
-                          </Select>
-                          {/* <FormHelperText>Error</FormHelperText> */}
-                        </FormControl>
-
-                        {/* <label htmlFor="CurrentConditions">
-                          Condición actual:
-                        </label>
-                        <select
-                          className="form-select "
-                          name="CurrentConditions"
-                          value={
-                            technicalInformation &&
-                            technicalInformation.CurrentConditions
-                          }
-                          onChange={handleChange}
-                        >
-                          <option value="">Seleccione Condición actual</option>
-                          <option value="Excellent">Excelente</option>
-                          <option value="Good">Bueno</option>
-                          <option value="Regular">Regular</option>
-                          <option value="Bad">Malo</option>
-                          <option value="To be disposed">
-                            Para ser desechado
-                          </option>
-                        </select> */}
-                      </FormGroup>
-
-                      <FormGroup className="col-4">
-                        <FormControl fullWidth>
-                          {/* error */}
-                          <InputLabel id="demo-simple-select">Tipo de equipo</InputLabel>
-                          <Select
-                            name="EquipmentType"
-                            labelId="demo-simple-select"
-                            // id="demo-simple-select"
-                            value={technicalInformation && technicalInformation.EquipmentType}
-                            label="Tipo de equipo"
-                            variant="outlined"
-                            required
-                            onChange={handleChange}
-                          // className="form-control"
-                          // renderValue={(value) => `⭐  - ${value}` }
-                          >
-                            {/* // ⚠️ */}
-                            <MenuItem value="">
-                              <em>None</em>
-                            </MenuItem>
-                            <MenuItem value="Automation / Electronic">Automation / Electronic</MenuItem>
-                            <MenuItem value="Electrical">Electrical</MenuItem>
-                            <MenuItem value="Mechanical">Mechanical</MenuItem>
-                          </Select>
-                          {/* <FormHelperText>Error</FormHelperText> */}
-                        </FormControl>
-
-
-
-                        {/* <input
-                          className="form-control"
-                          type="text text-align=center"
-                          name="EquipmentType"
-                          value={technicalInformation && technicalInformation.EquipmentType}
-                        onChange={handleChange} /> */}
-
-
-
-                        {/* <label>Tipo de equipo:</label>
-                        <select
-                          className="form-select "
-                          name="EquipmentType"
-                          value={
-                            technicalInformation &&
-                            technicalInformation.EquipmentType
-                          }
-                          onChange={handleChange}
-                        >
-                          <option value="">Seleccione Tipo de Equipo</option>
-                          <option value="Automation / Electronic">
-                            Automation / Electronic
-                          </option>
-                          <option value="Electrical">Electrical</option>
-                          <option value="Mechanical">Mechanical</option>
-                        </select> */}
-                      </FormGroup>
-
-                      <FormGroup className="col-4">
-                        <TextField
-                          label="Número de serial"
-                          className="form-control"
-                          variant="outlined"
-                          name="SerialNumber"
-                          required
-                          // error={errorNombre}
-                          // helperText={leyendaErrorNombre}
-                          value={technicalInformation && technicalInformation.SerialNumber}
-                          onChange={handleChange}
-                        />
-
-                        {/* <label>Número de serial:</label>
-                        <input
-                          className="form-control"
-                          type="text text-align=center"
-                          name="SerialNumber"
-                          value={
-                            technicalInformation &&
-                            technicalInformation.SerialNumber
-                          }
-                          onChange={handleChange}
-                        /> */}
-                      </FormGroup>
-
-                      <FormGroup className="col-4">
-                        <TextField
-                          label="Número de modelo"
-                          className="form-control"
-                          variant="outlined"
-                          name="ModelNumber"
-                          required
-                          // error={errorNombre}
-                          // helperText={leyendaErrorNombre}
-                          value={technicalInformation && technicalInformation.ModelNumber}
-                          onChange={handleChange}
-                        />
-
-                        {/* <label>Número de modelo:</label>
-                        <input
-                          className="form-control"
-                          type="text text-align=center"
-                          name="ModelNumber"
-                          value={ technicalInformation && technicalInformation.ModelNumber }
-                          onChange={handleChange}
-                        /> */}
-                      </FormGroup>
-
-                      <FormGroup className="col-4">
-                        <TextField
-                          label="Peso"
-                          className="form-control"
-                          variant="outlined"
-                          name="Weight"
-                          required
-                          // error={errorNombre}
-                          // helperText={leyendaErrorNombre}
-                          value={technicalInformation && technicalInformation.Weight}
-                          onChange={handleChange}
-                        />
-
-                        {/* <label>Peso:</label>
-                        <input
-                          className="form-control"
-                          type="text text-align=center"
-                          name="Weight"
-                          value={ technicalInformation && technicalInformation.Weight }
-                          onChange={handleChange}
-                        /> */}
-                      </FormGroup>
-
-                      <FormGroup className="col-4">
-                        <TextField
-                          label="OEM"
-                          className="form-control"
-                          variant="outlined"
-                          name="OEM"
-                          required
-                          // error={errorNombre}
-                          // helperText={leyendaErrorNombre}
-                          value={technicalInformation && technicalInformation.OEM}
-                          onChange={handleChange}
-                        />
-
-                        {/* <label>OEM:</label>
-                        <input
-                          className="form-control"
-                          type="text text-align=center"
-                          name="OEM"
-                          value={
-                            technicalInformation && technicalInformation.OEM
-                          }
-                          onChange={handleChange}
-                        /> */}
-                      </FormGroup>
-
-                      <FormGroup className="col-4">
-                        <TextField
-                          label="Vendedor"
-                          className="form-control"
-                          variant="outlined"
-                          name="vendor"
-                          required
-                          // error={errorNombre}
-                          // helperText={leyendaErrorNombre}
-                          value={technicalInformation && technicalInformation.vendor}
-                          onChange={handleChange}
-                        />
-
-                        {/* <label>Vendedor:</label>
-                        <input
-                          className="form-control"
-                          type="text text-align=center"
-                          name="vendor"
-                          value={
-                            technicalInformation && technicalInformation.vendor
-                          }
-                          onChange={handleChange}
-                        /> */}
-                      </FormGroup>
-
-                      <FormGroup className="col-4">
-                        <TextField
-                          label="Descripción"
-                          className="form-control"
-                          variant="outlined"
-                          name="Description"
-                          required
-                          // error={errorNombre}
-                          // helperText={leyendaErrorNombre}
-                          value={technicalInformation && technicalInformation.Description}
-                          onChange={handleChange}
-                        />
-
-                        {/* <label>Descripción:</label>
-                        <input
-                          className="form-control"
-                          type="text text-align=center"
-                          name="Description"
-                          value={
-                            technicalInformation &&
-                            technicalInformation.Description
-                          }
-                          onChange={handleChange}
-                        /> */}
-                      </FormGroup>
-
-                      {/* vendor: "", nominalCapacity: "", yearConstruction: "", currentConditionsComments: "", : "" */}
-
-                      <hr style={{ width: "97%" }} />
-
-                      {/* -------------------------------         OPTIONAL TECHNICAL INFORMATION FORM           ------------------------------------------ */}
-
-                      <OptionalInfo
-                        optionalTechInfo={optionalTechInfo}
-                        handleChangeOptionalInfo={handleChangeOptionalInfo}
-                        light={light}
-                      />
-
-                      {/* { // Condicional para mostros un formulaio u otro
-                                                editingTechInfo ? (
-                                                    <>
-                                                        <EditAddTechInfo
-                                                            technicalSpecEditado={technicalSpecEditado}
-                                                            updateAddTechInfo={updateAddTechInfo}
-                                                            setEditingTechInfo={setEditingTechInfo}
-                                                        />
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <section className="pb-4 pt-4">
-                                                            <form onSubmit={handleSubmit(onSubmit)} className="animate__animated animate__fadeIn" >
-                                                                <label htmlFor="Name" > <h5 className="text-muted">Agregar más información técnica:</h5> </label>
-                                                                <select
-                                                                    className="form-select SelectBoostrap"
-                                                                    name="Name"
-                                                                    {...register("Name", {
-                                                                        required: {
-                                                                            value: true,
-                                                                            message: 'Campo requerido'
-                                                                        }
-                                                                    })}
-                                                                >
-                                                                    <option value="">Selecione información técnica</option>
-                                                                    <option value="Available warranty">Available warranty</option>
-                                                                    <option value="Year of construction">Year of construction</option>
-                                                                    <option value="Sanitary Grade">Sanitary Grade</option>
-                                                                    <option value="Protection Grade">Protection Grade</option>
-                                                                    <option value="Electrical Consumption">Electrical Consumption</option>
-                                                                    <option value="Measurement variable">Measurement variable</option>
-                                                                    <option value="Plant Technical Information Contact">Plant Technical Information Contact</option>
-                                                                    <option value="Disposal Information">Disposal Information</option>
-                                                                    <option value="Equipment Packing">Equipment Packing</option>
-                                                                    <option value="Equipment current conditions comments">Equipment current conditions comments</option>
-                                                                    <option value="Nominal Capacity">Nominal Capacity</option>
-                                                                    <option value="Assambled / Dissambled">Assambled / Dissambled</option>
-                                                                    <option value="Plant Technical Information Contact">Plant Technical Information Contact</option>
-                                                                    <option value="Plant Financial Information Contact">Plant Financial Information Contact</option>
-                                                                    <option value="Communication protocol">Communication protocol</option>
-                                                                    <option value="Notes about equipment">Notes about equipment</option>
-                                                                </select>
-                                                                <span className="text-danger text-small d-block mb-2">
-                                                                    {errors.Name && errors.Name.message}
-                                                                </span>
-                                                                <label htmlFor="Value">Valor <b className="text-danger">*</b></label>
-                                                                <div className="row ">
-                                                                    <div className="col-10">
-                                                                        <input
-                                                                            type="text text-align=center"
-                                                                            className="form-control"
-                                                                            name="Value"
-                                                                            // onChange={handleChange}
-                                                                            // onChange={(e) => e.target.value}
-                                                                            {...register("Value", {
-                                                                                required: {
-                                                                                    value: true,
-                                                                                    message: 'Campo requerido'
-                                                                                }
-                                                                            })}
-                                                                        />
-                                                                        <span className="text-danger text-small d-block mb-2">
-                                                                            {errors.Value && errors.Value.message}
-                                                                        </span>
-                                                                    </div>
-                                                                    -----------------------------    BOtON AGREGAR TECHNICAL INFORMATION    ----------------------- 
-                                                                    <div className="col-2">
-                                                                        <button className="btn btn-primary" ><span className=" fas fa-save fa-lg"></span></button>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </section>
-                                                    </>
-                                                )
-                                            }
-                                            -----------------------------------             TABLE ADD TECHNICAL INFORMATION           -----------------------------------
-                                            <FormGroup>
-                                                <table className="table display table-hover table-bordered table-striped">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Información Técnica</th>
-                                                            <th>Valor</th>
-                                                            <th>Acciones</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {
-                                                            newTechicInformation.length > 0 ?
-                                                                newTechicInformation.map((elemento) => (
-                                                                    <tr key={elemento.Id_NewTechSpec}>
-                                                                        <>
-                                                                            {
-                                                                                filaEditada ? (
-                                                                                    <>
-                                                                                        {
-                                                                                            id == elemento.Id_NewTechSpec ? (
-                                                                                                <>
-                                                                                                    < td className=" animate__animated animate__fadeInDown"> {`${elemento.Name}:`}</td>
-                                                                                                    < td className=" animate__animated animate__fadeInDown"> {elemento.Value}</td>
-                                                                                                </>
-                                                                                            ) : (
-                                                                                                <>
-                                                                                                    < td > {`${elemento.Name}:`}</td>
-                                                                                                    < td > {elemento.Value}</td>
-                                                                                                </>
-                                                                                            )
-                                                                                        }
-                                                                                    </>
-                                                                                ) : (
-                                                                                    <>
-                                                                                        < td > {`${elemento.Name}:`}</td>
-                                                                                        < td > {elemento.Value}</td>
-                                                                                    </>
-                                                                                )
-                                                                            }
-                                                                            <td> <Button color="primary" onClick={() => editarTechSpec(elemento, 'technical')} >
-                                                                                <i className="far fa-edit button_icon"></i></Button> {"  "}
-                                                                                < Button color="danger" onClick={() => eliminarAddTechInfo(elemento.Id_NewTechSpec)}>
-                                                                                    <i className="fas fa-trash-alt button_icon"></i> </Button>
-                                                                            </td>
-                                                                        </>
-                                                                    </tr>
-                                                                )) : (
-                                                                    <tr>
-                                                                        <td colSpan={3}>No data recorded</td>
-                                                                    </tr>
-                                                                )
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </FormGroup> */}
-
-                      {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
-
-                      <FormGroup className="row align-items-center justify-content-between">
-                        <Grid
-                          xs={4}
-                          className="d-flex justify-content-start align-items-center"
-                        >
-                          <Button
-                            color="secundary"
-                            onClick={() => setEditing(false)}
-                          >
-                            <ArrowBackIcon />
-                            Consulta Equipos
-                          </Button>
-                        </Grid>
-                        <Grid xs={4} className="d-flex justify-content-center">
-                          {" "}
-                          <Pagination
-                            count={4}
-                            hidePrevButton
-                            hideNextButton
-                            defaultPage={2}
-                            size="small"
-                            color="primary"
-                            disabled
-                          />
-                        </Grid>
-                        <Grid
-                          xs={4}
-                          className="d-flex justify-content-end align-items-center"
-                        >
-                          <Button
-                            color="secundary"
-                            onClick={() => {
-                              setEditing(true);
-                              setEditingServiceInfo(true);
-                              setCasoServInfo("Add");
-                            }}
-                          >
-                            Información de servicios
-                            <ArrowForwardIcon />
-                          </Button>
-                        </Grid>
-                        {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
-                      </FormGroup>
-                    </ModalBody>
-                  </>
-                )}
-              </div>
-            ) : (
+            formStepInsertar === 1 && ( // ----------- Insertar Registros - Ubicacion
               <div>
                 {/* -----------------------------------           Insertar Registros        ------------------------------------------- */}
                 <div>
@@ -4756,10 +4255,12 @@ const ConsultaEquipos = ({ history }) => {
                                 ? "#ffffff"
                                 : "#000000",
                           }}
-                        // onClick={() => {
-                        //   setEditing(true);
-                        //   setEditingTechInfo(false);
-                        // }}
+                          onClick={() => {
+                            // nextForm();
+                            // setEditing(true);
+                            // setEditingTechInfo(false);
+                            // setFormStepInsertar(2);
+                          }}
                         >
                           {" "}
                           Información Técnica
@@ -4788,6 +4289,603 @@ const ConsultaEquipos = ({ history }) => {
               </div>
             )
           }
+          {
+            formStepInsertar === 2 && ( // ---------- Información técnica
+              <>
+                <div className="p-3">
+                  <h4
+                    style={{
+                      color:
+                        theme.palette.type === "dark"
+                          ? theme.palette.primary.light
+                          : theme.palette.secondary,
+                    }}
+                  >
+                    Información técnica
+                  </h4>
+                </div>
+
+                <ModalBody className="row animate__animated animate__fadeIn">
+
+                  <FormGroup className="col-4">
+
+                    {/* <label htmlFor="url_input">Equipo:</label>
+                        <input
+                          className="form-control"
+                          required
+                          type="text text-align=center"
+                          name="Name"
+                          error={errorNombre}
+                          helperText={leyendaErrorNombre}
+                          value={ equipoSeleccionado ? equipoSeleccionado.Name : "" }
+                          onChange={handleChange}
+                        /> */}
+
+                    <TextField
+                      label="Equipo"
+                      className="form-control"
+                      variant="outlined"
+                      name="Name"
+                      required
+                      error={errorNombre}
+                      helperText={leyendaErrorNombre}
+                      value={equipoSeleccionado ? equipoSeleccionado.Name : ""}
+                      onChange={handleChange}
+                    />
+
+
+                  </FormGroup>
+
+                  <FormGroup className="col-4">
+                    <FormControl fullWidth>
+                      {/* error */}
+                      <InputLabel id="demo-simple-select">Trabajo actual</InputLabel>
+                      <Select
+                        name="currentWorking"
+                        labelId="demo-simple-select"
+                        // id="demo-simple-select"
+                        value={technicalInformation && technicalInformation.currentWorking}
+                        label="Trabajo actual"
+                        variant="outlined"
+                        required
+                        onChange={handleChange}
+                      // className="form-control"
+                      // renderValue={(value) => `⭐  - ${value}` }
+                      >
+                        {/* // ⚠️ */}
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        <MenuItem value="Installed and is working">Instalado y funcionando</MenuItem>
+                        <MenuItem value="Installed and is not working">Instalado y no trabajando</MenuItem>
+                        <MenuItem value="Not Installed and is not working">No instalado</MenuItem>
+                      </Select>
+                      {/* <FormHelperText>Error</FormHelperText> */}
+                    </FormControl>
+
+                    {/* <label>Trabajo actual:</label>
+                        <select
+                          className="form-select "
+                          style={{ margin: "0px !important" }}
+                          name="currentWorking"
+                          value={
+                            technicalInformation &&
+                            technicalInformation.currentWorking
+                          }
+                          onChange={handleChange}
+                        >
+                          <option value="">Seleccione Trabajo actual</option>
+                          <option value="Installed and is working"> Instalado y funcionando </option>
+                          <option value="Installed and is not working"> Instalado y no trabajando </option>
+                          <option value="Not Installed and is not working"> No instalado </option>
+                        </select> */}
+                  </FormGroup>
+
+                  <FormGroup className="col-4">
+
+
+                    <FormControl fullWidth>
+                      {/* error */}
+                      <InputLabel id="demo-simple-select-label">Condición actual</InputLabel>
+                      <Select
+                        name="CurrentConditions"
+                        labelId="demo-simple-select-label"
+                        // id="demo-simple-select"
+                        value={technicalInformation ? technicalInformation.CurrentConditions : ""}
+                        label="Condición actual"
+                        variant="outlined"
+                        required
+                        onChange={handleChange}
+                      // className="form-control"
+                      // renderValue={(value) => `⭐  - ${value}` }
+                      >
+                        {/* // ⚠️ */}
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        <MenuItem value="Excellent">Excelente</MenuItem>
+                        <MenuItem value="Good">Bueno</MenuItem>
+                        <MenuItem value="Regular">Regular</MenuItem>
+                        <MenuItem value="Bad">Malo</MenuItem>
+                        <MenuItem value="To be disposed">Para ser desechado</MenuItem>
+                        <MenuItem value="Deshecho">Deshecho</MenuItem>
+                      </Select>
+                      {/* <FormHelperText>Error</FormHelperText> */}
+                    </FormControl>
+
+                    {/* <label htmlFor="CurrentConditions">
+                          Condición actual:
+                        </label>
+                        <select
+                          className="form-select "
+                          name="CurrentConditions"
+                          value={
+                            technicalInformation &&
+                            technicalInformation.CurrentConditions
+                          }
+                          onChange={handleChange}
+                        >
+                          <option value="">Seleccione Condición actual</option>
+                          <option value="Excellent">Excelente</option>
+                          <option value="Good">Bueno</option>
+                          <option value="Regular">Regular</option>
+                          <option value="Bad">Malo</option>
+                          <option value="To be disposed">
+                            Para ser desechado
+                          </option>
+                        </select> */}
+                  </FormGroup>
+
+                  <FormGroup className="col-4">
+                    <FormControl fullWidth>
+                      {/* error */}
+                      <InputLabel id="demo-simple-select">Tipo de equipo</InputLabel>
+                      <Select
+                        name="EquipmentType"
+                        labelId="demo-simple-select"
+                        // id="demo-simple-select"
+                        value={technicalInformation && technicalInformation.EquipmentType}
+                        label="Tipo de equipo"
+                        variant="outlined"
+                        required
+                        onChange={handleChange}
+                      // className="form-control"
+                      // renderValue={(value) => `⭐  - ${value}` }
+                      >
+                        {/* // ⚠️ */}
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        <MenuItem value="Automation / Electronic">Automation / Electronic</MenuItem>
+                        <MenuItem value="Electrical">Electrical</MenuItem>
+                        <MenuItem value="Mechanical">Mechanical</MenuItem>
+                      </Select>
+                      {/* <FormHelperText>Error</FormHelperText> */}
+                    </FormControl>
+
+
+
+                    {/* <input
+                          className="form-control"
+                          type="text text-align=center"
+                          name="EquipmentType"
+                          value={technicalInformation && technicalInformation.EquipmentType}
+                        onChange={handleChange} /> */}
+
+
+
+                    {/* <label>Tipo de equipo:</label>
+                        <select
+                          className="form-select "
+                          name="EquipmentType"
+                          value={
+                            technicalInformation &&
+                            technicalInformation.EquipmentType
+                          }
+                          onChange={handleChange}
+                        >
+                          <option value="">Seleccione Tipo de Equipo</option>
+                          <option value="Automation / Electronic">
+                            Automation / Electronic
+                          </option>
+                          <option value="Electrical">Electrical</option>
+                          <option value="Mechanical">Mechanical</option>
+                        </select> */}
+                  </FormGroup>
+
+                  <FormGroup className="col-4">
+                    <TextField
+                      label="Número de serial"
+                      className="form-control"
+                      variant="outlined"
+                      name="SerialNumber"
+                      required
+                      // error={errorNombre}
+                      // helperText={leyendaErrorNombre}
+                      value={technicalInformation && technicalInformation.SerialNumber}
+                      onChange={handleChange}
+                    />
+
+                    {/* <label>Número de serial:</label>
+                        <input
+                          className="form-control"
+                          type="text text-align=center"
+                          name="SerialNumber"
+                          value={
+                            technicalInformation &&
+                            technicalInformation.SerialNumber
+                          }
+                          onChange={handleChange}
+                        /> */}
+                  </FormGroup>
+
+                  <FormGroup className="col-4">
+                    <TextField
+                      label="Número de modelo"
+                      className="form-control"
+                      variant="outlined"
+                      name="ModelNumber"
+                      required
+                      // error={errorNombre}
+                      // helperText={leyendaErrorNombre}
+                      value={technicalInformation && technicalInformation.ModelNumber}
+                      onChange={handleChange}
+                    />
+
+                    {/* <label>Número de modelo:</label>
+                        <input
+                          className="form-control"
+                          type="text text-align=center"
+                          name="ModelNumber"
+                          value={ technicalInformation && technicalInformation.ModelNumber }
+                          onChange={handleChange}
+                        /> */}
+                  </FormGroup>
+
+                  <FormGroup className="col-4">
+                    <TextField
+                      label="Peso"
+                      className="form-control"
+                      variant="outlined"
+                      name="Weight"
+                      required
+                      // error={errorNombre}
+                      // helperText={leyendaErrorNombre}
+                      value={technicalInformation && technicalInformation.Weight}
+                      onChange={handleChange}
+                    />
+
+                    {/* <label>Peso:</label>
+                        <input
+                          className="form-control"
+                          type="text text-align=center"
+                          name="Weight"
+                          value={ technicalInformation && technicalInformation.Weight }
+                          onChange={handleChange}
+                        /> */}
+                  </FormGroup>
+
+                  <FormGroup className="col-4">
+                    <TextField
+                      label="OEM"
+                      className="form-control"
+                      variant="outlined"
+                      name="OEM"
+                      required
+                      // error={errorNombre}
+                      // helperText={leyendaErrorNombre}
+                      value={technicalInformation && technicalInformation.OEM}
+                      onChange={handleChange}
+                    />
+
+                    {/* <label>OEM:</label>
+                        <input
+                          className="form-control"
+                          type="text text-align=center"
+                          name="OEM"
+                          value={
+                            technicalInformation && technicalInformation.OEM
+                          }
+                          onChange={handleChange}
+                        /> */}
+                  </FormGroup>
+
+                  <FormGroup className="col-4">
+                    <TextField
+                      label="Vendedor"
+                      className="form-control"
+                      variant="outlined"
+                      name="vendor"
+                      required
+                      // error={errorNombre}
+                      // helperText={leyendaErrorNombre}
+                      value={technicalInformation && technicalInformation.vendor}
+                      onChange={handleChange}
+                    />
+
+                    {/* <label>Vendedor:</label>
+                        <input
+                          className="form-control"
+                          type="text text-align=center"
+                          name="vendor"
+                          value={
+                            technicalInformation && technicalInformation.vendor
+                          }
+                          onChange={handleChange}
+                        /> */}
+                  </FormGroup>
+
+                  <FormGroup className="col-4">
+                    <TextField
+                      label="Descripción"
+                      className="form-control"
+                      variant="outlined"
+                      name="Description"
+                      required
+                      // error={errorNombre}
+                      // helperText={leyendaErrorNombre}
+                      value={technicalInformation && technicalInformation.Description}
+                      onChange={handleChange}
+                    />
+
+                    {/* <label>Descripción:</label>
+                        <input
+                          className="form-control"
+                          type="text text-align=center"
+                          name="Description"
+                          value={
+                            technicalInformation &&
+                            technicalInformation.Description
+                          }
+                          onChange={handleChange}
+                        /> */}
+                  </FormGroup>
+
+                  {/* vendor: "", nominalCapacity: "", yearConstruction: "", currentConditionsComments: "", : "" */}
+
+                  <hr style={{ width: "97%" }} />
+
+                  {/* -------------------------------         OPTIONAL TECHNICAL INFORMATION FORM           ------------------------------------------ */}
+
+                  <OptionalInfo
+                    optionalTechInfo={optionalTechInfo}
+                    handleChangeOptionalInfo={handleChangeOptionalInfo}
+                    light={light}
+                  />
+
+                  {/* { // Condicional para mostros un formulaio u otro
+                                                editingTechInfo ? (
+                                                    <>
+                                                        <EditAddTechInfo
+                                                            technicalSpecEditado={technicalSpecEditado}
+                                                            updateAddTechInfo={updateAddTechInfo}
+                                                            setEditingTechInfo={setEditingTechInfo}
+                                                        />
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <section className="pb-4 pt-4">
+                                                            <form onSubmit={handleSubmit(onSubmit)} className="animate__animated animate__fadeIn" >
+                                                                <label htmlFor="Name" > <h5 className="text-muted">Agregar más información técnica:</h5> </label>
+                                                                <select
+                                                                    className="form-select SelectBoostrap"
+                                                                    name="Name"
+                                                                    {...register("Name", {
+                                                                        required: {
+                                                                            value: true,
+                                                                            message: 'Campo requerido'
+                                                                        }
+                                                                    })}
+                                                                >
+                                                                    <option value="">Selecione información técnica</option>
+                                                                    <option value="Available warranty">Available warranty</option>
+                                                                    <option value="Year of construction">Year of construction</option>
+                                                                    <option value="Sanitary Grade">Sanitary Grade</option>
+                                                                    <option value="Protection Grade">Protection Grade</option>
+                                                                    <option value="Electrical Consumption">Electrical Consumption</option>
+                                                                    <option value="Measurement variable">Measurement variable</option>
+                                                                    <option value="Plant Technical Information Contact">Plant Technical Information Contact</option>
+                                                                    <option value="Disposal Information">Disposal Information</option>
+                                                                    <option value="Equipment Packing">Equipment Packing</option>
+                                                                    <option value="Equipment current conditions comments">Equipment current conditions comments</option>
+                                                                    <option value="Nominal Capacity">Nominal Capacity</option>
+                                                                    <option value="Assambled / Dissambled">Assambled / Dissambled</option>
+                                                                    <option value="Plant Technical Information Contact">Plant Technical Information Contact</option>
+                                                                    <option value="Plant Financial Information Contact">Plant Financial Information Contact</option>
+                                                                    <option value="Communication protocol">Communication protocol</option>
+                                                                    <option value="Notes about equipment">Notes about equipment</option>
+                                                                </select>
+                                                                <span className="text-danger text-small d-block mb-2">
+                                                                    {errors.Name && errors.Name.message}
+                                                                </span>
+                                                                <label htmlFor="Value">Valor <b className="text-danger">*</b></label>
+                                                                <div className="row ">
+                                                                    <div className="col-10">
+                                                                        <input
+                                                                            type="text text-align=center"
+                                                                            className="form-control"
+                                                                            name="Value"
+                                                                            // onChange={handleChange}
+                                                                            // onChange={(e) => e.target.value}
+                                                                            {...register("Value", {
+                                                                                required: {
+                                                                                    value: true,
+                                                                                    message: 'Campo requerido'
+                                                                                }
+                                                                            })}
+                                                                        />
+                                                                        <span className="text-danger text-small d-block mb-2">
+                                                                            {errors.Value && errors.Value.message}
+                                                                        </span>
+                                                                    </div>
+                                                                    -----------------------------    BOtON AGREGAR TECHNICAL INFORMATION    ----------------------- 
+                                                                    <div className="col-2">
+                                                                        <button className="btn btn-primary" ><span className=" fas fa-save fa-lg"></span></button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </section>
+                                                    </>
+                                                )
+                                            }
+                                            -----------------------------------             TABLE ADD TECHNICAL INFORMATION           -----------------------------------
+                                            <FormGroup>
+                                                <table className="table display table-hover table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Información Técnica</th>
+                                                            <th>Valor</th>
+                                                            <th>Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            newTechicInformation.length > 0 ?
+                                                                newTechicInformation.map((elemento) => (
+                                                                    <tr key={elemento.Id_NewTechSpec}>
+                                                                        <>
+                                                                            {
+                                                                                filaEditada ? (
+                                                                                    <>
+                                                                                        {
+                                                                                            id == elemento.Id_NewTechSpec ? (
+                                                                                                <>
+                                                                                                    < td className=" animate__animated animate__fadeInDown"> {`${elemento.Name}:`}</td>
+                                                                                                    < td className=" animate__animated animate__fadeInDown"> {elemento.Value}</td>
+                                                                                                </>
+                                                                                            ) : (
+                                                                                                <>
+                                                                                                    < td > {`${elemento.Name}:`}</td>
+                                                                                                    < td > {elemento.Value}</td>
+                                                                                                </>
+                                                                                            )
+                                                                                        }
+                                                                                    </>
+                                                                                ) : (
+                                                                                    <>
+                                                                                        < td > {`${elemento.Name}:`}</td>
+                                                                                        < td > {elemento.Value}</td>
+                                                                                    </>
+                                                                                )
+                                                                            }
+                                                                            <td> <Button color="primary" onClick={() => editarTechSpec(elemento, 'technical')} >
+                                                                                <i className="far fa-edit button_icon"></i></Button> {"  "}
+                                                                                < Button color="danger" onClick={() => eliminarAddTechInfo(elemento.Id_NewTechSpec)}>
+                                                                                    <i className="fas fa-trash-alt button_icon"></i> </Button>
+                                                                            </td>
+                                                                        </>
+                                                                    </tr>
+                                                                )) : (
+                                                                    <tr>
+                                                                        <td colSpan={3}>No data recorded</td>
+                                                                    </tr>
+                                                                )
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </FormGroup> */}
+
+                  {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
+
+                  <FormGroup className="row align-items-center justify-content-between">
+                    <Grid
+                      xs={4}
+                      className="d-flex justify-content-start align-items-center"
+                    >
+                      <Button
+                        color="secundary"
+                        onClick={() => backForm()}
+                      >
+                        <ArrowBackIcon />
+                        Consulta Equipos
+                      </Button>
+                    </Grid>
+                    <Grid xs={4} className="d-flex justify-content-center">
+                      {" "}
+                      <Pagination
+                        count={4}
+                        hidePrevButton
+                        hideNextButton
+                        defaultPage={2}
+                        size="small"
+                        color="primary"
+                        disabled
+                      />
+                    </Grid>
+                    <Grid
+                      xs={4}
+                      className="d-flex justify-content-end align-items-center"
+                    >
+                      <Button
+                        color="secundary"
+                        onClick={() => {
+                          // setEditing(true);
+                          // setEditingServiceInfo(true);
+                          // setCasoServInfo("Add");
+                          nextForm();
+                        }}
+                      >
+                        Información de servicios
+                        <ArrowForwardIcon />
+                      </Button>
+                    </Grid>
+                    {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
+                  </FormGroup>
+                </ModalBody>
+              </>
+            )
+          }
+
+          {
+            formStepInsertar === 3 && ( // --------- Información de servicio
+              <ServiceInformation
+                handleChangeServicesInformation={handleChangeServicesInformation}
+                servicesInformation={servicesInformation}
+                light={light}
+                backForm={backForm}
+                nextForm={nextForm}
+              />
+            )
+          }
+          {
+            formStepInsertar === 4 && ( // -------- Información Financiera
+              <FinancialInfo
+                financialInformation={financialInformation}
+                handleChangeFinancialInfo={handleChangeFinancialInfo}
+                backForm={backForm}
+                nextForm={nextForm}
+                light={light}
+                fecha={fecha}
+              />
+            )
+          }
+
+          {/* // <ServiceInformation
+              //   casoServInfo={casoServInfo}
+              //   techInfoEditado={techInfoEditado}
+              //   updateAddServInfo={updateAddServInfo}
+              //   setEditingTechInfo={setEditingTechInfo}
+              //   editingTechInfo={editingTechInfo}
+              //   EditAddServInfo={EditAddServInfo}
+              //   setnewservInformation={setnewservInformation}
+              //   newservInformation={newservInformation}
+              //   equipoSeleccionado={equipoSeleccionado}
+              //   editRow={editRow}
+              //   eliminarAddTechInfo={eliminarAddTechInfo}
+              //   setEditing={setEditing}
+              //   setEditingServiceInfo={setEditingServiceInfo}
+              //   servicesInformation={servicesInformation}
+              //   setEquipoSeleccionado={setEquipoSeleccionado}
+              //   handleChangeServicesInformation={handleChangeServicesInformation}
+              //   editingNewServInfo={editingNewServInfo}
+              //   id={id} // Para seleccionar que fila editada tendra el efecto
+              //   light={light}
+              // /> */}
+
+
+
+
+
 
           <ModalFooter>
             <Button
@@ -4800,11 +4898,12 @@ const ConsultaEquipos = ({ history }) => {
               }}
               onClick={() => {
                 setModalInsertar(false);
-                seteditingNewServInfo(true);
-                setModalEditar(false);
-                setEditing(false);
-                setEditingTechInfo(false);
-                setEditingServiceInfo(false);
+                setFormStepInsertar(0)
+                // seteditingNewServInfo(true);
+                // setModalEditar(false);
+                // setEditing(false);
+                // setEditingTechInfo(false);
+                // setEditingServiceInfo(false);
               }}
             >
               Cancelar

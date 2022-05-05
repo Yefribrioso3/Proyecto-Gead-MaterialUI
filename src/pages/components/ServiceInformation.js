@@ -1,29 +1,29 @@
 import React from "react";
-// , { useState } 
-// import { useForm } from "react-hook-form";
-// import { v4 as uuidv4 } from "uuid";
 import { FormGroup, ModalBody } from "reactstrap";
-// Button,
 import Button from "@material-ui/core/Button";
-// import Axios from "axios";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { Grid } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
-// import AddIcon from "@material-ui/icons/Add";
-//
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+// , { useState } 
+// import { useForm } from "react-hook-form";
+// import { v4 as uuidv4 } from "uuid";
+// Button,
+// import Axios from "axios";
+// import AddIcon from "@material-ui/icons/Add";
+//
 
 const ServiceInformation = ({
   handleChangeServicesInformation,
   servicesInformation,
-  setEditing,
-  setEditingServiceInfo,
-  setEditingTechInfo,
   light,
   backForm,
   nextForm
+  // setEditing,
+  // setEditingServiceInfo,
+  // setEditingTechInfo,
   // casoServInfo,
   // id,
   // editingNewServInfo,

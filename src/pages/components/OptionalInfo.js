@@ -2,10 +2,10 @@ import { IconButton, TextField } from "@material-ui/core";
 import { ArrowDropDown, ArrowDropUp } from "@material-ui/icons";
 import React, { useState } from "react";
 import { FormGroup } from "reactstrap";
-// , ModalBody
-
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+// , ModalBody
+
 
 export const OptionalInfo = ({
   optionalTechInfo,
