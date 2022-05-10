@@ -64,6 +64,7 @@ import { TransferirModal } from "./components/TransferirModal";
 import { Autocomplete } from "@mui/material";
 import { select } from "./components/select";
 import FinancialInfo from "./components/FinancialInfo";
+import { Calification } from "./components/Calification";
 
 //-----------------------------------------------------------------------
 // const headCells = [
@@ -140,7 +141,11 @@ const ConsultaEquipos = ({ history }) => {
     formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
-    }
+      color:
+        theme.palette.type === "dark"
+          ? theme.palette.primary.light
+          : theme.palette.secondary,
+    },
   }));
 
   const {
@@ -203,7 +208,8 @@ const ConsultaEquipos = ({ history }) => {
     const getUserByToken = async () => {
       //  -------   Consulta al Api de User
       if (localStorage?.token) {
-        await authAxios.get(`/user/user-data`)
+        await authAxios
+          .get(`/user/user-data`)
           .then((response) => {
             setUserByToken(response.data.data);
             // console.log(response.data.data);
@@ -212,16 +218,16 @@ const ConsultaEquipos = ({ history }) => {
             console.log(x?.response);
             if (x?.response.data.error.message === "jwt expired") {
               // console.log("hola");
-              history.replace('/login');
+              history.replace("/login");
             } else if (x?.response.statusText === "Unauthorized") {
-              history.replace('/login');
+              history.replace("/login");
             }
             // console.log(x?.response.data.msg)
           });
         // console.log(x?.response);
         // console.log(userByToken);
       } else {
-        history.replace('/login');
+        history.replace("/login");
       }
     };
 
@@ -229,7 +235,6 @@ const ConsultaEquipos = ({ history }) => {
 
     userToken = userByToken;
     // console.log(userByToken);
-
 
     // Token( userByToken, setUserByToken );
 
@@ -428,7 +433,7 @@ const ConsultaEquipos = ({ history }) => {
       Period_Time: null,
       Id_Equipment: null,
       EncargadoActualizacion: null,
-      FechaActualizacion: null
+      FechaActualizacion: null,
     },
     ServicesInformation: {
       Id_ServicesInformation: null,
@@ -617,7 +622,7 @@ const ConsultaEquipos = ({ history }) => {
     Period_Time: null,
     Id_Equipment: null,
     EncargadoActualizacion: null,
-    FechaActualizacion: null
+    FechaActualizacion: null,
   });
 
   const [areas, setareas] = useState({
@@ -642,7 +647,7 @@ const ConsultaEquipos = ({ history }) => {
 
   const [operations, setOperations] = useState({
     Id_Operations: "",
-    Name: '',
+    Name: "",
     Id_Countries: "",
     countries: {
       Id_Countries: null,
@@ -700,7 +705,6 @@ const ConsultaEquipos = ({ history }) => {
     //     }
     // });
 
-
     // setEditing(false);
     setTechnicalInformation(elemento.TechnicalSpecification);
     setOptionalTechInfo(elemento.TechnicalSpecification.OptionalTechInfo);
@@ -727,7 +731,7 @@ const ConsultaEquipos = ({ history }) => {
     const { name, value } = e.target;
     if (value !== "null") {
       setErrorNombre(false);
-      setLeyendaErrorNombre("")
+      setLeyendaErrorNombre("");
     }
 
     setEquipoSeleccionado((prevState) => ({
@@ -770,15 +774,15 @@ const ConsultaEquipos = ({ history }) => {
 
   const handleChangeAreas = (e) => {
     // const { name, value } = e.target;
-    const { label } = e ? e : e = { label: 'null' };
+    const { label } = e ? e : (e = { label: "null" });
     if (label !== "null") {
       setErrorAreas(false);
-      setLeyendaErrorAreas("")
+      setLeyendaErrorAreas("");
     }
 
     setareas((prevState) => ({
       ...prevState,
-      "Name": label,
+      Name: label,
     }));
     // console.log(areas)
   };
@@ -790,58 +794,58 @@ const ConsultaEquipos = ({ history }) => {
     //   ...prevState,
     //   [name]: value,
     // }));
-    const { label } = e ? e : e = { label: 'null' };
+    const { label } = e ? e : (e = { label: "null" });
     if (label !== "null") {
       setErrorSubArea(false);
-      setLeyendaErrorSubArea("")
+      setLeyendaErrorSubArea("");
     }
 
     setSubArea((prevState) => ({
       ...prevState,
-      "Name": label,
+      Name: label,
     }));
     // console.log(SubArea)
   };
 
   const handleChangeOperations = (e) => {
-    const { label } = e ? e : e = { label: 'null' };
+    const { label } = e ? e : (e = { label: "null" });
     if (label !== "null") {
       setErrorPlanta(false);
-      setLeyendaErrorPlanta("")
+      setLeyendaErrorPlanta("");
     }
 
     setOperations((prevState) => ({
       ...prevState,
-      "Name": label,
+      Name: label,
     }));
     // console.log(operations)
   };
 
   const handleChangeCountries = (e) => {
     // const { name, value } = e.target;
-    const { label } = e ? e : e = { label: 'null' };
+    const { label } = e ? e : (e = { label: "null" });
     if (label !== "null") {
       setErrorCountries(false);
-      setLeyendaErrorCountries("")
+      setLeyendaErrorCountries("");
     }
 
     setCountries((prevState) => ({
       ...prevState,
-      "Name": label,
+      Name: label,
     }));
   };
 
   const handleChangeBu = (e) => {
     // const { name, value } = e.target;
-    const { label } = e ? e : e = { label: 'null' };
+    const { label } = e ? e : (e = { label: "null" });
     if (label !== "null") {
       setErrorBU(false);
-      setLeyendaErrorBU("")
+      setLeyendaErrorBU("");
     }
 
     setBu((prevState) => ({
       ...prevState,
-      "Name": label,
+      Name: label,
     }));
     // console.log(bu)
   };
@@ -851,7 +855,7 @@ const ConsultaEquipos = ({ history }) => {
     // const { label } = e ? e : e = { label: 'null' };
     if (value !== "null") {
       setErrorLineNumber(false);
-      setLeyendaErrorLineNumber("")
+      setLeyendaErrorLineNumber("");
     }
 
     setLine((prevState) => ({
@@ -863,15 +867,15 @@ const ConsultaEquipos = ({ history }) => {
   const handleChangeLineTypes = (e) => {
     // const { name, value } = e.target;
     // console.log(e.target.value)
-    const { label } = e ? e : e = { label: 'null' };
+    const { label } = e ? e : (e = { label: "null" });
     if (label !== "null") {
       setErrorLineTypes(false);
-      setLeyendaLineTypes("")
+      setLeyendaLineTypes("");
     }
 
     setLineTypes((prevState) => ({
       ...prevState,
-      "Name": label,
+      Name: label,
     }));
   };
 
@@ -897,8 +901,8 @@ const ConsultaEquipos = ({ history }) => {
     equipo.TechnicalSpecification.OptionalTechInfo = optionalTechInfo;
     equipo.ServicesInformation = servicesInformation;
     equipo.FinancialInformation = financialInformation;
-    equipo.FinancialInformation.FechaActualizacion = fecha
-    equipo.FinancialInformation.EncargadoActualizacion = `${userByToken.Name} ${userByToken.LastName}`
+    equipo.FinancialInformation.FechaActualizacion = fecha;
+    equipo.FinancialInformation.EncargadoActualizacion = `${userByToken.Name} ${userByToken.LastName}`;
 
     // equipo.ServicesInformation.newServicesInformation = equipoSeleccionado.ServicesInformation.newServicesInformation
     equipo.Procedencia.Id_Areas = areas.Id_Areas;
@@ -947,7 +951,7 @@ const ConsultaEquipos = ({ history }) => {
     setEditing(false);
     setEditingTechInfo(false);
     setEditingServiceInfo(false);
-    setFormStep(0)
+    setFormStep(0);
   };
 
   //---------------------------           UPDATE EQUIPMENT - API REST         -----------------------------------
@@ -1039,41 +1043,48 @@ const ConsultaEquipos = ({ history }) => {
       }
     );
 
-    await Axios.put(`${globalApi}/financialInformation/${Equipo.FinancialInformation.Id_FinancialInformation}`, {
-      EquipmentValueInUSD: Equipo.FinancialInformation.EquipmentValueInUSD,
-      Activo_fijo: Equipo.FinancialInformation.Activo_fijo,
-      Soc: Equipo.FinancialInformation.Soc,
-      Concatenar: Equipo.FinancialInformation.Concatenar,
-      Clase: Equipo.FinancialInformation.Clase,
-      Centro: Equipo.FinancialInformation.Centro,
-      CodPM: Equipo.FinancialInformation.CodPM,
-      Centro_de_costos: Equipo.FinancialInformation.Centro_de_costos,
-      Fecha_de_capitalizacion: Equipo.FinancialInformation.Fecha_de_capitalizacion,
-      Valor_Adquirido: Equipo.FinancialInformation.Valor_Adquirido,
-      Amortizacion_acumulada: Equipo.FinancialInformation.Amortizacion_acumulada,
-      Valor_Contable: Equipo.FinancialInformation.Valor_Contable,
-      Cantidad: Equipo.FinancialInformation.Cantidad,
-      Moneda: Equipo.FinancialInformation.Moneda,
-      Tipo: Equipo.FinancialInformation.Tipo,
-      Screen: Equipo.FinancialInformation.Screen,
-      Nom_Clase: Equipo.FinancialInformation.Nom_Clase,
-      Nom_Ce: Equipo.FinancialInformation.Nom_Ce,
-      Encontrado_SI_NO: Equipo.FinancialInformation.Encontrado_SI_NO,
-      Estado_del_Activo: Equipo.FinancialInformation.Estado_del_Activo,
-      Categoria: Equipo.FinancialInformation.Categoria,
-      Gerencia: Equipo.FinancialInformation.Gerencia,
-      Codigo_De_Barras: Equipo.FinancialInformation.Codigo_De_Barras,
-      DI: Equipo.FinancialInformation.DI,
-      SN: Equipo.FinancialInformation.SN,
-      Depreciacion_acumulada_ajustada: Equipo.FinancialInformation.Depreciacion_acumulada_ajustada,
-      Tasa_Cambio_contra_dolar: Equipo.FinancialInformation.Tasa_Cambio_contra_dolar,
-      Latitud: Equipo.FinancialInformation.Latitud,
-      Longitud: Equipo.FinancialInformation.Longitud,
-      Period_Time: Equipo.FinancialInformation.Period_Time,
-      FechaActualizacion: Equipo.FinancialInformation.FechaActualizacion,
-      EncargadoActualizacion: Equipo.FinancialInformation.EncargadoActualizacion,
-      Id_Equipment: Equipo.Id_Equipment,
-    }
+    await Axios.put(
+      `${globalApi}/financialInformation/${Equipo.FinancialInformation.Id_FinancialInformation}`,
+      {
+        EquipmentValueInUSD: Equipo.FinancialInformation.EquipmentValueInUSD,
+        Activo_fijo: Equipo.FinancialInformation.Activo_fijo,
+        Soc: Equipo.FinancialInformation.Soc,
+        Concatenar: Equipo.FinancialInformation.Concatenar,
+        Clase: Equipo.FinancialInformation.Clase,
+        Centro: Equipo.FinancialInformation.Centro,
+        CodPM: Equipo.FinancialInformation.CodPM,
+        Centro_de_costos: Equipo.FinancialInformation.Centro_de_costos,
+        Fecha_de_capitalizacion:
+          Equipo.FinancialInformation.Fecha_de_capitalizacion,
+        Valor_Adquirido: Equipo.FinancialInformation.Valor_Adquirido,
+        Amortizacion_acumulada:
+          Equipo.FinancialInformation.Amortizacion_acumulada,
+        Valor_Contable: Equipo.FinancialInformation.Valor_Contable,
+        Cantidad: Equipo.FinancialInformation.Cantidad,
+        Moneda: Equipo.FinancialInformation.Moneda,
+        Tipo: Equipo.FinancialInformation.Tipo,
+        Screen: Equipo.FinancialInformation.Screen,
+        Nom_Clase: Equipo.FinancialInformation.Nom_Clase,
+        Nom_Ce: Equipo.FinancialInformation.Nom_Ce,
+        Encontrado_SI_NO: Equipo.FinancialInformation.Encontrado_SI_NO,
+        Estado_del_Activo: Equipo.FinancialInformation.Estado_del_Activo,
+        Categoria: Equipo.FinancialInformation.Categoria,
+        Gerencia: Equipo.FinancialInformation.Gerencia,
+        Codigo_De_Barras: Equipo.FinancialInformation.Codigo_De_Barras,
+        DI: Equipo.FinancialInformation.DI,
+        SN: Equipo.FinancialInformation.SN,
+        Depreciacion_acumulada_ajustada:
+          Equipo.FinancialInformation.Depreciacion_acumulada_ajustada,
+        Tasa_Cambio_contra_dolar:
+          Equipo.FinancialInformation.Tasa_Cambio_contra_dolar,
+        Latitud: Equipo.FinancialInformation.Latitud,
+        Longitud: Equipo.FinancialInformation.Longitud,
+        Period_Time: Equipo.FinancialInformation.Period_Time,
+        FechaActualizacion: Equipo.FinancialInformation.FechaActualizacion,
+        EncargadoActualizacion:
+          Equipo.FinancialInformation.EncargadoActualizacion,
+        Id_Equipment: Equipo.Id_Equipment,
+      }
     );
 
     await Axios.put(
@@ -1377,7 +1388,7 @@ const ConsultaEquipos = ({ history }) => {
       Period_Time: null,
       Id_Equipment: null,
       EncargadoActualizacion: null,
-      FechaActualizacion: null
+      FechaActualizacion: null,
     });
 
     setTechnicalInformation({
@@ -1470,14 +1481,16 @@ const ConsultaEquipos = ({ history }) => {
         Name: "",
         Id_Countries: null,
         countries: {
-          Id_Countries: null, Name: "", Id_BU: null,
-          bu: { Id_BU: null, Name: "", },
+          Id_Countries: null,
+          Name: "",
+          Id_BU: null,
+          bu: { Id_BU: null, Name: "" },
         },
       },
     });
     setOperations({
       Id_Operations: "",
-      Name: '',
+      Name: "",
       Id_Countries: "",
       countries: {
         Id_Countries: null,
@@ -1506,15 +1519,10 @@ const ConsultaEquipos = ({ history }) => {
       Name: "",
     });
 
-
     seteditingNewServInfo(false);
     setModalInsertar(true);
-    setFormStepInsertar(1)
+    setFormStepInsertar(1);
   };
-
-
-
-
 
   // const arbirModalConsultaAv = () => {
   //     setModalConsultaAv(true);
@@ -1536,62 +1544,53 @@ const ConsultaEquipos = ({ history }) => {
   const [errorBU, setErrorBU] = useState(false);
   const [errorAreas, setErrorAreas] = useState(false);
   const [errorSubArea, setErrorSubArea] = useState(false);
-  const [errorLineNumber, setErrorLineNumber] = useState(false);  //--------- Manejo de campos vacios -----------
+  const [errorLineNumber, setErrorLineNumber] = useState(false); //--------- Manejo de campos vacios -----------
   const [errorNombre, setErrorNombre] = useState(false);
 
   const insertar = async () => {
     if (line?.number === "") {
       setLeyendaErrorLineNumber("Campo requerido");
       setErrorLineNumber(true);
-
     } else if (operations?.Name === "") {
       setErrorLineNumber(false);
       setLeyendaErrorLineNumber("");
       setLeyendaErrorPlanta("Campo requerido");
       setErrorPlanta(true);
-
     } else if (lineTypes?.Name === "") {
       setErrorPlanta(false);
       setLeyendaErrorPlanta("");
       setLeyendaLineTypes("Campo requerido");
       setErrorLineTypes(true);
-
     } else if (countries?.Name === "") {
       setErrorLineTypes(false);
       setLeyendaLineTypes("");
       setLeyendaErrorCountries("Campo requerido");
       setErrorCountries(true);
-
     } else if (bu?.Name === "") {
       setErrorCountries(false);
-      setLeyendaErrorCountries("")
+      setLeyendaErrorCountries("");
       setLeyendaErrorBU("Campo requerido");
       setErrorBU(true);
-
     } else if (areas?.Name === "") {
       setErrorBU(false);
-      setLeyendaErrorBU("")
+      setLeyendaErrorBU("");
       setLeyendaErrorAreas("Campo requerido");
       setErrorAreas(true);
-
     } else if (SubArea?.Name === "") {
       setErrorAreas(false);
-      setLeyendaErrorAreas("")
+      setLeyendaErrorAreas("");
       setLeyendaErrorSubArea("Campo requerido");
       setErrorSubArea(true);
-
     } else if (equipoSeleccionado.Name === "") {
       setErrorAreas(false);
-      setLeyendaErrorAreas("")
+      setLeyendaErrorAreas("");
       setEditing(true);
       setEditingServiceInfo(false);
       // technicalInformation
       // editingServiceInfo
       setErrorNombre(true);
-      setLeyendaErrorNombre("Campo requerido")
-
-    }
-    else {
+      setLeyendaErrorNombre("Campo requerido");
+    } else {
       setLeyendaErrorLineNumber("");
       setLeyendaErrorPlanta("");
       setLeyendaLineTypes("");
@@ -1639,9 +1638,12 @@ const ConsultaEquipos = ({ history }) => {
       line.Id_LineTypes = lineTypes.Id_LineTypes;
 
       valorInsertar.id = valorInsertar.Id_Equipment;
-      technicalInformation.Id_TechnicalSpecification = valorInsertar.Id_Equipment;
-      optionalTechInfo.Id_OptionalTechInfo = technicalInformation.Id_TechnicalSpecification;
-      optionalTechInfo.Id_TechnicalSpecification = technicalInformation.Id_TechnicalSpecification;
+      technicalInformation.Id_TechnicalSpecification =
+        valorInsertar.Id_Equipment;
+      optionalTechInfo.Id_OptionalTechInfo =
+        technicalInformation.Id_TechnicalSpecification;
+      optionalTechInfo.Id_TechnicalSpecification =
+        technicalInformation.Id_TechnicalSpecification;
 
       // servicesInformation.Id_ServicesInformation = uuidv4();
       // valorInsertar.Procedencia.Id_Procedencia = uuidv4();
@@ -1661,7 +1663,7 @@ const ConsultaEquipos = ({ history }) => {
       valorInsertar.TechnicalSpecification = technicalInformation;
       valorInsertar.TechnicalSpecification.OptionalTechInfo = optionalTechInfo;
       // valorInsertar.TechnicalSpecification.OptionalTechInfo.Id_OptionalTechInfo = valorInsertar.TechnicalSpecification.Id_TechnicalSpecification
-      
+
       // NO DATA AVAILABLE
       let nt = newTechicInformation;
 
@@ -1669,28 +1671,30 @@ const ConsultaEquipos = ({ history }) => {
         nt.Id_NewTechSpec === null
           ? []
           : nt.map((NTS) => {
-            return (NTS = {
-              Id_NewTechSpec: NTS.Id_NewTechSpec,
-              Id_TechnicalSpecification:
-                technicalInformation.Id_TechnicalSpecification,
-              Name: NTS.Name,
-              Value: NTS.Value,
-              SelectNewTechSpec: {
-                Id_SelectNewTechSpec:
-                  NTS.SelectNewTechSpec.Id_SelectNewTechSpec,
+              return (NTS = {
+                Id_NewTechSpec: NTS.Id_NewTechSpec,
                 Id_TechnicalSpecification:
                   technicalInformation.Id_TechnicalSpecification,
-                Id_NewTechSpec: NTS.SelectNewTechSpec.Id_NewTechSpec,
-              },
+                Name: NTS.Name,
+                Value: NTS.Value,
+                SelectNewTechSpec: {
+                  Id_SelectNewTechSpec:
+                    NTS.SelectNewTechSpec.Id_SelectNewTechSpec,
+                  Id_TechnicalSpecification:
+                    technicalInformation.Id_TechnicalSpecification,
+                  Id_NewTechSpec: NTS.SelectNewTechSpec.Id_NewTechSpec,
+                },
+              });
             });
-          });
 
-      valorInsertar.TechnicalSpecification.newTechnicalSpecification = newTechicInformationAll;
+      valorInsertar.TechnicalSpecification.newTechnicalSpecification =
+        newTechicInformationAll;
       valorInsertar.ServicesInformation = servicesInformation;
       valorInsertar.FinancialInformation = financialInformation;
-      valorInsertar.FinancialInformation.FechaActualizacion = fecha
-      valorInsertar.FinancialInformation.EncargadoActualizacion = `${userByToken.Name} ${userByToken.LastName}`
-      valorInsertar.FinancialInformation.Id_Equipment = valorInsertar.Id_Equipment;
+      valorInsertar.FinancialInformation.FechaActualizacion = fecha;
+      valorInsertar.FinancialInformation.EncargadoActualizacion = `${userByToken.Name} ${userByToken.LastName}`;
+      valorInsertar.FinancialInformation.Id_Equipment =
+        valorInsertar.Id_Equipment;
 
       let ns = newservInformation;
 
@@ -1698,21 +1702,21 @@ const ConsultaEquipos = ({ history }) => {
         ns.Id_NewServInfo === null
           ? []
           : ns.map((NSI) => {
-            return (NSI = {
-              Id_NewServInfo: NSI.Id_NewServInfo,
-              Id_ServicesInformation:
-                servicesInformation.Id_ServicesInformation,
-              Name: NSI.Name,
-              Value: NSI.Value,
-              SelectNewServicesInfo: {
-                Id_SelectNewServInfo:
-                  NSI.SelectNewServicesInfo.Id_SelectNewServInfo,
+              return (NSI = {
+                Id_NewServInfo: NSI.Id_NewServInfo,
                 Id_ServicesInformation:
                   servicesInformation.Id_ServicesInformation,
-                Id_NewServInfo: NSI.SelectNewServicesInfo.Id_NewServInfo,
-              },
+                Name: NSI.Name,
+                Value: NSI.Value,
+                SelectNewServicesInfo: {
+                  Id_SelectNewServInfo:
+                    NSI.SelectNewServicesInfo.Id_SelectNewServInfo,
+                  Id_ServicesInformation:
+                    servicesInformation.Id_ServicesInformation,
+                  Id_NewServInfo: NSI.SelectNewServicesInfo.Id_NewServInfo,
+                },
+              });
             });
-          });
 
       valorInsertar.ServicesInformation.newServicesInformation =
         newservInformationAll;
@@ -1840,7 +1844,8 @@ const ConsultaEquipos = ({ history }) => {
 
   const sendFinancialInformation = async (valorInsertar) => {
     await Axios.post(`${globalApi}/financialInformation`, {
-      EquipmentValueInUSD: valorInsertar.FinancialInformation.EquipmentValueInUSD,
+      EquipmentValueInUSD:
+        valorInsertar.FinancialInformation.EquipmentValueInUSD,
       Activo_fijo: valorInsertar.FinancialInformation.Activo_fijo,
       Soc: valorInsertar.FinancialInformation.Soc,
       Concatenar: valorInsertar.FinancialInformation.Concatenar,
@@ -1848,9 +1853,11 @@ const ConsultaEquipos = ({ history }) => {
       Centro: valorInsertar.FinancialInformation.Centro,
       CodPM: valorInsertar.FinancialInformation.CodPM,
       Centro_de_costos: valorInsertar.FinancialInformation.Centro_de_costos,
-      Fecha_de_capitalizacion: valorInsertar.FinancialInformation.Fecha_de_capitalizacion,
+      Fecha_de_capitalizacion:
+        valorInsertar.FinancialInformation.Fecha_de_capitalizacion,
       Valor_Adquirido: valorInsertar.FinancialInformation.Valor_Adquirido,
-      Amortizacion_acumulada: valorInsertar.FinancialInformation.Amortizacion_acumulada,
+      Amortizacion_acumulada:
+        valorInsertar.FinancialInformation.Amortizacion_acumulada,
       Valor_Contable: valorInsertar.FinancialInformation.Valor_Contable,
       Cantidad: valorInsertar.FinancialInformation.Cantidad,
       Moneda: valorInsertar.FinancialInformation.Moneda,
@@ -1865,16 +1872,18 @@ const ConsultaEquipos = ({ history }) => {
       Codigo_De_Barras: valorInsertar.FinancialInformation.Codigo_De_Barras,
       DI: valorInsertar.FinancialInformation.DI,
       SN: valorInsertar.FinancialInformation.SN,
-      Depreciacion_acumulada_ajustada: valorInsertar.FinancialInformation.Depreciacion_acumulada_ajustada,
-      Tasa_Cambio_contra_dolar: valorInsertar.FinancialInformation.Tasa_Cambio_contra_dolar,
+      Depreciacion_acumulada_ajustada:
+        valorInsertar.FinancialInformation.Depreciacion_acumulada_ajustada,
+      Tasa_Cambio_contra_dolar:
+        valorInsertar.FinancialInformation.Tasa_Cambio_contra_dolar,
       Latitud: valorInsertar.FinancialInformation.Latitud,
       Longitud: valorInsertar.FinancialInformation.Longitud,
       Period_Time: valorInsertar.FinancialInformation.Period_Time,
       FechaActualizacion: valorInsertar.FinancialInformation.FechaActualizacion,
-      EncargadoActualizacion: valorInsertar.FinancialInformation.EncargadoActualizacion,
+      EncargadoActualizacion:
+        valorInsertar.FinancialInformation.EncargadoActualizacion,
       Id_Equipment: valorInsertar.Id_Equipment,
-    }
-    );
+    });
   };
 
   const sendSercivesInformation = async (valorInsertar) => {
@@ -1932,11 +1941,20 @@ const ConsultaEquipos = ({ history }) => {
 
   const sendOptionalTechInfo = async (valorInsertar) => {
     await Axios.post(`${globalApi}/optionalTechInfo`, {
-      Id_OptionalTechInfo: valorInsertar.TechnicalSpecification.OptionalTechInfo.Id_OptionalTechInfo,
-      NominalCapacity: valorInsertar.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
-      YearOfConstruction: valorInsertar.TechnicalSpecification.OptionalTechInfo.YearOfConstruction,
-      EquipmentCurrentConditionsComments: valorInsertar.TechnicalSpecification.OptionalTechInfo.EquipmentCurrentConditionsComments,
-      NotesAboutEquipment: valorInsertar.TechnicalSpecification.OptionalTechInfo.NotesAboutEquipment,
+      Id_OptionalTechInfo:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .Id_OptionalTechInfo,
+      NominalCapacity:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
+      YearOfConstruction:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .YearOfConstruction,
+      EquipmentCurrentConditionsComments:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .EquipmentCurrentConditionsComments,
+      NotesAboutEquipment:
+        valorInsertar.TechnicalSpecification.OptionalTechInfo
+          .NotesAboutEquipment,
       AssambledDissambled:
         valorInsertar.TechnicalSpecification.OptionalTechInfo
           .AssambledDissambled,
@@ -2158,17 +2176,17 @@ const ConsultaEquipos = ({ history }) => {
 
     caso === "technical"
       ? setTechnicalSpecEditado({
-        Id_NewTechSpec: techInfo.Id_NewTechSpec,
-        Id_TechnicalSpecification: techInfo.Id_TechnicalSpecification,
-        Name: techInfo.Name,
-        Value: techInfo.Value,
-      })
+          Id_NewTechSpec: techInfo.Id_NewTechSpec,
+          Id_TechnicalSpecification: techInfo.Id_TechnicalSpecification,
+          Name: techInfo.Name,
+          Value: techInfo.Value,
+        })
       : setTechInfoEditado({
-        Id_NewServInfo: techInfo.Id_NewServInfo,
-        Id_ServicesInformation: techInfo.Id_ServicesInformation,
-        Name: techInfo.Name,
-        Value: techInfo.Value,
-      });
+          Id_NewServInfo: techInfo.Id_NewServInfo,
+          Id_ServicesInformation: techInfo.Id_ServicesInformation,
+          Name: techInfo.Name,
+          Value: techInfo.Value,
+        });
   };
 
   // --------------------        ACTUALIZAR NEW SERVICES INFORMATION     -------------------------
@@ -2284,13 +2302,15 @@ const ConsultaEquipos = ({ history }) => {
     if (contador === 0) {
       setList(list);
       if (bu === "total") {
-        return null
+        return null;
       } else {
         setGetAllList(
-          filterPlantaFn.fn(getAllList.filter(
-            (equipo) =>
-              equipo.Procedencia.areas.operations.countries.bu.Name === bu
-          ))
+          filterPlantaFn.fn(
+            getAllList.filter(
+              (equipo) =>
+                equipo.Procedencia.areas.operations.countries.bu.Name === bu
+            )
+          )
         );
       }
       setContador(++counter);
@@ -2315,15 +2335,17 @@ const ConsultaEquipos = ({ history }) => {
     },
   });
 
-  const handleSearchPlanta = (e) => {   // -------------- Filtrar por planta en el menu desplegable
+  const handleSearchPlanta = (e) => {
+    // -------------- Filtrar por planta en el menu desplegable
     // let target = e.target;
     setFilterPlantaFn({
       fn: (items) => {
         if (e === "None") return items;
         else
-          return items.filter(
-            (x) =>
-              x.Procedencia.areas.operations.Name.toLowerCase().includes(e.toLowerCase())
+          return items.filter((x) =>
+            x.Procedencia.areas.operations.Name.toLowerCase().includes(
+              e.toLowerCase()
+            )
           );
       },
     });
@@ -2332,15 +2354,7 @@ const ConsultaEquipos = ({ history }) => {
   useEffect(() => {
     setGetAllList(filterPlantaFn.fn(getAllList));
     // filtrarBUList()
-  }, [filterPlantaFn])
-
-
-
-
-
-
-
-
+  }, [filterPlantaFn]);
 
   const [totalEncontrados, setTotalEncontrados] = useState(getAllList.length);
 
@@ -2353,21 +2367,34 @@ const ConsultaEquipos = ({ history }) => {
           return items.filter(
             (x) =>
               x.Name.toLowerCase().includes(target.value.toLowerCase()) ||
-              x.Procedencia.areas.operations.countries.bu.Name.toLowerCase().includes(target.value.toLowerCase()) ||
-              x.Procedencia.areas.operations.countries.Name.toLowerCase().includes(target.value.toLowerCase()) ||
-              x.Procedencia.areas.Name.toLowerCase().includes(target.value.toLowerCase()) ||
-              x.Procedencia.areas.SubArea.Name.toLowerCase().includes(target.value.toLowerCase()) ||
-              x.Procedencia.areas.operations.Name.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.Procedencia.areas.operations.countries.bu.Name.toLowerCase().includes(
+                target.value.toLowerCase()
+              ) ||
+              x.Procedencia.areas.operations.countries.Name.toLowerCase().includes(
+                target.value.toLowerCase()
+              ) ||
+              x.Procedencia.areas.Name.toLowerCase().includes(
+                target.value.toLowerCase()
+              ) ||
+              x.Procedencia.areas.SubArea.Name.toLowerCase().includes(
+                target.value.toLowerCase()
+              ) ||
+              x.Procedencia.areas.operations.Name.toLowerCase().includes(
+                target.value.toLowerCase()
+              ) ||
               // x.TechnicalSpecification.OEM.toLowerCase().includes(target.value.toLowerCase()) ||
-              x.TechnicalSpecification.SerialNumber.toLowerCase().includes(target.value.toLowerCase()) ||
-              x.TechnicalSpecification.EquipmentType.toLowerCase().includes(target.value.toLowerCase())
+              x.TechnicalSpecification.SerialNumber.toLowerCase().includes(
+                target.value.toLowerCase()
+              ) ||
+              x.TechnicalSpecification.EquipmentType.toLowerCase().includes(
+                target.value.toLowerCase()
+              )
           );
       },
     });
 
     let TotalEncontrado = filterFn.fn(getAllList).length;
     setTotalEncontrados(TotalEncontrado);
-
   };
 
   //  ------------------------    PDF     ----------------------------------
@@ -2385,48 +2412,48 @@ const ConsultaEquipos = ({ history }) => {
       file === undefined
         ? "undefined"
         : new Promise((resolve, reject) => {
-          const fileReader = new FileReader();
-          fileReader.readAsArrayBuffer(file);
+            const fileReader = new FileReader();
+            fileReader.readAsArrayBuffer(file);
 
-          fileReader.onload = (e) => {
-            const bufferArray = e.target.result;
+            fileReader.onload = (e) => {
+              const bufferArray = e.target.result;
 
-            const workbook = XLSX.read(bufferArray, { type: "buffer" });
+              const workbook = XLSX.read(bufferArray, { type: "buffer" });
 
-            const workbookSheetsName = workbook.SheetNames[0];
+              const workbookSheetsName = workbook.SheetNames[0];
 
-            const workbookSheet = workbook.Sheets[workbookSheetsName];
+              const workbookSheet = workbook.Sheets[workbookSheetsName];
 
-            const data = XLSX.utils.sheet_to_json(workbookSheet);
+              const data = XLSX.utils.sheet_to_json(workbookSheet);
 
-            const jData = [];
-            for (let i = 0; i < data.length; i++) {
-              const dato = data[i];
+              const jData = [];
+              for (let i = 0; i < data.length; i++) {
+                const dato = data[i];
 
-              jData.push({
-                ...dato,
-                Date_of_Installation: formatearFechaExcel(
-                  dato.Date_of_Installation
-                ),
-                Date_of_Desintallation: formatearFechaExcel(
-                  dato.Date_of_Desintallation
-                ),
-              });
-            }
+                jData.push({
+                  ...dato,
+                  Date_of_Installation: formatearFechaExcel(
+                    dato.Date_of_Installation
+                  ),
+                  Date_of_Desintallation: formatearFechaExcel(
+                    dato.Date_of_Desintallation
+                  ),
+                });
+              }
 
-            resolve(jData);
-          };
-          fileReader.onerror = (error) => {
-            reject(error);
-          };
-        });
+              resolve(jData);
+            };
+            fileReader.onerror = (error) => {
+              reject(error);
+            };
+          });
 
     promise === "undefined"
       ? console.log("undefined")
       : promise.then((d) => {
-        setModalInsertarExcel(true);
-        setItem(d);
-      });
+          setModalInsertarExcel(true);
+          setItem(d);
+        });
   };
 
   function formatearFechaExcel(fechaExcel) {
@@ -2593,7 +2620,7 @@ const ConsultaEquipos = ({ history }) => {
         <div className="d-flex justify-content-between">
           <div
             onClick={() => {
-              seleccionarEquipo(params.row, "Editar")
+              seleccionarEquipo(params.row, "Editar");
               setFormStep(1);
             }}
             component="span"
@@ -2656,7 +2683,7 @@ const ConsultaEquipos = ({ history }) => {
     // setEditing(true);
     // setEditingTechInfo(false);
     setFormStepInsertar((cur) => cur + 1);
-  }
+  };
 
   const nextForm = () => {
     setFormStep((cur) => cur + 1);
@@ -2687,8 +2714,12 @@ const ConsultaEquipos = ({ history }) => {
           handleSearchPlanta={handleSearchPlanta}
         />
 
-
-        <Header setLight={setLight} light={light} userByToken={userByToken} history={history} />
+        <Header
+          setLight={setLight}
+          light={light}
+          userByToken={userByToken}
+          history={history}
+        />
 
         <Paper
           light={light}
@@ -2712,7 +2743,9 @@ const ConsultaEquipos = ({ history }) => {
                   </InputAdornment>
                 ),
               }}
-              onChange={(e) => { handleSearch(e, 'all') }}
+              onChange={(e) => {
+                handleSearch(e, "all");
+              }}
             />
 
             {userByToken?.roleId === 1 ? (
@@ -2834,57 +2867,56 @@ const ConsultaEquipos = ({ history }) => {
               </h1>
             </div>
           </ModalHeader>
-          {
-            formStep === 1 && ( //  - DATOS DE UBICACION
-              <>
-                <ModalBody className="row text-align-center  animate__animated animate__fadeIn">
-                  {/* //-------------------------------------   BOTON DE VISUALIZAR Y Descargar PDF   ------------------------------ */}
-                  <FormGroup>
-                    {/* -------------------------   BOTON PARA VISUALIZAR PDF    ----------------------------- */}
-                    <Button
-                      color="primary"
-                      className="mr-2"
-                      onClick={() => {
-                        setdescargarPdf(!descargarPdf);
-                      }}
-                    >
-                      {" "}
-                      {descargarPdf ? "Ocultar PDF" : "Visualizar PDF"}{" "}
-                    </Button>
-                    {/* -------------------------------------------------------------------------------------- */}
+          {formStep === 1 && ( //  - DATOS DE UBICACION
+            <>
+              <ModalBody className="row text-align-center  animate__animated animate__fadeIn">
+                {/* //-------------------------------------   BOTON DE VISUALIZAR Y Descargar PDF   ------------------------------ */}
+                <FormGroup>
+                  {/* -------------------------   BOTON PARA VISUALIZAR PDF    ----------------------------- */}
+                  <Button
+                    color="primary"
+                    className="mr-2"
+                    onClick={() => {
+                      setdescargarPdf(!descargarPdf);
+                    }}
+                  >
+                    {" "}
+                    {descargarPdf ? "Ocultar PDF" : "Visualizar PDF"}{" "}
+                  </Button>
+                  {/* -------------------------------------------------------------------------------------- */}
 
-                    {/* -------------------------   BOTON PARA DESCARGAR PDF    ----------------------------- */}
-                    <PDFDownloadLink
-                      document={
-                        <DocPDF
-                          equipoSeleccionado={equipoSeleccionado}
-                          line={line}
-                          operations={operations}
-                          lineTypes={lineTypes}
-                          countries={countries}
-                          bu={bu}
-                          areas={areas}
-                          SubArea={SubArea}
-                          loading={loading}
-                          uploadImage={uploadImage}
-                          handleChangeLine={handleChangeLine}
-                          handleChangeOperations={handleChangeOperations}
-                          handleChangeLineTypes={handleChangeLineTypes}
-                          handleChangeCountries={handleChangeCountries}
-                          handleChangeBu={handleChangeBu}
-                          handleChangeAreas={handleChangeAreas}
-                          handleChangeSubArea={handleChangeSubArea}
-                          handleChange={handleChange}
-                          technicalInformation={technicalInformation}
-                          servicesInformation={servicesInformation}
-                        />
-                      }
-                      fileName="GEAD.pdf"
-                    >
-                      <Button color="primary">Descargar PDF</Button>
-                    </PDFDownloadLink>
-                    {/* -----------------------------   BOTON PARA TRANSFERIR EQUIPO  ------------------------ */}
-                    {/* <Button
+                  {/* -------------------------   BOTON PARA DESCARGAR PDF    ----------------------------- */}
+                  <PDFDownloadLink
+                    document={
+                      <DocPDF
+                        equipoSeleccionado={equipoSeleccionado}
+                        line={line}
+                        operations={operations}
+                        lineTypes={lineTypes}
+                        countries={countries}
+                        bu={bu}
+                        areas={areas}
+                        SubArea={SubArea}
+                        loading={loading}
+                        uploadImage={uploadImage}
+                        handleChangeLine={handleChangeLine}
+                        handleChangeOperations={handleChangeOperations}
+                        handleChangeLineTypes={handleChangeLineTypes}
+                        handleChangeCountries={handleChangeCountries}
+                        handleChangeBu={handleChangeBu}
+                        handleChangeAreas={handleChangeAreas}
+                        handleChangeSubArea={handleChangeSubArea}
+                        handleChange={handleChange}
+                        technicalInformation={technicalInformation}
+                        servicesInformation={servicesInformation}
+                      />
+                    }
+                    fileName="GEAD.pdf"
+                  >
+                    <Button color="primary">Descargar PDF</Button>
+                  </PDFDownloadLink>
+                  {/* -----------------------------   BOTON PARA TRANSFERIR EQUIPO  ------------------------ */}
+                  {/* <Button
                       color="primary"
                       className="ml-2"
                       onClick={() => {
@@ -2893,319 +2925,374 @@ const ConsultaEquipos = ({ history }) => {
                     >
                       {tranferirModal ? "Ocultar Transferir" : "Transferir"}
                     </Button> */}
-                  </FormGroup>
+                </FormGroup>
 
-                  {tranferirModal ? (
-                    <>
-                      <TransferirModal
-                        light={light}
-                        equipoSeleccionado={equipoSeleccionado}
-                        operations={operations}
-                        tranferirModal={tranferirModal}
-                        settranferirModal={settranferirModal}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      {/* //-------------------------------------   Visualizar PDF   ------------------------------ */}
-                      {descargarPdf ? (
-                        <>
-                          <ModalBody className="row text-align-center  animate__animated animate__fadeIn">
-                            <PDFViewer
-                              style={{ width: "100%", height: "90vh" }}
-                            >
-                              <DocPDF
-                                equipoSeleccionado={equipoSeleccionado}
-                                line={line}
-                                operations={operations}
-                                lineTypes={lineTypes}
-                                countries={countries}
-                                bu={bu}
-                                areas={areas}
-                                SubArea={SubArea}
-                                technicalInformation={technicalInformation}
-                                servicesInformation={servicesInformation}
-                              />
-                            </PDFViewer>
-                          </ModalBody>
-                        </>
-                      ) : (
-                        // ------------------------------    Editar Registro  -----------------------------------
-                        <>
-                          <ModalBody className="row text-align-center  animate__animated animate__fadeIn">
-                            {/* -----------------------------       Subir Imagen       ----------------------------- */}
-                            <FormGroup>
-                              <div
-                                id="imagen"
-                                className="card animate__animated animate__fadeInLeft"
-                                style={{ maxWidth: 380 }}
-                              >
-                                {/* ms-5 */}
-                                {loading ? (
-                                  <h3>Loading...</h3>
-                                ) : (
-                                  <>
-                                    <img
-                                      src={equipoSeleccionado.img}
-                                      style={{ width: "380px" }}
-                                      alt=""
-                                    />
-                                  </>
-                                )}
-                              </div>
-
-                              {/* ms-5 */}
-                              <div class="input-group my-3 input-group-lg justify-content-center">
-                                <input
-                                  style={{
-                                    color:
-                                      theme.palette.type === "dark"
-                                        ? theme.palette.primary.dark
-                                        : theme.palette.secondary.dark,
-                                    backgroundColor: "transparent",
-                                    maxWidth: 380,
-                                  }}
-                                  name="file"
-                                  type="file"
-                                  class="form-control "
-                                  id="inputGroupFile03"
-                                  aria-describedby="inputGroupFileAddon03"
-                                  aria-label="Upload an image"
-                                  onChange={uploadImage}
-                                />
-                              </div>
-                            </FormGroup>
-                            {/* --------------------------------------    UBICACION  ------------------------------------- */}
-
-                            <FormGroup className="col-6">
-                              <TextField
-                                readOnly
-                                autoComplete="off"
-                                label="Id"
-                                className="form-control"
-                                variant="outlined"
-                                name="Id_Equipment"
-                                // value={getAllList.length + 1}
-                                value={equipoSeleccionado && equipoSeleccionado.Id_Equipment}
-                              />
-                            </FormGroup>
-
-                            <FormGroup className="col-6">
-                              <TextField
-                                label="Número de línea"
-                                className="form-control"
-                                variant="outlined"
-                                name="number"
-                                required
-                                // fullWidth
-                                value={line && line.number}
-                                onChange={handleChangeLine}
-                              />
-                            </FormGroup>
-
-                            <FormGroup className="col-6">
-                              <Autocomplete
-                                disablePortal
-                                id="combo-box-demo"
-                                options={select.Planta}
-                                // sx={{ width: 300 }}
-                                fullWidth
-                                defaultValue={operations && operations.Name}
-                                renderInput={(params) => <TextField {...params} label="Seleccionar Planta" variant="outlined" required />}
-                                onChange={(e, newValue) => { handleChangeAreas(newValue) }}
-                              />
-                            </FormGroup>
-
-                            <FormGroup className="col-6">
-                              <Autocomplete
-                                disablePortal
-                                id="combo-box-demo"
-                                options={select.TipoLinea}
-                                // sx={{ width: 300 }}
-                                fullWidth
-                                defaultValue={lineTypes && lineTypes.Name}
-                                renderInput={(params) => <TextField {...params} label="Seleccionar Tipo de Línea" variant="outlined" required />}
-                                onChange={(e, newValue) => { handleChangeAreas(newValue) }}
-                              />
-                            </FormGroup>
-
-                            <FormGroup className="col-6">
-                              <Autocomplete
-                                disablePortal
-                                id="combo-box-demo"
-                                options={select.Pais}
-                                // sx={{ width: 300 }}
-                                fullWidth
-                                defaultValue={countries && countries.Name}
-                                renderInput={(params) => <TextField {...params} label="Seleccionar País" variant="outlined" required />}
-                                onChange={(e, newValue) => { handleChangeAreas(newValue) }}
-                              />
-                            </FormGroup>
-
-                            <FormGroup className="col-6">
-                              <Autocomplete
-                                disablePortal
-                                id="combo-box-demo"
-                                options={select.BU}
-                                // sx={{ width: 300 }}
-                                fullWidth
-                                defaultValue={bu && bu.Name}
-                                renderInput={(params) => <TextField {...params} label="Seleccionar BU" variant="outlined" required />}
-                                onChange={(e, newValue) => { handleChangeAreas(newValue) }}
-                              />
-                            </FormGroup>
-
-                            <FormGroup className="col-6">
-                              <Autocomplete
-                                disablePortal
-                                id="combo-box-demo"
-                                options={select.Areas}
-                                // sx={{ width: 300 }}
-                                fullWidth
-                                defaultValue={areas && areas.Name}
-                                renderInput={(params) => <TextField {...params} label="Seleccionar Área" variant="outlined" required />}
-                                onChange={(e, newValue) => { handleChangeAreas(newValue) }}
-                              />
-                            </FormGroup>
-
-                            <FormGroup className="col-6">
-
-                              <Autocomplete disablePortal
-                                id="combo-box-demo"
-                                options={select.SubArea}
-                                // sx={{ width: 300 }}
-                                fullWidth
-                                defaultValue={SubArea && SubArea.Name}
-                                renderInput={(params) => <TextField {...params} label="Seleccionar Subárea" variant="outlined" required />}
-                                onChange={(e, newValue) => { handleChangeSubArea(newValue) }}
-                              />
-                            </FormGroup>
-
-                            <FormGroup className="col-12">
-                              {/* Para obtener el correo */}
-                              <TextField
-                                label="Correo de la Planta"
-                                className="form-control"
-                                variant="outlined"
-                                name="code" //--------- CORREO  --------
-                                value={
-                                  equipoSeleccionado && equipoSeleccionado.code
-                                }
-                                onChange={handleChange}
-                              />
-                            </FormGroup>
-
-                            <br />
-
-                            {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
-                            <FormGroup className="row justify-content-between align-items-center">
-                              <Grid xs={4} className="d-flex justify-content-start" >
-                                <Button
-                                  color="secondary"
-                                  className="d-none"
-                                  onClick={() => backForm()}
-                                >
-                                  Consulta de Equipos
-                                  <ArrowBackIcon />
-                                </Button>
-                              </Grid>
-                              <Grid xs={4} className="d-flex justify-content-center" >
-                                {" "}
-                                <Pagination
-                                  count={4}
-                                  hidePrevButton
-                                  hideNextButton
-                                  defaultPage={1}
-                                  size="small"
-                                  color="primary"
-                                  disabled
-                                />
-                              </Grid>
-                              <Grid
-                                xs={4}
-                                className="d-flex justify-content-end"
-                              >
-                                <Button
-                                  style={{
-                                    color:
-                                      theme.palette.type === "dark"
-                                        ? "#ffffff"
-                                        : "#000000",
-                                  }}
-                                  onClick={() => nextForm()}
-                                >
-                                  Información técnica
-                                  <ArrowForwardIcon />
-                                </Button>
-                              </Grid>
-
-                              {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
-                            </FormGroup>
-                          </ModalBody>
-                        </>
-                      )}
-                    </>
-                  )}
-
-                </ModalBody>
-              </>
-            )
-          }
-
-          {
-            formStep === 2 && ( // Informacion Tecnica
-              <>
-                <div className="p-3">
-                  <h4
-                    style={{
-                      color:
-                        theme.palette.type === "dark"
-                          ? theme.palette.primary.light
-                          : theme.palette.secondary,
-                    }}
-                  >
-                    Información técnica
-                  </h4>
-                </div>
-
-                <ModalBody className="row animate__animated animate__fadeIn">
-                  <FormGroup className="col-4">
-                    <label>Equipo:</label>
-                    <input
-                      className="form-control"
-                      type="text text-align=center"
-                      name="Name"
-                      value={equipoSeleccionado && equipoSeleccionado.Name}
-                      onChange={handleChange}
+                {tranferirModal ? (
+                  <>
+                    <TransferirModal
+                      light={light}
+                      equipoSeleccionado={equipoSeleccionado}
+                      operations={operations}
+                      tranferirModal={tranferirModal}
+                      settranferirModal={settranferirModal}
                     />
-                  </FormGroup>
+                  </>
+                ) : (
+                  <>
+                    {/* //-------------------------------------   Visualizar PDF   ------------------------------ */}
+                    {descargarPdf ? (
+                      <>
+                        <ModalBody className="row text-align-center  animate__animated animate__fadeIn">
+                          <PDFViewer style={{ width: "100%", height: "90vh" }}>
+                            <DocPDF
+                              equipoSeleccionado={equipoSeleccionado}
+                              line={line}
+                              operations={operations}
+                              lineTypes={lineTypes}
+                              countries={countries}
+                              bu={bu}
+                              areas={areas}
+                              SubArea={SubArea}
+                              technicalInformation={technicalInformation}
+                              servicesInformation={servicesInformation}
+                            />
+                          </PDFViewer>
+                        </ModalBody>
+                      </>
+                    ) : (
+                      // ------------------------------    Editar Registro  -----------------------------------
+                      <>
+                        <ModalBody className="row text-align-center  animate__animated animate__fadeIn">
+                          {/* -----------------------------       Subir Imagen       ----------------------------- */}
+                          <FormGroup>
+                            <div
+                              id="imagen"
+                              className="card animate__animated animate__fadeInLeft"
+                              style={{ maxWidth: 380 }}
+                            >
+                              {/* ms-5 */}
+                              {loading ? (
+                                <h3>Loading...</h3>
+                              ) : (
+                                <>
+                                  <img
+                                    src={equipoSeleccionado.img}
+                                    style={{ width: "380px" }}
+                                    alt=""
+                                  />
+                                </>
+                              )}
+                            </div>
 
-                  <FormGroup className="col-4">
-                    <label>Trabajo actual:</label>
-                    <select
-                      className="form-select "
-                      style={{ margin: "0px !important" }}
-                      name="currentWorking"
-                      value={
-                        technicalInformation &&
-                        technicalInformation.currentWorking
-                      }
-                      onChange={handleChange}
-                    >
-                      <option value="">Seleccione Trabajo actual</option>
-                      <option value="Installed and is working">
-                        Instalado y funcionando
-                      </option>
-                      <option value="Installed and is not working">
-                        Instalado y no funciona
-                      </option>
-                      <option value="Not Installed and is not working">
-                        No esta instalado
-                      </option>
-                    </select>
-                  </FormGroup>
+                            {/* ms-5 */}
+                            <div class="input-group my-3 input-group-lg justify-content-center">
+                              <input
+                                style={{
+                                  color:
+                                    theme.palette.type === "dark"
+                                      ? theme.palette.primary.dark
+                                      : theme.palette.secondary.dark,
+                                  backgroundColor: "transparent",
+                                  maxWidth: 380,
+                                }}
+                                name="file"
+                                type="file"
+                                class="form-control "
+                                id="inputGroupFile03"
+                                aria-describedby="inputGroupFileAddon03"
+                                aria-label="Upload an image"
+                                onChange={uploadImage}
+                              />
+                            </div>
+                          </FormGroup>
+                          {/* --------------------------------------    UBICACION  ------------------------------------- */}
 
-                  <FormGroup className="col-4">
+                          <FormGroup className="col-6">
+                            <TextField
+                              readOnly
+                              autoComplete="off"
+                              label="Id"
+                              className="form-control"
+                              variant="outlined"
+                              name="Id_Equipment"
+                              // value={getAllList.length + 1}
+                              value={
+                                equipoSeleccionado &&
+                                equipoSeleccionado.Id_Equipment
+                              }
+                            />
+                          </FormGroup>
+
+                          <FormGroup className="col-6">
+                            <TextField
+                              label="Número de línea"
+                              className="form-control"
+                              variant="outlined"
+                              name="number"
+                              required
+                              // fullWidth
+                              value={line && line.number}
+                              onChange={handleChangeLine}
+                            />
+                          </FormGroup>
+
+                          <FormGroup className="col-6">
+                            <Autocomplete
+                              disablePortal
+                              id="combo-box-demo"
+                              options={select.Planta}
+                              // sx={{ width: 300 }}
+                              fullWidth
+                              defaultValue={operations && operations.Name}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label="Seleccionar Planta"
+                                  variant="outlined"
+                                  required
+                                />
+                              )}
+                              onChange={(e, newValue) => {
+                                handleChangeAreas(newValue);
+                              }}
+                            />
+                          </FormGroup>
+
+                          <FormGroup className="col-6">
+                            <Autocomplete
+                              disablePortal
+                              id="combo-box-demo"
+                              options={select.TipoLinea}
+                              // sx={{ width: 300 }}
+                              fullWidth
+                              defaultValue={lineTypes && lineTypes.Name}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label="Seleccionar Tipo de Línea"
+                                  variant="outlined"
+                                  required
+                                />
+                              )}
+                              onChange={(e, newValue) => {
+                                handleChangeAreas(newValue);
+                              }}
+                            />
+                          </FormGroup>
+
+                          <FormGroup className="col-6">
+                            <Autocomplete
+                              disablePortal
+                              id="combo-box-demo"
+                              options={select.Pais}
+                              // sx={{ width: 300 }}
+                              fullWidth
+                              defaultValue={countries && countries.Name}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label="Seleccionar País"
+                                  variant="outlined"
+                                  required
+                                />
+                              )}
+                              onChange={(e, newValue) => {
+                                handleChangeAreas(newValue);
+                              }}
+                            />
+                          </FormGroup>
+
+                          <FormGroup className="col-6">
+                            <Autocomplete
+                              disablePortal
+                              id="combo-box-demo"
+                              options={select.BU}
+                              // sx={{ width: 300 }}
+                              fullWidth
+                              defaultValue={bu && bu.Name}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label="Seleccionar BU"
+                                  variant="outlined"
+                                  required
+                                />
+                              )}
+                              onChange={(e, newValue) => {
+                                handleChangeAreas(newValue);
+                              }}
+                            />
+                          </FormGroup>
+
+                          <FormGroup className="col-6">
+                            <Autocomplete
+                              disablePortal
+                              id="combo-box-demo"
+                              options={select.Areas}
+                              // sx={{ width: 300 }}
+                              fullWidth
+                              defaultValue={areas && areas.Name}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label="Seleccionar Área"
+                                  variant="outlined"
+                                  required
+                                />
+                              )}
+                              onChange={(e, newValue) => {
+                                handleChangeAreas(newValue);
+                              }}
+                            />
+                          </FormGroup>
+
+                          <FormGroup className="col-6">
+                            <Autocomplete
+                              disablePortal
+                              id="combo-box-demo"
+                              options={select.SubArea}
+                              // sx={{ width: 300 }}
+                              fullWidth
+                              defaultValue={SubArea && SubArea.Name}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label="Seleccionar Subárea"
+                                  variant="outlined"
+                                  required
+                                />
+                              )}
+                              onChange={(e, newValue) => {
+                                handleChangeSubArea(newValue);
+                              }}
+                            />
+                          </FormGroup>
+
+                          <FormGroup className="col-12">
+                            {/* Para obtener el correo */}
+                            <TextField
+                              label="Correo de la Planta"
+                              className="form-control"
+                              variant="outlined"
+                              name="code" //--------- CORREO  --------
+                              value={
+                                equipoSeleccionado && equipoSeleccionado.code
+                              }
+                              onChange={handleChange}
+                            />
+                          </FormGroup>
+
+                          <br />
+
+                          {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
+                          <FormGroup className="row justify-content-between align-items-center">
+                            <Grid
+                              xs={4}
+                              className="d-flex justify-content-start"
+                            >
+                              <Button
+                                color="secondary"
+                                className="d-none"
+                                onClick={() => backForm()}
+                              >
+                                Consulta de Equipos
+                                <ArrowBackIcon />
+                              </Button>
+                            </Grid>
+                            <Grid
+                              xs={4}
+                              className="d-flex justify-content-center"
+                            >
+                              {" "}
+                              <Pagination
+                                count={4}
+                                hidePrevButton
+                                hideNextButton
+                                defaultPage={1}
+                                size="small"
+                                color="primary"
+                                disabled
+                              />
+                            </Grid>
+                            <Grid xs={4} className="d-flex justify-content-end">
+                              <Button
+                                style={{
+                                  color:
+                                    theme.palette.type === "dark"
+                                      ? "#ffffff"
+                                      : "#000000",
+                                }}
+                                onClick={() => nextForm()}
+                              >
+                                Información técnica
+                                <ArrowForwardIcon />
+                              </Button>
+                            </Grid>
+
+                            {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
+                          </FormGroup>
+                        </ModalBody>
+                      </>
+                    )}
+                  </>
+                )}
+              </ModalBody>
+            </>
+          )}
+
+          {formStep === 2 && ( // Informacion Tecnica
+            <>
+              <div className="p-3">
+                <h4
+                  style={{
+                    color:
+                      theme.palette.type === "dark"
+                        ? theme.palette.primary.light
+                        : theme.palette.secondary,
+                  }}
+                >
+                  Información técnica
+                </h4>
+              </div>
+
+              <ModalBody className="row animate__animated animate__fadeIn">
+                <FormGroup className="col-8">
+                  <label>Equipo:</label>
+                  <input
+                    className="form-control"
+                    type="text text-align=center"
+                    name="Name"
+                    value={equipoSeleccionado && equipoSeleccionado.Name}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+
+                <FormGroup className="col-4">
+                  <label>Trabajo actual:</label>
+                  <select
+                    className="form-select "
+                    style={{ margin: "0px !important" }}
+                    name="currentWorking"
+                    value={
+                      technicalInformation &&
+                      technicalInformation.currentWorking
+                    }
+                    onChange={handleChange}
+                  >
+                    <option value="">Seleccione Trabajo actual</option>
+                    <option value="Installed and is working">
+                      Instalado y funcionando
+                    </option>
+                    <option value="Installed and is not working">
+                      Instalado y no funciona
+                    </option>
+                    <option value="Not Installed and is not working">
+                      No esta instalado
+                    </option>
+                  </select>
+                </FormGroup>
+
+                {/* <FormGroup className="col-4">
                     <label htmlFor="CurrentConditions">
                       Condición actual:
                     </label>
@@ -3227,171 +3314,161 @@ const ConsultaEquipos = ({ history }) => {
                       <option value="Deshecho"> Deshecho </option>
 
                     </select>
-                  </FormGroup>
+                  </FormGroup> */}
 
-                  <FormGroup className="col-4">
-                    <label>Tipo de equipo:</label>
-                    <select
-                      className="form-select "
-                      name="EquipmentType"
-                      value={
-                        technicalInformation &&
-                        technicalInformation.EquipmentType
-                      }
-                      onChange={handleChange}
-                    >
-                      <option value="">Select Equipment Type</option>
-                      <option value="Automation / Electronic">
-                        Automatización / Electrónico
-                      </option>
-                      <option value="Electrical">Electrico</option>
-                      <option value="Mechanical">Mecánico</option>
-                    </select>
-                  </FormGroup>
+                <FormGroup className="col-4">
+                  <label>Tipo de equipo:</label>
+                  <select
+                    className="form-select "
+                    name="EquipmentType"
+                    value={
+                      technicalInformation && technicalInformation.EquipmentType
+                    }
+                    onChange={handleChange}
+                  >
+                    <option value="">Select Equipment Type</option>
+                    <option value="Automation / Electronic">
+                      Automatización / Electrónico
+                    </option>
+                    <option value="Electrical">Electrico</option>
+                    <option value="Mechanical">Mecánico</option>
+                  </select>
+                </FormGroup>
 
-                  <FormGroup className="col-4">
-                    <label>Número de serial:</label>
-                    <input
-                      className="form-control"
-                      type="text text-align=center"
-                      name="SerialNumber"
-                      value={
-                        technicalInformation &&
-                        technicalInformation.SerialNumber
-                      }
-                      onChange={handleChange}
-                    />
-                  </FormGroup>
-
-                  <FormGroup className="col-4">
-                    <label>Número de modelo:</label>
-                    <input
-                      className="form-control"
-                      type="text text-align=center"
-                      name="ModelNumber"
-                      value={
-                        technicalInformation &&
-                        technicalInformation.ModelNumber
-                      }
-                      onChange={handleChange}
-                    />
-                  </FormGroup>
-
-                  <FormGroup className="col-4">
-                    <label>Peso:</label>
-                    <input
-                      className="form-control"
-                      type="text text-align=center"
-                      name="Weight"
-                      value={
-                        technicalInformation && technicalInformation.Weight
-                      }
-                      onChange={handleChange}
-                    />
-                  </FormGroup>
-
-                  <FormGroup className="col-4">
-                    <label>OEM:</label>
-                    <input
-                      className="form-control"
-                      type="text text-align=center"
-                      name="OEM"
-                      value={
-                        technicalInformation && technicalInformation.OEM
-                      }
-                      onChange={handleChange}
-                    />
-                  </FormGroup>
-
-                  <FormGroup className="col-4">
-                    <label>Vendedor:</label>
-                    <input
-                      className="form-control"
-                      type="text text-align=center"
-                      name="vendor"
-                      value={
-                        technicalInformation && technicalInformation.vendor
-                      }
-                      onChange={handleChange}
-                    />
-                  </FormGroup>
-
-                  <FormGroup className="col-4">
-                    <label>Descripción:</label>
-                    <input
-                      className="form-control"
-                      type="text text-align=center"
-                      name="Description"
-                      value={
-                        technicalInformation &&
-                        technicalInformation.Description
-                      }
-                      onChange={handleChange}
-                    />
-                  </FormGroup>
-
-                  <hr />
-                  {/* -------------------------------       ADD NEW TECHNICAL INFORMATION        ------------------------------------------ */}
-                  <OptionalInfo
-                    optionalTechInfo={optionalTechInfo}
-                    handleChangeOptionalInfo={handleChangeOptionalInfo}
-                    light={light}
+                <FormGroup className="col-4">
+                  <label>Número de serial:</label>
+                  <input
+                    className="form-control"
+                    type="text text-align=center"
+                    name="SerialNumber"
+                    value={
+                      technicalInformation && technicalInformation.SerialNumber
+                    }
+                    onChange={handleChange}
                   />
+                </FormGroup>
 
-                  {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
+                <FormGroup className="col-4">
+                  <label>Número de modelo:</label>
+                  <input
+                    className="form-control"
+                    type="text text-align=center"
+                    name="ModelNumber"
+                    value={
+                      technicalInformation && technicalInformation.ModelNumber
+                    }
+                    onChange={handleChange}
+                  />
+                </FormGroup>
 
-                  <FormGroup className="row align-items-center justify-content-between">
-                    <Grid xs={4} className="d-flex justify-content-start ">
-                      <Button
-                        color="secundary"
-                        onClick={() => {
-                          backForm();
-                        }}
-                      >
-                        <ArrowBackIcon />
-                        Consulta Equipos
-                      </Button>
-                    </Grid>
-                    <Grid xs={4} className="d-flex justify-content-center">
-                      {" "}
-                      <Pagination
-                        count={4}
-                        hidePrevButton
-                        hideNextButton
-                        defaultPage={2}
-                        size="small"
-                        color="primary"
-                        disabled
-                      />
-                    </Grid>
-                    <Grid xs={4} className="d-flex justify-content-end ">
-                      <Button
-                        color="secundary"
-                        onClick={() => {
-                          nextForm();
-                          setCasoServInfo("Edit");
-                          setId(null);
-                        }}
-                      >
-                        Información de servicios
-                        <ArrowForwardIcon />
-                      </Button>
-                    </Grid>
-                    {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
-                  </FormGroup>
-                </ModalBody>
-              </>
-            )
-          }
+                <FormGroup className="col-4">
+                  <label>Peso:</label>
+                  <input
+                    className="form-control"
+                    type="text text-align=center"
+                    name="Weight"
+                    value={technicalInformation && technicalInformation.Weight}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
 
-          {
-            formStep === 3 && ( // Informacion de servicio
-              <ServiceInformation
-                handleChangeServicesInformation={handleChangeServicesInformation}
-                servicesInformation={servicesInformation}
-                light={light}
-                backForm={backForm}
-                nextForm={nextForm}
+                <FormGroup className="col-4">
+                  <label>OEM:</label>
+                  <input
+                    className="form-control"
+                    type="text text-align=center"
+                    name="OEM"
+                    value={technicalInformation && technicalInformation.OEM}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+
+                <FormGroup className="col-4">
+                  <label>Vendedor:</label>
+                  <input
+                    className="form-control"
+                    type="text text-align=center"
+                    name="vendor"
+                    value={technicalInformation && technicalInformation.vendor}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+
+                <FormGroup className="col-4">
+                  <label>Descripción:</label>
+                  <input
+                    className="form-control"
+                    type="text text-align=center"
+                    name="Description"
+                    value={
+                      technicalInformation && technicalInformation.Description
+                    }
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+
+                <hr />
+                {/* -------------------------------       ADD NEW TECHNICAL INFORMATION        ------------------------------------------ */}
+                <Calification light={light} />
+
+                <OptionalInfo
+                  optionalTechInfo={optionalTechInfo}
+                  handleChangeOptionalInfo={handleChangeOptionalInfo}
+                  light={light}
+                />
+
+                {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
+
+                <FormGroup className="row align-items-center justify-content-between">
+                  <Grid xs={4} className="d-flex justify-content-start ">
+                    <Button
+                      color="secundary"
+                      onClick={() => {
+                        backForm();
+                      }}
+                    >
+                      <ArrowBackIcon />
+                      Consulta Equipos
+                    </Button>
+                  </Grid>
+                  <Grid xs={4} className="d-flex justify-content-center">
+                    {" "}
+                    <Pagination
+                      count={4}
+                      hidePrevButton
+                      hideNextButton
+                      defaultPage={2}
+                      size="small"
+                      color="primary"
+                      disabled
+                    />
+                  </Grid>
+                  <Grid xs={4} className="d-flex justify-content-end ">
+                    <Button
+                      color="secundary"
+                      onClick={() => {
+                        nextForm();
+                        setCasoServInfo("Edit");
+                        setId(null);
+                      }}
+                    >
+                      Información de servicios
+                      <ArrowForwardIcon />
+                    </Button>
+                  </Grid>
+                  {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
+                </FormGroup>
+              </ModalBody>
+            </>
+          )}
+
+          {formStep === 3 && ( // Informacion de servicio
+            <ServiceInformation
+              handleChangeServicesInformation={handleChangeServicesInformation}
+              servicesInformation={servicesInformation}
+              light={light}
+              backForm={backForm}
+              nextForm={nextForm}
               // casoServInfo={casoServInfo}
               // setEditingTechInfo={setEditingTechInfo}
               // equipoSeleccionado={equipoSeleccionado}
@@ -3400,21 +3477,18 @@ const ConsultaEquipos = ({ history }) => {
               // setEditingServiceInfo={setEditingServiceInfo}
               // seteditingNewServInfo={seteditingNewServInfo}
               // setnewservInformation={setnewservInformation}
-              />
-            )
-          }
-          {
-            formStep === 4 && ( // Informacion financiera
-              <FinancialInfo
-                financialInformation={financialInformation}
-                handleChangeFinancialInfo={handleChangeFinancialInfo}
-                backForm={backForm}
-                nextForm={nextForm}
-                light={light}
-                fecha={fecha}
-              />
-            )
-          }
+            />
+          )}
+          {formStep === 4 && ( // Informacion financiera
+            <FinancialInfo
+              financialInformation={financialInformation}
+              handleChangeFinancialInfo={handleChangeFinancialInfo}
+              backForm={backForm}
+              nextForm={nextForm}
+              light={light}
+              fecha={fecha}
+            />
+          )}
 
           {/* -------------------------    BOTONES gAR Y CANCELAR    ------------------------------- */}
 
@@ -3493,38 +3567,6 @@ const ConsultaEquipos = ({ history }) => {
           </ModalFooter>
         </Modal>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         {/*============================= Modal Eliminar =========================================*/}
 
         <Modal isOpen={modalEliminar}>
@@ -3579,7 +3621,6 @@ const ConsultaEquipos = ({ history }) => {
           </ModalFooter>
         </Modal>
 
-
         {/*============================= Modal Insertar por excel =========================================*/}
 
         <Modal isOpen={modalInsertarExcel}>
@@ -3594,10 +3635,6 @@ const ConsultaEquipos = ({ history }) => {
             setListAll={setListAll}
           />
         </Modal>
-
-
-
-
 
         {/*================================================ Modal Insertar - Crear Nuevo Equipo =================================================*/}
 
@@ -3623,158 +3660,159 @@ const ConsultaEquipos = ({ history }) => {
             </div>
           </ModalHeader>
 
-          {
-            formStepInsertar === 1 && ( // ----------- Insertar Registros - Ubicacion
+          {formStepInsertar === 1 && ( // ----------- Insertar Registros - Ubicacion
+            <div>
+              {/* -----------------------------------           Insertar Registros        ------------------------------------------- */}
               <div>
-                {/* -----------------------------------           Insertar Registros        ------------------------------------------- */}
-                <div>
-                  <h6
-                    style={{
-                      color:
-                        theme.palette.type === "dark"
-                          ? theme.palette.primary.light
-                          : theme.palette.secondary,
-                    }}
+                <h6
+                  style={{
+                    color:
+                      theme.palette.type === "dark"
+                        ? theme.palette.primary.light
+                        : theme.palette.secondary,
+                  }}
+                >
+                  Detalles Generales
+                </h6>
+              </div>
+
+              <ModalBody className="row text-align-center justify-content-center animate__animated animate__fadeIn">
+                <FormGroup>
+                  {/* -------------------------       Subir Imagen        ------------------ */}
+                  <div
+                    id="imagen"
+                    className="justify-content-center text-center animate__animated animate__fadeInLeft agregar-imagen"
+                    style={{ maxWidth: 380, alignContent: "center" }}
                   >
-                    Detalles Generales
-                  </h6>
-                </div>
+                    {loading ? (
+                      <h3 className="aling-items-center">Loading...</h3>
+                    ) : (
+                      <>
+                        <img
+                          src={equipoSeleccionado.img}
+                          style={{ width: "380px" }}
+                          alt=""
+                        />
+                      </>
+                    )}
+                  </div>
 
-                <ModalBody className="row text-align-center justify-content-center animate__animated animate__fadeIn">
-                  <FormGroup>
-                    {/* -------------------------       Subir Imagen        ------------------ */}
-                    <div
-                      id="imagen"
-                      className="justify-content-center text-center animate__animated animate__fadeInLeft agregar-imagen"
-                      style={{ maxWidth: 380, alignContent: "center" }}
-                    >
-                      {loading ? (
-                        <h3 className="aling-items-center">Loading...</h3>
-                      ) : (
-                        <>
-                          <img
-                            src={equipoSeleccionado.img}
-                            style={{ width: "380px" }}
-                            alt=""
-                          />
-                        </>
-                      )}
-                    </div>
+                  <div
+                    id="imagen"
+                    className="mt-2 justify-content-center text-center animate__animated animate__fadeInLeft"
+                    style={{ alignContent: "center" }}
+                  >
+                    <input
+                      accept="image/*"
+                      id="icon-button-file"
+                      type="file"
+                      style={{ display: "none" }}
+                      onChange={uploadImage}
+                    />
 
-                    <div
-                      id="imagen"
-                      className="mt-2 justify-content-center text-center animate__animated animate__fadeInLeft"
-                      style={{ alignContent: "center" }}
-                    >
-                      <input
-                        accept="image/*"
-                        id="icon-button-file"
-                        type="file"
-                        style={{ display: "none" }}
-                        onChange={uploadImage}
-                      />
+                    <label htmlFor="icon-button-file">
+                      <Button
+                        aria-label="upload picture"
+                        variant="outlined"
+                        color="primary"
+                        size="large"
+                        component="span"
+                      >
+                        <PhotoCamera fontSize="large" /> Agregar imagen
+                      </Button>
+                    </label>
 
-                      <label htmlFor="icon-button-file">
-                        <Button
-                          aria-label="upload picture"
-                          variant="outlined"
-                          color="primary"
-                          size="large"
-                          component="span"
-                        >
-                          <PhotoCamera fontSize="large" /> Agregar imagen
-                        </Button>
-                      </label>
-
-                      {/* <input
+                    {/* <input
                         type="file"
                         name="file"
                         placeholder="Upload an image"
                         onChange={uploadImage}
                        > */}
-                    </div>
+                  </div>
+                </FormGroup>
+
+                <form onSubmit={handleSubmit(onSubmit)} className="row">
+                  <FormGroup className="col-6">
+                    {/* <label>Id:</label>
+                      <input
+                        className="form-control"
+                        readOnly
+                        type="text text-align=center"
+                        name="Id_Equipment"
+                        value={getAllList.length + 1}
+                      /> */}
+
+                    <TextField
+                      readOnly
+                      label="Id"
+                      className="form-control"
+                      variant="outlined"
+                      name="Id_Equipment"
+                      value={getAllList.length + 1}
+                      // fullWidth
+                    />
                   </FormGroup>
 
-                  <form onSubmit={handleSubmit(onSubmit)} className="row">
-
-                    <FormGroup className="col-6">
-                      {/* <label>Id:</label>
+                  <FormGroup className="col-6">
+                    {/* <label>Número de línea:</label>
                       <input
                         className="form-control"
-                        readOnly
                         type="text text-align=center"
-                        name="Id_Equipment"
-                        value={getAllList.length + 1}
+                        name="number"
+                        value={line ? line.number : ""}
+                        onChange={handleChangeLine}
+                        required
                       /> */}
 
-                      <TextField
-                        readOnly
-                        label="Id"
-                        className="form-control"
-                        variant="outlined"
-                        name="Id_Equipment"
-                        value={getAllList.length + 1}
+                    <TextField
+                      label="Número de línea"
+                      className="form-control"
+                      variant="outlined"
+                      name="number"
+                      required
+                      error={errorLineNumber}
+                      helperText={leyendaErrorLineNumber}
                       // fullWidth
-                      />
-                    </FormGroup>
+                      value={line ? line.number : ""}
+                      onChange={handleChangeLine}
+                    />
+                  </FormGroup>
 
-                    <FormGroup className="col-6">
-                      {/* <label>Número de línea:</label>
-                      <input
-                        className="form-control"
-                        type="text text-align=center"
-                        name="number"
-                        value={line ? line.number : ""}
-                        onChange={handleChangeLine}
-                        required
-                      /> */}
-
-                      <TextField
-                        label="Número de línea"
-                        className="form-control"
-                        variant="outlined"
-                        name="number"
-                        required
-                        error={errorLineNumber}
-                        helperText={leyendaErrorLineNumber}
-                        // fullWidth
-                        value={line ? line.number : ""}
-                        onChange={handleChangeLine}
-                      />
-                    </FormGroup>
-
-                    <FormGroup className="col-6">
-                      {/* <div className="dropdown">
+                  <FormGroup className="col-6">
+                    {/* <div className="dropdown">
                         <div className="control">
                         <div className="select-value">Seleccionar Planta...</div>
                         </div>
                       </div> */}
 
-                      {/* ----------------------------------------------------------------------------------- */}
+                    {/* ----------------------------------------------------------------------------------- */}
 
-                      <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={select.Planta}
-                        // sx={{ width: 300 }}
-                        fullWidth
-                        name="operation"
-                        defaultValue={operations ? operations.Name : null}
-                        renderInput={(params) =>
-                          <TextField
-                            {...params}
-                            error={errorPlanta}
-                            helperText={leyendaErrorPlanta}
-                            label="Seleccione Planta"
-                            variant="outlined"
-                            required
-                          />}
-                        onChange={(e, newValue) => { handleChangeOperations(newValue) }}
-                      />
+                    <Autocomplete
+                      disablePortal
+                      id="combo-box-demo"
+                      options={select.Planta}
+                      // sx={{ width: 300 }}
+                      fullWidth
+                      name="operation"
+                      defaultValue={operations ? operations.Name : null}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={errorPlanta}
+                          helperText={leyendaErrorPlanta}
+                          label="Seleccione Planta"
+                          variant="outlined"
+                          required
+                        />
+                      )}
+                      onChange={(e, newValue) => {
+                        handleChangeOperations(newValue);
+                      }}
+                    />
 
-                      {/* ----------------------------------------------------------------------------------- */}
+                    {/* ----------------------------------------------------------------------------------- */}
 
-                      {/* <label>
+                    {/* <label>
                         Planta <b className="text-danger">*</b>
                       </label>
                       <select
@@ -3865,38 +3903,42 @@ const ConsultaEquipos = ({ history }) => {
                         </option>
                       </select> */}
 
-                      {/* {
+                    {/* {
                           operationsList.map((elemento) => (
                           <option value={elemento.Id_Operations}>{elemento.Name}</option>
                           ))
                         } */}
-                    </FormGroup>
+                  </FormGroup>
 
-                    <FormGroup className="col-6">
-                      {/* ----------------------------------------------------------------------------------- */}
-                      <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={select.TipoLinea}
-                        // sx={{ width: 300 }}
-                        fullWidth
-                        defaultValue={lineTypes && lineTypes.Name}
-                        renderInput={(params) => <
-                          TextField
+                  <FormGroup className="col-6">
+                    {/* ----------------------------------------------------------------------------------- */}
+                    <Autocomplete
+                      disablePortal
+                      id="combo-box-demo"
+                      options={select.TipoLinea}
+                      // sx={{ width: 300 }}
+                      fullWidth
+                      defaultValue={lineTypes && lineTypes.Name}
+                      renderInput={(params) => (
+                        <TextField
                           {...params}
                           label="Seleccione Tipo de Línea"
-                          required variant="outlined"
+                          required
+                          variant="outlined"
                           error={errorLineTypes}
                           helperText={leyendaErrorLineTypes}
-                        />}
-                        onChange={(e, newValue) => { handleChangeLineTypes(newValue) }}
-                      />
-                      {/* ----------------------------------------------------------------------------------- */}
+                        />
+                      )}
+                      onChange={(e, newValue) => {
+                        handleChangeLineTypes(newValue);
+                      }}
+                    />
+                    {/* ----------------------------------------------------------------------------------- */}
 
-                      {/* // value={lineTypes ? lineTypes : ""}
+                    {/* // value={lineTypes ? lineTypes : ""}
                           // onChange={handleChangeLineTypes} */}
 
-                      {/* <label htmlFor="lineType">
+                    {/* <label htmlFor="lineType">
                         Tipo de línea <b className="text-danger">*</b>
                       </label>
                       <select
@@ -3914,36 +3956,38 @@ const ConsultaEquipos = ({ history }) => {
                         <option value="OTHER">OTHER</option>
                       </select> */}
 
-                      {/* {lineTypeList.map((elemento) => (
+                    {/* {lineTypeList.map((elemento) => (
                         <option value={elemento.Name}>{elemento.Name}</option>
                         ))
                       } */}
-                    </FormGroup>
+                  </FormGroup>
 
-                    <FormGroup className="col-6">
-                      {/* ----------------------------------------------------------------------------------- */}
-                      <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={select.Pais}
-                        // sx={{ width: 300 }}
-                        fullWidth
-                        defaultValue={countries && countries.Name}
-                        renderInput={(params) => <
-                          TextField
+                  <FormGroup className="col-6">
+                    {/* ----------------------------------------------------------------------------------- */}
+                    <Autocomplete
+                      disablePortal
+                      id="combo-box-demo"
+                      options={select.Pais}
+                      // sx={{ width: 300 }}
+                      fullWidth
+                      defaultValue={countries && countries.Name}
+                      renderInput={(params) => (
+                        <TextField
                           {...params}
                           label="Seleccione País"
                           variant="outlined"
                           required
                           error={errorCountries}
                           helperText={leyendaErrorCountries}
-                        />}
-                        onChange={(e, newValue) => { handleChangeCountries(newValue) }}
-                      />
-                      {/* ----------------------------------------------------------------------------------- */}
+                        />
+                      )}
+                      onChange={(e, newValue) => {
+                        handleChangeCountries(newValue);
+                      }}
+                    />
+                    {/* ----------------------------------------------------------------------------------- */}
 
-
-                      {/* <label>
+                    {/* <label>
                         País <b className="text-danger">*</b>
                       </label>
                       <select
@@ -3967,14 +4011,14 @@ const ConsultaEquipos = ({ history }) => {
                         <option value="SAINT VINCENT">SAINT VINCENT</option>
                       </select> */}
 
-                      {/* {paisLis.map((elemento) => (
+                    {/* {paisLis.map((elemento) => (
                         <option value={elemento.Id_Countries}>{elemento.Name}</option>
                         ))
                       } */}
-                    </FormGroup>
+                  </FormGroup>
 
-                    <FormGroup className="col-6">
-                      {/* <label>
+                  <FormGroup className="col-6">
+                    {/* <label>
                         BU <b className="text-danger">*</b>
                       </label>
                       <select
@@ -3989,37 +4033,40 @@ const ConsultaEquipos = ({ history }) => {
                         <option value="MEX">MEX</option>
                       </select> */}
 
-                      {/* ------------------------------------------------   SELECT DESDE LA BASE DE DATOS   ------------------------------------ */}
-                      {/* {
+                    {/* ------------------------------------------------   SELECT DESDE LA BASE DE DATOS   ------------------------------------ */}
+                    {/* {
                         buList.map((elemento) => (
                         <option value={elemento.Id_BU}>{elemento.Name}</option>
                         ))
                       } */}
 
-                      {/* ----------------------------------------------------------------------------------- */}
-                      <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={select.BU}
-                        // sx={{ width: 300 }}
-                        fullWidth
-                        defaultValue={bu && bu.Name}
-                        renderInput={(params) => <
-                          TextField
+                    {/* ----------------------------------------------------------------------------------- */}
+                    <Autocomplete
+                      disablePortal
+                      id="combo-box-demo"
+                      options={select.BU}
+                      // sx={{ width: 300 }}
+                      fullWidth
+                      defaultValue={bu && bu.Name}
+                      renderInput={(params) => (
+                        <TextField
                           {...params}
                           label="Seleccione BU"
                           variant="outlined"
                           required
                           error={errorBU}
                           helperText={leyendaErrorBU}
-                        />}
-                        onChange={(e, newValue) => { handleChangeBu(newValue) }}
-                      />
-                      {/* ----------------------------------------------------------------------------------- */}
-                    </FormGroup>
+                        />
+                      )}
+                      onChange={(e, newValue) => {
+                        handleChangeBu(newValue);
+                      }}
+                    />
+                    {/* ----------------------------------------------------------------------------------- */}
+                  </FormGroup>
 
-                    <FormGroup className="col-6">
-                      {/* <label htmlFor="area">
+                  <FormGroup className="col-6">
+                    {/* <label htmlFor="area">
                         Area <b className="text-danger">*</b>
                       </label>
                       <select
@@ -4095,37 +4142,40 @@ const ConsultaEquipos = ({ history }) => {
                         <option value="SUBPRODUCTS">SUBPRODUCTS</option>
                       </select> */}
 
-                      {/* {
+                    {/* {
                         areaList.map((elemento) => (
                         <option value={elemento.Id_Areas}>{elemento.Name}</option>
                         ))
                         } */}
 
-                      {/* ----------------------------------------------------------------------------------- */}
-                      <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={select.Areas}
-                        // sx={{ width: 300 }}
-                        fullWidth
-                        defaultValue={areas && areas.Name}
-                        renderInput={(params) => <
-                          TextField
+                    {/* ----------------------------------------------------------------------------------- */}
+                    <Autocomplete
+                      disablePortal
+                      id="combo-box-demo"
+                      options={select.Areas}
+                      // sx={{ width: 300 }}
+                      fullWidth
+                      defaultValue={areas && areas.Name}
+                      renderInput={(params) => (
+                        <TextField
                           {...params}
                           label="Seleccione Area"
                           variant="outlined"
                           required
                           error={errorAreas}
                           helperText={leyendaErrorAreas}
-                        />}
-                        onChange={(e, newValue) => { handleChangeAreas(newValue) }}
-                      />
+                        />
+                      )}
+                      onChange={(e, newValue) => {
+                        handleChangeAreas(newValue);
+                      }}
+                    />
 
-                      {/* ----------------------------------------------------------------------------------- */}
-                    </FormGroup>
+                    {/* ----------------------------------------------------------------------------------- */}
+                  </FormGroup>
 
-                    <FormGroup className="col-6">
-                      {/* <label htmlFor="Subarea"> Subárea <b className="text-danger">*</b> </label>
+                  <FormGroup className="col-6">
+                    {/* <label htmlFor="Subarea"> Subárea <b className="text-danger">*</b> </label>
                       <select
                         className="form-select SelectBoostrap"
                         name="Name"
@@ -4144,32 +4194,36 @@ const ConsultaEquipos = ({ history }) => {
                         <option value="NO DATA AVAILABLE"> No data available </option>
                       </select> */}
 
-                      {/* {subareaList.map((elemento) => (
+                    {/* {subareaList.map((elemento) => (
                       <option value={elemento.Id_SubAreas}>{elemento.Name}</option>
                       )) } */}
 
-                      {/* ----------------------------------------------------------------------------------- */}
-                      <Autocomplete disablePortal
-                        id="combo-box-demo"
-                        options={select.SubArea}
-                        // sx={{ width: 300 }}
-                        fullWidth
-                        defaultValue={SubArea && SubArea.Name}
-                        renderInput={(params) => <
-                          TextField
+                    {/* ----------------------------------------------------------------------------------- */}
+                    <Autocomplete
+                      disablePortal
+                      id="combo-box-demo"
+                      options={select.SubArea}
+                      // sx={{ width: 300 }}
+                      fullWidth
+                      defaultValue={SubArea && SubArea.Name}
+                      renderInput={(params) => (
+                        <TextField
                           {...params}
                           label="Seleccione Subárea"
                           variant="outlined"
                           required
                           error={errorSubArea}
                           helperText={leyendaErrorSubArea}
-                        />}
-                        onChange={(e, newValue) => { handleChangeSubArea(newValue) }}
-                      />
-                      {/* ----------------------------------------------------------------------------------- */}
-                    </FormGroup>
+                        />
+                      )}
+                      onChange={(e, newValue) => {
+                        handleChangeSubArea(newValue);
+                      }}
+                    />
+                    {/* ----------------------------------------------------------------------------------- */}
+                  </FormGroup>
 
-                    {/* <FormGroup className="col-12">
+                  {/* <FormGroup className="col-12">
                     <label>Correo de planta:</label>
                     <input
                     className="form-control"
@@ -4180,22 +4234,21 @@ const ConsultaEquipos = ({ history }) => {
                       />
                     </FormGroup> */}
 
-                    <FormGroup className="col-12">
-                      {/* Para obtener el correo */}
-                      <TextField
-                        label="Correo de la planta"
-                        className="form-control"
-                        variant="outlined"
-                        name="code"
-                        required
-                        fullWidth
-                        value={equipoSeleccionado ? equipoSeleccionado.code : ""}
-                        onChange={handleChange}
-                      />
+                  <FormGroup className="col-12">
+                    {/* Para obtener el correo */}
+                    <TextField
+                      label="Correo de la planta"
+                      className="form-control"
+                      variant="outlined"
+                      name="code"
+                      required
+                      fullWidth
+                      value={equipoSeleccionado ? equipoSeleccionado.code : ""}
+                      onChange={handleChange}
+                    />
+                  </FormGroup>
 
-                    </FormGroup>
-
-                    {/* <FormGroup className="col-6">
+                  {/* <FormGroup className="col-6">
                     <label>Subárea:</label>
                     <input
                     className="form-control"
@@ -4205,7 +4258,7 @@ const ConsultaEquipos = ({ history }) => {
                     onChange={handleChange} />
                     </FormGroup> */}
 
-                    {/* <div>
+                  {/* <div>
 
                       <Button type="submit"
                           style={{
@@ -4219,61 +4272,59 @@ const ConsultaEquipos = ({ history }) => {
                       </Button>
                     </div> */}
 
-                    {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
-                    <FormGroup className="row align-items-center justify-content-between">
-
-                      <Grid xs={4}>
-                        <Button
-                          className="d-none"
-                          color="secondary"
-                          onClick={() => setEditing(false)}
-                        >
-                          <ArrowBackIcon />
-                        </Button>
-                      </Grid>
-                      <Grid xs={4} className="d-flex justify-content-center">
-                        {" "}
-                        <Pagination
-                          count={4}
-                          hidePrevButton
-                          hideNextButton
-                          defaultPage={1}
-                          size="small"
-                          color="primary"
-                          disabled
-                        />
-                      </Grid>
-                      <Grid
-                        xs={4}
-                        className="d-flex justify-content-end align-items-center"
+                  {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
+                  <FormGroup className="row align-items-center justify-content-between">
+                    <Grid xs={4}>
+                      <Button
+                        className="d-none"
+                        color="secondary"
+                        onClick={() => setEditing(false)}
                       >
-                        <Button
-                          type="submit"
-                          style={{
-                            color:
-                              theme.palette.type === "dark"
-                                ? "#ffffff"
-                                : "#000000",
-                          }}
-                          onClick={() => {
-                            // nextForm();
-                            // setEditing(true);
-                            // setEditingTechInfo(false);
-                            // setFormStepInsertar(2);
-                          }}
-                        >
-                          {" "}
-                          Información Técnica
-                          <ArrowForwardIcon />
-                        </Button>
-                      </Grid>
+                        <ArrowBackIcon />
+                      </Button>
+                    </Grid>
+                    <Grid xs={4} className="d-flex justify-content-center">
+                      {" "}
+                      <Pagination
+                        count={4}
+                        hidePrevButton
+                        hideNextButton
+                        defaultPage={1}
+                        size="small"
+                        color="primary"
+                        disabled
+                      />
+                    </Grid>
+                    <Grid
+                      xs={4}
+                      className="d-flex justify-content-end align-items-center"
+                    >
+                      <Button
+                        type="submit"
+                        style={{
+                          color:
+                            theme.palette.type === "dark"
+                              ? "#ffffff"
+                              : "#000000",
+                        }}
+                        onClick={() => {
+                          // nextForm();
+                          // setEditing(true);
+                          // setEditingTechInfo(false);
+                          // setFormStepInsertar(2);
+                        }}
+                      >
+                        {" "}
+                        Información Técnica
+                        <ArrowForwardIcon />
+                      </Button>
+                    </Grid>
 
-                      {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
-                    </FormGroup>
+                    {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
+                  </FormGroup>
+                </form>
 
-                  </form>
-
-                  {/* <ModalFooter>
+                {/* <ModalFooter>
                                         <Button type="submit" color='primary' onClick={() => insertar()}>Insertar</Button>
                                         <Button color='danger'
                                             onClick={() => {
@@ -4284,32 +4335,27 @@ const ConsultaEquipos = ({ history }) => {
                                                 setEditingServiceInfo(false)
                                             }}>Cancelar</Button>
                                     </ModalFooter> */}
-                </ModalBody>
-
+              </ModalBody>
+            </div>
+          )}
+          {formStepInsertar === 2 && ( // ---------- Información técnica
+            <>
+              <div className="p-3">
+                <h4
+                  style={{
+                    color:
+                      theme.palette.type === "dark"
+                        ? theme.palette.primary.light
+                        : theme.palette.secondary,
+                  }}
+                >
+                  Información técnica
+                </h4>
               </div>
-            )
-          }
-          {
-            formStepInsertar === 2 && ( // ---------- Información técnica
-              <>
-                <div className="p-3">
-                  <h4
-                    style={{
-                      color:
-                        theme.palette.type === "dark"
-                          ? theme.palette.primary.light
-                          : theme.palette.secondary,
-                    }}
-                  >
-                    Información técnica
-                  </h4>
-                </div>
 
-                <ModalBody className="row animate__animated animate__fadeIn">
-
-                  <FormGroup className="col-4">
-
-                    {/* <label htmlFor="url_input">Equipo:</label>
+              <ModalBody className="row animate__animated animate__fadeIn">
+                <FormGroup className="col-4">
+                  {/* <label htmlFor="url_input">Equipo:</label>
                         <input
                           className="form-control"
                           required
@@ -4321,49 +4367,58 @@ const ConsultaEquipos = ({ history }) => {
                           onChange={handleChange}
                         /> */}
 
-                    <TextField
-                      label="Equipo"
-                      className="form-control"
+                  <TextField
+                    label="Equipo"
+                    className="form-control"
+                    variant="outlined"
+                    name="Name"
+                    required
+                    error={errorNombre}
+                    helperText={leyendaErrorNombre}
+                    value={equipoSeleccionado ? equipoSeleccionado.Name : ""}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+
+                <FormGroup className="col-4">
+                  <FormControl fullWidth>
+                    {/* error */}
+                    <InputLabel id="demo-simple-select">
+                      Trabajo actual
+                    </InputLabel>
+                    <Select
+                      name="currentWorking"
+                      labelId="demo-simple-select"
+                      // id="demo-simple-select"
+                      value={
+                        technicalInformation &&
+                        technicalInformation.currentWorking
+                      }
+                      label="Trabajo actual"
                       variant="outlined"
-                      name="Name"
                       required
-                      error={errorNombre}
-                      helperText={leyendaErrorNombre}
-                      value={equipoSeleccionado ? equipoSeleccionado.Name : ""}
                       onChange={handleChange}
-                    />
-
-
-                  </FormGroup>
-
-                  <FormGroup className="col-4">
-                    <FormControl fullWidth>
-                      {/* error */}
-                      <InputLabel id="demo-simple-select">Trabajo actual</InputLabel>
-                      <Select
-                        name="currentWorking"
-                        labelId="demo-simple-select"
-                        // id="demo-simple-select"
-                        value={technicalInformation && technicalInformation.currentWorking}
-                        label="Trabajo actual"
-                        variant="outlined"
-                        required
-                        onChange={handleChange}
                       // className="form-control"
                       // renderValue={(value) => `⭐  - ${value}` }
-                      >
-                        {/* // ⚠️ */}
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value="Installed and is working">Instalado y funcionando</MenuItem>
-                        <MenuItem value="Installed and is not working">Instalado y no trabajando</MenuItem>
-                        <MenuItem value="Not Installed and is not working">No instalado</MenuItem>
-                      </Select>
-                      {/* <FormHelperText>Error</FormHelperText> */}
-                    </FormControl>
+                    >
+                      {/* // ⚠️ */}
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value="Installed and is working">
+                        Instalado y funcionando
+                      </MenuItem>
+                      <MenuItem value="Installed and is not working">
+                        Instalado y no trabajando
+                      </MenuItem>
+                      <MenuItem value="Not Installed and is not working">
+                        No instalado
+                      </MenuItem>
+                    </Select>
+                    {/* <FormHelperText>Error</FormHelperText> */}
+                  </FormControl>
 
-                    {/* <label>Trabajo actual:</label>
+                  {/* <label>Trabajo actual:</label>
                         <select
                           className="form-select "
                           style={{ margin: "0px !important" }}
@@ -4379,41 +4434,47 @@ const ConsultaEquipos = ({ history }) => {
                           <option value="Installed and is not working"> Instalado y no trabajando </option>
                           <option value="Not Installed and is not working"> No instalado </option>
                         </select> */}
-                  </FormGroup>
+                </FormGroup>
 
-                  <FormGroup className="col-4">
-
-
-                    <FormControl fullWidth>
-                      {/* error */}
-                      <InputLabel id="demo-simple-select-label">Condición actual</InputLabel>
-                      <Select
-                        name="CurrentConditions"
-                        labelId="demo-simple-select-label"
-                        // id="demo-simple-select"
-                        value={technicalInformation ? technicalInformation.CurrentConditions : ""}
-                        label="Condición actual"
-                        variant="outlined"
-                        required
-                        onChange={handleChange}
+                <FormGroup className="col-4">
+                  <FormControl fullWidth>
+                    {/* error */}
+                    <InputLabel id="demo-simple-select-label">
+                      Condición actual
+                    </InputLabel>
+                    <Select
+                      name="CurrentConditions"
+                      labelId="demo-simple-select-label"
+                      // id="demo-simple-select"
+                      value={
+                        technicalInformation
+                          ? technicalInformation.CurrentConditions
+                          : ""
+                      }
+                      label="Condición actual"
+                      variant="outlined"
+                      required
+                      onChange={handleChange}
                       // className="form-control"
                       // renderValue={(value) => `⭐  - ${value}` }
-                      >
-                        {/* // ⚠️ */}
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value="Excellent">Excelente</MenuItem>
-                        <MenuItem value="Good">Bueno</MenuItem>
-                        <MenuItem value="Regular">Regular</MenuItem>
-                        <MenuItem value="Bad">Malo</MenuItem>
-                        <MenuItem value="To be disposed">Para ser desechado</MenuItem>
-                        <MenuItem value="Deshecho">Deshecho</MenuItem>
-                      </Select>
-                      {/* <FormHelperText>Error</FormHelperText> */}
-                    </FormControl>
+                    >
+                      {/* // ⚠️ */}
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value="Excellent">Excelente</MenuItem>
+                      <MenuItem value="Good">Bueno</MenuItem>
+                      <MenuItem value="Regular">Regular</MenuItem>
+                      <MenuItem value="Bad">Malo</MenuItem>
+                      <MenuItem value="To be disposed">
+                        Para ser desechado
+                      </MenuItem>
+                      <MenuItem value="Deshecho">Deshecho</MenuItem>
+                    </Select>
+                    {/* <FormHelperText>Error</FormHelperText> */}
+                  </FormControl>
 
-                    {/* <label htmlFor="CurrentConditions">
+                  {/* <label htmlFor="CurrentConditions">
                           Condición actual:
                         </label>
                         <select
@@ -4434,47 +4495,50 @@ const ConsultaEquipos = ({ history }) => {
                             Para ser desechado
                           </option>
                         </select> */}
-                  </FormGroup>
+                </FormGroup>
 
-                  <FormGroup className="col-4">
-                    <FormControl fullWidth>
-                      {/* error */}
-                      <InputLabel id="demo-simple-select">Tipo de equipo</InputLabel>
-                      <Select
-                        name="EquipmentType"
-                        labelId="demo-simple-select"
-                        // id="demo-simple-select"
-                        value={technicalInformation && technicalInformation.EquipmentType}
-                        label="Tipo de equipo"
-                        variant="outlined"
-                        required
-                        onChange={handleChange}
+                <FormGroup className="col-4">
+                  <FormControl fullWidth>
+                    {/* error */}
+                    <InputLabel id="demo-simple-select">
+                      Tipo de equipo
+                    </InputLabel>
+                    <Select
+                      name="EquipmentType"
+                      labelId="demo-simple-select"
+                      // id="demo-simple-select"
+                      value={
+                        technicalInformation &&
+                        technicalInformation.EquipmentType
+                      }
+                      label="Tipo de equipo"
+                      variant="outlined"
+                      required
+                      onChange={handleChange}
                       // className="form-control"
                       // renderValue={(value) => `⭐  - ${value}` }
-                      >
-                        {/* // ⚠️ */}
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value="Automation / Electronic">Automation / Electronic</MenuItem>
-                        <MenuItem value="Electrical">Electrical</MenuItem>
-                        <MenuItem value="Mechanical">Mechanical</MenuItem>
-                      </Select>
-                      {/* <FormHelperText>Error</FormHelperText> */}
-                    </FormControl>
+                    >
+                      {/* // ⚠️ */}
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value="Automation / Electronic">
+                        Automation / Electronic
+                      </MenuItem>
+                      <MenuItem value="Electrical">Electrical</MenuItem>
+                      <MenuItem value="Mechanical">Mechanical</MenuItem>
+                    </Select>
+                    {/* <FormHelperText>Error</FormHelperText> */}
+                  </FormControl>
 
-
-
-                    {/* <input
+                  {/* <input
                           className="form-control"
                           type="text text-align=center"
                           name="EquipmentType"
                           value={technicalInformation && technicalInformation.EquipmentType}
                         onChange={handleChange} /> */}
 
-
-
-                    {/* <label>Tipo de equipo:</label>
+                  {/* <label>Tipo de equipo:</label>
                         <select
                           className="form-select "
                           name="EquipmentType"
@@ -4491,22 +4555,24 @@ const ConsultaEquipos = ({ history }) => {
                           <option value="Electrical">Electrical</option>
                           <option value="Mechanical">Mechanical</option>
                         </select> */}
-                  </FormGroup>
+                </FormGroup>
 
-                  <FormGroup className="col-4">
-                    <TextField
-                      label="Número de serial"
-                      className="form-control"
-                      variant="outlined"
-                      name="SerialNumber"
-                      required
-                      // error={errorNombre}
-                      // helperText={leyendaErrorNombre}
-                      value={technicalInformation && technicalInformation.SerialNumber}
-                      onChange={handleChange}
-                    />
+                <FormGroup className="col-4">
+                  <TextField
+                    label="Número de serial"
+                    className="form-control"
+                    variant="outlined"
+                    name="SerialNumber"
+                    required
+                    // error={errorNombre}
+                    // helperText={leyendaErrorNombre}
+                    value={
+                      technicalInformation && technicalInformation.SerialNumber
+                    }
+                    onChange={handleChange}
+                  />
 
-                    {/* <label>Número de serial:</label>
+                  {/* <label>Número de serial:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -4517,22 +4583,24 @@ const ConsultaEquipos = ({ history }) => {
                           }
                           onChange={handleChange}
                         /> */}
-                  </FormGroup>
+                </FormGroup>
 
-                  <FormGroup className="col-4">
-                    <TextField
-                      label="Número de modelo"
-                      className="form-control"
-                      variant="outlined"
-                      name="ModelNumber"
-                      required
-                      // error={errorNombre}
-                      // helperText={leyendaErrorNombre}
-                      value={technicalInformation && technicalInformation.ModelNumber}
-                      onChange={handleChange}
-                    />
+                <FormGroup className="col-4">
+                  <TextField
+                    label="Número de modelo"
+                    className="form-control"
+                    variant="outlined"
+                    name="ModelNumber"
+                    required
+                    // error={errorNombre}
+                    // helperText={leyendaErrorNombre}
+                    value={
+                      technicalInformation && technicalInformation.ModelNumber
+                    }
+                    onChange={handleChange}
+                  />
 
-                    {/* <label>Número de modelo:</label>
+                  {/* <label>Número de modelo:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -4540,22 +4608,22 @@ const ConsultaEquipos = ({ history }) => {
                           value={ technicalInformation && technicalInformation.ModelNumber }
                           onChange={handleChange}
                         /> */}
-                  </FormGroup>
+                </FormGroup>
 
-                  <FormGroup className="col-4">
-                    <TextField
-                      label="Peso"
-                      className="form-control"
-                      variant="outlined"
-                      name="Weight"
-                      required
-                      // error={errorNombre}
-                      // helperText={leyendaErrorNombre}
-                      value={technicalInformation && technicalInformation.Weight}
-                      onChange={handleChange}
-                    />
+                <FormGroup className="col-4">
+                  <TextField
+                    label="Peso"
+                    className="form-control"
+                    variant="outlined"
+                    name="Weight"
+                    required
+                    // error={errorNombre}
+                    // helperText={leyendaErrorNombre}
+                    value={technicalInformation && technicalInformation.Weight}
+                    onChange={handleChange}
+                  />
 
-                    {/* <label>Peso:</label>
+                  {/* <label>Peso:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -4563,22 +4631,22 @@ const ConsultaEquipos = ({ history }) => {
                           value={ technicalInformation && technicalInformation.Weight }
                           onChange={handleChange}
                         /> */}
-                  </FormGroup>
+                </FormGroup>
 
-                  <FormGroup className="col-4">
-                    <TextField
-                      label="OEM"
-                      className="form-control"
-                      variant="outlined"
-                      name="OEM"
-                      required
-                      // error={errorNombre}
-                      // helperText={leyendaErrorNombre}
-                      value={technicalInformation && technicalInformation.OEM}
-                      onChange={handleChange}
-                    />
+                <FormGroup className="col-4">
+                  <TextField
+                    label="OEM"
+                    className="form-control"
+                    variant="outlined"
+                    name="OEM"
+                    required
+                    // error={errorNombre}
+                    // helperText={leyendaErrorNombre}
+                    value={technicalInformation && technicalInformation.OEM}
+                    onChange={handleChange}
+                  />
 
-                    {/* <label>OEM:</label>
+                  {/* <label>OEM:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -4588,22 +4656,22 @@ const ConsultaEquipos = ({ history }) => {
                           }
                           onChange={handleChange}
                         /> */}
-                  </FormGroup>
+                </FormGroup>
 
-                  <FormGroup className="col-4">
-                    <TextField
-                      label="Vendedor"
-                      className="form-control"
-                      variant="outlined"
-                      name="vendor"
-                      required
-                      // error={errorNombre}
-                      // helperText={leyendaErrorNombre}
-                      value={technicalInformation && technicalInformation.vendor}
-                      onChange={handleChange}
-                    />
+                <FormGroup className="col-4">
+                  <TextField
+                    label="Vendedor"
+                    className="form-control"
+                    variant="outlined"
+                    name="vendor"
+                    required
+                    // error={errorNombre}
+                    // helperText={leyendaErrorNombre}
+                    value={technicalInformation && technicalInformation.vendor}
+                    onChange={handleChange}
+                  />
 
-                    {/* <label>Vendedor:</label>
+                  {/* <label>Vendedor:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -4613,22 +4681,24 @@ const ConsultaEquipos = ({ history }) => {
                           }
                           onChange={handleChange}
                         /> */}
-                  </FormGroup>
+                </FormGroup>
 
-                  <FormGroup className="col-4">
-                    <TextField
-                      label="Descripción"
-                      className="form-control"
-                      variant="outlined"
-                      name="Description"
-                      required
-                      // error={errorNombre}
-                      // helperText={leyendaErrorNombre}
-                      value={technicalInformation && technicalInformation.Description}
-                      onChange={handleChange}
-                    />
+                <FormGroup className="col-4">
+                  <TextField
+                    label="Descripción"
+                    className="form-control"
+                    variant="outlined"
+                    name="Description"
+                    required
+                    // error={errorNombre}
+                    // helperText={leyendaErrorNombre}
+                    value={
+                      technicalInformation && technicalInformation.Description
+                    }
+                    onChange={handleChange}
+                  />
 
-                    {/* <label>Descripción:</label>
+                  {/* <label>Descripción:</label>
                         <input
                           className="form-control"
                           type="text text-align=center"
@@ -4639,21 +4709,21 @@ const ConsultaEquipos = ({ history }) => {
                           }
                           onChange={handleChange}
                         /> */}
-                  </FormGroup>
+                </FormGroup>
 
-                  {/* vendor: "", nominalCapacity: "", yearConstruction: "", currentConditionsComments: "", : "" */}
+                {/* vendor: "", nominalCapacity: "", yearConstruction: "", currentConditionsComments: "", : "" */}
 
-                  <hr style={{ width: "97%" }} />
+                <hr style={{ width: "97%" }} />
 
-                  {/* -------------------------------         OPTIONAL TECHNICAL INFORMATION FORM           ------------------------------------------ */}
+                {/* -------------------------------         OPTIONAL TECHNICAL INFORMATION FORM           ------------------------------------------ */}
 
-                  <OptionalInfo
-                    optionalTechInfo={optionalTechInfo}
-                    handleChangeOptionalInfo={handleChangeOptionalInfo}
-                    light={light}
-                  />
+                <OptionalInfo
+                  optionalTechInfo={optionalTechInfo}
+                  handleChangeOptionalInfo={handleChangeOptionalInfo}
+                  light={light}
+                />
 
-                  {/* { // Condicional para mostros un formulaio u otro
+                {/* { // Condicional para mostros un formulaio u otro
                                                 editingTechInfo ? (
                                                     <>
                                                         <EditAddTechInfo
@@ -4785,80 +4855,72 @@ const ConsultaEquipos = ({ history }) => {
                                                 </table>
                                             </FormGroup> */}
 
-                  {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
+                {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
 
-                  <FormGroup className="row align-items-center justify-content-between">
-                    <Grid
-                      xs={4}
-                      className="d-flex justify-content-start align-items-center"
+                <FormGroup className="row align-items-center justify-content-between">
+                  <Grid
+                    xs={4}
+                    className="d-flex justify-content-start align-items-center"
+                  >
+                    <Button color="secundary" onClick={() => backForm()}>
+                      <ArrowBackIcon />
+                      Consulta Equipos
+                    </Button>
+                  </Grid>
+                  <Grid xs={4} className="d-flex justify-content-center">
+                    {" "}
+                    <Pagination
+                      count={4}
+                      hidePrevButton
+                      hideNextButton
+                      defaultPage={2}
+                      size="small"
+                      color="primary"
+                      disabled
+                    />
+                  </Grid>
+                  <Grid
+                    xs={4}
+                    className="d-flex justify-content-end align-items-center"
+                  >
+                    <Button
+                      color="secundary"
+                      onClick={() => {
+                        // setEditing(true);
+                        // setEditingServiceInfo(true);
+                        // setCasoServInfo("Add");
+                        nextForm();
+                      }}
                     >
-                      <Button
-                        color="secundary"
-                        onClick={() => backForm()}
-                      >
-                        <ArrowBackIcon />
-                        Consulta Equipos
-                      </Button>
-                    </Grid>
-                    <Grid xs={4} className="d-flex justify-content-center">
-                      {" "}
-                      <Pagination
-                        count={4}
-                        hidePrevButton
-                        hideNextButton
-                        defaultPage={2}
-                        size="small"
-                        color="primary"
-                        disabled
-                      />
-                    </Grid>
-                    <Grid
-                      xs={4}
-                      className="d-flex justify-content-end align-items-center"
-                    >
-                      <Button
-                        color="secundary"
-                        onClick={() => {
-                          // setEditing(true);
-                          // setEditingServiceInfo(true);
-                          // setCasoServInfo("Add");
-                          nextForm();
-                        }}
-                      >
-                        Información de servicios
-                        <ArrowForwardIcon />
-                      </Button>
-                    </Grid>
-                    {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
-                  </FormGroup>
-                </ModalBody>
-              </>
-            )
-          }
+                      Información de servicios
+                      <ArrowForwardIcon />
+                    </Button>
+                  </Grid>
+                  {/* -------------------------    BOTONES IZQUIERDA DERECHA    ------------------------------- */}
+                </FormGroup>
+              </ModalBody>
+            </>
+          )}
 
-          {
-            formStepInsertar === 3 && ( // --------- Información de servicio
-              <ServiceInformation
-                handleChangeServicesInformation={handleChangeServicesInformation}
-                servicesInformation={servicesInformation}
-                light={light}
-                backForm={backForm}
-                nextForm={nextForm}
-              />
-            )
-          }
-          {
-            formStepInsertar === 4 && ( // -------- Información Financiera
-              <FinancialInfo
-                financialInformation={financialInformation}
-                handleChangeFinancialInfo={handleChangeFinancialInfo}
-                backForm={backForm}
-                nextForm={nextForm}
-                light={light}
-                fecha={fecha}
-              />
-            )
-          }
+          {formStepInsertar === 3 && ( // --------- Información de servicio
+            <ServiceInformation
+              handleChangeServicesInformation={handleChangeServicesInformation}
+              servicesInformation={servicesInformation}
+              light={light}
+              backForm={backForm}
+              nextForm={nextForm}
+            />
+          )}
+          {formStepInsertar === 4 && ( // -------- Información Financiera
+            <FinancialInfo
+              financialInformation={financialInformation}
+              handleChangeFinancialInfo={handleChangeFinancialInfo}
+              backForm={backForm}
+              nextForm={nextForm}
+              light={light}
+              fecha={fecha}
+            />
+          )}
 
           {/* // <ServiceInformation
               //   casoServInfo={casoServInfo}
@@ -4882,11 +4944,6 @@ const ConsultaEquipos = ({ history }) => {
               //   light={light}
               // /> */}
 
-
-
-
-
-
           <ModalFooter>
             <Button
               variant="outlined"
@@ -4898,7 +4955,7 @@ const ConsultaEquipos = ({ history }) => {
               }}
               onClick={() => {
                 setModalInsertar(false);
-                setFormStepInsertar(0)
+                setFormStepInsertar(0);
                 // seteditingNewServInfo(true);
                 // setModalEditar(false);
                 // setEditing(false);
