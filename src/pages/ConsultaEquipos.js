@@ -2498,7 +2498,7 @@ const ConsultaEquipos = ({ history }) => {
       width: 400,
       headerClassName: "header",
       fontWeight: 500,
-      "&:nth-of-type(odd)": {
+      "&:nthOfType(odd)": {
         backgroundColor: theme.palette.primary.dark,
       },
 
@@ -2794,7 +2794,7 @@ const ConsultaEquipos = ({ history }) => {
                 theme.palette.type === "dark"
                   ? "#514A69"
                   : theme.palette.background.light,
-              "&:nth-of-type(odd)": {
+              "&:nthOfType(odd)": {
                 backgroundColor: theme.palette.primary.dark,
               },
             }}
@@ -2815,7 +2815,8 @@ const ConsultaEquipos = ({ history }) => {
                   theme.palette.type === "dark"
                     ? theme.palette.primary.light
                     : theme.palette.primary.dark,
-                "&:MuiDataGrid-menuList": {
+                "&:MuiDataGridMenuList": {
+                  // &:MuiDataGrid-menuList
                   backgroundColor: theme.palette.primary.dark,
                 },
               }}
