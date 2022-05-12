@@ -3386,7 +3386,7 @@ const ConsultaEquipos = ({ history }) => {
                     <Select
                       name="EquipmentType"
                       labelId="demo-simple-select"
-                      value={ technicalInformation.EquipmentType !== null ? "" : technicalInformation && technicalInformation.EquipmentType }
+                      value={ technicalInformation && technicalInformation.EquipmentType }
                       label="Tipo de equipo"
                       variant="outlined"
                       required
