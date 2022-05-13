@@ -4660,13 +4660,6 @@ const ConsultaEquipos = ({ history }) => {
                     {/* <FormHelperText>Error</FormHelperText> */}
                   </FormControl>
 
-                  {/* <input
-                          className="form-control"
-                          type="text text-align=center"
-                          name="EquipmentType"
-                          value={technicalInformation && technicalInformation.EquipmentType}
-                        onChange={handleChange} /> */}
-
                   {/* <label>Tipo de equipo:</label>
                         <select
                           className="form-select "
