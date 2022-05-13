@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Gead from "../../assets/Gead.jpeg";
+import Gead from "../../assets/logo.png";
+import GeadWhite from "../../assets/logo-white.png";
 import { DataGrid, esES } from "@mui/x-data-grid";
 import Controls from "../../components/controls/Controls";
 import { Delete, Search, Visibility } from "@material-ui/icons";
@@ -16,34 +17,41 @@ import {
 import { ThemeProvider } from "@material-ui/styles";
 
 export const Transfer = ({ setmostrarMenus, light }) => {
-  const theme = createTheme({
-    palette: {
-      type: light ? "light" : "dark",
+  const theme = createTheme(
+    {
+      palette: {
+        type: light ? "light" : "dark",
 
-      primary: {
-        main: "#B3C8FC",
-        light: "#E6FBFF",
-        dark: "#8297C9",
-      },
-      secondary: {
-        main: "#6200EE",
-        light: "#8F6CFF",
-        dark: "#14149A",
-      },
-      background: {
-        main: "#3F3857",
-        light: "#FFFFFF",
-        dark: "#3F3857",
+        primary: {
+          main: "#B3C8FC",
+          light: "#E6FBFF",
+          dark: "#8297C9",
+        },
+        secondary: {
+          main: "#6200EE",
+          light: "#8F6CFF",
+          dark: "#14149A",
+        },
+        background: {
+          main: "#3F3857",
+          light: "#FFFFFF",
+          dark: "#3F3857",
+        },
+        alert: {
+          main: "#C60055",
+        },
       },
     },
-  });
+    esES
+  );
   const style = createTheme({
     paper: {
       padding: 40,
-      height: "40rem",
+      height: "50rem",
       width: "70rem",
       margin: "130px auto",
       borderRadius: "24px",
+      backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
     },
     validation: {
       padding: 20,
@@ -68,20 +76,15 @@ export const Transfer = ({ setmostrarMenus, light }) => {
     },
     h4: {
       fontStyle: "normal",
-      fontWeight: "bold",
+      fontWeight: "medium",
       fontSize: "34px",
       lineHeight: "140%",
       letterSpacing: "0.0025em",
-
-      marginBottom: "0.5rem",
-
       color:
         theme.palette.type == "dark"
-          ? theme.palette.primary.light
-          : theme.palette.secondary,
-
-      // marginTop: "0.5rem",
-      // fontFamily: 'Roboto',
+          ? theme.palette.primary.dark
+          : theme.palette.secondary.main,
+      marginBottom: "0.5rem",
     },
     center: {
       alignItems: "center",
@@ -216,11 +219,15 @@ export const Transfer = ({ setmostrarMenus, light }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Paper style={style.paper}>
+      <Paper style={style.paper} light={light}>
         <Grid>
           <div className="row">
             <div className="col-3">
-              <img src={Gead} style={style.logo} alt="" />
+              <img
+                src={theme.palette.type == "dark" ? GeadWhite : Gead}
+                style={style.logo}
+                alt="GEAD"
+              />
             </div>
             <div className="col-9">
               <Typography style={style.h4}>
@@ -251,10 +258,12 @@ export const Transfer = ({ setmostrarMenus, light }) => {
           {/* -----------------       Boton Nuevo Usuario     ------------------ */}
           <div className="col-4">
             <Button
-              type="submit"
               variant="contained"
+              size="large"
+              color="secondary"
+              type="submit"
+              style={{ fontSize: 12, fontWeight: "600" }}
               fullWidth
-              style={style.btn}
               onClick={() => {
                 setmostrarMenus(false);
               }}
@@ -268,9 +277,14 @@ export const Transfer = ({ setmostrarMenus, light }) => {
         <div>
           <div
             style={{
-              height: 450,
+              height: 600,
               width: "100%",
-              backgroundColor: "white",
+              color:
+                theme.palette.type == "dark"
+                  ? theme.palette.background.dark
+                  : theme.palette.background.light,
+              backgroundColor:
+                theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
               paddingTop: "1rem",
             }}
           >
@@ -280,6 +294,17 @@ export const Transfer = ({ setmostrarMenus, light }) => {
               columns={columns}
               pageSize={9}
               rowsPerPageOptions={[8]}
+              style={{
+                border: "0",
+                borderBottom: "0",
+                color:
+                  theme.palette.type == "dark"
+                    ? theme.palette.primary.light
+                    : theme.palette.primary.dark,
+                "&:nth-of-type(odd)": {
+                  backgroundColor: theme.palette.primary.dark,
+                },
+              }}
               // sx={{ m: 2 }}
               // style={{ color:"blue"}}
             />
