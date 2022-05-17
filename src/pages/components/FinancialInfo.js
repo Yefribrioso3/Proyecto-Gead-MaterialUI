@@ -52,6 +52,7 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
                         label="Valor en Libros"
                         className="form-control"
                         variant="outlined"
+                        type="number"
                         name="Valor_Contable"
                     value={ financialInformation && financialInformation.Valor_Contable }
                     onChange={handleChangeFinancialInfo}

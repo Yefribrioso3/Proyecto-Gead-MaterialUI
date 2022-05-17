@@ -47,7 +47,11 @@ import Header from "../components/Header";
 import planning from "../assets/planning.jpeg";
 
 import { DocPDF } from "./components/DocPDF";
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+
+
+// import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+
+
 // import Excel from './components/Excel';
 import * as XLSX from "xlsx";
 import { Excel } from "./components/Excel";
@@ -215,7 +219,7 @@ const ConsultaEquipos = ({ history }) => {
             // console.log(response.data.data);
           })
           .catch((x) => {
-            console.log(x?.response);
+            // console.log(x?.response);
             if (x?.response.data.error.message === "jwt expired") {
               // console.log("hola");
               history.replace("/login");
@@ -2883,7 +2887,7 @@ const ConsultaEquipos = ({ history }) => {
                 {/* //-------------------------------------   BOTON DE VISUALIZAR Y Descargar PDF   ------------------------------ */}
                 <FormGroup>
                   {/* -------------------------   BOTON PARA VISUALIZAR PDF    ----------------------------- */}
-                  <Button
+                  {/* <Button
                     color="primary"
                     className="mr-2"
                     onClick={() => {
@@ -2892,11 +2896,12 @@ const ConsultaEquipos = ({ history }) => {
                   >
                     {" "}
                     {descargarPdf ? "Ocultar PDF" : "Visualizar PDF"}{" "}
-                  </Button>
+                  </Button> */}
                   {/* -------------------------------------------------------------------------------------- */}
 
                   {/* -------------------------   BOTON PARA DESCARGAR PDF    ----------------------------- */}
-                  <PDFDownloadLink
+                  
+                  {/* <PDFDownloadLink
                     document={
                       <DocPDF
                         equipoSeleccionado={equipoSeleccionado}
@@ -2924,7 +2929,9 @@ const ConsultaEquipos = ({ history }) => {
                     fileName="GEAD.pdf"
                   >
                     <Button color="primary">Descargar PDF</Button>
-                  </PDFDownloadLink>
+                  </PDFDownloadLink> */}
+
+
                   {/* -----------------------------   BOTON PARA TRANSFERIR EQUIPO  ------------------------ */}
                   {/* <Button
                       color="primary"
@@ -2953,7 +2960,7 @@ const ConsultaEquipos = ({ history }) => {
                     {descargarPdf ? (
                       <>
                         <ModalBody className="row text-align-center  animate__animated animate__fadeIn">
-                          <PDFViewer style={{ width: "100%", height: "90vh" }}>
+                          {/* <PDFViewer style={{ width: "100%", height: "90vh" }}>
                             <DocPDF
                               equipoSeleccionado={equipoSeleccionado}
                               line={line}
@@ -2966,7 +2973,7 @@ const ConsultaEquipos = ({ history }) => {
                               technicalInformation={technicalInformation}
                               servicesInformation={servicesInformation}
                             />
-                          </PDFViewer>
+                          </PDFViewer> */}
                         </ModalBody>
                       </>
                     ) : (

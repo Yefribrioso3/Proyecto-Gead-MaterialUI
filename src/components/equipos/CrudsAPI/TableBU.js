@@ -8,11 +8,8 @@ const TableBU = (props) => {
 
   useEffect(() => {
     Axios.get(`${globalApi}/bu`).then((response) => {
-      console.log(response.data.Bu);
       setBuList(response.data.Bu);
     });
-
-    console.log(buList);
   }, []);
 
   const deleteBU = (idBU) => {
