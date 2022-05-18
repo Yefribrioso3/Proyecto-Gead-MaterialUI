@@ -46,7 +46,7 @@ import Header from "../components/Header";
 
 import planning from "../assets/planning.jpeg";
 
-import { DocPDF } from "./components/DocPDF";
+// import { DocPDF } from "./components/DocPDF";
 
 
 // import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
@@ -2535,7 +2535,7 @@ const ConsultaEquipos = ({ history }) => {
       field: "bu",
       headerName: "BU",
       // flex: 1,
-      width: 100,
+      width: 90,
       valueGetter: (params) => {
         return params.row.Procedencia.areas.operations.countries.bu.Name;
       },
@@ -2575,10 +2575,18 @@ const ConsultaEquipos = ({ history }) => {
       },
     },
     {
+      field: "Valor_Contable",
+      headerName: "Valor en Libros",
+      width: 170,
+      valueGetter: (params) => {
+        return params.row.FinancialInformation.Valor_Contable || params.row.FinancialInformation.Valor_Contable === 0 ? `${params.row.FinancialInformation.Valor_Contable} - ${params.row.FinancialInformation.Moneda}` : "NO DATA AVAILABLE"
+      },
+    },
+    {
       field: "currendCondition",
       headerName: "Condición actual",
       width: 155,
-      sortable: false,
+      // sortable: false,
       disableColumnMenu: true,
       renderCell: (params) => (
         <div className="d-flex justify-content-between">
@@ -2618,7 +2626,7 @@ const ConsultaEquipos = ({ history }) => {
     {
       field: "actions",
       headerName: "Acciones",
-      width: 210,
+      width: 110,
       sortable: false,
       disableColumnMenu: true,
       renderCell: (params) => (
@@ -3002,7 +3010,7 @@ const ConsultaEquipos = ({ history }) => {
                             </div>
 
                             {/* ms-5 */}
-                            <div class="input-group my-3 input-group-lg justify-content-center">
+                            <div className="input-group my-3 input-group-lg justify-content-center">
                               <input
                                 style={{
                                   color:
@@ -3014,7 +3022,7 @@ const ConsultaEquipos = ({ history }) => {
                                 }}
                                 name="file"
                                 type="file"
-                                class="form-control "
+                                className="form-control "
                                 id="inputGroupFile03"
                                 aria-describedby="inputGroupFileAddon03"
                                 aria-label="Upload an image"
@@ -3325,7 +3333,7 @@ const ConsultaEquipos = ({ history }) => {
                     <Select
                       name="currentWorking"
                       labelId="demo-simple-select"
-                      value={ technicalInformation.currentWorking !== null ? "" : technicalInformation && technicalInformation.currentWorking }
+                      value={ technicalInformation && technicalInformation.currentWorking }
                       label="Trabajo actual"
                       variant="outlined"
                       required
@@ -3556,8 +3564,9 @@ const ConsultaEquipos = ({ history }) => {
 
                 <FormGroup className="row align-items-center justify-content-between">
                   <Grid xs={4} className="d-flex justify-content-start ">
+                    {/* ------------------------------------------------------------------------------ */}
                     <Button
-                      color="secundary"
+                      // color=""
                       onClick={() => {
                         backForm();
                       }}
@@ -3580,7 +3589,7 @@ const ConsultaEquipos = ({ history }) => {
                   </Grid>
                   <Grid xs={4} className="d-flex justify-content-end ">
                     <Button
-                      color="secundary"
+                      // color=""
                       onClick={() => {
                         nextForm();
                         setCasoServInfo("Edit");
@@ -4996,7 +5005,7 @@ const ConsultaEquipos = ({ history }) => {
                     xs={4}
                     className="d-flex justify-content-start align-items-center"
                   >
-                    <Button color="secundary" onClick={() => backForm()}>
+                    <Button color="secondary" onClick={() => backForm()}>
                       <ArrowBackIcon />
                       Consulta Equipos
                     </Button>
@@ -5018,7 +5027,7 @@ const ConsultaEquipos = ({ history }) => {
                     className="d-flex justify-content-end align-items-center"
                   >
                     <Button
-                      color="secundary"
+                      color="secondary"
                       onClick={() => {
                         // setEditing(true);
                         // setEditingServiceInfo(true);

@@ -51,11 +51,12 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
                     <TextField
                         label="Valor en Libros"
                         className="form-control"
+                        inputProps={{ min: 0 }}
                         variant="outlined"
                         type="number"
                         name="Valor_Contable"
-                    value={ financialInformation && financialInformation.Valor_Contable }
-                    onChange={handleChangeFinancialInfo}
+                        value={financialInformation && financialInformation.Valor_Contable}
+                        onChange={handleChangeFinancialInfo}
                     />
 
                     {/* <label>Valor en Libros:</label>
@@ -75,8 +76,8 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
                         className="form-control"
                         variant="outlined"
                         name="Moneda"
-                    value={ financialInformation && financialInformation.Moneda }
-                    onChange={handleChangeFinancialInfo}
+                        value={financialInformation && financialInformation.Moneda}
+                        onChange={handleChangeFinancialInfo}
                     />
                 </FormGroup>
 
@@ -84,11 +85,13 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
                     <TextField
                         readOnly
                         label="Activo fijo"
+                        inputProps={{ min: 0 }}
                         className="form-control"
+                        type="number"
                         variant="outlined"
                         name="Activo_fijo"
-                        value={ financialInformation && financialInformation.Activo_fijo }
-                    onChange={handleChangeFinancialInfo}
+                        value={financialInformation && financialInformation.Activo_fijo}
+                        onChange={handleChangeFinancialInfo}
                     />
                 </FormGroup>
 
@@ -96,11 +99,13 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
                     <TextField
                         readOnly
                         label="Valor Adquirido"
+                        inputProps={{ min: 0 }}
                         className="form-control"
+                        type="number"
                         variant="outlined"
                         name="Valor_Adquirido"
-                        value={ financialInformation && financialInformation.Valor_Adquirido }
-                    onChange={handleChangeFinancialInfo}
+                        value={financialInformation && financialInformation.Valor_Adquirido}
+                        onChange={handleChangeFinancialInfo}
                     />
                 </FormGroup>
 
@@ -109,10 +114,11 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
                         readOnly
                         label="Amortizacion acumulada"
                         className="form-control"
+                        type="number"
                         variant="outlined"
                         name="Amortizacion_acumulada"
-                        value={ financialInformation && financialInformation.Amortizacion_acumulada }
-                    onChange={handleChangeFinancialInfo}
+                        value={financialInformation && financialInformation.Amortizacion_acumulada}
+                        onChange={handleChangeFinancialInfo}
                     />
                 </FormGroup>
 
@@ -120,11 +126,13 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
                     <TextField
                         readOnly
                         label="Cantidad"
+                        inputProps={{ min: 0 }}
                         className="form-control"
+                        type="number"
                         variant="outlined"
                         name="Cantidad"
-                        value={ financialInformation && financialInformation.Cantidad }
-                    onChange={handleChangeFinancialInfo}
+                        value={financialInformation && financialInformation.Cantidad}
+                        onChange={handleChangeFinancialInfo}
                     />
                 </FormGroup>
 
@@ -137,7 +145,7 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
                         className="form-control"
                         variant="outlined"
                         name="FechaActualizacion"
-                    value={ financialInformation && financialInformation.FechaActualizacion }
+                        value={financialInformation && financialInformation.FechaActualizacion}
                     // onChange={handleChangeFinancialInfo}
                     />
                 </FormGroup>
@@ -150,12 +158,12 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
                         className="form-control"
                         variant="outlined"
                         name="EncargadoActualizacion"
-                        value={ financialInformation && financialInformation.EncargadoActualizacion }
+                        value={financialInformation && financialInformation.EncargadoActualizacion}
                     // onChange={handleChangeFinancialInfo}
                     />
                 </FormGroup>
 
-                
+
                 <hr />
 
                 {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
