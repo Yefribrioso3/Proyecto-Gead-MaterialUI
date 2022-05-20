@@ -2653,13 +2653,15 @@ const ConsultaEquipos = ({ history }) => {
             </IconButton>
           </div>
 
-          {userByToken?.roleId === 1 ? (
+          {userByToken?.roleId === 1 || userByToken?.roleId === 4 ? (
             <div
+              // disabled={Roles}
               aria-label="delete"
               onClick={() => seleccionarEquipo(params.row, "Eliminar")}
               component="span"
             >
               <IconButton
+                // disabled={Roles}
                 style={{
                   fontWeight: 500,
                   color: theme.palette.alert.main,
@@ -2708,12 +2710,21 @@ const ConsultaEquipos = ({ history }) => {
     setFormStepInsertar((cur) => cur - 1);
   };
 
-  
+
   // const borrarTechnInfo = () => {
   //   // let tech = technicalInformation;
   //   // tech.CurrentConditions = "";
   //   // setTechnicalInformation(equipoSeleccionado.TechnicalSpecification)
   // } 
+  const [Roles, setRoles] = useState(true)
+
+  useEffect(() => {
+    if (userByToken.roleId === 1 || userByToken.roleId === 4) {
+      setRoles(false);
+    } else {
+      setRoles(true);
+    }
+  }, [userByToken.roleId]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -2768,29 +2779,44 @@ const ConsultaEquipos = ({ history }) => {
               }}
             />
 
-            {userByToken?.roleId === 1 ? (
-              <Controls.Button
-                variant="contained"
-                size="large"
-                color="secondary"
-                startIcon={<Add style={{ fontSize: 16, fontWeight: "800" }} />}
-                onClick={() => abrirModalInsertar()}
-                style={{ fontSize: 16, fontWeight: "600" }}
-                text={"Nuevo"}
-              ></Controls.Button>
-            ) : (
-              <Controls.Button
-                disabled
-                variant="contained"
-                size="large"
-                color="secondary"
-                startIcon={<Add style={{ fontSize: 16, fontWeight: "800" }} />}
-                style={{ fontSize: 16, fontWeight: "600" }}
-                text={"Nuevo"}
-              ></Controls.Button>
-            )}
+            <Controls.Button
+              disabled={Roles}
+              variant="contained"
+              size="large"
+              color="secondary"
+              startIcon={<Add style={{ fontSize: 16, fontWeight: "800" }} />}
+              onClick={() => abrirModalInsertar()}
+              style={{ fontSize: 16, fontWeight: "600" }}
+              text={"Nuevo"}
+            ></Controls.Button>
 
             {/* -----------------------  Boton para insertar datos desde Excel   ----------------------------------- */}
+            {/* ---------------------------------------------------------------------------------------------------- */}
+
+            {/* <div id="imagen">
+              <input
+                id="icon-button-file"
+                type="file"
+                style={{ display: 'none' }}
+                onChange={(e) => {
+                  setItem([]);
+                  setModalInsertarExcel(false);
+                  let file = e.target.files[0];
+
+                  readExcels(file);
+                  file = null;
+                }}
+              />
+
+              <label htmlFor="icon-button-file">
+                <IconButton color="primary" aria-label="upload picture"
+                  component="span">
+
+                  <Add style={{ fontSize: 34, fontWeight: '800' }} />
+                </IconButton>
+              </label>
+            </div> */}
+
           </Toolbar>
 
           <div
@@ -2908,7 +2934,7 @@ const ConsultaEquipos = ({ history }) => {
                   {/* -------------------------------------------------------------------------------------- */}
 
                   {/* -------------------------   BOTON PARA DESCARGAR PDF    ----------------------------- */}
-                  
+
                   {/* <PDFDownloadLink
                     document={
                       <DocPDF
@@ -3247,7 +3273,8 @@ const ConsultaEquipos = ({ history }) => {
                                       ? "#ffffff"
                                       : "#000000",
                                 }}
-                                onClick={() => nextForm()}
+                                onClick={() => {nextForm()
+                                  console.log(equipoSeleccionado);}}
                               >
                                 Información técnica
                                 <ArrowForwardIcon />
@@ -3296,7 +3323,7 @@ const ConsultaEquipos = ({ history }) => {
                     variant="outlined"
                     name="Name"
                     // required
-                    value={ equipoSeleccionado && equipoSeleccionado.Name }
+                    value={equipoSeleccionado && equipoSeleccionado.Name}
                     onChange={handleChange}
                   />
                 </FormGroup>
@@ -3333,7 +3360,7 @@ const ConsultaEquipos = ({ history }) => {
                     <Select
                       name="currentWorking"
                       labelId="demo-simple-select"
-                      value={ technicalInformation && technicalInformation.currentWorking }
+                      value={technicalInformation && technicalInformation.currentWorking}
                       label="Trabajo actual"
                       variant="outlined"
                       required
@@ -3342,9 +3369,9 @@ const ConsultaEquipos = ({ history }) => {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      <MenuItem value="Installed and is working">Instalado y funcionando</MenuItem>
-                      <MenuItem value="Installed and is not working">Instalado y no funciona</MenuItem>
-                      <MenuItem value="Not Installed and is not working">No esta instalado</MenuItem>
+                      <MenuItem value="Instalado y funcionando">Instalado y funcionando</MenuItem>
+                      <MenuItem value="Instalado y no trabajando">Instalado y no trabajando</MenuItem>
+                      <MenuItem value="No instalado">No instalado</MenuItem>
                     </Select>
                   </FormControl>
 
@@ -3401,7 +3428,7 @@ const ConsultaEquipos = ({ history }) => {
                     <Select
                       name="EquipmentType"
                       labelId="demo-simple-select"
-                      value={ technicalInformation && technicalInformation.EquipmentType }
+                      value={technicalInformation && technicalInformation.EquipmentType}
                       label="Tipo de equipo"
                       variant="outlined"
                       required
@@ -3435,7 +3462,7 @@ const ConsultaEquipos = ({ history }) => {
                     variant="outlined"
                     name="SerialNumber"
                     // required
-                    value={ technicalInformation && technicalInformation.SerialNumber }
+                    value={technicalInformation && technicalInformation.SerialNumber}
                     onChange={handleChange}
                   />
                 </FormGroup>
@@ -3457,7 +3484,7 @@ const ConsultaEquipos = ({ history }) => {
                     variant="outlined"
                     name="ModelNumber"
                     // required
-                    value={ technicalInformation && technicalInformation.ModelNumber }
+                    value={technicalInformation && technicalInformation.ModelNumber}
                     onChange={handleChange}
                   />
                 </FormGroup>
@@ -3676,21 +3703,24 @@ const ConsultaEquipos = ({ history }) => {
               </>
             ) : (
               <>
-                {userByToken?.roleId === 1 ? (
-                  <Button
-                    style={{
-                      color: "#ffffff",
-                      backgroundColor:
-                        theme.palette.type === "dark"
-                          ? theme.palette.secondary.light
-                          : "#6200EE",
-                    }}
-                    variant="contained"
-                    type="submit"
-                    onClick={() => editar()}
-                  >
-                    Guardar Registro
-                  </Button>
+                <Button
+                  disabled={Roles}
+                  style={{
+                    color: "#ffffff",
+                    backgroundColor:
+                      theme.palette.type === "dark"
+                        ? theme.palette.secondary.light
+                        : "#6200EE",
+                  }}
+                  variant="contained"
+                  type="submit"
+                  onClick={() => editar()}
+                >
+                  Guardar Registro
+                </Button>
+
+                {/* {userByToken?.roleId === 1 || userByToken?.roleId === 4 ? (
+                  null
                 ) : (
                   <Button
                     style={{
@@ -3706,7 +3736,7 @@ const ConsultaEquipos = ({ history }) => {
                   >
                     Guardar Registro
                   </Button>
-                )}
+                )} */}
               </>
             )}
           </ModalFooter>
@@ -3778,6 +3808,8 @@ const ConsultaEquipos = ({ history }) => {
             getAllList={getAllList}
             actualizarTabla={actualizarTabla}
             setListAll={setListAll}
+            fecha={fecha}
+            userByToken={userByToken}
           />
         </Modal>
 

@@ -77,6 +77,7 @@ const ITEM_HEIGHT = 50;
 
 const optionsMEX = [
   'None',
+  'APAN',
   'TORREÓN',
   'MAZATLAN',
   'TUXTEPEC',
@@ -591,7 +592,7 @@ const SideMenu = ({
           </Button> */}
 
           <Button
-            href="https://app.powerbi.com/singleSignOn?route=links%2fFmp5PhWZi8%3fctid%3dcef04b19-7776-4a94-b89b-375c77a8f936%26pbi_source%3dlinkShare&ctid=cef04b19-7776-4a94-b89b-375c77a8f936&pbi_source=linkShare&ru=https:%2f%2fapp.powerbi.com%2f%3froute%3dlinks%252fFmp5PhWZi8%253fctid%253dcef04b19-7776-4a94-b89b-375c77a8f936%2526pbi_source%253dlinkShare%26ctid%3dcef04b19-7776-4a94-b89b-375c77a8f936%26pbi_source%3dlinkShare%26noSignUpCheck%3d1"
+            href="https://app.powerbi.com/links/PNZNFLosyw?ctid=cef04b19-7776-4a94-b89b-375c77a8f936&pbi_source=linkShare"
             className={
               "btn btn-large w-100 mb-2 align-items-center d-flex " +
               `${classes.filterCard}`

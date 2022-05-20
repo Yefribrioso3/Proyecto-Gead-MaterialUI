@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // , { useState }
 import {
   AppBar,
@@ -10,6 +10,7 @@ import {
   ThemeProvider,
   makeStyles,
   createTheme,
+  Button,
 } from "@material-ui/core";
 // import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 // import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
@@ -84,7 +85,7 @@ export default function Header({
 }) {
   const classes = useStyles();
   const toggle = () => setIsOpen(!isOpen);
-  
+
   const theme = createTheme({
     palette: {
       type: light ? "light" : "dark",
@@ -111,6 +112,16 @@ export default function Header({
     history.replace("/login");
     localStorage.removeItem("token")
   }
+
+  const [Roles, setRoles] = useState(true)
+
+  // useEffect(() => {
+  //   if (userByToken.roleId === 1){
+  //     setRoles(false);
+  //   } else {
+  //     setRoles(true);
+  //   }
+  // }, [userByToken.roleId]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -139,20 +150,26 @@ export default function Header({
               {/* userByToken */}
 
               {userByToken.roleId === 1 ? (
-                <div className="">
-                  {/* <a href='../assets/Manual.pdf' className='btn' style={{color: "blue"}} download="Manual.pdf" title='Descargar proyecto'> Manual <ArrowDownward /></a> */}
-                  <a
-                    href="/registro"
-                    className="btn"
-                    style={{ color: "blue" }}
-                    title="Crear Nuevo Usuario"
-                  >
-                    {" "}
-                    New User{" "}
-                  </a>
-                  {/* src/assets/Manual.pdf */}
-                </div>
+              <div className="">
+                {/* <a href='../assets/Manual.pdf' className='btn' style={{color: "blue"}} download="Manual.pdf" title='Descargar proyecto'> Manual <ArrowDownward /></a> */}
+                <a
+                  href="/registro"
+                  className="btn"
+                  style={{
+                    color:
+                      theme.palette.type === "dark"
+                        ? theme.palette.primary.light
+                        : theme.palette.secondary.dark,
+                  }}
+                  title="Crear Nuevo Usuario"
+                >
+                  {" "}
+                  New User{" "}
+                </a>
+                {/* src/assets/Manual.pdf */}
+              </div>
               ) : null}
+
               <div className="">
                 <a
                   href="https://anheuserbuschinbev.sharepoint.com/sites/MAZGEAD/GEAD%20manuales/Forms/AllItems.aspx"
@@ -186,12 +203,12 @@ export default function Header({
                     userByToken?.roleId === 1
                       ? `${userByToken.Name} (ADMIN)`
                       : userByToken?.roleId === 2
-                      ? `${userByToken.Name} (SUPERVISOR)`
-                      : userByToken?.roleId === 3
-                      ? `${userByToken.Name} (PLANTA)`
-                      : userByToken?.roleId === 4 
-                      ? `${userByToken.Name} (GERENTE)`
-                      : null
+                        ? `${userByToken.Name} (SUPERVISOR)`
+                        : userByToken?.roleId === 3
+                          ? `${userByToken.Name} (PLANTA)`
+                          : userByToken?.roleId === 4
+                            ? `${userByToken.Name} (GERENTE)`
+                            : null
                   }
                 </DropdownToggle>
                 <DropdownMenu
@@ -205,7 +222,7 @@ export default function Header({
                   <DropdownItem>
                     <NavLink
                       // href="/login"
-                      onClick={()=>{ cerrar() }}
+                      onClick={() => { cerrar() }}
                       className="p-0"
                       style={{
                         color:

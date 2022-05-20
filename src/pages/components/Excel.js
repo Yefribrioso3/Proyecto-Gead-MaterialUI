@@ -10,6 +10,8 @@ export const Excel = ({
   item,
   setItem,
   setModalInsertarExcel,
+  fecha,
+  userByToken,
   // setGetAllList,
   // getAllList,
   // setListAll,
@@ -169,6 +171,8 @@ export const Excel = ({
             equipo.Period_Time === undefined || equipo.Period_Time === "NO DATA AVAILABLE" //Numeric
               ? null
               : equipo.Period_Time,
+          FechaActualizacion: fecha,
+          EncargadoActualizacion: `${userByToken.Name} ${userByToken.LastName}`,
           Id_Equipment: equipo.ID_GEAD.toString(),
         },
         ServicesInformation: {
@@ -387,8 +391,8 @@ export const Excel = ({
 
     // actualizarTabla(Excel)
 
-    // console.log(getAllList);
-
+    // console.log(Excel);
+    
     await insertar(Excel);
 
     setItem([]);

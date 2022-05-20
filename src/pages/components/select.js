@@ -7,6 +7,7 @@ export const select = {
         { label: "BAGAZO/SYE" },
         { label: "BLOQUE FRIO" },
         { label: "GENERAL" },
+        { label: "COMPRESSED AIR" },
         { label: "NO DATA AVAILABLE" }
     ],
     Areas: [
@@ -30,7 +31,6 @@ export const select = {
         { label: "REFRIGERATION" },
         { label: "WELLS" },
         { label: "WATER TREATMENT PLANT" },
-        { label: "COMPRESSED AIR" },
         { label: "ELECTRICAL SUBSTATION (HV)" },
         { label: "ELECTRICAL SUBSTATION (MV)" },
         { label: "ELECTRICAL SUBSTATION (LV)" },
@@ -41,10 +41,15 @@ export const select = {
         { label: "AUTOMATION & INDUSTRIAL NETWORK" },
         { label: "MAINTENANCE" },
         { label: "IT" },
+        { label: "IMPRESIÓN" },
         { label: "LABORATORY" },
         { label: "WORKSHOP" },
         { label: "OFFICES" },
-        { label: "SUBPRODUCTS" }
+        { label: "PRODUCCION" },
+        { label: "SUBPRODUCTS" },
+        { label: "UTILITIES" },
+        { label: "PTA" },
+        { label: "NO DATA AVAILABLE" }
     ],
     BU: [
         { label: "CAC" },
@@ -104,7 +109,7 @@ export const select = {
         { label: "GUADALAJARA" },
         { label: "MALTERIA ZACATECAS" },
         { label: "MAZATLÁN" },
-        { label: "MODELO MÉXICO" },
+        { label: "MEXICO CITY" },
         { label: "SALAMANCA (CASAL)" },
         { label: "TORREÓN" },
         { label: "TUXTEPEC" },
@@ -122,6 +127,9 @@ export const select = {
         { label: "SAN MATEO (HUAROCHIRI)" },
         { label: "BARBARIAN (CRAFT)" },
         { label: "SAINT VINCENT" },
-        { label: "BOGOTÁ BREWERY COMPANY (CRAFT)" }
+        { label: "BOGOTÁ BREWERY COMPANY (CRAFT)" },
+        { label: "ENVASES Y TAPAS" },
+        { label: "VIDRIERA POTOSÍ" },
+        { label: "MAZATLAN" }
     ],
 }
