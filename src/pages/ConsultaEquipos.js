@@ -417,8 +417,8 @@ const ConsultaEquipos = ({ history }) => {
       Valor_Adquirido: null,
       Amortizacion_acumulada: null,
       Valor_Contable: null,
-      Cantidad: null,
       Moneda: null,
+      Cantidad: null,
       Tipo: null,
       Screen: null,
       Nom_Clase: null,
@@ -606,8 +606,8 @@ const ConsultaEquipos = ({ history }) => {
     Valor_Adquirido: null,
     Amortizacion_acumulada: null,
     Valor_Contable: null,
-    Cantidad: null,
     Moneda: null,
+    Cantidad: null,
     Tipo: null,
     Screen: null,
     Nom_Clase: null,
@@ -938,7 +938,9 @@ const ConsultaEquipos = ({ history }) => {
     });
 
     //  Actualizar datos
-    await putEquipment(equipo);
+    
+    // await putEquipment(equipo);
+    console.log(equipo);
     // console.log(equipoSeleccionado);
 
     // //  Actualizar todas las inforamciones tecnicas en el DB
@@ -1065,8 +1067,8 @@ const ConsultaEquipos = ({ history }) => {
         Amortizacion_acumulada:
           Equipo.FinancialInformation.Amortizacion_acumulada,
         Valor_Contable: Equipo.FinancialInformation.Valor_Contable,
-        Cantidad: Equipo.FinancialInformation.Cantidad,
         Moneda: Equipo.FinancialInformation.Moneda,
+        Cantidad: Equipo.FinancialInformation.Cantidad,
         Tipo: Equipo.FinancialInformation.Tipo,
         Screen: Equipo.FinancialInformation.Screen,
         Nom_Clase: Equipo.FinancialInformation.Nom_Clase,
@@ -1085,10 +1087,9 @@ const ConsultaEquipos = ({ history }) => {
         Latitud: Equipo.FinancialInformation.Latitud,
         Longitud: Equipo.FinancialInformation.Longitud,
         Period_Time: Equipo.FinancialInformation.Period_Time,
-        FechaActualizacion: Equipo.FinancialInformation.FechaActualizacion,
-        EncargadoActualizacion:
-          Equipo.FinancialInformation.EncargadoActualizacion,
         Id_Equipment: Equipo.Id_Equipment,
+        EncargadoActualizacion: Equipo.FinancialInformation.EncargadoActualizacion,
+        FechaActualizacion: Equipo.FinancialInformation.FechaActualizacion,
       }
     );
 
@@ -2793,7 +2794,7 @@ const ConsultaEquipos = ({ history }) => {
             {/* -----------------------  Boton para insertar datos desde Excel   ----------------------------------- */}
             {/* ---------------------------------------------------------------------------------------------------- */}
 
-            {/* <div id="imagen">
+            <div id="imagen">
               <input
                 id="icon-button-file"
                 type="file"
@@ -2815,7 +2816,7 @@ const ConsultaEquipos = ({ history }) => {
                   <Add style={{ fontSize: 34, fontWeight: '800' }} />
                 </IconButton>
               </label>
-            </div> */}
+            </div>
 
           </Toolbar>
 

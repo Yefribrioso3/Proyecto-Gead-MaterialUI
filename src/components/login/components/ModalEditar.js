@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import Axios from "axios";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { globalApi } from "../../../types/api.types";
 import { ModalHeader, ModalBody, ModalFooter, FormGroup } from "reactstrap";
@@ -15,6 +14,9 @@ import {
 import { Modal } from "@mui/material";
 import Box from "@mui/material/Box";
 import { ThemeProvider } from "@material-ui/styles";
+
+// { useState }
+// import Axios from "axios";
 // Modal,
 
 export const ModalEditar = ({

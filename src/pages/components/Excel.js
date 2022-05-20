@@ -116,12 +116,12 @@ export const Excel = ({
           Valor_Contable: equipo[" Valor_Contable "] === undefined || equipo[" Valor_Contable "] === "NO DATA AVAILABLE" //Numeric
             ? null
             : equipo[" Valor_Contable "],
-          Cantidad: equipo[" Cantidad "] === undefined || equipo[" Cantidad "] === "NO DATA AVAILABLE" //Numeric
-            ? null
-            : equipo[" Cantidad "],
           Moneda: equipo[" Moneda "] === undefined //String
             ? "NO DATA AVAILABLE"
             : equipo[" Moneda "],
+          Cantidad: equipo[" Cantidad "] === undefined || equipo[" Cantidad "] === "NO DATA AVAILABLE" //Numeric
+            ? null
+            : equipo[" Cantidad "],
           Tipo: equipo[" Tipo "] === undefined //String
             ? "NO DATA AVAILABLE"
             : equipo[" Tipo "],
@@ -171,9 +171,9 @@ export const Excel = ({
             equipo.Period_Time === undefined || equipo.Period_Time === "NO DATA AVAILABLE" //Numeric
               ? null
               : equipo.Period_Time,
-          FechaActualizacion: fecha,
-          EncargadoActualizacion: `${userByToken.Name} ${userByToken.LastName}`,
           Id_Equipment: equipo.ID_GEAD.toString(),
+          EncargadoActualizacion: `${userByToken.Name} ${userByToken.LastName}`,
+          FechaActualizacion: `${fecha}`,
         },
         ServicesInformation: {
           Id_ServicesInformation: equipo.ID_GEAD.toString(),
@@ -392,7 +392,7 @@ export const Excel = ({
     // actualizarTabla(Excel)
 
     // console.log(Excel);
-    
+
     await insertar(Excel);
 
     setItem([]);

@@ -117,7 +117,7 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
                         type="number"
                         variant="outlined"
                         name="Amortizacion_acumulada"
-                        value={financialInformation && financialInformation.Amortizacion_acumulada}
+                        value={ financialInformation && financialInformation.Amortizacion_acumulada }
                         onChange={handleChangeFinancialInfo}
                     />
                 </FormGroup>

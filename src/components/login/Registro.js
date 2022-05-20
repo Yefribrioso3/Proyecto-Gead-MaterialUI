@@ -1,13 +1,8 @@
-/* eslint-disable react/jsx-pascal-case */
-// import { useForm } from 'react-hook-form';
-// import ExcelRegistro from './ExcelRegistro';
 import React, { useEffect, useState } from "react";
-// import Axios from "axios";
 import Head from "./Head";
 import PropTypes from "prop-types";
 import { DataGrid, esES } from "@mui/x-data-grid";
 import Controls from "../controls/Controls";
-// import { globalApi } from '../../types/api.types';
 import { ModalEditar } from "./components/ModalEditar";
 import { ModalInsertar } from "./components/ModalInsertar";
 import { Delete, Search, Visibility } from "@material-ui/icons";
@@ -23,9 +18,14 @@ import {
   Typography,
 } from "@material-ui/core";
 import { authAxios } from "../../types/headerToken";
-import { UserToken } from "../../pages/ConsultaEquipos";
 import Gead from "../../assets/logo.png";
 import GeadWhite from "../../assets/logo-white.png";
+/* eslint-disable react/jsx-pascal-case */
+// import { useForm } from 'react-hook-form';
+// import ExcelRegistro from './ExcelRegistro';
+// import Axios from "axios";
+// import { globalApi } from '../../types/api.types';
+// import { UserToken } from "../../pages/ConsultaEquipos";
 // makeStyles, TextField,
 
 const Registro = ({ history }) => {
@@ -439,6 +439,7 @@ const Registro = ({ history }) => {
       {/* </Grid> */}
 
       <ModalInsertar
+        authAxios={authAxios}
         modalInsertar={modalInsertar}
         setModalInsertar={setModalInsertar}
         user={user}

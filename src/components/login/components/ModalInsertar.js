@@ -29,6 +29,7 @@ export const ModalInsertar = ({
   allUser,
   setAllUser,
   light,
+  authAxios
 }) => {
   const {
     handleSubmit,
@@ -46,7 +47,7 @@ export const ModalInsertar = ({
   };
 
   const onSubmit = (e) => {
-    Axios.post(`${globalApi}/register`, user)
+    authAxios.post(`${globalApi}/register`, user)
       .then((x) => {
         console.log(x);
       })
