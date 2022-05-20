@@ -3437,9 +3437,9 @@ const ConsultaEquipos = ({ history }) => {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      <MenuItem value="Automation / Electronic">Automatización / Electrónico</MenuItem>
-                      <MenuItem value="Electrical">Electrico</MenuItem>
-                      <MenuItem value="Mechanical">Mecánico</MenuItem>
+                      <MenuItem value="AUTOMATION / ELECTRONIC">Automatización / Electrónico</MenuItem>
+                      <MenuItem value="ELECTRICAL">Electrico</MenuItem>
+                      <MenuItem value="MECHANICAL">Mecánico</MenuItem>
                     </Select>
                   </FormControl>
 
