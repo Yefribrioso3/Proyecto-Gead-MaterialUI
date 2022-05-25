@@ -1,4 +1,4 @@
-const localApi = "http://localHost:3001/api";
+// const localApi = "http://localHost:3001/api";
 
 // const herokuApi = "https://node-gead.herokuapp.com/api";
 
@@ -6,6 +6,6 @@ const localApi = "http://localHost:3001/api";
 
 const ApiProductivo = "https://mazappsupply.ab-inbev.com/gead-back/api" 
 
-export const globalApi = localApi;
+export const globalApi = ApiProductivo;
 
 // webpack-dev-server
