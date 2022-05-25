@@ -47,7 +47,15 @@ export const ModalInsertar = ({
   };
 
   const onSubmit = (e) => {
-    authAxios.post(`${globalApi}/register`, user)
+    console.log(user)
+    const NewUser = {
+      Name: user.Name,
+      LastName: user.LastName,
+      email: user.email,
+      password: user.password,
+      roleId: user.roleId
+    }
+    authAxios.post(`${globalApi}/register`, NewUser)
       .then((x) => {
         console.log(x);
       })
@@ -165,7 +173,7 @@ export const ModalInsertar = ({
             <h1
               style={{
                 color:
-                  theme.palette.type == "dark"
+                  theme.palette.type === "dark"
                     ? theme.palette.primary.light
                     : theme.palette.secondary,
               }}

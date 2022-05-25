@@ -70,6 +70,9 @@ import { select } from "./components/select";
 import FinancialInfo from "./components/FinancialInfo";
 import { Calification } from "./components/Calification";
 
+import StarIcon from "@material-ui/icons/Star";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+
 //-----------------------------------------------------------------------
 // const headCells = [
 //   { id: "Name", label: "Equipo" },
@@ -938,9 +941,9 @@ const ConsultaEquipos = ({ history }) => {
     });
 
     //  Actualizar datos
-    
-    // await putEquipment(equipo);
-    console.log(equipo);
+
+    await putEquipment(equipo);
+    // console.log(equipo);
     // console.log(equipoSeleccionado);
 
     // //  Actualizar todas las inforamciones tecnicas en el DB
@@ -2103,38 +2106,38 @@ const ConsultaEquipos = ({ history }) => {
 
   //  -------------------------------------------------------     ELIMINAR AD TECHNICAL INFO       --------------------------
 
-  const eliminarAddTechInfo = async (id) => {
-    let indice =
-      equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification.findIndex(
-        (equipo) => {
-          return equipo.Id_NewTechSpec === id;
-        }
-      );
+  // const eliminarAddTechInfo = async (id) => {
+  //   let indice =
+  //     equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification.findIndex(
+  //       (equipo) => {
+  //         return equipo.Id_NewTechSpec === id;
+  //       }
+  //     );
 
-    const idSelectNewTechSpec =
-      equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification.find(
-        (nts) => nts.Id_NewTechSpec === id
-      );
-    const idSelectNewTech =
-      idSelectNewTechSpec.SelectNewTechSpec.Id_SelectNewTechSpec;
+  //   const idSelectNewTechSpec =
+  //     equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification.find(
+  //       (nts) => nts.Id_NewTechSpec === id
+  //     );
+  //   const idSelectNewTech =
+  //     idSelectNewTechSpec.SelectNewTechSpec.Id_SelectNewTechSpec;
 
-    let newTechnicalSpecification =
-      equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification;
-    newTechnicalSpecification.splice(indice, 1);
+  //   let newTechnicalSpecification =
+  //     equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification;
+  //   newTechnicalSpecification.splice(indice, 1);
 
-    await deleteNewTechnicalSpec(id, idSelectNewTech);
+  //   await deleteNewTechnicalSpec(id, idSelectNewTech);
 
-    setEditingTechInfo(false);
-    setEditingTechInfo(true);
-  };
+  //   setEditingTechInfo(false);
+  //   setEditingTechInfo(true);
+  // };
 
-  const deleteNewTechnicalSpec = async (id, idSelectNewTech) => {
-    await Axios.delete(`${globalApi}/selectNewTechSpec/${idSelectNewTech}`);
+  // const deleteNewTechnicalSpec = async (id, idSelectNewTech) => {
+  //   await Axios.delete(`${globalApi}/selectNewTechSpec/${idSelectNewTech}`);
 
-    await Axios.delete(`${globalApi}/NewTechInfo/${id}`).then((id) => {
-      alert("successfully removed");
-    });
-  };
+  //   await Axios.delete(`${globalApi}/NewTechInfo/${id}`).then((id) => {
+  //     alert("successfully removed");
+  //   });
+  // };
 
   // const [prueba, setPrueba] = useState(null);
 
@@ -2596,12 +2599,45 @@ const ConsultaEquipos = ({ history }) => {
             component="span"
           >
             {
-              params.row.TechnicalSpecification.CurrentConditions === "Excellent" ? ("⭐⭐⭐⭐⭐") :
-                params.row.TechnicalSpecification.CurrentConditions === "Good" ? ("⭐⭐⭐⭐") :
-                  params.row.TechnicalSpecification.CurrentConditions === "Regular" ? ("⭐⭐⭐") :
-                    params.row.TechnicalSpecification.CurrentConditions === "Bad" ? ("⭐⭐") :
-                      params.row.TechnicalSpecification.CurrentConditions === "To be disposed" ? ("⭐") :
-                        params.row.TechnicalSpecification.CurrentConditions === "Deshecho" ? ("") : "NO DATA AVAILABLE"
+              params.row.TechnicalSpecification.CurrentConditions === "Excellent" ? <Grid item xs={3} style={{ color: "orange" }}>
+                <StarIcon fontSize="small" /> <StarIcon fontSize="small" /> <StarIcon fontSize="small" />
+                <StarIcon fontSize="small" /> <StarIcon fontSize="small" />
+              </Grid> :
+                params.row.TechnicalSpecification.CurrentConditions === "Good" ? <Grid item xs={3} style={{ color: "orange" }}>
+                  <StarIcon fontSize="small" />
+                  <StarIcon fontSize="small" />
+                  <StarIcon fontSize="small" />
+                  <StarIcon fontSize="small" />
+                  <StarBorderIcon fontSize="small" />
+                </Grid> :
+                  params.row.TechnicalSpecification.CurrentConditions === "Regular" ? <Grid item xs={3} style={{ color: "orange" }}>
+                    <StarIcon fontSize="small" />
+                    <StarIcon fontSize="small" />
+                    <StarIcon fontSize="small" />
+                    <StarBorderIcon fontSize="small" />
+                    <StarBorderIcon fontSize="small" />
+                  </Grid> :
+                    params.row.TechnicalSpecification.CurrentConditions === "Bad" ? <Grid item xs={3} style={{ color: "orange" }}>
+                      <StarIcon fontSize="small" />
+                      <StarIcon fontSize="small" />
+                      <StarBorderIcon fontSize="small" />
+                      <StarBorderIcon fontSize="small" />
+                      <StarBorderIcon fontSize="small" />
+                    </Grid> :
+                      params.row.TechnicalSpecification.CurrentConditions === "To be disposed" ? <Grid item xs={3} style={{ color: "orange" }}>
+                        <StarIcon fontSize="small" />
+                        <StarBorderIcon fontSize="small" />
+                        <StarBorderIcon fontSize="small" />
+                        <StarBorderIcon fontSize="small" />
+                        <StarBorderIcon fontSize="small" />
+                      </Grid> :
+                        params.row.TechnicalSpecification.CurrentConditions === "Deshecho" ? <Grid item xs={3} style={{ color: "orange" }}>
+                        <StarBorderIcon fontSize="small" />
+                        <StarBorderIcon fontSize="small" />
+                        <StarBorderIcon fontSize="small" />
+                        <StarBorderIcon fontSize="small" />
+                        <StarBorderIcon fontSize="small" />
+                      </Grid> : "NO DATA AVAILABLE"
             }
           </div>
         </div>
@@ -2794,7 +2830,7 @@ const ConsultaEquipos = ({ history }) => {
             {/* -----------------------  Boton para insertar datos desde Excel   ----------------------------------- */}
             {/* ---------------------------------------------------------------------------------------------------- */}
 
-            <div id="imagen">
+            {/* <div id="imagen">
               <input
                 id="icon-button-file"
                 type="file"
@@ -2816,7 +2852,7 @@ const ConsultaEquipos = ({ history }) => {
                   <Add style={{ fontSize: 34, fontWeight: '800' }} />
                 </IconButton>
               </label>
-            </div>
+            </div> */}
 
           </Toolbar>
 
@@ -3274,8 +3310,10 @@ const ConsultaEquipos = ({ history }) => {
                                       ? "#ffffff"
                                       : "#000000",
                                 }}
-                                onClick={() => {nextForm()
-                                  console.log(equipoSeleccionado);}}
+                                onClick={() => {
+                                  nextForm()
+                                  // console.log(equipoSeleccionado);
+                                }}
                               >
                                 Información técnica
                                 <ArrowForwardIcon />
@@ -3373,6 +3411,7 @@ const ConsultaEquipos = ({ history }) => {
                       <MenuItem value="Instalado y funcionando">Instalado y funcionando</MenuItem>
                       <MenuItem value="Instalado y no trabajando">Instalado y no trabajando</MenuItem>
                       <MenuItem value="No instalado">No instalado</MenuItem>
+                      <MenuItem value="NO DATA AVAILABLE">NO DATA AVAILABLE</MenuItem>
                     </Select>
                   </FormControl>
 
@@ -3441,6 +3480,7 @@ const ConsultaEquipos = ({ history }) => {
                       <MenuItem value="AUTOMATION / ELECTRONIC">Automatización / Electrónico</MenuItem>
                       <MenuItem value="ELECTRICAL">Electrico</MenuItem>
                       <MenuItem value="MECHANICAL">Mecánico</MenuItem>
+                      <MenuItem value="NO DATA AVAILABLE">NO DATA AVAILABLE</MenuItem>
                     </Select>
                   </FormControl>
 
@@ -4532,7 +4572,7 @@ const ConsultaEquipos = ({ history }) => {
               </div>
 
               <ModalBody className="row animate__animated animate__fadeIn">
-                <FormGroup className="col-4">
+                <FormGroup className="col-8">
                   {/* <label htmlFor="url_input">Equipo:</label>
                         <input
                           className="form-control"
@@ -4595,8 +4635,9 @@ const ConsultaEquipos = ({ history }) => {
                     </Select>
                     {/* <FormHelperText>Error</FormHelperText> */}
                   </FormControl>
+                </FormGroup>
 
-                  {/* <label>Trabajo actual:</label>
+                {/* <label>Trabajo actual:</label>
                         <select
                           className="form-select "
                           style={{ margin: "0px !important" }}
@@ -4612,11 +4653,10 @@ const ConsultaEquipos = ({ history }) => {
                           <option value="Installed and is not working"> Instalado y no trabajando </option>
                           <option value="Not Installed and is not working"> No instalado </option>
                         </select> */}
-                </FormGroup>
 
-                <FormGroup className="col-4">
+                {/* error */}
+                {/* <FormGroup className="col-4">
                   <FormControl fullWidth>
-                    {/* error */}
                     <InputLabel id="demo-simple-select-label">
                       Condición actual
                     </InputLabel>
@@ -4636,7 +4676,6 @@ const ConsultaEquipos = ({ history }) => {
                     // className="form-control"
                     // renderValue={(value) => `⭐  - ${value}` }
                     >
-                      {/* // ⚠️ */}
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
@@ -4649,10 +4688,12 @@ const ConsultaEquipos = ({ history }) => {
                       </MenuItem>
                       <MenuItem value="Deshecho">Deshecho</MenuItem>
                     </Select>
-                    {/* <FormHelperText>Error</FormHelperText> */}
                   </FormControl>
+                </FormGroup> */}
+                {/* // ⚠️ */}
+                {/* <FormHelperText>Error</FormHelperText> */}
 
-                  {/* <label htmlFor="CurrentConditions">
+                {/* <label htmlFor="CurrentConditions">
                           Condición actual:
                         </label>
                         <select
@@ -4673,7 +4714,7 @@ const ConsultaEquipos = ({ history }) => {
                             Para ser desechado
                           </option>
                         </select> */}
-                </FormGroup>
+
 
                 <FormGroup className="col-4">
                   <FormControl fullWidth>
@@ -4854,7 +4895,7 @@ const ConsultaEquipos = ({ history }) => {
                         /> */}
                 </FormGroup>
 
-                <FormGroup className="col-4">
+                <FormGroup className="col-8">
                   <TextField
                     label="Descripción"
                     className="form-control"
@@ -5038,7 +5079,9 @@ const ConsultaEquipos = ({ history }) => {
                     xs={4}
                     className="d-flex justify-content-start align-items-center"
                   >
-                    <Button color="secondary" onClick={() => backForm()}>
+                    <Button
+                      // color="secondary" 
+                      onClick={() => backForm()}>
                       <ArrowBackIcon />
                       Consulta Equipos
                     </Button>
@@ -5060,7 +5103,7 @@ const ConsultaEquipos = ({ history }) => {
                     className="d-flex justify-content-end align-items-center"
                   >
                     <Button
-                      color="secondary"
+                      // color="secondary"
                       onClick={() => {
                         // setEditing(true);
                         // setEditingServiceInfo(true);

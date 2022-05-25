@@ -20,6 +20,7 @@ import { createTheme } from "@material-ui/core/styles";
 // import Header from "../components/Header";
 import Registro from "../components/login/Registro";
 import { Transferencias } from "../pages/Transferencias";
+import LoginScreen from "../components/login/LoginScreen";
 // import PageHeader from '../components/PageHeader';
 
 // import Employees from "../pages/Employees/Employees";
@@ -80,10 +81,12 @@ export const DashboardRoutes = () => {
 
           <div className={classes.appMain}>
             <Switch>
+              <Route exact path="/" component={LoginScreen} />
               <Route exact path="/prueba" component={Prueba} />
               <Route exact path="/Home" component={Home} />
               <Route exact path="/consultaEquipos" component={ConsultaEquipos} setLight={setLight} />
               <Route exact path="/registro" component={Registro} />
+
               <Route
                 exact
                 path="/transferencias"

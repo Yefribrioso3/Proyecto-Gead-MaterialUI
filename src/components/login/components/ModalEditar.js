@@ -25,6 +25,7 @@ export const ModalEditar = ({
   userSeleccionado,
   setUserSeleccionado,
   allUser,
+  setAllUser,
   light,
   authAxios
 }) => {
@@ -32,7 +33,7 @@ export const ModalEditar = ({
 
   const handleChange = (e) => {
     //  ---- Capturar valores
-    console.log(e.target.value);
+    // console.log(e.target.value);
 
     const { name, value } = e.target;
 
@@ -110,14 +111,15 @@ export const ModalEditar = ({
 
   const onSubmit = (e) => {
     // -------- Peticion al Api para actualizar usuario
-    let Users = allUser;
-    console.log(userSeleccionado)
+    // let Users = allUser;
+    // console.log(userSeleccionado)
 
     authAxios.put(`${globalApi}/user/${userSeleccionado.Id_Usuario}`, {
       Name: userSeleccionado.Name,
       LastName: userSeleccionado.LastName,
       email: userSeleccionado.email,
       roleId: userSeleccionado.roleId,
+      Estado: userSeleccionado.Estado,
     })
       .then((x) => {
         console.log(x);
@@ -127,14 +129,15 @@ export const ModalEditar = ({
         console.log(x?.response);
       });
 
-    Users.map((equipo) => {
-      if (equipo.Id_Usuario === userSeleccionado.Id_Usuario) {
-        equipo.Name = userSeleccionado.Name;
-        equipo.LastName = userSeleccionado.LastName;
-        equipo.email = userSeleccionado.email;
-        equipo.roleId = userSeleccionado.roleId;
-      }
-    });
+    // Users.map((equipo) => {
+    //   if (equipo.Id_Usuario === userSeleccionado.Id_Usuario) {
+    //     equipo.Name = userSeleccionado.Name;
+    //     equipo.LastName = userSeleccionado.LastName;
+    //     equipo.email = userSeleccionado.email;
+    //     equipo.roleId = userSeleccionado.roleId;
+    //     equipo.Estado = userSeleccionado.Estado;
+    //   }
+    // });
 
     setModalEditar(false);
   };
@@ -146,7 +149,7 @@ export const ModalEditar = ({
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 500,
-    bgcolor: "background.paper",
+    // bgcolor: "background.paper",
     border: "1px solid #000",
     borderRadius: "25px",
     boxShadow: 24,
@@ -155,18 +158,82 @@ export const ModalEditar = ({
 
   const handleClose = () => setModalEditar(false); //  ---------   Cerrar el Modal   ------------
 
+  // const actualizar = async () => {
+  //   const UsersAdmin = allUser.filter((u) => u.roleId === 1);
+
+  //   console.log(UsersAdmin);
+
+  //   const user = UsersAdmin.map((u) => {
+  //     return u.email === "yefribrioso3@gmail.com" ? u = {
+  //       Id_Usuario: u.Id_Usuario,
+  //       Name: u.Name,
+  //       LastName: u.LastName,
+  //       email: u.email,
+  //       roleId: u.roleId,
+  //       Estado: u.Estado,
+  //     } :
+  //       u = {
+  //         Id_Usuario: u.Id_Usuario,
+  //         Name: u.Name,
+  //         LastName: u.LastName,
+  //         email: u.email,
+  //         roleId: 4,
+  //         Estado: u.Estado,
+  //       }
+  //   })
+  //   console.log(user);
+
+  //   await actualizarRol(user);
+  // };
+
+  // const actualizarRol = async (user) => {
+  //   user.map(async (u) => {
+  //     await authAxios.put(`${globalApi}/user/${u.Id_Usuario}`, u);
+  //   }).then((x) => {
+  //     console.log(x);
+  //     alert("Successful Updated");
+  //   })
+  //     .catch((x) => {
+  //       console.log(x?.response);
+  //     });
+  // };
+
   // < Modal isOpen={modalEditar} style={{ maxWidth: 500, paddingTop: '9rem' }}>
   return (
     <ThemeProvider theme={theme}>
-      <Modal open={modalEditar} onClose={handleClose}>
-        <Box sx={styl}>
+      <Modal
+        open={modalEditar}
+        onClose={handleClose}
+
+      >
+        <Box sx={styl}
+          className={`modalForm ${theme.palette.type}`}
+          style={{
+            maxWidth: 500,
+            // marginTop: "9rem",
+          }}
+        >
           <ModalHeader>
             <div>
-              <h1>Editar usuario</h1>
+              <h1 style={{
+                color:
+                  theme.palette.type === "dark"
+                    ? theme.palette.primary.light
+                    : theme.palette.secondary,
+              }}
+              >
+                Editar usuario</h1>
             </div>
           </ModalHeader>
           <form onSubmit={handleSubmit(onSubmit)}>
             <ModalBody className="row animate__animated animate__fadeIn">
+
+              {/* <div>
+                <Button onClick={() => actualizar()}>
+                  Actualizar Rol
+                </Button>
+              </div> */}
+              
               <FormGroup className="col-6">
                 <TextField
                   name="Name"
@@ -227,6 +294,25 @@ export const ModalEditar = ({
                 </FormControl>
               </FormGroup>
 
+              <FormGroup className="col-6">
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Estado</InputLabel>
+                  <Select
+                    name="Estado"
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={userSeleccionado && userSeleccionado.Estado}
+                    label="Estado"
+                    variant="outlined"
+                    required
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={true}>Activo</MenuItem>
+                    <MenuItem value={false}>Inactivo</MenuItem>
+                  </Select>
+                </FormControl>
+              </FormGroup>
+
               {/* <FormGroup>
               <TextField label="Contraseña"
                 name='password'
@@ -242,23 +328,35 @@ export const ModalEditar = ({
 
             {/* ----------------  Botones de Aceptar - Cancelar   ----------------------- */}
             <ModalFooter>
+              {/* --------------------  CANCELAR -------------------- */}
               <Button
-                type="submit"
-                color="primary"
-                variant="contained"
-                style={style.btn}
-              >
-                Aceptar
-              </Button>
-              {/* onClick={() => editar()} */}
-              <Button
-                color="secondary"
-                variant="contained"
+                style={{
+                  color:
+                    theme.palette.type === "dark"
+                      ? theme.palette.primary.light
+                      : theme.palette.secondary.light,
+                }}
+                variant="outlined"
                 onClick={() => {
                   setModalEditar(false);
                 }}
               >
                 Cancelar
+              </Button>
+
+              {/* --------------------  ACEPTAR -------------------- */}
+              <Button
+                style={{
+                  color: "#ffffff",
+                  backgroundColor:
+                    theme.palette.type === "dark"
+                      ? theme.palette.secondary.light
+                      : "#6200EE",
+                }}
+                type="submit"
+                variant="contained"
+              >
+                Aceptar
               </Button>
             </ModalFooter>
           </form>

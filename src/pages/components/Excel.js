@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+// import { Button } from "@material-ui/core";
 import Axios from "axios";
 import React from "react";
 // , { useEffect, useState }
@@ -206,7 +206,7 @@ export const Excel = ({
           CurrentConditions:
             equipo.Equipment_Current_Conditions === undefined
               ? "NO DATA AVAILABLE"
-              : equipo.Equipment_Current_Conditions.toUpperCase(),
+              : equipo.Equipment_Current_Conditions.toUpperCase() === "NUEVO" ? "Excellent" : equipo.Equipment_Current_Conditions.toUpperCase(),
           Weight:
             equipo.Weight === undefined ? "NO DATA AVAILABLE" : equipo.Weight.toUpperCase(),
           OEM: equipo.OEM === undefined ? "NO DATA AVAILABLE" : equipo.OEM.toUpperCase(),

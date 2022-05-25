@@ -20,6 +20,8 @@ import {
 import { authAxios } from "../../types/headerToken";
 import Gead from "../../assets/logo.png";
 import GeadWhite from "../../assets/logo-white.png";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import { globalApi } from "../../types/api.types";
 /* eslint-disable react/jsx-pascal-case */
 // import { useForm } from 'react-hook-form';
 // import ExcelRegistro from './ExcelRegistro';
@@ -149,6 +151,7 @@ const Registro = ({ history }) => {
         let a = await Promise.all(
           response.data.data.map((z) => ({ ...z, id: z.Id_Usuario }))
         );
+
         setAllUser(a);
       });
   };
@@ -164,7 +167,7 @@ const Registro = ({ history }) => {
           console.log(response);
         })
         .catch((x) => {
-          console.log(x?.response);
+          // console.log(x?.response);
           if (x?.response.data.error.message === "jwt expired") {
             // console.log("hola");
             history.replace('/login');
@@ -208,7 +211,6 @@ const Registro = ({ history }) => {
   const seleccionarUser = (elemento, caso) => {
     //Funcion para editar o eliminar el usuario seleccionado
     setUserSeleccionado(elemento);
-
     caso === "Editar" ? setModalEditar(true) : setModalEliminar(true);
   };
 
@@ -220,6 +222,7 @@ const Registro = ({ history }) => {
       email: "",
       roleId: "",
       password: "",
+      Estado: "",
     });
     // console.log(UserToken);
     setModalInsertar(true);
@@ -316,13 +319,13 @@ const Registro = ({ history }) => {
         }, */
   ];
 
-  const [filterFn, setFilterFn] = useState({
+  const [filterFn, setFilterFn] = useState({    //  ---------- Filtro
     fn: (items) => {
       return items;
     },
   });
 
-  const handleSearch = (e) => {
+  const handleSearch = (e) => {   // --------- Filtro
     let target = e.target;
     setFilterFn({
       fn: (items) => {
@@ -338,9 +341,34 @@ const Registro = ({ history }) => {
     });
   };
 
+  const eliminar = () => {
+
+    const equipo = userSeleccionado;
+    equipo.Estado = false;
+
+    setAllUser(
+      allUser.filter(
+        (equipo) => equipo.Id_Usuario !== userSeleccionado.Id_Usuario
+      )
+    );
+
+    EliminarUser(equipo);
+    setModalEliminar(false);
+  };
+
+  const EliminarUser = async (Equipo) => {
+    await authAxios.put(`${globalApi}/user/${Equipo.Id_Usuario}`, {
+      Name: Equipo.Name,
+      LastName: Equipo.LastName,
+      email: Equipo.email,
+      roleId: Equipo.roleId,
+      Estado: Equipo.Estado,
+    });
+  };
+
   return (
     <ThemeProvider theme={theme}>
-      <Head setLight={setLight} light={light} history={history}/>
+      <Head setLight={setLight} light={light} history={history} />
 
       <Paper style={style.paper} light={light}>
         {/* elevation={10} */}
@@ -349,7 +377,7 @@ const Registro = ({ history }) => {
           <div className="row">
             <div className="col-3">
               <img
-                src={theme.palette.type == "dark" ? GeadWhite : Gead}
+                src={theme.palette.type === "dark" ? GeadWhite : Gead}
                 style={style.logo}
                 alt=""
               />
@@ -405,11 +433,11 @@ const Registro = ({ history }) => {
               height: 600,
               width: "100%",
               color:
-                theme.palette.type == "dark"
+                theme.palette.type === "dark"
                   ? theme.palette.background.dark
                   : theme.palette.background.light,
               backgroundColor:
-                theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
+                theme.palette.type === "dark" ? "#514A69" : "#FFFFFF",
               paddingTop: "1rem",
             }}
           >
@@ -419,7 +447,7 @@ const Registro = ({ history }) => {
                 border: "0",
                 borderBottom: "0",
                 color:
-                  theme.palette.type == "dark"
+                  theme.palette.type === "dark"
                     ? theme.palette.primary.light
                     : theme.palette.primary.dark,
                 "&:nth-of-type(odd)": {
@@ -450,6 +478,7 @@ const Registro = ({ history }) => {
       />
 
       <ModalEditar
+        setAllUser={setAllUser}
         authAxios={authAxios}
         modalEditar={modalEditar}
         setModalEditar={setModalEditar}
@@ -458,6 +487,73 @@ const Registro = ({ history }) => {
         allUser={allUser}
         light={light}
       />
+
+
+
+      {/*============================= Modal Eliminar =========================================*/}
+
+      <Modal isOpen={modalEliminar}
+        className={`text-center modalForm ${theme.palette.type}`}
+        style={{
+          marginTop: "9rem",
+          fontSize: "1.2rem",
+          color:
+            theme.palette.type === "dark"
+              ? theme.palette.primary.light
+              : theme.palette.secondary.dark,
+          backgroundColor:
+            theme.palette.type === "dark" ? "#3F3857" : "#FFFFFF",
+        }}
+      >
+        {/* <ModalHeader
+          style={{
+            color:
+              theme.palette.type === "dark"
+                ? theme.palette.primary.light
+                : theme.palette.secondary,
+          }}>
+
+        </ModalHeader> */}
+
+        <ModalBody>
+          Estás seguro que deseas eliminar el usuario: <br />
+          {userSeleccionado && userSeleccionado.email}
+        </ModalBody>
+
+        <ModalFooter
+          className="justify-content-center"
+          style={{
+            backgroundColor:
+              theme.palette.type === "dark" ? "#3F3857" : "#FFFFFF",
+          }}
+        >
+          <Button
+            style={{
+              color:
+                theme.palette.type === "dark"
+                  ? theme.palette.primary.light
+                  : theme.palette.secondary.light,
+            }}
+            variant="outlined"
+            onClick={() => setModalEliminar(false)}
+          >
+            No quiero eliminar
+          </Button>
+          <Button
+            style={{
+              color: "#ffffff",
+              backgroundColor:
+                theme.palette.type === "dark"
+                  ? theme.palette.secondary.light
+                  : "#6200EE",
+            }}
+            variant="contained"
+            onClick={() => eliminar()}
+          >
+            Sí, eliminar
+          </Button>
+        </ModalFooter>
+      </Modal>
 
       <CssBaseline />
     </ThemeProvider>

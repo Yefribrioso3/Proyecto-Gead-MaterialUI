@@ -186,11 +186,11 @@ export const Calification = ({ light, technicalInformation, setTechnicalInformat
         checkedE: event.target.checked,
       });
       equipo.CurrentConditions = state.checkedE !== true? "Excellent" : "NO DATA AVAILABLE";  
-      console.log(state.checkedE)
+      // console.log(state.checkedE)
       setTechnicalInformation(equipo)
     }
-    console.log(equipo, "1");
-    console.log(technicalInformation, "2");
+    // console.log(equipo, "1");
+    // console.log(technicalInformation, "2");
   };
 
   const theme = createTheme({
