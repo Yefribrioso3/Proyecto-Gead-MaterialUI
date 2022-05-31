@@ -133,8 +133,11 @@ h4, h5, h6{
     border-radius: 4px !important;
 }
 /* MODEL FORM */
-
-.main{
-    background-color: var(--theme-root-background);
+.main.dark{
+    background-color: var(--theme-root-background) ;
+    min-height: 100vh;
+}
+.main.light{
+    background-color: var(--theme-root-background) ;
     min-height: 100vh;
 }

@@ -48,9 +48,7 @@ import planning from "../assets/planning.jpeg";
 
 // import { DocPDF } from "./components/DocPDF";
 
-
 // import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
-
 
 // import Excel from './components/Excel';
 import * as XLSX from "xlsx";
@@ -152,6 +150,11 @@ const ConsultaEquipos = ({ history }) => {
         theme.palette.type === "dark"
           ? theme.palette.primary.light
           : theme.palette.secondary,
+    },
+    appMain: {
+      paddingLeft: "15.625rem",
+      width: "100%",
+      height: "100%",
     },
   }));
 
@@ -1091,7 +1094,8 @@ const ConsultaEquipos = ({ history }) => {
         Longitud: Equipo.FinancialInformation.Longitud,
         Period_Time: Equipo.FinancialInformation.Period_Time,
         Id_Equipment: Equipo.Id_Equipment,
-        EncargadoActualizacion: Equipo.FinancialInformation.EncargadoActualizacion,
+        EncargadoActualizacion:
+          Equipo.FinancialInformation.EncargadoActualizacion,
         FechaActualizacion: Equipo.FinancialInformation.FechaActualizacion,
       }
     );
@@ -1680,21 +1684,21 @@ const ConsultaEquipos = ({ history }) => {
         nt.Id_NewTechSpec === null
           ? []
           : nt.map((NTS) => {
-            return (NTS = {
-              Id_NewTechSpec: NTS.Id_NewTechSpec,
-              Id_TechnicalSpecification:
-                technicalInformation.Id_TechnicalSpecification,
-              Name: NTS.Name,
-              Value: NTS.Value,
-              SelectNewTechSpec: {
-                Id_SelectNewTechSpec:
-                  NTS.SelectNewTechSpec.Id_SelectNewTechSpec,
+              return (NTS = {
+                Id_NewTechSpec: NTS.Id_NewTechSpec,
                 Id_TechnicalSpecification:
                   technicalInformation.Id_TechnicalSpecification,
-                Id_NewTechSpec: NTS.SelectNewTechSpec.Id_NewTechSpec,
-              },
+                Name: NTS.Name,
+                Value: NTS.Value,
+                SelectNewTechSpec: {
+                  Id_SelectNewTechSpec:
+                    NTS.SelectNewTechSpec.Id_SelectNewTechSpec,
+                  Id_TechnicalSpecification:
+                    technicalInformation.Id_TechnicalSpecification,
+                  Id_NewTechSpec: NTS.SelectNewTechSpec.Id_NewTechSpec,
+                },
+              });
             });
-          });
 
       valorInsertar.TechnicalSpecification.newTechnicalSpecification =
         newTechicInformationAll;
@@ -1711,21 +1715,21 @@ const ConsultaEquipos = ({ history }) => {
         ns.Id_NewServInfo === null
           ? []
           : ns.map((NSI) => {
-            return (NSI = {
-              Id_NewServInfo: NSI.Id_NewServInfo,
-              Id_ServicesInformation:
-                servicesInformation.Id_ServicesInformation,
-              Name: NSI.Name,
-              Value: NSI.Value,
-              SelectNewServicesInfo: {
-                Id_SelectNewServInfo:
-                  NSI.SelectNewServicesInfo.Id_SelectNewServInfo,
+              return (NSI = {
+                Id_NewServInfo: NSI.Id_NewServInfo,
                 Id_ServicesInformation:
                   servicesInformation.Id_ServicesInformation,
-                Id_NewServInfo: NSI.SelectNewServicesInfo.Id_NewServInfo,
-              },
+                Name: NSI.Name,
+                Value: NSI.Value,
+                SelectNewServicesInfo: {
+                  Id_SelectNewServInfo:
+                    NSI.SelectNewServicesInfo.Id_SelectNewServInfo,
+                  Id_ServicesInformation:
+                    servicesInformation.Id_ServicesInformation,
+                  Id_NewServInfo: NSI.SelectNewServicesInfo.Id_NewServInfo,
+                },
+              });
             });
-          });
 
       valorInsertar.ServicesInformation.newServicesInformation =
         newservInformationAll;
@@ -2185,17 +2189,17 @@ const ConsultaEquipos = ({ history }) => {
 
     caso === "technical"
       ? setTechnicalSpecEditado({
-        Id_NewTechSpec: techInfo.Id_NewTechSpec,
-        Id_TechnicalSpecification: techInfo.Id_TechnicalSpecification,
-        Name: techInfo.Name,
-        Value: techInfo.Value,
-      })
+          Id_NewTechSpec: techInfo.Id_NewTechSpec,
+          Id_TechnicalSpecification: techInfo.Id_TechnicalSpecification,
+          Name: techInfo.Name,
+          Value: techInfo.Value,
+        })
       : setTechInfoEditado({
-        Id_NewServInfo: techInfo.Id_NewServInfo,
-        Id_ServicesInformation: techInfo.Id_ServicesInformation,
-        Name: techInfo.Name,
-        Value: techInfo.Value,
-      });
+          Id_NewServInfo: techInfo.Id_NewServInfo,
+          Id_ServicesInformation: techInfo.Id_ServicesInformation,
+          Name: techInfo.Name,
+          Value: techInfo.Value,
+        });
   };
 
   // --------------------        ACTUALIZAR NEW SERVICES INFORMATION     -------------------------
@@ -2421,48 +2425,48 @@ const ConsultaEquipos = ({ history }) => {
       file === undefined
         ? "undefined"
         : new Promise((resolve, reject) => {
-          const fileReader = new FileReader();
-          fileReader.readAsArrayBuffer(file);
+            const fileReader = new FileReader();
+            fileReader.readAsArrayBuffer(file);
 
-          fileReader.onload = (e) => {
-            const bufferArray = e.target.result;
+            fileReader.onload = (e) => {
+              const bufferArray = e.target.result;
 
-            const workbook = XLSX.read(bufferArray, { type: "buffer" });
+              const workbook = XLSX.read(bufferArray, { type: "buffer" });
 
-            const workbookSheetsName = workbook.SheetNames[0];
+              const workbookSheetsName = workbook.SheetNames[0];
 
-            const workbookSheet = workbook.Sheets[workbookSheetsName];
+              const workbookSheet = workbook.Sheets[workbookSheetsName];
 
-            const data = XLSX.utils.sheet_to_json(workbookSheet);
+              const data = XLSX.utils.sheet_to_json(workbookSheet);
 
-            const jData = [];
-            for (let i = 0; i < data.length; i++) {
-              const dato = data[i];
+              const jData = [];
+              for (let i = 0; i < data.length; i++) {
+                const dato = data[i];
 
-              jData.push({
-                ...dato,
-                Date_of_Installation: formatearFechaExcel(
-                  dato.Date_of_Installation
-                ),
-                Date_of_Desintallation: formatearFechaExcel(
-                  dato.Date_of_Desintallation
-                ),
-              });
-            }
+                jData.push({
+                  ...dato,
+                  Date_of_Installation: formatearFechaExcel(
+                    dato.Date_of_Installation
+                  ),
+                  Date_of_Desintallation: formatearFechaExcel(
+                    dato.Date_of_Desintallation
+                  ),
+                });
+              }
 
-            resolve(jData);
-          };
-          fileReader.onerror = (error) => {
-            reject(error);
-          };
-        });
+              resolve(jData);
+            };
+            fileReader.onerror = (error) => {
+              reject(error);
+            };
+          });
 
     promise === "undefined"
       ? console.log("undefined")
       : promise.then((d) => {
-        setModalInsertarExcel(true);
-        setItem(d);
-      });
+          setModalInsertarExcel(true);
+          setItem(d);
+        });
   };
 
   function formatearFechaExcel(fechaExcel) {
@@ -2575,7 +2579,9 @@ const ConsultaEquipos = ({ history }) => {
       headerName: "Fecha Actualizacion",
       width: 170,
       valueGetter: (params) => {
-        return params.row.FinancialInformation.FechaActualizacion ? params.row.FinancialInformation.FechaActualizacion : "NO DATA AVAILABLE"
+        return params.row.FinancialInformation.FechaActualizacion
+          ? params.row.FinancialInformation.FechaActualizacion
+          : "NO DATA AVAILABLE";
       },
     },
     {
@@ -2583,7 +2589,10 @@ const ConsultaEquipos = ({ history }) => {
       headerName: "Valor en Libros",
       width: 170,
       valueGetter: (params) => {
-        return params.row.FinancialInformation.Valor_Contable || params.row.FinancialInformation.Valor_Contable === 0 ? `${params.row.FinancialInformation.Valor_Contable} - ${params.row.FinancialInformation.Moneda}` : "NO DATA AVAILABLE"
+        return params.row.FinancialInformation.Valor_Contable ||
+          params.row.FinancialInformation.Valor_Contable === 0
+          ? `${params.row.FinancialInformation.Valor_Contable} - ${params.row.FinancialInformation.Moneda}`
+          : "NO DATA AVAILABLE";
       },
     },
     {
@@ -2598,47 +2607,61 @@ const ConsultaEquipos = ({ history }) => {
             // onClick={() => seleccionarEquipo(params.row, "Editar")}
             component="span"
           >
-            {
-              params.row.TechnicalSpecification.CurrentConditions === "Excellent" ? <Grid item xs={3} style={{ color: "orange" }}>
-                <StarIcon fontSize="small" /> <StarIcon fontSize="small" /> <StarIcon fontSize="small" />
+            {params.row.TechnicalSpecification.CurrentConditions ===
+            "Excellent" ? (
+              <Grid item xs={3} style={{ color: "orange" }}>
+                <StarIcon fontSize="small" /> <StarIcon fontSize="small" />{" "}
+                <StarIcon fontSize="small" />
                 <StarIcon fontSize="small" /> <StarIcon fontSize="small" />
-              </Grid> :
-                params.row.TechnicalSpecification.CurrentConditions === "Good" ? <Grid item xs={3} style={{ color: "orange" }}>
-                  <StarIcon fontSize="small" />
-                  <StarIcon fontSize="small" />
-                  <StarIcon fontSize="small" />
-                  <StarIcon fontSize="small" />
-                  <StarBorderIcon fontSize="small" />
-                </Grid> :
-                  params.row.TechnicalSpecification.CurrentConditions === "Regular" ? <Grid item xs={3} style={{ color: "orange" }}>
-                    <StarIcon fontSize="small" />
-                    <StarIcon fontSize="small" />
-                    <StarIcon fontSize="small" />
-                    <StarBorderIcon fontSize="small" />
-                    <StarBorderIcon fontSize="small" />
-                  </Grid> :
-                    params.row.TechnicalSpecification.CurrentConditions === "Bad" ? <Grid item xs={3} style={{ color: "orange" }}>
-                      <StarIcon fontSize="small" />
-                      <StarIcon fontSize="small" />
-                      <StarBorderIcon fontSize="small" />
-                      <StarBorderIcon fontSize="small" />
-                      <StarBorderIcon fontSize="small" />
-                    </Grid> :
-                      params.row.TechnicalSpecification.CurrentConditions === "To be disposed" ? <Grid item xs={3} style={{ color: "orange" }}>
-                        <StarIcon fontSize="small" />
-                        <StarBorderIcon fontSize="small" />
-                        <StarBorderIcon fontSize="small" />
-                        <StarBorderIcon fontSize="small" />
-                        <StarBorderIcon fontSize="small" />
-                      </Grid> :
-                        params.row.TechnicalSpecification.CurrentConditions === "Deshecho" ? <Grid item xs={3} style={{ color: "orange" }}>
-                        <StarBorderIcon fontSize="small" />
-                        <StarBorderIcon fontSize="small" />
-                        <StarBorderIcon fontSize="small" />
-                        <StarBorderIcon fontSize="small" />
-                        <StarBorderIcon fontSize="small" />
-                      </Grid> : "NO DATA AVAILABLE"
-            }
+              </Grid>
+            ) : params.row.TechnicalSpecification.CurrentConditions ===
+              "Good" ? (
+              <Grid item xs={3} style={{ color: "orange" }}>
+                <StarIcon fontSize="small" />
+                <StarIcon fontSize="small" />
+                <StarIcon fontSize="small" />
+                <StarIcon fontSize="small" />
+                <StarBorderIcon fontSize="small" />
+              </Grid>
+            ) : params.row.TechnicalSpecification.CurrentConditions ===
+              "Regular" ? (
+              <Grid item xs={3} style={{ color: "orange" }}>
+                <StarIcon fontSize="small" />
+                <StarIcon fontSize="small" />
+                <StarIcon fontSize="small" />
+                <StarBorderIcon fontSize="small" />
+                <StarBorderIcon fontSize="small" />
+              </Grid>
+            ) : params.row.TechnicalSpecification.CurrentConditions ===
+              "Bad" ? (
+              <Grid item xs={3} style={{ color: "orange" }}>
+                <StarIcon fontSize="small" />
+                <StarIcon fontSize="small" />
+                <StarBorderIcon fontSize="small" />
+                <StarBorderIcon fontSize="small" />
+                <StarBorderIcon fontSize="small" />
+              </Grid>
+            ) : params.row.TechnicalSpecification.CurrentConditions ===
+              "To be disposed" ? (
+              <Grid item xs={3} style={{ color: "orange" }}>
+                <StarIcon fontSize="small" />
+                <StarBorderIcon fontSize="small" />
+                <StarBorderIcon fontSize="small" />
+                <StarBorderIcon fontSize="small" />
+                <StarBorderIcon fontSize="small" />
+              </Grid>
+            ) : params.row.TechnicalSpecification.CurrentConditions ===
+              "Deshecho" ? (
+              <Grid item xs={3} style={{ color: "orange" }}>
+                <StarBorderIcon fontSize="small" />
+                <StarBorderIcon fontSize="small" />
+                <StarBorderIcon fontSize="small" />
+                <StarBorderIcon fontSize="small" />
+                <StarBorderIcon fontSize="small" />
+              </Grid>
+            ) : (
+              "NO DATA AVAILABLE"
+            )}
           </div>
         </div>
       ),
@@ -2747,13 +2770,12 @@ const ConsultaEquipos = ({ history }) => {
     setFormStepInsertar((cur) => cur - 1);
   };
 
-
   // const borrarTechnInfo = () => {
   //   // let tech = technicalInformation;
   //   // tech.CurrentConditions = "";
   //   // setTechnicalInformation(equipoSeleccionado.TechnicalSpecification)
-  // } 
-  const [Roles, setRoles] = useState(true)
+  // }
+  const [Roles, setRoles] = useState(true);
 
   useEffect(() => {
     if (userByToken.roleId === 1 || userByToken.roleId === 4) {
@@ -2765,7 +2787,7 @@ const ConsultaEquipos = ({ history }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div>
+      <div className={classes.appMain + ` main ${theme.palette.type}`}>
         {/* <PageHeader
                 title="Consulta de Equipos"
                 subTitle="Middle America"
@@ -2853,7 +2875,6 @@ const ConsultaEquipos = ({ history }) => {
                 </IconButton>
               </label>
             </div> */}
-
           </Toolbar>
 
           <div
@@ -3001,7 +3022,6 @@ const ConsultaEquipos = ({ history }) => {
                   >
                     <Button color="primary">Descargar PDF</Button>
                   </PDFDownloadLink> */}
-
 
                   {/* -----------------------------   BOTON PARA TRANSFERIR EQUIPO  ------------------------ */}
                   {/* <Button
@@ -3311,7 +3331,7 @@ const ConsultaEquipos = ({ history }) => {
                                       : "#000000",
                                 }}
                                 onClick={() => {
-                                  nextForm()
+                                  nextForm();
                                   // console.log(equipoSeleccionado);
                                 }}
                               >
@@ -3391,7 +3411,6 @@ const ConsultaEquipos = ({ history }) => {
                     </option>
                   </select> */}
 
-
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select">
                       Trabajo actual
@@ -3399,7 +3418,10 @@ const ConsultaEquipos = ({ history }) => {
                     <Select
                       name="currentWorking"
                       labelId="demo-simple-select"
-                      value={technicalInformation && technicalInformation.currentWorking}
+                      value={
+                        technicalInformation &&
+                        technicalInformation.currentWorking
+                      }
                       label="Trabajo actual"
                       variant="outlined"
                       required
@@ -3408,15 +3430,18 @@ const ConsultaEquipos = ({ history }) => {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      <MenuItem value="Instalado y funcionando">Instalado y funcionando</MenuItem>
-                      <MenuItem value="Instalado y no trabajando">Instalado y no trabajando</MenuItem>
+                      <MenuItem value="Instalado y funcionando">
+                        Instalado y funcionando
+                      </MenuItem>
+                      <MenuItem value="Instalado y no trabajando">
+                        Instalado y no trabajando
+                      </MenuItem>
                       <MenuItem value="No instalado">No instalado</MenuItem>
-                      <MenuItem value="NO DATA AVAILABLE">NO DATA AVAILABLE</MenuItem>
+                      <MenuItem value="NO DATA AVAILABLE">
+                        NO DATA AVAILABLE
+                      </MenuItem>
                     </Select>
                   </FormControl>
-
-
-
                 </FormGroup>
 
                 {/* <FormGroup className="col-4">
@@ -3468,7 +3493,10 @@ const ConsultaEquipos = ({ history }) => {
                     <Select
                       name="EquipmentType"
                       labelId="demo-simple-select"
-                      value={technicalInformation && technicalInformation.EquipmentType}
+                      value={
+                        technicalInformation &&
+                        technicalInformation.EquipmentType
+                      }
                       label="Tipo de equipo"
                       variant="outlined"
                       required
@@ -3477,13 +3505,16 @@ const ConsultaEquipos = ({ history }) => {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      <MenuItem value="AUTOMATION / ELECTRONIC">Automatización / Electrónico</MenuItem>
+                      <MenuItem value="AUTOMATION / ELECTRONIC">
+                        Automatización / Electrónico
+                      </MenuItem>
                       <MenuItem value="ELECTRICAL">Electrico</MenuItem>
                       <MenuItem value="MECHANICAL">Mecánico</MenuItem>
-                      <MenuItem value="NO DATA AVAILABLE">NO DATA AVAILABLE</MenuItem>
+                      <MenuItem value="NO DATA AVAILABLE">
+                        NO DATA AVAILABLE
+                      </MenuItem>
                     </Select>
                   </FormControl>
-
                 </FormGroup>
 
                 <FormGroup className="col-4">
@@ -3503,7 +3534,9 @@ const ConsultaEquipos = ({ history }) => {
                     variant="outlined"
                     name="SerialNumber"
                     // required
-                    value={technicalInformation && technicalInformation.SerialNumber}
+                    value={
+                      technicalInformation && technicalInformation.SerialNumber
+                    }
                     onChange={handleChange}
                   />
                 </FormGroup>
@@ -3525,7 +3558,9 @@ const ConsultaEquipos = ({ history }) => {
                     variant="outlined"
                     name="ModelNumber"
                     // required
-                    value={technicalInformation && technicalInformation.ModelNumber}
+                    value={
+                      technicalInformation && technicalInformation.ModelNumber
+                    }
                     onChange={handleChange}
                   />
                 </FormGroup>
@@ -3681,14 +3716,14 @@ const ConsultaEquipos = ({ history }) => {
               light={light}
               backForm={backForm}
               nextForm={nextForm}
-            // casoServInfo={casoServInfo}
-            // setEditingTechInfo={setEditingTechInfo}
-            // equipoSeleccionado={equipoSeleccionado}
-            // editRow={editRow}
-            // setEditing={setEditing}
-            // setEditingServiceInfo={setEditingServiceInfo}
-            // seteditingNewServInfo={seteditingNewServInfo}
-            // setnewservInformation={setnewservInformation}
+              // casoServInfo={casoServInfo}
+              // setEditingTechInfo={setEditingTechInfo}
+              // equipoSeleccionado={equipoSeleccionado}
+              // editRow={editRow}
+              // setEditing={setEditing}
+              // setEditingServiceInfo={setEditingServiceInfo}
+              // seteditingNewServInfo={seteditingNewServInfo}
+              // setnewservInformation={setnewservInformation}
             />
           )}
           {formStep === 4 && ( // Informacion financiera
@@ -3967,7 +4002,7 @@ const ConsultaEquipos = ({ history }) => {
                       variant="outlined"
                       name="Id_Equipment"
                       value={getAllList.length + 1}
-                    // fullWidth
+                      // fullWidth
                     />
                   </FormGroup>
 
@@ -4616,8 +4651,8 @@ const ConsultaEquipos = ({ history }) => {
                       variant="outlined"
                       required
                       onChange={handleChange}
-                    // className="form-control"
-                    // renderValue={(value) => `⭐  - ${value}` }
+                      // className="form-control"
+                      // renderValue={(value) => `⭐  - ${value}` }
                     >
                       {/* // ⚠️ */}
                       <MenuItem value="">
@@ -4715,7 +4750,6 @@ const ConsultaEquipos = ({ history }) => {
                           </option>
                         </select> */}
 
-
                 <FormGroup className="col-4">
                   <FormControl fullWidth>
                     {/* error */}
@@ -4734,8 +4768,8 @@ const ConsultaEquipos = ({ history }) => {
                       variant="outlined"
                       required
                       onChange={handleChange}
-                    // className="form-control"
-                    // renderValue={(value) => `⭐  - ${value}` }
+                      // className="form-control"
+                      // renderValue={(value) => `⭐  - ${value}` }
                     >
                       {/* // ⚠️ */}
                       <MenuItem value="">
@@ -5080,8 +5114,9 @@ const ConsultaEquipos = ({ history }) => {
                     className="d-flex justify-content-start align-items-center"
                   >
                     <Button
-                      // color="secondary" 
-                      onClick={() => backForm()}>
+                      // color="secondary"
+                      onClick={() => backForm()}
+                    >
                       <ArrowBackIcon />
                       Consulta Equipos
                     </Button>

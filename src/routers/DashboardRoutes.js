@@ -62,41 +62,40 @@ export const DashboardRoutes = () => {
     },
   });
 
-  const useStyles = makeStyles((theme) => ({
-    appMain: {
-      paddingLeft: "15.625rem",
-      width: "100%",
-      height: "100%",
-    },
-  }));
+  // const useStyles = makeStyles((theme) => ({
+  //   appMain: {
+  //     paddingLeft: "15.625rem",
+  //     width: "100%",
+  //     height: "100%",
+  //   },
+  // }));
 
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return (
     <ThemeProvider theme={theme}>
-      <div className={"d-flex " + `main ${theme.palette.type}`} light={light}>
+      <div className={"d-flex "}>
         {/* <Sidebar /> */}
         <div className="content">
           {/* <NavbarNav /> */}
 
-          <div className={classes.appMain}>
-            <Switch>
-              <Route exact path="/" component={LoginScreen} />
-              <Route exact path="/prueba" component={Prueba} />
-              <Route exact path="/Home" component={Home} />
-              <Route exact path="/consultaEquipos" component={ConsultaEquipos} setLight={setLight} />
-              <Route exact path="/registro" component={Registro} />
+          <Switch>
+            <Route exact path="/" component={LoginScreen} />
+            <Route exact path="/prueba" component={Prueba} />
+            <Route exact path="/Home" component={Home} />
+            <Route
+              exact
+              path="/consultaEquipos"
+              component={ConsultaEquipos}
+              setLight={setLight}
+            />
+            <Route exact path="/registro" component={Registro} />
 
-              <Route
-                exact
-                path="/transferencias"
-                component={Transferencias}
-                setLight={setLight}
-              />
-              {/* <Redirect to="/maestroEquipos" /> */}
-              <Redirect to="/ConsultaEquipos" />
-            </Switch>
-          </div>
+            <Route exact path="/transferencias" component={Transferencias} />
+            {/* <Redirect to="/maestroEquipos" /> */}
+            <Redirect to="/ConsultaEquipos" />
+          </Switch>
+
           <CssBaseline />
         </div>
       </div>
