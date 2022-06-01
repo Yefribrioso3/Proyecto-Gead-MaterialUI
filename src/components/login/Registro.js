@@ -196,6 +196,9 @@ const Registro = ({ history }) => {
     email: "",
     roleId: "",
     password: "",
+    Estado: true,
+    LastLogin: "",
+    Id_Location: "",
   });
 
   const [userSeleccionado, setUserSeleccionado] = useState({
@@ -206,6 +209,8 @@ const Registro = ({ history }) => {
     email: "",
     password: "",
     roleId: "",
+    LastLogin: "",
+    Id_Location: "",
   });
 
   const seleccionarUser = (elemento, caso) => {
@@ -365,6 +370,7 @@ const Registro = ({ history }) => {
       Estado: Equipo.Estado,
     });
   };
+    //        ---------------------------   Fecha --------
 
   return (
     <ThemeProvider theme={theme}>

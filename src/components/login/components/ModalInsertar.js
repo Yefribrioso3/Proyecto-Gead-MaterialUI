@@ -1,6 +1,6 @@
 import React from "react";
 // { useState }
-import Axios from "axios";
+// import Axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { useForm } from "react-hook-form";
 import { globalApi } from "../../../types/api.types";
@@ -21,6 +21,7 @@ import {
   FormGroup,
 } from "reactstrap";
 import { ThemeProvider } from "@material-ui/styles";
+
 export const ModalInsertar = ({
   modalInsertar,
   setModalInsertar,
@@ -53,8 +54,13 @@ export const ModalInsertar = ({
       LastName: user.LastName,
       email: user.email,
       password: user.password,
-      roleId: user.roleId
+      roleId: user.roleId,
+      Estado: true,
+      LastLogin: null,
+      Id_Location: user.Id_Location,
     }
+    console.log(NewUser)
+
     authAxios.post(`${globalApi}/register`, NewUser)
       .then((x) => {
         console.log(x);
@@ -69,6 +75,7 @@ export const ModalInsertar = ({
     setAllUser([...allUser, newUser]);
 
     setModalInsertar(false);
+
 
     // history.replace('/consultaEquipos');
     // if (e.password === "12345678") {
@@ -195,13 +202,13 @@ export const ModalInsertar = ({
                 label="Nombre"
                 variant="outlined"
                 fullWidth
-                // style={style.TextField}
-                // {...register("Name", {
-                //   required: {
-                //     value: true,
-                //     message: 'Campo requerido'
-                //   }
-                // })}
+              // style={style.TextField}
+              // {...register("Name", {
+              //   required: {
+              //     value: true,
+              //     message: 'Campo requerido'
+              //   }
+              // })}
               />
 
               {/* -----------------   Prueba  --------------------- */}
@@ -234,13 +241,13 @@ export const ModalInsertar = ({
                 onChange={handleChange}
                 fullWidth
                 required
-                // style={style.TextField}
-                // {...register("LastName", {
-                //   required: {
-                //     value: true,
-                //     message: 'Campo requerido'
-                //   }
-                // })}
+              // style={style.TextField}
+              // {...register("LastName", {
+              //   required: {
+              //     value: true,
+              //     message: 'Campo requerido'
+              //   }
+              // })}
               />
             </FormGroup>
 
@@ -254,13 +261,13 @@ export const ModalInsertar = ({
                 onChange={handleChange}
                 fullWidth
                 required
-                // style={style.TextField}
-                // {...register("email", {
-                //   required: {
-                //     value: true,
-                //     message: 'Campo requerido'
-                //   }
-                // })}
+              // style={style.TextField}
+              // {...register("email", {
+              //   required: {
+              //     value: true,
+              //     message: 'Campo requerido'
+              //   }
+              // })}
               />
             </FormGroup>
 
@@ -295,17 +302,84 @@ export const ModalInsertar = ({
                 onChange={handleChange}
                 fullWidth
                 required
-                // type='password'
-                // obscureText="true"
-                // style={style.TextField}
-                // {...register("password", {
-                //   required: {
-                //     value: true,
-                //     message: 'Campo requerido'
-                //   }
-                // })}
+              // type='password'
+              // obscureText="true"
+              // style={style.TextField}
+              // {...register("password", {
+              //   required: {
+              //     value: true,
+              //     message: 'Campo requerido'
+              //   }
+              // })}
               />
             </FormGroup>
+
+            <FormGroup className="col-6">
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Planta</InputLabel>
+                  <Select
+                    name="Id_Location"
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={user && user.Id_Location}
+                    label="Planta"
+                    variant="outlined"
+                    required
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={1}>DOMINICANA</MenuItem>
+                    <MenuItem value={2}>APAN</MenuItem>
+                    <MenuItem value={3}>BARBADOS</MenuItem>
+                    <MenuItem value={4}>BARRANQUILLA</MenuItem>
+                    <MenuItem value={5}>BOYACA</MenuItem>
+                    <MenuItem value={6}>BUCARAMANGA</MenuItem>
+                    <MenuItem value={7}>FABRICA DE TAPAS DE TOCANCIPA</MenuItem>
+                    <MenuItem value={8}>ETIQUETAS IMPRESUR & INDUGRAL</MenuItem>
+                    <MenuItem value={9}>MEDELLIN</MenuItem>
+                    <MenuItem value={10}>MALTERIA TIBITO</MenuItem>
+                    <MenuItem value={11}>TONCACIPA</MenuItem>
+                    <MenuItem value={12}>MALTERIA TROPICAL</MenuItem>
+                    <MenuItem value={13}>VALLE</MenuItem>
+                    <MenuItem value={14}>HOLGUIN</MenuItem>
+                    <MenuItem value={15}>HATO NUEVO</MenuItem>
+                    <MenuItem value={16}>GUAYAQUIL</MenuItem>
+                    <MenuItem value={17}>QUITO</MenuItem>
+                    <MenuItem value={18}>MALTERIA DE GUAYAQUIL</MenuItem>
+                    <MenuItem value={19}>LA CONSTANCIA BEER</MenuItem>
+                    <MenuItem value={20}>EL SALVADOR CSD</MenuItem>
+                    <MenuItem value={21}>LA CONSTANCIA WALTER</MenuItem>
+                    <MenuItem value={22}>ZACAPA</MenuItem>
+                    <MenuItem value={23}>SAN PEDRO SULA BEER</MenuItem>
+                    <MenuItem value={24}>SAN PEDRO SULA CSD</MenuItem>
+                    <MenuItem value={25}>CEBADAS Y MALTAS</MenuItem>
+                    <MenuItem value={26}>GUADALAJARA</MenuItem>
+                    <MenuItem value={27}>MALTERIA ZACATECAS</MenuItem>
+                    <MenuItem value={28}>MAZATLÁN</MenuItem>
+                    <MenuItem value={29}>MEXICO CITY</MenuItem>
+                    <MenuItem value={30}>SALAMANCA (CASAL)</MenuItem>
+                    <MenuItem value={31}>TORREÓN</MenuItem>
+                    <MenuItem value={32}>TUXTEPEC</MenuItem>
+                    <MenuItem value={33}>YUCATAN</MenuItem>
+                    <MenuItem value={34}>ZACATECAS</MenuItem>
+                    <MenuItem value={35}>CUCAPÁ (CRAFT)</MenuItem>
+                    <MenuItem value={36}>PASADENA</MenuItem>
+                    <MenuItem value={37}>AREQUIPA</MenuItem>
+                    <MenuItem value={38}>ATE</MenuItem>
+                    <MenuItem value={39}>CUSCO</MenuItem>
+                    <MenuItem value={40}>HUACHIPA</MenuItem>
+                    <MenuItem value={41}>MALTERIA DE LIMA</MenuItem>
+                    <MenuItem value={42}>MOTUPE</MenuItem>
+                    <MenuItem value={43}>SAN JUAN (PUCALLPA)</MenuItem>
+                    <MenuItem value={44}>SAN MATEO (HUAROCHIRI)</MenuItem>
+                    <MenuItem value={45}>BARBARIAN (CRAFT)</MenuItem>
+                    <MenuItem value={46}>SAINT VINCENT</MenuItem>
+                    <MenuItem value={47}>BOGOTÁ BREWERY COMPANY (CRAFT)</MenuItem>
+                    <MenuItem value={48}>ENVASES Y TAPAS</MenuItem>
+                    <MenuItem value={49}>VIDRIERA POTOSÍ</MenuItem>
+                    <MenuItem value={50}>MAZATLAN</MenuItem>
+                  </Select>
+                </FormControl>
+              </FormGroup>
 
             {/* <Button type='submit'
               color="primary"
@@ -364,7 +438,7 @@ export const ModalInsertar = ({
             <Button
               style={{
                 color:
-                  theme.palette.type == "dark"
+                  theme.palette.type === "dark"
                     ? theme.palette.primary.light
                     : theme.palette.secondary.light,
               }}
@@ -379,7 +453,7 @@ export const ModalInsertar = ({
               style={{
                 color: "#ffffff",
                 backgroundColor:
-                  theme.palette.type == "dark"
+                  theme.palette.type === "dark"
                     ? theme.palette.secondary.light
                     : "#6200EE",
               }}

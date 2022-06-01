@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
@@ -20,6 +20,7 @@ import GeadWhite from "../../assets/logo-white.png";
 import Switch from "@mui/material/Switch";
 import Brightness2Icon from "@material-ui/icons/Brightness2";
 import { WbSunny } from "@material-ui/icons";
+import { authAxios } from "../../types/headerToken";
 
 const LoginScreen = ({ history }) => {
   const { register, handleSubmit } = useForm();
@@ -169,16 +170,38 @@ const LoginScreen = ({ history }) => {
   const [leyendaError, setLeyendaError] = useState("");
   const [errorEmail, setErrorEmail] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
-  
+
+  const [fecha, setFecha] = useState("");
+          // -----------------  Fecha Ingles
+  useEffect(() => {
+    let h = new Date();
+
+    let dia = h.getDate();
+    let Month = h.getMonth() + 1;
+    let anio = h.getFullYear();
+
+    const dia1 = ('0' + dia).slice(-2);
+    const mes1 = ('0' + Month).slice(-2);
+    setFecha(`${anio}/${mes1}/${dia1}`);
+
+    // let diaa = h.getUTCDate();
+    // let Month = h.getUTCMonth() + 1;
+    // let agnio = h.getUTCFullYear();
+    // setFecha(`${diaa}/${Month}/${agnio}`);
+  }, []);
+          // -----------------  Login
   const onSubmit = (e) => {
     setEditing(false);
     setPasswordEditing(false);
     // console.log(e);
+    e.LastLogin = fecha;
+
     axios
       .post(`${globalApi}/login`, e)
       .then((x) => {
-        // console.log(x);
+        console.log(x);
         localStorage.setItem("token", x.data.token);
+        // lastLogin(x)
         history.replace("/consultaEquipos");
       })
       .catch((x) => {
@@ -201,6 +224,8 @@ const LoginScreen = ({ history }) => {
         }
         // console.log(x?.response.data.msg)
       });
+
+
     // localStorage.removeItem("token")
     // if (e.password === "12345678") {
     // setTimeout(() => {
@@ -225,6 +250,18 @@ const LoginScreen = ({ history }) => {
     //     }
     // }, 1000);
   };
+
+  // const lastLogin = (x) => {
+  //   authAxios.put(`${globalApi}/user/${x.data.data.Id_Usuario}`, {
+  //     LastLogin: fecha,
+  //   })
+  //     .then((x) => {
+  //       console.log(x);
+  //     })
+  //     .catch((x) => {
+  //       console.log(x?.response);
+  //     });
+  // }
   //fadeInDown
   return (
     <ThemeProvider theme={theme}>
