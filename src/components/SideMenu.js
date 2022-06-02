@@ -86,6 +86,10 @@ const optionsMEX = [
   'MEXICO CITY',
   'ENVASES Y TAPAS',
   'VIDRIERA POTOSÍ',
+  'Yucatan',
+  'Cucapá (Craft)',
+  'Cebadas y Maltas',
+  'Salamanca (Casal)',
 ];
 
 const optionsCAC = [
@@ -97,6 +101,10 @@ const optionsCAC = [
   'EL SALVADOR WATER',
   'SAN PEDRO SULA CSD',
   'SAN PEDRO SULA BEER',
+  'Saint Vincent',
+  'La Constancia Beer',
+  'La Constancia Water',
+  'Barbados',
 ];
 
 const optionsPEC = [
@@ -110,16 +118,22 @@ const optionsPEC = [
   'GUAYAQUIL',
   'HUAROCHIRI',
   'MALTERIA DE LIMA',
+  'MALTERIA DE GUAYAQUIL',
 ];
 
 const optionsCOL = [
   'None',
   'VALLE',
   'BOYACA',
+  'HOLGUIN',
   'MEDELLIN',
   'TOCANCIPA',
   'BUCARAMANGA',
   'BARRANQUILLA',
+  'MALTERIA TIBITO',
+  'MALTERIA TROPICAL',
+  'FABRICA DE TAPAS DE TOCANCIPA',
+  'ETIQUETAS IMPRESURti & INDUGRAL',
 ];
 
 
