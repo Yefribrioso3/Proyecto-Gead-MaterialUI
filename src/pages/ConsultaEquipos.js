@@ -728,7 +728,14 @@ const ConsultaEquipos = ({ history }) => {
 
     setEquipoSeleccionado(elemento);
 
-    caso === "Editar" ? setModalEditar(true) : setModalEliminar(true); //Funcion para abrir el modal
+    if (userByToken.roleId === 1 || userByToken.roleId === 4) {
+      userByToken.Location.Name === elemento.Procedencia.areas.operations.Name ? setGuardarPorPlanta(false) : setGuardarPorPlanta(true)
+
+      caso === "Editar" ? setModalEditar(true) : setModalEliminar(true); //Funcion para abrir el modal
+    } else {
+      caso === "Editar" ? setModalEditar(true) : setModalEliminar(true); //Funcion para abrir el modal
+    }
+
   };
 
   // ----------------            HANDLE CHANGE       -------------------
@@ -2632,12 +2639,12 @@ const ConsultaEquipos = ({ history }) => {
                         <StarBorderIcon fontSize="small" />
                       </Grid> :
                         params.row.TechnicalSpecification.CurrentConditions === "Deshecho" ? <Grid item xs={3} style={{ color: "orange" }}>
-                        <StarBorderIcon fontSize="small" />
-                        <StarBorderIcon fontSize="small" />
-                        <StarBorderIcon fontSize="small" />
-                        <StarBorderIcon fontSize="small" />
-                        <StarBorderIcon fontSize="small" />
-                      </Grid> : "NO DATA AVAILABLE"
+                          <StarBorderIcon fontSize="small" />
+                          <StarBorderIcon fontSize="small" />
+                          <StarBorderIcon fontSize="small" />
+                          <StarBorderIcon fontSize="small" />
+                          <StarBorderIcon fontSize="small" />
+                        </Grid> : "NO DATA AVAILABLE"
             }
           </div>
         </div>
@@ -2754,6 +2761,7 @@ const ConsultaEquipos = ({ history }) => {
   //   // setTechnicalInformation(equipoSeleccionado.TechnicalSpecification)
   // } 
   const [Roles, setRoles] = useState(true)
+  const [GuardarPorPlanta, setGuardarPorPlanta] = useState(true)
 
   useEffect(() => {
     if (userByToken.roleId === 1 || userByToken.roleId === 4) {
@@ -3744,26 +3752,9 @@ const ConsultaEquipos = ({ history }) => {
               </>
             ) : (
               <>
-                <Button
-                  disabled={Roles}
-                  style={{
-                    color: "#ffffff",
-                    backgroundColor:
-                      theme.palette.type === "dark"
-                        ? theme.palette.secondary.light
-                        : "#6200EE",
-                  }}
-                  variant="contained"
-                  type="submit"
-                  onClick={() => editar()}
-                >
-                  Guardar Registro
-                </Button>
-
-                {/* {userByToken?.roleId === 1 || userByToken?.roleId === 4 ? (
-                  null
-                ) : (
+                {userByToken?.roleId === 1 || userByToken?.roleId === 4 ? (
                   <Button
+                    disabled={GuardarPorPlanta}
                     style={{
                       color: "#ffffff",
                       backgroundColor:
@@ -3773,11 +3764,27 @@ const ConsultaEquipos = ({ history }) => {
                     }}
                     variant="contained"
                     type="submit"
-                    disabled
+                    onClick={() => editar()}
                   >
                     Guardar Registro
                   </Button>
-                )} */}
+                ) : (
+                  <Button
+                    disabled={Roles}
+                    style={{
+                      color: "#ffffff",
+                      backgroundColor:
+                        theme.palette.type === "dark"
+                          ? theme.palette.secondary.light
+                          : "#6200EE",
+                    }}
+                    variant="contained"
+                    type="submit"
+                    onClick={() => editar()}
+                  >
+                    Guardar Registro
+                  </Button>
+                )}
               </>
             )}
           </ModalFooter>

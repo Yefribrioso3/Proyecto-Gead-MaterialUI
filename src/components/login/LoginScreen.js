@@ -205,7 +205,7 @@ const LoginScreen = ({ history }) => {
         history.replace("/consultaEquipos");
       })
       .catch((x) => {
-        // console.log(x?.response);
+        console.log(x?.response);
         if (x?.response.data.msg === "user not found") {
           setErrorEmail(true);
           setLeyendaEmail("Usuario incorrecto")

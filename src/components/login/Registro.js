@@ -68,7 +68,7 @@ const Registro = ({ history }) => {
       width: "70rem",
       margin: "130px auto",
       borderRadius: "24px",
-      backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
+      backgroundColor: theme.palette.type === "dark" ? "#514A69" : "#FFFFFF",
     },
     validation: {
       padding: 20,
@@ -94,7 +94,7 @@ const Registro = ({ history }) => {
       lineHeight: "140%",
       letterSpacing: "0.0025em",
       color:
-        theme.palette.type == "dark"
+        theme.palette.type === "dark"
           ? theme.palette.primary.dark
           : theme.palette.secondary.main,
       marginBottom: "0.5rem",
@@ -230,6 +230,8 @@ const Registro = ({ history }) => {
       Estado: "",
     });
     // console.log(UserToken);
+    console.log(allUser);
+    
     setModalInsertar(true);
   };
 

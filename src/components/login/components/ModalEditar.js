@@ -306,7 +306,7 @@ export const ModalEditar = ({
                     value={userSeleccionado && userSeleccionado.Id_Location}
                     label="Planta"
                     variant="outlined"
-                    required
+                    // required
                     onChange={handleChange}
                   >
                     <MenuItem value={1}>DOMINICANA</MenuItem>
@@ -336,7 +336,7 @@ export const ModalEditar = ({
                     <MenuItem value={25}>CEBADAS Y MALTAS</MenuItem>
                     <MenuItem value={26}>GUADALAJARA</MenuItem>
                     <MenuItem value={27}>MALTERIA ZACATECAS</MenuItem>
-                    <MenuItem value={28}>MAZATLÁN</MenuItem>
+                    <MenuItem value={28}>MAZATLAN</MenuItem>
                     <MenuItem value={29}>MEXICO CITY</MenuItem>
                     <MenuItem value={30}>SALAMANCA (CASAL)</MenuItem>
                     <MenuItem value={31}>TORREÓN</MenuItem>
@@ -358,7 +358,6 @@ export const ModalEditar = ({
                     <MenuItem value={47}>BOGOTÁ BREWERY COMPANY (CRAFT)</MenuItem>
                     <MenuItem value={48}>ENVASES Y TAPAS</MenuItem>
                     <MenuItem value={49}>VIDRIERA POTOSÍ</MenuItem>
-                    <MenuItem value={50}>MAZATLAN</MenuItem>
                   </Select>
                 </FormControl>
               </FormGroup>

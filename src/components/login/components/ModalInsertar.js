@@ -315,71 +315,90 @@ export const ModalInsertar = ({
             </FormGroup>
 
             <FormGroup className="col-6">
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Planta</InputLabel>
-                  <Select
-                    name="Id_Location"
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={user && user.Id_Location}
-                    label="Planta"
-                    variant="outlined"
-                    required
-                    onChange={handleChange}
-                  >
-                    <MenuItem value={1}>DOMINICANA</MenuItem>
-                    <MenuItem value={2}>APAN</MenuItem>
-                    <MenuItem value={3}>BARBADOS</MenuItem>
-                    <MenuItem value={4}>BARRANQUILLA</MenuItem>
-                    <MenuItem value={5}>BOYACA</MenuItem>
-                    <MenuItem value={6}>BUCARAMANGA</MenuItem>
-                    <MenuItem value={7}>FABRICA DE TAPAS DE TOCANCIPA</MenuItem>
-                    <MenuItem value={8}>ETIQUETAS IMPRESUR & INDUGRAL</MenuItem>
-                    <MenuItem value={9}>MEDELLIN</MenuItem>
-                    <MenuItem value={10}>MALTERIA TIBITO</MenuItem>
-                    <MenuItem value={11}>TONCACIPA</MenuItem>
-                    <MenuItem value={12}>MALTERIA TROPICAL</MenuItem>
-                    <MenuItem value={13}>VALLE</MenuItem>
-                    <MenuItem value={14}>HOLGUIN</MenuItem>
-                    <MenuItem value={15}>HATO NUEVO</MenuItem>
-                    <MenuItem value={16}>GUAYAQUIL</MenuItem>
-                    <MenuItem value={17}>QUITO</MenuItem>
-                    <MenuItem value={18}>MALTERIA DE GUAYAQUIL</MenuItem>
-                    <MenuItem value={19}>LA CONSTANCIA BEER</MenuItem>
-                    <MenuItem value={20}>EL SALVADOR CSD</MenuItem>
-                    <MenuItem value={21}>LA CONSTANCIA WALTER</MenuItem>
-                    <MenuItem value={22}>ZACAPA</MenuItem>
-                    <MenuItem value={23}>SAN PEDRO SULA BEER</MenuItem>
-                    <MenuItem value={24}>SAN PEDRO SULA CSD</MenuItem>
-                    <MenuItem value={25}>CEBADAS Y MALTAS</MenuItem>
-                    <MenuItem value={26}>GUADALAJARA</MenuItem>
-                    <MenuItem value={27}>MALTERIA ZACATECAS</MenuItem>
-                    <MenuItem value={28}>MAZATLÁN</MenuItem>
-                    <MenuItem value={29}>MEXICO CITY</MenuItem>
-                    <MenuItem value={30}>SALAMANCA (CASAL)</MenuItem>
-                    <MenuItem value={31}>TORREÓN</MenuItem>
-                    <MenuItem value={32}>TUXTEPEC</MenuItem>
-                    <MenuItem value={33}>YUCATAN</MenuItem>
-                    <MenuItem value={34}>ZACATECAS</MenuItem>
-                    <MenuItem value={35}>CUCAPÁ (CRAFT)</MenuItem>
-                    <MenuItem value={36}>PASADENA</MenuItem>
-                    <MenuItem value={37}>AREQUIPA</MenuItem>
-                    <MenuItem value={38}>ATE</MenuItem>
-                    <MenuItem value={39}>CUSCO</MenuItem>
-                    <MenuItem value={40}>HUACHIPA</MenuItem>
-                    <MenuItem value={41}>MALTERIA DE LIMA</MenuItem>
-                    <MenuItem value={42}>MOTUPE</MenuItem>
-                    <MenuItem value={43}>SAN JUAN (PUCALLPA)</MenuItem>
-                    <MenuItem value={44}>SAN MATEO (HUAROCHIRI)</MenuItem>
-                    <MenuItem value={45}>BARBARIAN (CRAFT)</MenuItem>
-                    <MenuItem value={46}>SAINT VINCENT</MenuItem>
-                    <MenuItem value={47}>BOGOTÁ BREWERY COMPANY (CRAFT)</MenuItem>
-                    <MenuItem value={48}>ENVASES Y TAPAS</MenuItem>
-                    <MenuItem value={49}>VIDRIERA POTOSÍ</MenuItem>
-                    <MenuItem value={50}>MAZATLAN</MenuItem>
-                  </Select>
-                </FormControl>
-              </FormGroup>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Planta</InputLabel>
+                <Select
+                  name="Id_Location"
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={user && user.Id_Location}
+                  label="Planta"
+                  variant="outlined"
+                  required
+                  onChange={handleChange}
+                >
+                  <MenuItem value={1}>DOMINICANA</MenuItem>
+                  <MenuItem value={2}>APAN</MenuItem>
+                  {/* //  ---- BARBADOS NO TIENE BU */}
+                  {/*   ------ FABRICA DE TAPAS DE TOCANCIPA */}
+                  {/*   ------ ETIQUETAS IMPRESUR & INDUGRAL */}
+                  {/*   ------ MALTERIA TIBITO */}
+                  {/*   ------ MALTERIA TROPICAL */}
+                  {/*   ------ HOLGUIN */}
+                  {/*   ------ MALTERIA DE GUAYAQUIL */}
+                  {/*   ------ LA CONSTANCIA BEER */}
+                  {/*   ------ LA CONSTANCIA WALTER */}
+                  {/*   ------ ZACAPA */}
+                  {/* CEBADAS Y MALTAS */}
+                  {/* MALTERIA ZACATECAS - CONFIRMAR SI ES UNA PLANTA */}
+                  {/* SALAMANCA (CASAL) */}
+                  {/* YUCATAN */}
+                  {/* CUCAPÁ (CRAFT) */}
+                  {/* HUACHIPA */}
+                  {/* SAN JUAN (PUCALLPA) */}
+                  {/* SAN MATEO (HUAROCHIRI) */}
+                  {/* BARBARIAN (CRAFT) */}
+                  {/* BOGOTÁ BREWERY COMPANY (CRAFT) */}
+                  <MenuItem value={3}>BARBADOS</MenuItem>
+                  <MenuItem value={4}>BARRANQUILLA</MenuItem>
+                  <MenuItem value={5}>BOYACA</MenuItem>
+                  <MenuItem value={6}>BUCARAMANGA</MenuItem>
+                  <MenuItem value={7}>FABRICA DE TAPAS DE TOCANCIPA</MenuItem>
+                  <MenuItem value={8}>ETIQUETAS IMPRESUR & INDUGRAL</MenuItem>
+                  <MenuItem value={9}>MEDELLIN</MenuItem>
+                  <MenuItem value={10}>MALTERIA TIBITO</MenuItem>
+                  <MenuItem value={11}>TONCACIPA</MenuItem>
+                  <MenuItem value={12}>MALTERIA TROPICAL</MenuItem>
+                  <MenuItem value={13}>VALLE</MenuItem>
+                  <MenuItem value={14}>HOLGUIN</MenuItem>
+                  <MenuItem value={15}>HATO NUEVO</MenuItem>
+                  <MenuItem value={16}>GUAYAQUIL</MenuItem>
+                  <MenuItem value={17}>QUITO</MenuItem>
+                  <MenuItem value={18}>MALTERIA DE GUAYAQUIL</MenuItem>
+                  <MenuItem value={19}>LA CONSTANCIA BEER</MenuItem>
+                  <MenuItem value={20}>EL SALVADOR CSD</MenuItem>
+                  <MenuItem value={21}>LA CONSTANCIA WALTER</MenuItem>
+                  <MenuItem value={22}>ZACAPA</MenuItem>
+                  <MenuItem value={23}>SAN PEDRO SULA BEER</MenuItem>
+                  <MenuItem value={24}>SAN PEDRO SULA CSD</MenuItem>
+                  <MenuItem value={25}>CEBADAS Y MALTAS</MenuItem>
+                  <MenuItem value={26}>GUADALAJARA</MenuItem>
+                  <MenuItem value={27}>MALTERIA ZACATECAS</MenuItem>
+                  <MenuItem value={28}>MAZATLAN</MenuItem>
+                  <MenuItem value={29}>MEXICO CITY</MenuItem>
+                  <MenuItem value={30}>SALAMANCA (CASAL)</MenuItem>
+                  <MenuItem value={31}>TORREÓN</MenuItem>
+                  <MenuItem value={32}>TUXTEPEC</MenuItem>
+                  <MenuItem value={33}>YUCATAN</MenuItem>
+                  <MenuItem value={34}>ZACATECAS</MenuItem>
+                  <MenuItem value={35}>CUCAPÁ (CRAFT)</MenuItem>
+                  <MenuItem value={36}>PASADENA</MenuItem>
+                  <MenuItem value={37}>AREQUIPA</MenuItem>
+                  <MenuItem value={38}>ATE</MenuItem>
+                  <MenuItem value={39}>CUSCO</MenuItem>
+                  <MenuItem value={40}>HUACHIPA</MenuItem>
+                  <MenuItem value={41}>MALTERIA DE LIMA</MenuItem>
+                  <MenuItem value={42}>MOTUPE</MenuItem>
+                  <MenuItem value={43}>SAN JUAN (PUCALLPA)</MenuItem>
+                  <MenuItem value={44}>SAN MATEO (HUAROCHIRI)</MenuItem>
+                  <MenuItem value={45}>BARBARIAN (CRAFT)</MenuItem>
+                  <MenuItem value={46}>SAINT VINCENT</MenuItem>
+                  <MenuItem value={47}>BOGOTÁ BREWERY COMPANY (CRAFT)</MenuItem>
+                  <MenuItem value={48}>ENVASES Y TAPAS</MenuItem>
+                  <MenuItem value={49}>VIDRIERA POTOSÍ</MenuItem>
+                </Select>
+              </FormControl>
+            </FormGroup>
 
             {/* <Button type='submit'
               color="primary"
