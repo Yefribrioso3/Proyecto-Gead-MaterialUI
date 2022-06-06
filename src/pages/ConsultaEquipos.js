@@ -11,7 +11,7 @@ import {
 } from "reactstrap";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
-import { DataGrid, esES } from "@mui/x-data-grid";
+import { DataGrid, esES, GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
 import Axios from "axios";
 import { useForm } from "react-hook-form";
 // import EditAddServInfo from "./components/EditAddServInfo";
@@ -118,6 +118,25 @@ const ConsultaEquipos = ({ history }) => {
     },
     esES
   );
+
+  function CustomToolbar() {  //---- Boton para exportar tabla
+    return (
+      <GridToolbarContainer>
+        <GridToolbarExport style={{
+          color:
+            theme.palette.type === "dark"
+              ? theme.palette.primary.light
+              : theme.palette.primary.dark,
+          "&:MuiDataGridMenuList": {
+            // &:MuiDataGrid-menuList
+            backgroundColor: theme.palette.primary.dark,
+          },
+        }}
+        printOptions={{ disableToolbarButton: true }}
+        />
+      </GridToolbarContainer>
+    );
+  }
 
   const useStyles = makeStyles((theme) => ({
     pageContent: {
@@ -2398,14 +2417,17 @@ const ConsultaEquipos = ({ history }) => {
               x.Procedencia.areas.operations.Name.toLowerCase().includes(
                 target.value.toLowerCase()
               ) ||
-              // x.TechnicalSpecification.OEM.toLowerCase().includes(target.value.toLowerCase()) ||
               x.TechnicalSpecification.SerialNumber.toLowerCase().includes(
                 target.value.toLowerCase()
               ) ||
               x.TechnicalSpecification.EquipmentType.toLowerCase().includes(
                 target.value.toLowerCase()
               )
+            // ||
+            // x.Id_Equipment.toLowerCase().includes(target.value.toLowerCase())
+            // x.FinancialInformation.Activo_fijo === null ? "null".toLowerCase().includes(target.value.toLowerCase()) : x.FinancialInformation.Activo_fijo.toLowerCase().includes(target.value.toLowerCase())
           );
+        // 152030006085
       },
     });
 
@@ -2506,6 +2528,15 @@ const ConsultaEquipos = ({ history }) => {
   };
 
   const columns = [
+    {
+      field: "Id_Equipment",
+      headerName: "ID Equipo",
+      hide: true,
+      width: 90,
+      valueGetter: (params) => {
+        return params.row.Id_Equipment
+      },
+    },
     {
       field: "Name",
       headerName: "Equipo",
@@ -2649,6 +2680,15 @@ const ConsultaEquipos = ({ history }) => {
           </div>
         </div>
       ),
+    },
+    {
+      field: "Activo_fijo",
+      headerName: "ID SAP",
+      hide: true,
+      width: 170,
+      valueGetter: (params) => {
+        return params.row.FinancialInformation.Activo_fijo
+      },
     },
 
     // {
@@ -2884,14 +2924,22 @@ const ConsultaEquipos = ({ history }) => {
           >
             <DataGrid
               localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-              // sx={{ m: 2 }}
               light={light}
               rows={filterFn.fn(getAllList)}
-              // style={{ color:"blue"}}
+              loading={getAllList.length === 0}
+              disableSelectionOnClick
               columns={columns}
               pageSize={13}
               rowsPerPageOptions={[13]}
+              // sx={{ m: 2 }}
+              // style={{ color:"blue"}}
+              // rowHeight={45}
+              // maxColumns={100}
+              components={{
+                Toolbar: CustomToolbar,
+              }}
               style={{
+                // height: 520,
                 border: "0",
                 borderBottom: "0",
                 color:

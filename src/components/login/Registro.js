@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Head from "./Head";
 import PropTypes from "prop-types";
-import { DataGrid, esES } from "@mui/x-data-grid";
+import { DataGrid, esES, GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
 import Controls from "../controls/Controls";
 import { ModalEditar } from "./components/ModalEditar";
 import { ModalInsertar } from "./components/ModalInsertar";
@@ -53,6 +53,27 @@ const Registro = ({ history }) => {
       },
     },
   });
+
+  function CustomToolbar() {
+    return (
+      <GridToolbarContainer>
+        <GridToolbarExport style={{
+          color:
+            theme.palette.type === "dark"
+              ? theme.palette.primary.light
+              : theme.palette.primary.dark,
+          "&:MuiDataGridMenuList": {
+            // &:MuiDataGrid-menuList
+            backgroundColor: theme.palette.primary.dark,
+          },
+        }}
+        printOptions={{ disableToolbarButton: true }}
+        />
+        {/* <GridColumnsToolbarButton />
+        <GridFilterToolbarButton /> */}
+      </GridToolbarContainer>
+    );
+  }
 
   // const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -243,6 +264,7 @@ const Registro = ({ history }) => {
       headerName: "Usuario",
       flex: 1,
       width: 400,
+      // editable: true,
       headerClassName: "header",
       renderCell: (params) => {
         return (
@@ -451,10 +473,19 @@ const Registro = ({ history }) => {
           >
             <DataGrid
               localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+              rows={filterFn.fn(allUser)}
+              loading={allUser.length === 0}
+              disableSelectionOnClick
+              columns={columns}
+              pageSize={9}
+              rowsPerPageOptions={[8]}
+              components={{
+                Toolbar: CustomToolbar,
+              }}
               style={{
-                border: "0",
-                borderBottom: "0",
-                color:
+              border: "0",
+              borderBottom: "0",
+              color:
                   theme.palette.type === "dark"
                     ? theme.palette.primary.light
                     : theme.palette.primary.dark,
@@ -463,11 +494,7 @@ const Registro = ({ history }) => {
                 },
               }}
               // sx={{ m: 2 }}
-              rows={filterFn.fn(allUser)}
               // style={{ color:"blue"}}
-              columns={columns}
-              pageSize={9}
-              rowsPerPageOptions={[8]}
             />
           </div>
         </div>
