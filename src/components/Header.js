@@ -10,7 +10,7 @@ import {
   ThemeProvider,
   makeStyles,
   createTheme,
-  Button,
+  // Button,
 } from "@material-ui/core";
 // import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 // import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
@@ -113,16 +113,6 @@ export default function Header({
     localStorage.removeItem("token")
   }
 
-  const [Roles, setRoles] = useState(true)
-
-  // useEffect(() => {
-  //   if (userByToken.roleId === 1){
-  //     setRoles(false);
-  //   } else {
-  //     setRoles(true);
-  //   }
-  // }, [userByToken.roleId]);
-
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static" className={classes.root}>
@@ -149,25 +139,25 @@ export default function Header({
             <Nav className="ms-auto" navbar>
               {/* userByToken */}
 
-              {userByToken.roleId === 1 ? (
-              <div className="">
-                {/* <a href='../assets/Manual.pdf' className='btn' style={{color: "blue"}} download="Manual.pdf" title='Descargar proyecto'> Manual <ArrowDownward /></a> */}
-                <a
-                  href="/registro"
-                  className="btn"
-                  style={{
-                    color:
-                      theme.palette.type === "dark"
-                        ? theme.palette.primary.light
-                        : theme.palette.secondary.dark,
-                  }}
-                  title="Crear Nuevo Usuario"
-                >
-                  {" "}
-                  New User{" "}
-                </a>
-                {/* src/assets/Manual.pdf */}
-              </div>
+              {userByToken.Roles?.Name === "ADMIN" ? (
+                <div className="">
+                  {/* <a href='../assets/Manual.pdf' className='btn' style={{color: "blue"}} download="Manual.pdf" title='Descargar proyecto'> Manual <ArrowDownward /></a> */}
+                  <a
+                    href="/registro"
+                    className="btn"
+                    style={{
+                      color:
+                        theme.palette.type === "dark"
+                          ? theme.palette.primary.light
+                          : theme.palette.secondary.dark,
+                    }}
+                    title="Crear Nuevo Usuario"
+                  >
+                    {" "}
+                    New User{" "}
+                  </a>
+                  {/* src/assets/Manual.pdf */}
+                </div>
               ) : null}
 
               <div className="">
@@ -200,15 +190,19 @@ export default function Header({
                 >
                   {
                     // userByToken?.roleId === 1 ? `${userByToken.Name} (ADMIN)` : `${userByToken.Name} (PLANTA)`
-                    userByToken?.roleId === 1
+                    userByToken.Roles?.Name === "ADMIN" // Consulta, De Alta Usuarios y Modifica Todo.
                       ? `${userByToken.Name} (ADMIN)`
-                      : userByToken?.roleId === 2
-                        ? `${userByToken.Name} (SUPERVISOR)`
-                        : userByToken?.roleId === 3
-                          ? `${userByToken.Name} (PLANTA)`
-                          : userByToken?.roleId === 4
-                            ? `${userByToken.Name} (GERENTE)`
-                            : null
+                      : userByToken.Roles?.Name === "Maintenance Director" // Consulta y Modifica Todas BU, Plantas y areas.
+                        ? `${userByToken.Name} (DIRECTOR)`
+                        : userByToken.Roles?.Name === "SPOC Maintenance BU" // Consulta y Modifica Todas plantas solo en su BU.
+                          ? `${userByToken.Name} (SPOC BU)` // PLANTA - Consulta
+                          : userByToken.Roles?.Name === "Maintenance Manager" // Consulta y Modifica solo en su Planta.
+                            ? `${userByToken.Name} (MANAGER)`
+                            : userByToken.Roles?.Name === "Maintenance Coordinator Area" // Consulta y Modifica solo Areas: Brewing, Utilities, packaging.
+                              ? `${userByToken.Name} (COORDINATOR)`
+                              : userByToken.Roles?.Name === "Viewer" // Consulta
+                                ? `${userByToken.Name} (VIEWER)`
+                                : null
                   }
                 </DropdownToggle>
                 <DropdownMenu

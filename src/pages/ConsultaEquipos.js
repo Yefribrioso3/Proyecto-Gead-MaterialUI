@@ -14,10 +14,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { DataGrid, esES, GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
 import Axios from "axios";
 import { useForm } from "react-hook-form";
-// import EditAddServInfo from "./components/EditAddServInfo";
-
 import ServiceInformation from "./components/ServiceInformation";
-// import EditAddTechInfo from './components/EditAddTechInfo';
 import PageHeader from "../components/PageHeader";
 import {
   Paper,
@@ -35,29 +32,16 @@ import {
   MenuItem,
   // FormHelperText,
 } from "@material-ui/core";
-// import useTable from "../components/useTable";
 import Controls from "../components/controls/Controls";
-import { Add, Delete, Search, Visibility } from "@material-ui/icons";
-// Edit,
+import { Add, CloudDownload, Delete, ImportExport, LockSharp, Search, Visibility } from "@material-ui/icons";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import IconButton from "@material-ui/core/IconButton";
 import SideMenu from "../components/SideMenu";
 import Header from "../components/Header";
-
 import planning from "../assets/planning.jpeg";
-
-// import { DocPDF } from "./components/DocPDF";
-
-
-// import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
-
-
-// import Excel from './components/Excel';
 import * as XLSX from "xlsx";
 import { Excel } from "./components/Excel";
-// send
 import { OptionalInfo } from "./components/OptionalInfo";
-// import { fontSize } from '@mui/system';
 import { globalApi } from "../types/api.types";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -69,9 +53,18 @@ import { Autocomplete } from "@mui/material";
 import { select } from "./components/select";
 import FinancialInfo from "./components/FinancialInfo";
 import { Calification } from "./components/Calification";
-
 import StarIcon from "@material-ui/icons/Star";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
+import { BtnEliminar } from "./components/BtnEliminar";
+// import EditAddServInfo from "./components/EditAddServInfo";
+// import EditAddTechInfo from './components/EditAddTechInfo';
+// import useTable from "../components/useTable";
+// Edit,
+// import { DocPDF } from "./components/DocPDF";
+// import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+// import Excel from './components/Excel';
+// send
+// import { fontSize } from '@mui/system';
 
 //-----------------------------------------------------------------------
 // const headCells = [
@@ -122,18 +115,32 @@ const ConsultaEquipos = ({ history }) => {
   function CustomToolbar() {  //---- Boton para exportar tabla
     return (
       <GridToolbarContainer>
-        <GridToolbarExport style={{
-          color:
-            theme.palette.type === "dark"
-              ? theme.palette.primary.light
-              : theme.palette.primary.dark,
-          "&:MuiDataGridMenuList": {
-            // &:MuiDataGrid-menuList
-            backgroundColor: theme.palette.primary.dark,
-          },
-        }}
-        printOptions={{ disableToolbarButton: true }}
-        />
+        {/* <GridToolbarExport
+          onClick={() => downloadExcel(filterFn.fn(getAllList))}
+          style={{
+            color:
+              theme.palette.type === "dark"
+                ? theme.palette.primary.light
+                : theme.palette.primary.dark,
+            "&:MuiDataGridMenuList": {
+              // &:MuiDataGrid-menuList
+              backgroundColor: theme.palette.primary.dark,
+            },
+          }}
+          printOptions={{ disableToolbarButton: true }}
+          // csvOptions={{ disableToolbarButton: true }}
+        /> */}
+
+        <Controls.Button
+          disabled={Roles}
+          variant="contained"
+          size="large"
+          color="secondary"
+          startIcon={<CloudDownload style={{ fontSize: 16, fontWeight: "800" }} />}
+          onClick={() => downloadExcel(filterFn.fn(getAllList))}
+          style={{ fontSize: 12, fontWeight: "600" }}
+          text={"Exportar a Excel"}
+        ></Controls.Button>
       </GridToolbarContainer>
     );
   }
@@ -533,6 +540,7 @@ const ConsultaEquipos = ({ history }) => {
         WorkingHours: "",
         LaboratoryEquipment: "",
         Id_TechnicalSpecification: "",
+        MotivodeBaja: "",
       },
     },
   });
@@ -613,6 +621,7 @@ const ConsultaEquipos = ({ history }) => {
     WorkingHours: "",
     LaboratoryEquipment: "",
     Id_TechnicalSpecification: null,
+    MotivodeBaja: "",
   });
 
   const [financialInformation, setFinancialInformation] = useState({
@@ -747,11 +756,41 @@ const ConsultaEquipos = ({ history }) => {
 
     setEquipoSeleccionado(elemento);
 
-    if (userByToken.roleId === 1 || userByToken.roleId === 4) {
-      userByToken.Location.Name === elemento.Procedencia.areas.operations.Name ? setGuardarPorPlanta(false) : setGuardarPorPlanta(true)
+    // "Maintenance Director", "SPOC Maintenance BU", "Maintenance Manager",
+    //   "Maintenance Coordinator Area"
+
+    // ADMIN Sin Restricciones.
+    // Maintenance Director Sin acceso al Menu de Users.
+    if (["ADMIN", "Maintenance Director"].includes(userByToken.Roles?.Name)) {
+      caso === "Editar" ? setModalEditar(true) : setModalEliminar(true); //Funcion para abrir el modal
+
+    } else if (userByToken.Roles?.Name === "SPOC Maintenance BU") { // Edita en su BU.
+      userByToken.Location?.ShortName === elemento.Procedencia.areas.operations.countries.bu.Name
+        ? (<> {setGuardarPorPlanta(false)} {setDisabled(false)} </>) : (<>{setGuardarPorPlanta(true)} {setDisabled(true)}</>)
 
       caso === "Editar" ? setModalEditar(true) : setModalEliminar(true); //Funcion para abrir el modal
+
+    } else if (userByToken.Roles?.Name === "Maintenance Manager") { // Edita en su Planta.
+      userByToken.Location?.ShortName === elemento.Procedencia.areas.operations.countries.bu.Name
+        ? userByToken.Location?.Name === elemento.Procedencia.areas.operations.Name ? (<>{setGuardarPorPlanta(false)} {setDisabled(false)}</>)
+          : (<>{setGuardarPorPlanta(true)} {setDisabled(true)}</>) : (<>{setGuardarPorPlanta(true)} {setDisabled(true)}</>)
+      // userByToken.Location.Name === elemento.Procedencia.areas.operations.Name ? setGuardarPorPlanta(false) : setGuardarPorPlanta(true)
+      caso === "Editar" ? setModalEditar(true) : setModalEliminar(true); //Funcion para abrir el modal
+
+    } else if (userByToken.Roles?.Name === "Maintenance Coordinator Area") { // Edita en su Area.
+      userByToken.Location?.ShortName === elemento.Procedencia.areas.operations.countries.bu.Name
+        ? userByToken.Location?.Name === elemento.Procedencia.areas.operations.Name
+          ? userByToken.Area === elemento.Procedencia.areas.Name ? (<>{setGuardarPorPlanta(false)} {setDisabled(false)}</>)
+            : (<>{setGuardarPorPlanta(true)} {setDisabled(true)}</>) : (<>{setGuardarPorPlanta(true)} {setDisabled(true)}</>) : (<>{setGuardarPorPlanta(true)} {setDisabled(true)}</>)
+
+      caso === "Editar" ? setModalEditar(true) : setModalEliminar(true); //Funcion para abrir el modal
+
+    } else if (userByToken.Roles?.Name === "Viewer") { // Edita en su Area.
+      (<>{setGuardarPorPlanta(true)} {setDisabled(true)}</>);
+      caso === "Editar" ? setModalEditar(true) : setModalEliminar(true); //Funcion para abrir el modal
+
     } else {
+      (<>{setGuardarPorPlanta(true)} {setDisabled(true)}</>);
       caso === "Editar" ? setModalEditar(true) : setModalEliminar(true); //Funcion para abrir el modal
     }
 
@@ -1172,6 +1211,7 @@ const ConsultaEquipos = ({ history }) => {
           Equipo.TechnicalSpecification.OptionalTechInfo.LaboratoryEquipment,
         Id_TechnicalSpecification:
           Equipo.TechnicalSpecification.Id_TechnicalSpecification,
+        MotivodeBaja: Equipo.TechnicalSpecification.OptionalTechInfo.MotivodeBaja,
       }
     ).then(() => {
       alert("Successful Updated");
@@ -1364,6 +1404,7 @@ const ConsultaEquipos = ({ history }) => {
           WorkingHours: null,
           LaboratoryEquipment: null,
           Id_TechnicalSpecification: null,
+          MotivodeBaja: "",
         },
       },
     });
@@ -1478,6 +1519,7 @@ const ConsultaEquipos = ({ history }) => {
       WorkingHours: "",
       LaboratoryEquipment: "",
       Id_TechnicalSpecification: null,
+      MotivodeBaja: "",
     });
     setLine({
       Id_Line: null,
@@ -2036,6 +2078,7 @@ const ConsultaEquipos = ({ history }) => {
       Id_TechnicalSpecification:
         valorInsertar.TechnicalSpecification.OptionalTechInfo
           .Id_TechnicalSpecification,
+      MotivodeBaja: valorInsertar.TechnicalSpecification.OptionalTechInfo.MotivodeBaja,
     });
   };
 
@@ -2527,6 +2570,8 @@ const ConsultaEquipos = ({ history }) => {
     });
   };
 
+  const [Disabled, setDisabled] = useState(false);
+
   const columns = [
     {
       field: "Id_Equipment",
@@ -2736,39 +2781,37 @@ const ConsultaEquipos = ({ history }) => {
               <Visibility />
             </IconButton>
           </div>
+          {
+            ["ADMIN", "Maintenance Director", "SPOC Maintenance BU", "Maintenance Manager",
+              "Maintenance Coordinator Area"].includes(userByToken.Roles?.Name) && (
+              <>
+                {/* {
+                  setDisabled(false)
+                } */}
+                <BtnEliminar
+                  seleccionarEquipo={seleccionarEquipo}
+                  params={params}
+                // Disabled={Disabled}
+                />
+              </>
+            )
+          }
+          
+          {
+            userByToken.Roles?.Name === "Viewer" && (
+              <>
+                {
+                  setDisabled(true)
+                }
+                <BtnEliminar
+                  seleccionarEquipo={seleccionarEquipo}
+                  params={params}
+                  Disabled={Disabled}
+                />
+              </>
+            )
+          }
 
-          {userByToken?.roleId === 1 || userByToken?.roleId === 4 ? (
-            <div
-              // disabled={Roles}
-              aria-label="delete"
-              onClick={() => seleccionarEquipo(params.row, "Eliminar")}
-              component="span"
-            >
-              <IconButton
-                // disabled={Roles}
-                style={{
-                  fontWeight: 500,
-                  color: theme.palette.alert.main,
-                }}
-                aria-label="delete"
-              >
-                <Delete />
-              </IconButton>
-            </div>
-          ) : (
-            <div aria-label="delete" component="span">
-              <IconButton
-                style={{
-                  fontWeight: 500,
-                  color: theme.palette.alert.main,
-                }}
-                disabled
-                aria-label="delete"
-              >
-                <Delete />
-              </IconButton>
-            </div>
-          )}
         </div>
       ),
     },
@@ -2800,16 +2843,120 @@ const ConsultaEquipos = ({ history }) => {
   //   // tech.CurrentConditions = "";
   //   // setTechnicalInformation(equipoSeleccionado.TechnicalSpecification)
   // } 
-  const [Roles, setRoles] = useState(true)
-  const [GuardarPorPlanta, setGuardarPorPlanta] = useState(true)
+  const [Roles, setRoles] = useState(true);
+  const [GuardarPorPlanta, setGuardarPorPlanta] = useState(true);
 
-  useEffect(() => {
-    if (userByToken.roleId === 1 || userByToken.roleId === 4) {
+  useEffect(() => {   // Boton Nuevo Equipo
+    // if (
+    //   userByToken.Roles?.Name === "ADMIN"
+    //   || userByToken.Roles?.Name === "Maintenance Director"
+    //   || userByToken.Roles?.Name === "SPOC Maintenance BU"
+    //   || userByToken.Roles?.Name === "Maintenance Manager"
+    //   || userByToken.Roles?.Name === "Maintenance Coordinator Area"
+    // ) {
+    if (["ADMIN", "Maintenance Director", "SPOC Maintenance BU", "Maintenance Manager",
+      "Maintenance Coordinator Area"].includes(userByToken.Roles?.Name)) {
       setRoles(false);
+      setGuardarPorPlanta(false);
     } else {
       setRoles(true);
     }
-  }, [userByToken.roleId]);
+  }, [userByToken.Roles?.Name]);
+
+  //  ----------------- Descargar desde EXCEL -----------
+  const downloadExcel = (data) => {
+    const datos = filterFn.fn(getAllList);
+
+    const Json = datos.map((d) => {
+      return (d = {
+        ID: d.Id_Equipment,
+        Name: d.Name,
+        BU: d.Procedencia.areas.operations.countries.bu.Name,
+        Pais: d.Procedencia.areas.operations.countries.Name,
+        planta: d.Procedencia.areas.operations.Name,
+        area: d.Procedencia.areas.Name,
+        SubArea: d.Procedencia.areas.SubArea.Name,
+        Description: d.TechnicalSpecification.Description,
+        lineNumber: d.Procedencia.line.number,
+        lineTypes: d.Procedencia.line.lineTypes.Name,
+        DesuseReason: d.ServicesInformation.DesuseReason,
+        EquipmentType: d.TechnicalSpecification.EquipmentType,
+        currentWorking: d.TechnicalSpecification.currentWorking,
+        CurrentConditions: d.TechnicalSpecification.CurrentConditions,
+        NotesAboutEquipment: d.TechnicalSpecification.OptionalTechInfo.NotesAboutEquipment,
+        Gmail: d.code,
+        EquipmentValueInUSD: d.FinancialInformation.EquipmentValueInUSD,
+        Activo_fijo: d.FinancialInformation.Activo_fijo,
+        Soc: d.FinancialInformation.Soc,
+        Concatenar: d.FinancialInformation.Concatenar,
+        Clase: d.FinancialInformation.Clase,
+        Centro: d.FinancialInformation.Centro,
+        CodPM: d.FinancialInformation.CodPM,
+        Centro_de_costos: d.FinancialInformation.Centro_de_costos,
+        Fecha_de_capitalizacion: d.FinancialInformation.Fecha_de_capitalizacion,
+        Valor_Adquirido: d.FinancialInformation.Valor_Adquirido,
+        Amortizacion_acumulada: d.FinancialInformation.Amortizacion_acumulada,
+        Valor_Contable: d.FinancialInformation.Valor_Contable,
+        Moneda: d.FinancialInformation.Moneda,
+        Cantidad: d.FinancialInformation.Cantidad,
+        Tipo: d.FinancialInformation.Tipo,
+        Screen: d.FinancialInformation.Screen,
+        Nom_Clase: d.FinancialInformation.Nom_Clase,
+        Nom_Ce: d.FinancialInformation.Nom_Ce,
+        Encontrado_SI_NO: d.FinancialInformation.Encontrado_SI_NO,
+        Estado_del_Activo: d.FinancialInformation.Estado_del_Activo,
+        Categoria: d.FinancialInformation.Categoria,
+        Gerencia: d.FinancialInformation.Gerencia,
+        Codigo_De_Barras: d.FinancialInformation.Codigo_De_Barras,
+        DI: d.FinancialInformation.DI,
+        SN: d.FinancialInformation.SN,
+        Depreciacion_acumulada_ajustada: d.FinancialInformation.Depreciacion_acumulada_ajustada,
+        Tasa_Cambio_contra_dolar: d.FinancialInformation.Tasa_Cambio_contra_dolar,
+        Latitud: d.FinancialInformation.Latitud,
+        Longitud: d.FinancialInformation.Longitud,
+        Period_Time: d.FinancialInformation.Period_Time,
+        FechaActualizacion: d.FinancialInformation.FechaActualizacion,
+        EncargadoActualizacion: d.FinancialInformation.EncargadoActualizacion,
+        DateOfInstallation: d.ServicesInformation.DateOfInstallation,
+        DateOfDesintallation: d.ServicesInformation.DateOfDesintallation,
+        DesinstallationReason: d.ServicesInformation.DesinstallationReason,
+        ProcurementOrder: d.ServicesInformation.ProcurementOrder,
+        Weight: d.TechnicalSpecification.Weight,
+        OEM: d.TechnicalSpecification.OEM,
+        ModelNumber: d.TechnicalSpecification.ModelNumber,
+        SerialNumber: d.TechnicalSpecification.SerialNumber,
+        vendor: d.TechnicalSpecification.vendor,
+        NominalCapacity: d.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
+        YearOfConstruction: d.TechnicalSpecification.OptionalTechInfo.YearOfConstruction,
+        EquipmentCurrentConditionsComments: d.TechnicalSpecification.OptionalTechInfo.EquipmentCurrentConditionsComments,
+        AssambledDissambled: d.TechnicalSpecification.OptionalTechInfo.AssambledDissambled,
+        PlantTechnicalInformationContact: d.TechnicalSpecification.OptionalTechInfo.PlantTechnicalInformationContact,
+        PlantFinancialInformationContact: d.TechnicalSpecification.OptionalTechInfo.PlantFinancialInformationContact,
+        Width: d.TechnicalSpecification.OptionalTechInfo.Width,
+        Depth: d.TechnicalSpecification.OptionalTechInfo.Depth,
+        Height: d.TechnicalSpecification.OptionalTechInfo.Height,
+        ConstructionMaterials: d.TechnicalSpecification.OptionalTechInfo.ConstructionMaterials,
+        ExternalCoating: d.TechnicalSpecification.OptionalTechInfo.ExternalCoating,
+        CommunicationProtocol: d.TechnicalSpecification.OptionalTechInfo.CommunicationProtocol,
+        MeasurementVariable: d.TechnicalSpecification.OptionalTechInfo.MeasurementVariable,
+        ElectricalConsumption: d.TechnicalSpecification.OptionalTechInfo.ElectricalConsumption,
+        ProtectionGrade: d.TechnicalSpecification.OptionalTechInfo.ProtectionGrade,
+        SanitaryGrade: d.TechnicalSpecification.OptionalTechInfo.SanitaryGrade,
+        AvailableWarranty: d.TechnicalSpecification.OptionalTechInfo.AvailableWarranty,
+        RemainingWarrantyYears: d.TechnicalSpecification.OptionalTechInfo.RemainingWarrantyYears,
+        PeripheralDevicesAccesories: d.TechnicalSpecification.OptionalTechInfo.PeripheralDevicesAccesories,
+        WorkingHours: d.TechnicalSpecification.OptionalTechInfo.WorkingHours,
+        LaboratoryEquipment: d.TechnicalSpecification.OptionalTechInfo.LaboratoryEquipment,
+      })
+    })
+
+    const worksheet = XLSX.utils.json_to_sheet(Json);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
+    //XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
+    XLSX.writeFile(workbook, "DataSheet.xlsx");
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -2875,8 +3022,24 @@ const ConsultaEquipos = ({ history }) => {
               text={"Nuevo"}
             ></Controls.Button>
 
+            {/* --------------- Esportar A Excel  ------------ */}
+            {/* <button onClick={() => this.downloadExcel(filterFn.fn(getAllList))}>
+              Download As Excel
+            </button> */}
+
+            {/* <Controls.Button
+              disabled={Roles}
+              variant="contained"
+              size="large"
+              color="secondary"
+              startIcon={<Add style={{ fontSize: 16, fontWeight: "800" }} />}
+              onClick={() => downloadExcel(filterFn.fn(getAllList))}
+              style={{ fontSize: 16, fontWeight: "600" }}
+              text={"Descargar Excel"}
+            ></Controls.Button> */}
+
             {/* -----------------------  Boton para insertar datos desde Excel   ----------------------------------- */}
-            {/* ---------------------------------------------------------------------------------------------------- */}
+            {/* -----------------------------------  Carga Masiva  ----------------------------------------------------- */}
 
             {/* <div id="imagen">
               <input
@@ -3197,7 +3360,7 @@ const ConsultaEquipos = ({ history }) => {
                                 />
                               )}
                               onChange={(e, newValue) => {
-                                handleChangeAreas(newValue);
+                                handleChangeOperations(newValue);
                               }}
                             />
                           </FormGroup>
@@ -3219,7 +3382,7 @@ const ConsultaEquipos = ({ history }) => {
                                 />
                               )}
                               onChange={(e, newValue) => {
-                                handleChangeAreas(newValue);
+                                handleChangeLineTypes(newValue);
                               }}
                             />
                           </FormGroup>
@@ -3241,7 +3404,7 @@ const ConsultaEquipos = ({ history }) => {
                                 />
                               )}
                               onChange={(e, newValue) => {
-                                handleChangeAreas(newValue);
+                                handleChangeCountries(newValue);
                               }}
                             />
                           </FormGroup>
@@ -3263,7 +3426,7 @@ const ConsultaEquipos = ({ history }) => {
                                 />
                               )}
                               onChange={(e, newValue) => {
-                                handleChangeAreas(newValue);
+                                handleChangeBu(newValue);
                               }}
                             />
                           </FormGroup>
@@ -3781,28 +3944,10 @@ const ConsultaEquipos = ({ history }) => {
             >
               Cancelar
             </Button>
-            {tranferirModal ? (
-              <>
-                <Button
-                  style={{
-                    color: "#ffffff",
-                    backgroundColor:
-                      theme.palette.type === "dark"
-                        ? theme.palette.secondary.light
-                        : "#6200EE",
-                  }}
-                  variant="contained"
-                  type="submit"
-                  disabled
-                >
-                  Guardar Registro
-                </Button>
-              </>
-            ) : (
-              <>
-                {userByToken?.roleId === 1 || userByToken?.roleId === 4 ? (
+            {
+              tranferirModal ? (
+                <>
                   <Button
-                    disabled={GuardarPorPlanta}
                     style={{
                       color: "#ffffff",
                       backgroundColor:
@@ -3812,29 +3957,51 @@ const ConsultaEquipos = ({ history }) => {
                     }}
                     variant="contained"
                     type="submit"
-                    onClick={() => editar()}
+                    disabled
                   >
                     Guardar Registro
                   </Button>
-                ) : (
-                  <Button
-                    disabled={Roles}
-                    style={{
-                      color: "#ffffff",
-                      backgroundColor:
-                        theme.palette.type === "dark"
-                          ? theme.palette.secondary.light
-                          : "#6200EE",
-                    }}
-                    variant="contained"
-                    type="submit"
-                    onClick={() => editar()}
-                  >
-                    Guardar Registro
-                  </Button>
-                )}
-              </>
-            )}
+                </>
+              ) : (
+                <>
+                  {
+                    // userByToken?.roleId === 1 || userByToken?.roleId === 4 ?
+                    ["ADMIN", "Maintenance Director", "SPOC Maintenance BU", "Maintenance Manager",
+                      "Maintenance Coordinator Area"].includes(userByToken.Roles?.Name) ? (
+                      <Button
+                        disabled={GuardarPorPlanta}
+                        style={{
+                          color: "#ffffff",
+                          backgroundColor:
+                            theme.palette.type === "dark"
+                              ? theme.palette.secondary.light
+                              : "#6200EE",
+                        }}
+                        variant="contained"
+                        type="submit"
+                        onClick={() => editar()}
+                      >
+                        {GuardarPorPlanta ? <LockSharp /> : "Guardar Registro"}
+                      </Button>
+                    ) : (
+                      <Button
+                        disabled={Roles}
+                        style={{
+                          color: "#ffffff",
+                          backgroundColor:
+                            theme.palette.type === "dark"
+                              ? theme.palette.secondary.light
+                              : "#6200EE",
+                        }}
+                        variant="contained"
+                        type="submit"
+                        onClick={() => editar()}
+                      >
+                        Guardar Registro
+                      </Button>
+                    )}
+                </>
+              )}
           </ModalFooter>
         </Modal>
 
@@ -3877,6 +4044,7 @@ const ConsultaEquipos = ({ history }) => {
               No quiero eliminar
             </Button>
             <Button
+              disabled={Disabled}
               style={{
                 color: "#ffffff",
                 backgroundColor:
@@ -3887,7 +4055,7 @@ const ConsultaEquipos = ({ history }) => {
               variant="contained"
               onClick={() => eliminar()}
             >
-              Sí, eliminar
+              {Disabled ? (<>Sí, eliminar <LockSharp className="ml-2" /></>) : "Sí, eliminar"}
             </Button>
           </ModalFooter>
         </Modal>

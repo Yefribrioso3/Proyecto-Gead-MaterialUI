@@ -66,53 +66,53 @@ export const ModalEditar = ({
       },
     },
   });
-  const style = createTheme({
-    validationPassword: {
-      padding: 20,
-      height: "60px",
-      width: "190px",
-      margin: "2rem auto",
-      borderRadius: "24px",
-    },
-    h4: {
-      // fontFamily: 'Roboto',
-      fontStyle: "normal",
-      fontWeight: "bold",
-      fontSize: "34px",
-      lineHeight: "140%",
-      letterSpacing: "0.0025em",
-      color: "#14149A",
-      // marginTop: "0.5rem",
-      marginBottom: "0.5rem",
-    },
-    txt: {
-      fontFamily: "Work Sans",
-      fontStyle: "normal",
-      fontWeight: "normal",
-      fontSize: 14,
-      lineHeight: "140%",
-      /* or 18px */
-      letterSpacing: "-0.02em",
-      marginBottom: "2rem",
-    },
-    TextField: {
-      margin: "0.5rem 0",
-    },
-    btn: {
-      margin: "8px 0",
-      background: "#593FCC",
-      borderRadius: "8px",
-      fontFamily: "Noto Sans",
-      fontSize: 14,
-      lineHeight: "200%",
-      letterSpacing: "0.0125em",
-    },
-  });
+  // const style = createTheme({
+  //   validationPassword: {
+  //     padding: 20,
+  //     height: "60px",
+  //     width: "190px",
+  //     margin: "2rem auto",
+  //     borderRadius: "24px",
+  //   },
+  //   h4: {
+  //     // fontFamily: 'Roboto',
+  //     fontStyle: "normal",
+  //     fontWeight: "bold",
+  //     fontSize: "34px",
+  //     lineHeight: "140%",
+  //     letterSpacing: "0.0025em",
+  //     color: "#14149A",
+  //     // marginTop: "0.5rem",
+  //     marginBottom: "0.5rem",
+  //   },
+  //   txt: {
+  //     fontFamily: "Work Sans",
+  //     fontStyle: "normal",
+  //     fontWeight: "normal",
+  //     fontSize: 14,
+  //     lineHeight: "140%",
+  //     /* or 18px */
+  //     letterSpacing: "-0.02em",
+  //     marginBottom: "2rem",
+  //   },
+  //   TextField: {
+  //     margin: "0.5rem 0",
+  //   },
+  //   btn: {
+  //     margin: "8px 0",
+  //     background: "#593FCC",
+  //     borderRadius: "8px",
+  //     fontFamily: "Noto Sans",
+  //     fontSize: 14,
+  //     lineHeight: "200%",
+  //     letterSpacing: "0.0125em",
+  //   },
+  // });
 
   const onSubmit = (e) => {
     // -------- Peticion al Api para actualizar usuario
     // let Users = allUser;
-    // console.log(userSeleccionado)
+    console.log(userSeleccionado)
 
     authAxios.put(`${globalApi}/user/${userSeleccionado.Id_Usuario}`, {
       Name: userSeleccionado.Name,
@@ -121,6 +121,7 @@ export const ModalEditar = ({
       roleId: userSeleccionado.roleId,
       Estado: userSeleccionado.Estado,
       Id_Location: userSeleccionado.Id_Location,
+      Area: userSeleccionado.Area
     })
       .then((x) => {
         console.log(x);
@@ -234,7 +235,7 @@ export const ModalEditar = ({
                   Actualizar Rol
                 </Button>
               </div> */}
-              
+
               <FormGroup className="col-6">
                 <TextField
                   name="Name"
@@ -288,9 +289,11 @@ export const ModalEditar = ({
                     onChange={handleChange}
                   >
                     <MenuItem value={1}>ADMIN</MenuItem>
-                    <MenuItem value={2}>SUPERVISOR</MenuItem>
-                    <MenuItem value={3}>PLANTA</MenuItem>
-                    <MenuItem value={4}>GERENTE</MenuItem>
+                    <MenuItem value={2}>Maintenance Director</MenuItem>
+                    <MenuItem value={3}>SPOC Maintenance BU</MenuItem>
+                    <MenuItem value={4}>Maintenance Manager</MenuItem>
+                    <MenuItem value={5}>Maintenance Coordinator Area</MenuItem>
+                    <MenuItem value={6}>Viewer</MenuItem>
                   </Select>
                 </FormControl>
               </FormGroup>
@@ -363,6 +366,61 @@ export const ModalEditar = ({
               </FormGroup>
 
               {/* DOMINICANA */}
+
+              <FormGroup className="col-6">
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Area</InputLabel>
+                  <Select
+                    name="Area"
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={userSeleccionado && userSeleccionado.Area}
+                    label="Area"
+                    variant="outlined"
+                    required
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={"GENERAL SERVICES"}>GENERAL SERVICES</MenuItem>
+                    <MenuItem value={"SILOS"}>SILOS</MenuItem>
+                    <MenuItem value={"MILLING"}>MILLING</MenuItem>
+                    <MenuItem value={"BREWHOUSE"}>BREWHOUSE</MenuItem>
+                    <MenuItem value={"BREWING"}>BREWING</MenuItem>
+                    <MenuItem value={"FERMENTATION"}>FERMENTATION</MenuItem>
+                    <MenuItem value={"MATURATION"}>MATURATION</MenuItem>
+                    <MenuItem value={"CENTRIFUGE"}>CENTRIFUGE</MenuItem>
+                    <MenuItem value={"FILTRATION"}>FILTRATION</MenuItem>
+                    <MenuItem value={"DILUTION WATER"}>DILUTION WATER</MenuItem>
+                    <MenuItem value={"BRIGHT BEER TANKS"}>BRIGHT BEER TANKS</MenuItem>
+                    <MenuItem value={"PACKAGING"}>PACKAGING</MenuItem>
+                    <MenuItem value={"CHEMICAL ISLAND & CIP"}>CHEMICAL ISLAND & CIP</MenuItem>
+                    <MenuItem value={"SYRUP HOUSE"}>SYRUP HOUSE</MenuItem>
+                    <MenuItem value={"LOGISTIC TIER 1"}>LOGISTIC TIER 1</MenuItem>
+                    <MenuItem value={"LOGISTIC TIER 2"}>LOGISTIC TIER 2</MenuItem>
+                    <MenuItem value={"CO2 RECOVERY"}>CO2 RECOVERY</MenuItem>
+                    <MenuItem value={"REFRIGERATION"}>REFRIGERATION</MenuItem>
+                    <MenuItem value={"WELLS"}>WELLS</MenuItem>
+                    <MenuItem value={"WATER TREATMENT PLANT"}>WATER TREATMENT PLANT</MenuItem>
+                    <MenuItem value={"ELECTRICAL SUBSTATION (HV)"}>ELECTRICAL SUBSTATION (HV)</MenuItem>
+                    <MenuItem value={"ELECTRICAL SUBSTATION (MV)"}>ELECTRICAL SUBSTATION (MV)</MenuItem>
+                    <MenuItem value={"ELECTRICAL SUBSTATION (LV)"}>ELECTRICAL SUBSTATION (LV)</MenuItem>
+                    <MenuItem value={"STEAM GENERATION"}>STEAM GENERATION</MenuItem>
+                    <MenuItem value={"BIOLOGICAL TREATMENT SYSTEM"}>BIOLOGICAL TREATMENT SYSTEM</MenuItem>
+                    <MenuItem value={"TERTIARY SYSTEM"}>TERTIARY SYSTEM</MenuItem>
+                    <MenuItem value={"SANITARY PLANT"}>SANITARY PLANT</MenuItem>
+                    <MenuItem value={"AUTOMATION & INDUSTRIAL NETWORK"}>AUTOMATION & INDUSTRIAL NETWORK</MenuItem>
+                    <MenuItem value={"MAINTENANCE"}>MAINTENANCE</MenuItem>
+                    <MenuItem value={"IT"}>IT</MenuItem>
+                    <MenuItem value={"IMPRESIÓN"}>IMPRESIÓN</MenuItem>
+                    <MenuItem value={"LABORATORY"}>LABORATORY</MenuItem>
+                    <MenuItem value={"WORKSHOP"}>WORKSHOP</MenuItem>
+                    <MenuItem value={"OFFICES"}>OFFICES</MenuItem>
+                    <MenuItem value={"PRODUCCION"}>PRODUCCION</MenuItem>
+                    <MenuItem value={"SUBPRODUCTS"}>SUBPRODUCTS</MenuItem>
+                    <MenuItem value={"UTILITIES"}>UTILITIES</MenuItem>
+                    <MenuItem value={"PTA"}>PTA</MenuItem>
+                  </Select>
+                </FormControl>
+              </FormGroup>
 
               <FormGroup className="col-6">
                 <FormControl fullWidth>

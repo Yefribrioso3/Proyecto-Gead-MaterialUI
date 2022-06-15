@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import {
   Paper,
-  Card,
+  // Card,
   Typography,
   makeStyles,
-  Button,
+  // Button,
   ThemeProvider,
   createTheme,
 } from "@material-ui/core";
@@ -12,7 +12,7 @@ import {
 // import icono from '../assets/icono.png';
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
+    backgroundColor: theme.palette.type === "dark" ? "#514A69" : "#FFFFFF",
   },
   // },
   // pageHeader:{
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   // },
   pageTitle: {
     color:
-      theme.palette.type == "dark"
+      theme.palette.type === "dark"
         ? theme.palette.primary.light
         : theme.palette.secondary.dark,
     paddingTop: theme.spacing(2),
@@ -35,9 +35,9 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(4),
     "& .MuiTypography-subtitle2": {
       opacity: "0.6",
-      backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
+      backgroundColor: theme.palette.type === "dark" ? "#514A69" : "#FFFFFF",
     },
-    backgroundColor: theme.palette.type == "dark" ? "#514A69" : "#FFFFFF",
+    backgroundColor: theme.palette.type === "dark" ? "#514A69" : "#FFFFFF",
   },
 }));
 

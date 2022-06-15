@@ -54,7 +54,7 @@ const Registro = ({ history }) => {
     },
   });
 
-  function CustomToolbar() {
+  function CustomToolbar() { // Para descargar Users en excel
     return (
       <GridToolbarContainer>
         <GridToolbarExport style={{
@@ -67,7 +67,7 @@ const Registro = ({ history }) => {
             backgroundColor: theme.palette.primary.dark,
           },
         }}
-        printOptions={{ disableToolbarButton: true }}
+          printOptions={{ disableToolbarButton: true }}
         />
         {/* <GridColumnsToolbarButton />
         <GridFilterToolbarButton /> */}
@@ -186,6 +186,9 @@ const Registro = ({ history }) => {
         .then((response) => {
           setUserByToken(response.data.data);
           console.log(response);
+          if (response.data.data.Roles?.Name !== "ADMIN") {
+            history.replace("/ConsultaEquipos");
+          }
         })
         .catch((x) => {
           // console.log(x?.response);
@@ -205,7 +208,9 @@ const Registro = ({ history }) => {
   useEffect(() => {
     getUserByToken();
     getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   const [modalEditar, setModalEditar] = useState(false); //Hook para abrir y cerrar el modalEditar
   const [modalEliminar, setModalEliminar] = useState(false); //Hook para abrir y cerrar el modal Eliminar
@@ -220,6 +225,7 @@ const Registro = ({ history }) => {
     Estado: true,
     LastLogin: "",
     Id_Location: "",
+    Area: "",
   });
 
   const [userSeleccionado, setUserSeleccionado] = useState({
@@ -232,11 +238,13 @@ const Registro = ({ history }) => {
     roleId: "",
     LastLogin: "",
     Id_Location: "",
+    Area: "",
   });
 
   const seleccionarUser = (elemento, caso) => {
     //Funcion para editar o eliminar el usuario seleccionado
     setUserSeleccionado(elemento);
+    console.log(elemento);
     caso === "Editar" ? setModalEditar(true) : setModalEliminar(true);
   };
 
@@ -249,10 +257,11 @@ const Registro = ({ history }) => {
       roleId: "",
       password: "",
       Estado: "",
+      Area: "",
     });
     // console.log(UserToken);
-    console.log(allUser);
-    
+    // console.log(allUser);
+
     setModalInsertar(true);
   };
 
@@ -394,7 +403,7 @@ const Registro = ({ history }) => {
       Estado: Equipo.Estado,
     });
   };
-    //        ---------------------------   Fecha --------
+  //        ---------------------------   Fecha --------
 
   return (
     <ThemeProvider theme={theme}>
@@ -483,9 +492,9 @@ const Registro = ({ history }) => {
                 Toolbar: CustomToolbar,
               }}
               style={{
-              border: "0",
-              borderBottom: "0",
-              color:
+                border: "0",
+                borderBottom: "0",
+                color:
                   theme.palette.type === "dark"
                     ? theme.palette.primary.light
                     : theme.palette.primary.dark,
@@ -493,8 +502,8 @@ const Registro = ({ history }) => {
                   backgroundColor: theme.palette.primary.dark,
                 },
               }}
-              // sx={{ m: 2 }}
-              // style={{ color:"blue"}}
+            // sx={{ m: 2 }}
+            // style={{ color:"blue"}}
             />
           </div>
         </div>
@@ -506,6 +515,7 @@ const Registro = ({ history }) => {
         modalInsertar={modalInsertar}
         setModalInsertar={setModalInsertar}
         user={user}
+        getUser={getUser}
         setUser={setUser}
         allUser={allUser}
         setAllUser={setAllUser}

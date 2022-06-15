@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // { useState }
 // import Axios from "axios";
 import { v4 as uuidv4 } from "uuid";
@@ -26,6 +26,7 @@ export const ModalInsertar = ({
   modalInsertar,
   setModalInsertar,
   user,
+  getUser,
   setUser,
   allUser,
   setAllUser,
@@ -48,7 +49,7 @@ export const ModalInsertar = ({
   };
 
   const onSubmit = (e) => {
-    console.log(user)
+    // console.log(user)
     const NewUser = {
       Name: user.Name,
       LastName: user.LastName,
@@ -58,8 +59,9 @@ export const ModalInsertar = ({
       Estado: true,
       LastLogin: null,
       Id_Location: user.Id_Location,
+      Area: user.Area
     }
-    console.log(NewUser)
+    // console.log(NewUser)
 
     authAxios.post(`${globalApi}/register`, NewUser)
       .then((x) => {
@@ -69,13 +71,18 @@ export const ModalInsertar = ({
         console.log(x?.response);
       });
 
-    let newUser = user;
-    newUser.id = uuidv4();
+    // let newUser = user;
+    // newUser.id = uuidv4();
 
-    setAllUser([...allUser, newUser]);
+    // let newUserAdd = allUser;
+    // NewUser.id = uuidv4();
+    // NewUser.Id_Location = NewUser.id;
+
+    // newUserAdd.add(NewUser);
+
+    // setAllUser([...allUser, newUser]);
 
     setModalInsertar(false);
-
 
     // history.replace('/consultaEquipos');
     // if (e.password === "12345678") {
@@ -98,6 +105,7 @@ export const ModalInsertar = ({
     //     }
     // }, 1000);
   };
+
   const theme = createTheme({
     palette: {
       type: light ? "light" : "dark",
@@ -120,48 +128,6 @@ export const ModalInsertar = ({
       alert: {
         main: "#C60055",
       },
-    },
-  });
-  const style = createTheme({
-    validationPassword: {
-      padding: 20,
-      height: "60px",
-      width: "190px",
-      margin: "2rem auto",
-      borderRadius: "24px",
-    },
-    h4: {
-      fontStyle: "normal",
-      fontWeight: "bold",
-      fontSize: "34px",
-      lineHeight: "140%",
-      letterSpacing: "0.0025em",
-      color: "#14149A",
-      marginBottom: "0.5rem",
-      // marginTop: "0.5rem",
-      // fontFamily: 'Roboto',
-    },
-    txt: {
-      fontFamily: "Work Sans",
-      fontStyle: "normal",
-      fontWeight: "normal",
-      fontSize: 14,
-      lineHeight: "140%",
-      letterSpacing: "-0.02em",
-      marginBottom: "2rem",
-      /* or 18px */
-    },
-    TextField: {
-      margin: "0.5rem 0",
-    },
-    btn: {
-      margin: "8px 0",
-      background: "#593FCC",
-      borderRadius: "8px",
-      fontFamily: "Noto Sans",
-      fontSize: 14,
-      lineHeight: "200%",
-      letterSpacing: "0.0125em",
     },
   });
 
@@ -285,33 +251,13 @@ export const ModalInsertar = ({
                   onChange={handleChange}
                 >
                   <MenuItem value={1}>ADMIN</MenuItem>
-                  <MenuItem value={2}>SUPERVISOR</MenuItem>
-                  <MenuItem value={3}>PLANTA</MenuItem>
-                  <MenuItem value={4}>GERENTE</MenuItem>
+                  <MenuItem value={2}>Maintenance Director</MenuItem>
+                  <MenuItem value={3}>SPOC Maintenance BU</MenuItem>
+                  <MenuItem value={4}>Maintenance Manager</MenuItem>
+                  <MenuItem value={5}>Maintenance Coordinator Area</MenuItem>
+                  <MenuItem value={6}>Viewer</MenuItem>
                 </Select>
               </FormControl>
-            </FormGroup>
-
-            <FormGroup>
-              <TextField
-                label="Contraseña"
-                name="password"
-                placeholder="password"
-                variant="outlined"
-                value={user ? user.password : ""}
-                onChange={handleChange}
-                fullWidth
-                required
-              // type='password'
-              // obscureText="true"
-              // style={style.TextField}
-              // {...register("password", {
-              //   required: {
-              //     value: true,
-              //     message: 'Campo requerido'
-              //   }
-              // })}
-              />
             </FormGroup>
 
             <FormGroup className="col-6">
@@ -398,6 +344,83 @@ export const ModalInsertar = ({
                   <MenuItem value={49}>VIDRIERA POTOSÍ</MenuItem>
                 </Select>
               </FormControl>
+            </FormGroup>
+
+            <FormGroup className="col-6">
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Area</InputLabel>
+                <Select
+                  name="Area"
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={user && user.Area}
+                  label="Area"
+                  variant="outlined"
+                  required
+                  onChange={handleChange}
+                >
+                  <MenuItem value={"GENERAL SERVICES"}>GENERAL SERVICES</MenuItem>
+                  <MenuItem value={"SILOS"}>SILOS</MenuItem>
+                  <MenuItem value={"MILLING"}>MILLING</MenuItem>
+                  <MenuItem value={"BREWHOUSE"}>BREWHOUSE</MenuItem>
+                  <MenuItem value={"BREWING"}>BREWING</MenuItem>
+                  <MenuItem value={"FERMENTATION"}>FERMENTATION</MenuItem>
+                  <MenuItem value={"MATURATION"}>MATURATION</MenuItem>
+                  <MenuItem value={"CENTRIFUGE"}>CENTRIFUGE</MenuItem>
+                  <MenuItem value={"FILTRATION"}>FILTRATION</MenuItem>
+                  <MenuItem value={"DILUTION WATER"}>DILUTION WATER</MenuItem>
+                  <MenuItem value={"BRIGHT BEER TANKS"}>BRIGHT BEER TANKS</MenuItem>
+                  <MenuItem value={"PACKAGING"}>PACKAGING</MenuItem>
+                  <MenuItem value={"CHEMICAL ISLAND & CIP"}>CHEMICAL ISLAND & CIP</MenuItem>
+                  <MenuItem value={"SYRUP HOUSE"}>SYRUP HOUSE</MenuItem>
+                  <MenuItem value={"LOGISTIC TIER 1"}>LOGISTIC TIER 1</MenuItem>
+                  <MenuItem value={"LOGISTIC TIER 2"}>LOGISTIC TIER 2</MenuItem>
+                  <MenuItem value={"CO2 RECOVERY"}>CO2 RECOVERY</MenuItem>
+                  <MenuItem value={"REFRIGERATION"}>REFRIGERATION</MenuItem>
+                  <MenuItem value={"WELLS"}>WELLS</MenuItem>
+                  <MenuItem value={"WATER TREATMENT PLANT"}>WATER TREATMENT PLANT</MenuItem>
+                  <MenuItem value={"ELECTRICAL SUBSTATION (HV)"}>ELECTRICAL SUBSTATION (HV)</MenuItem>
+                  <MenuItem value={"ELECTRICAL SUBSTATION (MV)"}>ELECTRICAL SUBSTATION (MV)</MenuItem>
+                  <MenuItem value={"ELECTRICAL SUBSTATION (LV)"}>ELECTRICAL SUBSTATION (LV)</MenuItem>
+                  <MenuItem value={"STEAM GENERATION"}>STEAM GENERATION</MenuItem>
+                  <MenuItem value={"BIOLOGICAL TREATMENT SYSTEM"}>BIOLOGICAL TREATMENT SYSTEM</MenuItem>
+                  <MenuItem value={"TERTIARY SYSTEM"}>TERTIARY SYSTEM</MenuItem>
+                  <MenuItem value={"SANITARY PLANT"}>SANITARY PLANT</MenuItem>
+                  <MenuItem value={"AUTOMATION & INDUSTRIAL NETWORK"}>AUTOMATION & INDUSTRIAL NETWORK</MenuItem>
+                  <MenuItem value={"MAINTENANCE"}>MAINTENANCE</MenuItem>
+                  <MenuItem value={"IT"}>IT</MenuItem>
+                  <MenuItem value={"IMPRESIÓN"}>IMPRESIÓN</MenuItem>
+                  <MenuItem value={"LABORATORY"}>LABORATORY</MenuItem>
+                  <MenuItem value={"WORKSHOP"}>WORKSHOP</MenuItem>
+                  <MenuItem value={"OFFICES"}>OFFICES</MenuItem>
+                  <MenuItem value={"PRODUCCION"}>PRODUCCION</MenuItem>
+                  <MenuItem value={"SUBPRODUCTS"}>SUBPRODUCTS</MenuItem>
+                  <MenuItem value={"UTILITIES"}>UTILITIES</MenuItem>
+                  <MenuItem value={"PTA"}>PTA</MenuItem>
+                </Select>
+              </FormControl>
+            </FormGroup>
+
+            <FormGroup>
+              <TextField
+                label="Contraseña"
+                name="password"
+                placeholder="password"
+                variant="outlined"
+                value={user ? user.password : ""}
+                onChange={handleChange}
+                fullWidth
+                required
+              // type='password'
+              // obscureText="true"
+              // style={style.TextField}
+              // {...register("password", {
+              //   required: {
+              //     value: true,
+              //     message: 'Campo requerido'
+              //   }
+              // })}
+              />
             </FormGroup>
 
             {/* <Button type='submit'
