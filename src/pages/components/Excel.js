@@ -1,10 +1,9 @@
 // import { Button } from "@material-ui/core";
 import Axios from "axios";
 import React from "react";
-// , { useEffect, useState }
 import { ModalBody, ModalFooter } from "reactstrap";
-// import { v4 as uuidv4 } from "uuid";
 import { globalApi } from "../../types/api.types";
+// import { v4 as uuidv4 } from "uuid";
 
 export const Excel = ({
   item,

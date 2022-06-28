@@ -356,7 +356,7 @@ export const ModalInsertar = ({
                   value={user && user.Area}
                   label="Area"
                   variant="outlined"
-                  required
+                  // required
                   onChange={handleChange}
                 >
                   <MenuItem value={"GENERAL SERVICES"}>GENERAL SERVICES</MenuItem>

@@ -18,10 +18,7 @@ import ServiceInformation from "./components/ServiceInformation";
 import PageHeader from "../components/PageHeader";
 import {
   Paper,
-  // withStyles,
   makeStyles,
-  // TableRow,
-  // TableCell,
   Toolbar,
   InputAdornment,
   Grid,
@@ -30,6 +27,10 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  SvgIcon,
+  // withStyles,
+  // TableRow,
+  // TableCell,
   // FormHelperText,
 } from "@material-ui/core";
 import Controls from "../components/controls/Controls";
@@ -56,6 +57,7 @@ import { Calification } from "./components/Calification";
 import StarIcon from "@material-ui/icons/Star";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { BtnEliminar } from "./components/BtnEliminar";
+import { CustomNoRowsOverlay } from "./components/NoRows";
 // import EditAddServInfo from "./components/EditAddServInfo";
 // import EditAddTechInfo from './components/EditAddTechInfo';
 // import useTable from "../components/useTable";
@@ -112,6 +114,8 @@ const ConsultaEquipos = ({ history }) => {
     esES
   );
 
+
+
   function CustomToolbar() {  //---- Boton para exportar tabla
     return (
       <GridToolbarContainer>
@@ -128,11 +132,10 @@ const ConsultaEquipos = ({ history }) => {
             },
           }}
           printOptions={{ disableToolbarButton: true }}
+          
           // csvOptions={{ disableToolbarButton: true }}
         /> */}
-
         <Controls.Button
-          disabled={Roles}
           variant="contained"
           size="large"
           color="secondary"
@@ -140,6 +143,7 @@ const ConsultaEquipos = ({ history }) => {
           onClick={() => downloadExcel(filterFn.fn(getAllList))}
           style={{ fontSize: 12, fontWeight: "600" }}
           text={"Exportar a Excel"}
+        // disabled={Roles}
         ></Controls.Button>
       </GridToolbarContainer>
     );
@@ -755,6 +759,8 @@ const ConsultaEquipos = ({ history }) => {
     setLineTypes(elemento.Procedencia.line.lineTypes);
 
     setEquipoSeleccionado(elemento);
+
+    console.log(elemento);
 
     // "Maintenance Director", "SPOC Maintenance BU", "Maintenance Manager",
     //   "Maintenance Coordinator Area"
@@ -1809,7 +1815,10 @@ const ConsultaEquipos = ({ history }) => {
 
       // console.log(getAllList);
 
-      await sendData(valorInsertar);
+      // await sendData(valorInsertar);
+      console.log(valorInsertar);
+
+      await insertAll(valorInsertar);
 
       setModalInsertar(false);
       seteditingNewServInfo(true);
@@ -1822,286 +1831,294 @@ const ConsultaEquipos = ({ history }) => {
     }
   };
 
-  const sendData = async (valorInsertar) => {
-    await sendBu(valorInsertar);
-    await sendCountry(valorInsertar);
-    await sendOperations(valorInsertar);
-    await sendAreas(valorInsertar);
-    await sendSubArea(valorInsertar);
-    await sendlineType(valorInsertar);
-    await sendline(valorInsertar);
-    await sendProcedencia(valorInsertar);
-    await sendEquipment(valorInsertar); // Equipment
-    await sendFinancialInformation(valorInsertar);
-    await sendSercivesInformation(valorInsertar); // Services Information
-    await sendNewServicesInformation(valorInsertar);
-    await sendTechnicalSpecification(valorInsertar); //Technical Specification
-    await sendOptionalTechInfo(valorInsertar);
-    await sendNewTechnicalSpec(valorInsertar);
-  };
+  const insertAll = async (Equipment) => {
+    await Axios.post(`${globalApi}/createEquipos`, Equipment);
+  }
+  //  -------------------------------------------------------------------------------------------------
+  //  -------------------------------------------------------------------------------------------------
+  // const sendData = async (valorInsertar) => {
+  //   await sendBu(valorInsertar);
+  //   await sendCountry(valorInsertar);
+  //   await sendOperations(valorInsertar);
+  //   await sendAreas(valorInsertar);
+  //   await sendSubArea(valorInsertar);
+  //   await sendlineType(valorInsertar);
+  //   await sendline(valorInsertar);
+  //   await sendProcedencia(valorInsertar);
+  //   await sendEquipment(valorInsertar); // Equipment
+  //   await sendFinancialInformation(valorInsertar);
+  //   await sendSercivesInformation(valorInsertar); // Services Information
+  //   await sendNewServicesInformation(valorInsertar);
+  //   await sendTechnicalSpecification(valorInsertar); //Technical Specification
+  //   await sendOptionalTechInfo(valorInsertar);
+  //   await sendNewTechnicalSpec(valorInsertar);
+  // };
 
   // -----------------------------        CREAR / INSERTAR NUEVO EQUIPO      ---------------------------------------------
 
-  const sendBu = async (valorInsertar) => {
-    await Axios.post(`${globalApi}/bu`, {
-      Id_BU: valorInsertar.Procedencia.areas.operations.countries.bu.Id_BU,
-      Name: valorInsertar.Procedencia.areas.operations.countries.bu.Name,
-    });
-    // .then(() => {
-    //     alert("Successful insert");
-    // });
-  };
+  // const sendBu = async (valorInsertar) => {
+  //   await Axios.post(`${globalApi}/bu`, {
+  //     Id_BU: valorInsertar.Procedencia.areas.operations.countries.bu.Id_BU,
+  //     Name: valorInsertar.Procedencia.areas.operations.countries.bu.Name,
+  //   });
+  //   // .then(() => {
+  //   //     alert("Successful insert");
+  //   // });
+  // };
 
-  const sendCountry = async (valorInsertar) => {
-    await Axios.post(`${globalApi}/countries`, {
-      Id_Countries:
-        valorInsertar.Procedencia.areas.operations.countries.Id_Countries,
-      Name: valorInsertar.Procedencia.areas.operations.countries.Name,
-      Id_BU: valorInsertar.Procedencia.areas.operations.countries.Id_BU,
-    });
-  };
+  // const sendCountry = async (valorInsertar) => {
+  //   await Axios.post(`${globalApi}/countries`, {
+  //     Id_Countries:
+  //       valorInsertar.Procedencia.areas.operations.countries.Id_Countries,
+  //     Name: valorInsertar.Procedencia.areas.operations.countries.Name,
+  //     Id_BU: valorInsertar.Procedencia.areas.operations.countries.Id_BU,
+  //   });
+  // };
 
-  const sendOperations = async (valorInsertar) => {
-    await Axios.post(`${globalApi}/planta`, {
-      Id_Operations: valorInsertar.Procedencia.areas.operations.Id_Operations,
-      Name: valorInsertar.Procedencia.areas.operations.Name,
-      Id_Countries: valorInsertar.Procedencia.areas.operations.Id_Countries,
-    });
-  };
+  // const sendOperations = async (valorInsertar) => {
+  //   await Axios.post(`${globalApi}/planta`, {
+  //     Id_Operations: valorInsertar.Procedencia.areas.operations.Id_Operations,
+  //     Name: valorInsertar.Procedencia.areas.operations.Name,
+  //     Id_Countries: valorInsertar.Procedencia.areas.operations.Id_Countries,
+  //   });
+  // };
 
-  const sendAreas = async (valorInsertar) => {
-    await Axios.post(`${globalApi}/area`, {
-      Id_Areas: valorInsertar.Procedencia.areas.Id_Areas,
-      Name: valorInsertar.Procedencia.areas.Name,
-      Id_Operations: valorInsertar.Procedencia.areas.Id_Operations,
-    });
-  };
+  // const sendAreas = async (valorInsertar) => {
+  //   await Axios.post(`${globalApi}/area`, {
+  //     Id_Areas: valorInsertar.Procedencia.areas.Id_Areas,
+  //     Name: valorInsertar.Procedencia.areas.Name,
+  //     Id_Operations: valorInsertar.Procedencia.areas.Id_Operations,
+  //   });
+  // };
 
-  const sendSubArea = async (valorInsertar) => {
-    await Axios.post(`${globalApi}/SubArea`, {
-      Id_SubAreas: valorInsertar.Procedencia.areas.SubArea.Id_SubAreas,
-      Name: valorInsertar.Procedencia.areas.SubArea.Name,
-      Id_Areas: valorInsertar.Procedencia.areas.SubArea.Id_Areas,
-    });
-  };
+  // const sendSubArea = async (valorInsertar) => {
+  //   await Axios.post(`${globalApi}/SubArea`, {
+  //     Id_SubAreas: valorInsertar.Procedencia.areas.SubArea.Id_SubAreas,
+  //     Name: valorInsertar.Procedencia.areas.SubArea.Name,
+  //     Id_Areas: valorInsertar.Procedencia.areas.SubArea.Id_Areas,
+  //   });
+  // };
 
-  const sendline = async (valorInsertar) => {
-    await Axios.post(`${globalApi}/line`, {
-      Id_Line: valorInsertar.Procedencia.line.Id_Line,
-      number: valorInsertar.Procedencia.line.number,
-      Id_LineTypes: valorInsertar.Procedencia.line.Id_LineTypes,
-    });
-  };
+  // const sendline = async (valorInsertar) => {
+  //   await Axios.post(`${globalApi}/line`, {
+  //     Id_Line: valorInsertar.Procedencia.line.Id_Line,
+  //     number: valorInsertar.Procedencia.line.number,
+  //     Id_LineTypes: valorInsertar.Procedencia.line.Id_LineTypes,
+  //   });
+  // };
 
-  const sendlineType = async (valorInsertar) => {
-    await Axios.post(`${globalApi}/lineType`, {
-      Id_LineTypes: valorInsertar.Procedencia.line.lineTypes.Id_LineTypes,
-      Name: valorInsertar.Procedencia.line.lineTypes.Name,
-    });
-  };
+  // const sendlineType = async (valorInsertar) => {
+  //   await Axios.post(`${globalApi}/lineType`, {
+  //     Id_LineTypes: valorInsertar.Procedencia.line.lineTypes.Id_LineTypes,
+  //     Name: valorInsertar.Procedencia.line.lineTypes.Name,
+  //   });
+  // };
 
-  const sendProcedencia = async (valorInsertar) => {
-    await Axios.post(`${globalApi}/procedencia`, {
-      Id_Procedencia: valorInsertar.Id_Procedencia,
-      Id_Line: valorInsertar.Procedencia.line.Id_Line,
-      Id_Areas: valorInsertar.Procedencia.areas.Id_Areas,
-    });
-  };
+  // const sendProcedencia = async (valorInsertar) => {
+  //   await Axios.post(`${globalApi}/procedencia`, {
+  //     Id_Procedencia: valorInsertar.Id_Procedencia,
+  //     Id_Line: valorInsertar.Procedencia.line.Id_Line,
+  //     Id_Areas: valorInsertar.Procedencia.areas.Id_Areas,
+  //   });
+  // };
 
-  const sendEquipment = async (valorInsertar) => {
-    await Axios.post(`${globalApi}/equipment`, {
-      Id_Equipment: valorInsertar.Id_Equipment,
-      Name: valorInsertar.Name,
-      code: valorInsertar.code,
-      Id_Procedencia: valorInsertar.Procedencia.Id_Procedencia,
-      Estado: valorInsertar.Estado,
-      img: valorInsertar.img,
-    });
-  };
+  // const sendEquipment = async (valorInsertar) => {
+  //   await Axios.post(`${globalApi}/equipment`, {
+  //     Id_Equipment: valorInsertar.Id_Equipment,
+  //     Name: valorInsertar.Name,
+  //     code: valorInsertar.code,
+  //     Id_Procedencia: valorInsertar.Procedencia.Id_Procedencia,
+  //     Estado: valorInsertar.Estado,
+  //     img: valorInsertar.img,
+  //   });
+  // };
 
-  const sendFinancialInformation = async (valorInsertar) => {
-    await Axios.post(`${globalApi}/financialInformation`, {
-      EquipmentValueInUSD:
-        valorInsertar.FinancialInformation.EquipmentValueInUSD,
-      Activo_fijo: valorInsertar.FinancialInformation.Activo_fijo,
-      Soc: valorInsertar.FinancialInformation.Soc,
-      Concatenar: valorInsertar.FinancialInformation.Concatenar,
-      Clase: valorInsertar.FinancialInformation.Clase,
-      Centro: valorInsertar.FinancialInformation.Centro,
-      CodPM: valorInsertar.FinancialInformation.CodPM,
-      Centro_de_costos: valorInsertar.FinancialInformation.Centro_de_costos,
-      Fecha_de_capitalizacion:
-        valorInsertar.FinancialInformation.Fecha_de_capitalizacion,
-      Valor_Adquirido: valorInsertar.FinancialInformation.Valor_Adquirido,
-      Amortizacion_acumulada:
-        valorInsertar.FinancialInformation.Amortizacion_acumulada,
-      Valor_Contable: valorInsertar.FinancialInformation.Valor_Contable,
-      Cantidad: valorInsertar.FinancialInformation.Cantidad,
-      Moneda: valorInsertar.FinancialInformation.Moneda,
-      Tipo: valorInsertar.FinancialInformation.Tipo,
-      Screen: valorInsertar.FinancialInformation.Screen,
-      Nom_Clase: valorInsertar.FinancialInformation.Nom_Clase,
-      Nom_Ce: valorInsertar.FinancialInformation.Nom_Ce,
-      Encontrado_SI_NO: valorInsertar.FinancialInformation.Encontrado_SI_NO,
-      Estado_del_Activo: valorInsertar.FinancialInformation.Estado_del_Activo,
-      Categoria: valorInsertar.FinancialInformation.Categoria,
-      Gerencia: valorInsertar.FinancialInformation.Gerencia,
-      Codigo_De_Barras: valorInsertar.FinancialInformation.Codigo_De_Barras,
-      DI: valorInsertar.FinancialInformation.DI,
-      SN: valorInsertar.FinancialInformation.SN,
-      Depreciacion_acumulada_ajustada:
-        valorInsertar.FinancialInformation.Depreciacion_acumulada_ajustada,
-      Tasa_Cambio_contra_dolar:
-        valorInsertar.FinancialInformation.Tasa_Cambio_contra_dolar,
-      Latitud: valorInsertar.FinancialInformation.Latitud,
-      Longitud: valorInsertar.FinancialInformation.Longitud,
-      Period_Time: valorInsertar.FinancialInformation.Period_Time,
-      FechaActualizacion: valorInsertar.FinancialInformation.FechaActualizacion,
-      EncargadoActualizacion:
-        valorInsertar.FinancialInformation.EncargadoActualizacion,
-      Id_Equipment: valorInsertar.Id_Equipment,
-    });
-  };
+  // const sendFinancialInformation = async (valorInsertar) => {
+  //   await Axios.post(`${globalApi}/financialInformation`, {
+  //     EquipmentValueInUSD:
+  //       valorInsertar.FinancialInformation.EquipmentValueInUSD,
+  //     Activo_fijo: valorInsertar.FinancialInformation.Activo_fijo,
+  //     Soc: valorInsertar.FinancialInformation.Soc,
+  //     Concatenar: valorInsertar.FinancialInformation.Concatenar,
+  //     Clase: valorInsertar.FinancialInformation.Clase,
+  //     Centro: valorInsertar.FinancialInformation.Centro,
+  //     CodPM: valorInsertar.FinancialInformation.CodPM,
+  //     Centro_de_costos: valorInsertar.FinancialInformation.Centro_de_costos,
+  //     Fecha_de_capitalizacion:
+  //       valorInsertar.FinancialInformation.Fecha_de_capitalizacion,
+  //     Valor_Adquirido: valorInsertar.FinancialInformation.Valor_Adquirido,
+  //     Amortizacion_acumulada:
+  //       valorInsertar.FinancialInformation.Amortizacion_acumulada,
+  //     Valor_Contable: valorInsertar.FinancialInformation.Valor_Contable,
+  //     Cantidad: valorInsertar.FinancialInformation.Cantidad,
+  //     Moneda: valorInsertar.FinancialInformation.Moneda,
+  //     Tipo: valorInsertar.FinancialInformation.Tipo,
+  //     Screen: valorInsertar.FinancialInformation.Screen,
+  //     Nom_Clase: valorInsertar.FinancialInformation.Nom_Clase,
+  //     Nom_Ce: valorInsertar.FinancialInformation.Nom_Ce,
+  //     Encontrado_SI_NO: valorInsertar.FinancialInformation.Encontrado_SI_NO,
+  //     Estado_del_Activo: valorInsertar.FinancialInformation.Estado_del_Activo,
+  //     Categoria: valorInsertar.FinancialInformation.Categoria,
+  //     Gerencia: valorInsertar.FinancialInformation.Gerencia,
+  //     Codigo_De_Barras: valorInsertar.FinancialInformation.Codigo_De_Barras,
+  //     DI: valorInsertar.FinancialInformation.DI,
+  //     SN: valorInsertar.FinancialInformation.SN,
+  //     Depreciacion_acumulada_ajustada:
+  //       valorInsertar.FinancialInformation.Depreciacion_acumulada_ajustada,
+  //     Tasa_Cambio_contra_dolar:
+  //       valorInsertar.FinancialInformation.Tasa_Cambio_contra_dolar,
+  //     Latitud: valorInsertar.FinancialInformation.Latitud,
+  //     Longitud: valorInsertar.FinancialInformation.Longitud,
+  //     Period_Time: valorInsertar.FinancialInformation.Period_Time,
+  //     FechaActualizacion: valorInsertar.FinancialInformation.FechaActualizacion,
+  //     EncargadoActualizacion:
+  //       valorInsertar.FinancialInformation.EncargadoActualizacion,
+  //     Id_Equipment: valorInsertar.Id_Equipment,
+  //   });
+  // };
 
-  const sendSercivesInformation = async (valorInsertar) => {
-    await Axios.post(`${globalApi}/servicesInformation`, {
-      Id_ServicesInformation:
-        valorInsertar.ServicesInformation.Id_ServicesInformation,
-      DateOfInstallation: valorInsertar.ServicesInformation.DateOfInstallation,
-      DateOfDesintallation:
-        valorInsertar.ServicesInformation.DateOfDesintallation,
-      DesuseReason: valorInsertar.ServicesInformation.DesuseReason,
-      DesinstallationReason:
-        valorInsertar.ServicesInformation.DesinstallationReason,
-      ProcurementOrder: valorInsertar.ServicesInformation.ProcurementOrder,
-      Id_Equipment: valorInsertar.Id_Equipment,
-    });
-  };
+  // const sendSercivesInformation = async (valorInsertar) => {
+  //   await Axios.post(`${globalApi}/servicesInformation`, {
+  //     Id_ServicesInformation:
+  //       valorInsertar.ServicesInformation.Id_ServicesInformation,
+  //     DateOfInstallation: valorInsertar.ServicesInformation.DateOfInstallation,
+  //     DateOfDesintallation:
+  //       valorInsertar.ServicesInformation.DateOfDesintallation,
+  //     DesuseReason: valorInsertar.ServicesInformation.DesuseReason,
+  //     DesinstallationReason:
+  //       valorInsertar.ServicesInformation.DesinstallationReason,
+  //     ProcurementOrder: valorInsertar.ServicesInformation.ProcurementOrder,
+  //     Id_Equipment: valorInsertar.Id_Equipment,
+  //   });
+  // };
 
-  const sendNewServicesInformation = async (valorInsertar) => {
-    valorInsertar.ServicesInformation.newServicesInformation.map(
-      async (NSI) => {
-        await Axios.post(`${globalApi}/newServInfo`, {
-          Id_NewServInfo: NSI.Id_NewServInfo,
-          Id_ServicesInformation:
-            valorInsertar.ServicesInformation.Id_ServicesInformation,
-          Name: NSI.Name,
-          Value: NSI.Value,
-        });
+  // const sendNewServicesInformation = async (valorInsertar) => {
+  //   valorInsertar.ServicesInformation.newServicesInformation.map(
+  //     async (NSI) => {
+  //       await Axios.post(`${globalApi}/newServInfo`, {
+  //         Id_NewServInfo: NSI.Id_NewServInfo,
+  //         Id_ServicesInformation:
+  //           valorInsertar.ServicesInformation.Id_ServicesInformation,
+  //         Name: NSI.Name,
+  //         Value: NSI.Value,
+  //       });
 
-        await Axios.post(`${globalApi}/selectNewServInfo`, {
-          Id_SelectNewServInfo: NSI.SelectNewServicesInfo.Id_SelectNewServInfo,
-          Id_ServicesInformation:
-            valorInsertar.ServicesInformation.Id_ServicesInformation,
-          Id_NewServInfo: NSI.Id_NewServInfo,
-        });
-      }
-    );
-  };
+  //       await Axios.post(`${globalApi}/selectNewServInfo`, {
+  //         Id_SelectNewServInfo: NSI.SelectNewServicesInfo.Id_SelectNewServInfo,
+  //         Id_ServicesInformation:
+  //           valorInsertar.ServicesInformation.Id_ServicesInformation,
+  //         Id_NewServInfo: NSI.Id_NewServInfo,
+  //       });
+  //     }
+  //   );
+  // };
 
-  const sendTechnicalSpecification = async (valorInsertar) => {
-    await Axios.post(`${globalApi}/technicalSpecification`, {
-      Id_TechnicalSpecification:
-        valorInsertar.TechnicalSpecification.Id_TechnicalSpecification,
-      EquipmentType: valorInsertar.TechnicalSpecification.EquipmentType,
-      CurrentConditions: valorInsertar.TechnicalSpecification.CurrentConditions,
-      Weight: valorInsertar.TechnicalSpecification.Weight,
-      OEM: valorInsertar.TechnicalSpecification.OEM,
-      Description: valorInsertar.TechnicalSpecification.Description,
-      ModelNumber: valorInsertar.TechnicalSpecification.ModelNumber,
-      SerialNumber: valorInsertar.TechnicalSpecification.SerialNumber,
-      vendor: valorInsertar.TechnicalSpecification.vendor,
-      currentWorking: valorInsertar.TechnicalSpecification.currentWorking,
-      Id_Equipment: valorInsertar.Id_Equipment,
-    });
-  };
+  // const sendTechnicalSpecification = async (valorInsertar) => {
+  //   await Axios.post(`${globalApi}/technicalSpecification`, {
+  //     Id_TechnicalSpecification:
+  //       valorInsertar.TechnicalSpecification.Id_TechnicalSpecification,
+  //     EquipmentType: valorInsertar.TechnicalSpecification.EquipmentType,
+  //     CurrentConditions: valorInsertar.TechnicalSpecification.CurrentConditions,
+  //     Weight: valorInsertar.TechnicalSpecification.Weight,
+  //     OEM: valorInsertar.TechnicalSpecification.OEM,
+  //     Description: valorInsertar.TechnicalSpecification.Description,
+  //     ModelNumber: valorInsertar.TechnicalSpecification.ModelNumber,
+  //     SerialNumber: valorInsertar.TechnicalSpecification.SerialNumber,
+  //     vendor: valorInsertar.TechnicalSpecification.vendor,
+  //     currentWorking: valorInsertar.TechnicalSpecification.currentWorking,
+  //     Id_Equipment: valorInsertar.Id_Equipment,
+  //   });
+  // };
 
-  const sendOptionalTechInfo = async (valorInsertar) => {
-    await Axios.post(`${globalApi}/optionalTechInfo`, {
-      Id_OptionalTechInfo:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .Id_OptionalTechInfo,
-      NominalCapacity:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
-      YearOfConstruction:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .YearOfConstruction,
-      EquipmentCurrentConditionsComments:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .EquipmentCurrentConditionsComments,
-      NotesAboutEquipment:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .NotesAboutEquipment,
-      AssambledDissambled:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .AssambledDissambled,
-      PlantTechnicalInformationContact:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .PlantTechnicalInformationContact,
-      PlantFinancialInformationContact:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .PlantFinancialInformationContact,
-      Width: valorInsertar.TechnicalSpecification.OptionalTechInfo.Width,
-      Height: valorInsertar.TechnicalSpecification.OptionalTechInfo.Height,
-      Depth: valorInsertar.TechnicalSpecification.OptionalTechInfo.Depth,
-      ConstructionMaterials:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .ConstructionMaterials,
-      ExternalCoating:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo.ExternalCoating,
-      CommunicationProtocol:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .CommunicationProtocol,
-      MeasurementVariable:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .MeasurementVariable,
-      ElectricalConsumption:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .ElectricalConsumption,
-      ProtectionGrade:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo.ProtectionGrade,
-      SanitaryGrade:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo.SanitaryGrade,
-      AvailableWarranty:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo.AvailableWarranty,
-      RemainingWarrantyYears:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .RemainingWarrantyYears,
-      PeripheralDevicesAccesories:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .PeripheralDevicesAccesories,
-      WorkingHours:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo.WorkingHours,
-      LaboratoryEquipment:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .LaboratoryEquipment,
-      Id_TechnicalSpecification:
-        valorInsertar.TechnicalSpecification.OptionalTechInfo
-          .Id_TechnicalSpecification,
-      MotivodeBaja: valorInsertar.TechnicalSpecification.OptionalTechInfo.MotivodeBaja,
-    });
-  };
+  // const sendOptionalTechInfo = async (valorInsertar) => {
+  //   await Axios.post(`${globalApi}/optionalTechInfo`, {
+  //     Id_OptionalTechInfo:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo
+  //         .Id_OptionalTechInfo,
+  //     NominalCapacity:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo.NominalCapacity,
+  //     YearOfConstruction:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo
+  //         .YearOfConstruction,
+  //     EquipmentCurrentConditionsComments:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo
+  //         .EquipmentCurrentConditionsComments,
+  //     NotesAboutEquipment:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo
+  //         .NotesAboutEquipment,
+  //     AssambledDissambled:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo
+  //         .AssambledDissambled,
+  //     PlantTechnicalInformationContact:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo
+  //         .PlantTechnicalInformationContact,
+  //     PlantFinancialInformationContact:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo
+  //         .PlantFinancialInformationContact,
+  //     Width: valorInsertar.TechnicalSpecification.OptionalTechInfo.Width,
+  //     Height: valorInsertar.TechnicalSpecification.OptionalTechInfo.Height,
+  //     Depth: valorInsertar.TechnicalSpecification.OptionalTechInfo.Depth,
+  //     ConstructionMaterials:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo
+  //         .ConstructionMaterials,
+  //     ExternalCoating:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo.ExternalCoating,
+  //     CommunicationProtocol:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo
+  //         .CommunicationProtocol,
+  //     MeasurementVariable:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo
+  //         .MeasurementVariable,
+  //     ElectricalConsumption:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo
+  //         .ElectricalConsumption,
+  //     ProtectionGrade:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo.ProtectionGrade,
+  //     SanitaryGrade:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo.SanitaryGrade,
+  //     AvailableWarranty:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo.AvailableWarranty,
+  //     RemainingWarrantyYears:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo
+  //         .RemainingWarrantyYears,
+  //     PeripheralDevicesAccesories:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo
+  //         .PeripheralDevicesAccesories,
+  //     WorkingHours:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo.WorkingHours,
+  //     LaboratoryEquipment:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo
+  //         .LaboratoryEquipment,
+  //     Id_TechnicalSpecification:
+  //       valorInsertar.TechnicalSpecification.OptionalTechInfo
+  //         .Id_TechnicalSpecification,
+  //     MotivodeBaja: valorInsertar.TechnicalSpecification.OptionalTechInfo.MotivodeBaja,
+  //   });
+  // };
 
-  const sendNewTechnicalSpec = async (valorInsertar) => {
-    valorInsertar.TechnicalSpecification.newTechnicalSpecification.map(
-      async (NTS) => {
-        await Axios.post(`${globalApi}/NewTechInfo`, {
-          Id_NewTechSpec: NTS.Id_NewTechSpec,
-          Id_TechnicalSpecification:
-            valorInsertar.TechnicalSpecification.Id_TechnicalSpecification,
-          Name: NTS.Name,
-          Value: NTS.Value,
-        });
+  // const sendNewTechnicalSpec = async (valorInsertar) => {
+  //   valorInsertar.TechnicalSpecification.newTechnicalSpecification.map(
+  //     async (NTS) => {
+  //       await Axios.post(`${globalApi}/NewTechInfo`, {
+  //         Id_NewTechSpec: NTS.Id_NewTechSpec,
+  //         Id_TechnicalSpecification:
+  //           valorInsertar.TechnicalSpecification.Id_TechnicalSpecification,
+  //         Name: NTS.Name,
+  //         Value: NTS.Value,
+  //       });
 
-        await Axios.post(`${globalApi}/selectNewTechSpec`, {
-          Id_SelectNewTechSpec: NTS.SelectNewTechSpec.Id_SelectNewTechSpec,
-          Id_TechnicalSpecification:
-            valorInsertar.TechnicalSpecification.Id_TechnicalSpecification,
-          Id_NewTechSpec: NTS.Id_NewTechSpec,
-        });
-      }
-    );
-  };
+  //       await Axios.post(`${globalApi}/selectNewTechSpec`, {
+  //         Id_SelectNewTechSpec: NTS.SelectNewTechSpec.Id_SelectNewTechSpec,
+  //         Id_TechnicalSpecification:
+  //           valorInsertar.TechnicalSpecification.Id_TechnicalSpecification,
+  //         Id_NewTechSpec: NTS.Id_NewTechSpec,
+  //       });
+  //     }
+  //   );
+  // };
+
+  //  -----------------------------------------------------------------------------------------------------------
+  //  -----------------------------------------------------------------------------------------------------------
 
   // ------------------------------       ADD NEW TECHINICAL INFORMATION       ---------------------------
   const [newTechicInformation, setnewTechicInformation] = useState([]);
@@ -2726,6 +2743,32 @@ const ConsultaEquipos = ({ history }) => {
         </div>
       ),
     },
+    // {
+    //   field: "priority",
+    //   headerName: "Prioridad",
+    //   width: 50,
+    //   headerClassName: "table-title",
+    //   renderCell: (level) => {
+    //     return <SvgIcon style={{
+    //       borderRadius: "15rem",
+    //       padding: ".2rem",
+    //       width: "1rem",
+    //       height: "1rem",
+    //       background: "#E25C5C"
+    //     }}>
+    //       <path
+    //     d="M7.1423 4.28564L9.61666 8.57136H4.66794L7.1423 4.28564Z"
+    //     fill="white"
+    //   />
+    //   <path d="M5.0007 0L7.47506 4.28571H2.52634L5.0007 0Z" fill="white" />
+    //   <path
+    //     d="M2.85714 4.28564L5.3315 8.57136H0.382785L2.85714 4.28564Z"
+    //     fill="white"
+    //   />
+    //     </SvgIcon>
+    //   },
+    //   disableClickEventBubbling: true,
+    // },
     {
       field: "Activo_fijo",
       headerName: "ID SAP",
@@ -2796,7 +2839,7 @@ const ConsultaEquipos = ({ history }) => {
               </>
             )
           }
-          
+
           {
             userByToken.Roles?.Name === "Viewer" && (
               <>
@@ -2958,6 +3001,38 @@ const ConsultaEquipos = ({ history }) => {
     XLSX.writeFile(workbook, "DataSheet.xlsx");
   };
 
+
+  // function CustomFooterStatusComponent(props) {
+  //   return (
+  //     <Box sx={{ padding: '10px', display: 'flex' }}>
+  //       <FiberManualRecordIcon
+  //         fontSize="small"
+  //         sx={{
+  //           mr: 2,
+  //           color: props.status === 'connected' ? '#4caf50' : '#d9182e',
+  //         }}
+  //       />
+  //       Status {props.status}
+  //     </Box>
+  //   );
+  // }
+
+  // CustomFooterStatusComponent.propTypes = {
+  //   status: PropTypes.oneOf(['connected', 'disconnected']).isRequired,
+  // };
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <ThemeProvider theme={theme}>
       <div>
@@ -3086,21 +3161,26 @@ const ConsultaEquipos = ({ history }) => {
             }}
           >
             <DataGrid
-              localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-              light={light}
+              columns={columns}
               rows={filterFn.fn(getAllList)}
               loading={getAllList.length === 0}
               disableSelectionOnClick
-              columns={columns}
               pageSize={13}
-              rowsPerPageOptions={[13]}
+              rowsPerPageOptions={[13, 20, 50]}
+              // hideFooterPagination={true}
+              // hideFooter={true}
+              components={{
+                Toolbar: CustomToolbar,
+                NoRowsOverlay: CustomNoRowsOverlay,
+              }}
+              // initialState={{
+              // }}
               // sx={{ m: 2 }}
               // style={{ color:"blue"}}
               // rowHeight={45}
               // maxColumns={100}
-              components={{
-                Toolbar: CustomToolbar,
-              }}
+              localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+              light={light}
               style={{
                 // height: 520,
                 border: "0",
@@ -3610,7 +3690,6 @@ const ConsultaEquipos = ({ history }) => {
                     </option>
                   </select> */}
 
-
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select">
                       Trabajo actual
@@ -3635,8 +3714,31 @@ const ConsultaEquipos = ({ history }) => {
                   </FormControl>
 
 
-
                 </FormGroup>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 {/* <FormGroup className="col-4">
                     <label htmlFor="CurrentConditions">
@@ -3749,15 +3851,7 @@ const ConsultaEquipos = ({ history }) => {
                   />
                 </FormGroup>
 
-                <FormGroup className="col-4">
-                  {/* <label>Peso:</label>
-                  <input
-                    className="form-control"
-                    type="text text-align=center"
-                    name="Weight"
-                    value={technicalInformation && technicalInformation.Weight}
-                    onChange={handleChange}
-                  /> */}
+                {/* <FormGroup className="col-4">
                   <TextField
                     label="Peso"
                     className="form-control"
@@ -3767,7 +3861,41 @@ const ConsultaEquipos = ({ history }) => {
                     value={technicalInformation && technicalInformation.Weight}
                     onChange={handleChange}
                   />
+                </FormGroup> */}
+
+                <FormGroup className="col-4">
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select">
+                      Peso
+                    </InputLabel>
+                    <Select
+                      name="Weight"
+                      labelId="demo-simple-select"
+                      value={technicalInformation && technicalInformation.Weight}
+                      label="Peso"
+                      variant="outlined"
+                      required
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value="Pesado">Pesado</MenuItem>
+                      <MenuItem value="Mediano">Mediano</MenuItem>
+                      <MenuItem value="Ligero">Ligero</MenuItem>
+                    </Select>
+                  </FormControl>
                 </FormGroup>
+
+
+                {/* <label>Peso:</label>
+                    <input
+                      className="form-control"
+                      type="text text-align=center"
+                      name="Weight"
+                      value={technicalInformation && technicalInformation.Weight}
+                      onChange={handleChange}
+                    /> */}
 
                 <FormGroup className="col-4">
                   {/* <label>OEM:</label>
@@ -4846,13 +4974,13 @@ const ConsultaEquipos = ({ history }) => {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      <MenuItem value="Installed and is working">
+                      <MenuItem value="Instalado y funcionando">
                         Instalado y funcionando
                       </MenuItem>
-                      <MenuItem value="Installed and is not working">
+                      <MenuItem value="Instalado y no trabajando">
                         Instalado y no trabajando
                       </MenuItem>
-                      <MenuItem value="Not Installed and is not working">
+                      <MenuItem value="No instalado">
                         No instalado
                       </MenuItem>
                     </Select>
@@ -4964,11 +5092,11 @@ const ConsultaEquipos = ({ history }) => {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      <MenuItem value="Automation / Electronic">
+                      <MenuItem value="AUTOMATION / ELECTRONIC">
                         Automation / Electronic
                       </MenuItem>
-                      <MenuItem value="Electrical">Electrical</MenuItem>
-                      <MenuItem value="Mechanical">Mechanical</MenuItem>
+                      <MenuItem value="ELECTRICAL">Electrical</MenuItem>
+                      <MenuItem value="MECHANICAL">Mechanical</MenuItem>
                     </Select>
                     {/* <FormHelperText>Error</FormHelperText> */}
                   </FormControl>

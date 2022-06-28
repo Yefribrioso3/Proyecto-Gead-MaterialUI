@@ -7,6 +7,8 @@ import { Grid, TextField } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+import { Autocomplete } from "@mui/material";
+import { select } from "./select";
 // , { useState } 
 // import { useForm } from "react-hook-form";
 // import { v4 as uuidv4 } from "uuid";
@@ -20,7 +22,9 @@ const ServiceInformation = ({
   servicesInformation,
   light,
   backForm,
-  nextForm
+  nextForm,
+  handleChangeOperations,
+handleChangeAreas
   // setEditing,
   // setEditingServiceInfo,
   // setEditingTechInfo,
@@ -286,7 +290,7 @@ const ServiceInformation = ({
           />
         </FormGroup>
 
-        <FormGroup className="col-4">
+        <FormGroup className="col-8">
           {/* <label>Motivo de Desinstalación:</label>
           <input
             className="form-control"
@@ -327,6 +331,61 @@ const ServiceInformation = ({
             // required
             value={servicesInformation && servicesInformation.ProcurementOrder}
             onChange={handleChangeServicesInformation}
+          />
+        </FormGroup>
+
+        <FormGroup className="col-4">
+          <TextField
+            label="Responsable de Equipo"
+            className="form-control"
+            variant="outlined"
+            name="ResponsableEquipo"
+            value={servicesInformation && servicesInformation.ResponsableEquipo}
+            onChange={handleChangeServicesInformation}
+          />
+        </FormGroup>
+
+        <FormGroup className="col-4">
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={select.Planta}
+            // sx={{ width: 300 }}
+            fullWidth
+            defaultValue={servicesInformation && servicesInformation.PlantaResponsable}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Seleccionar Planta"
+                variant="outlined"
+                required
+              />
+            )}
+            onChange={(e, newValue) => {
+              handleChangeServicesInformation(newValue);
+            }}
+          />
+        </FormGroup>
+
+        <FormGroup className="col-4">
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={select.Areas}
+            // sx={{ width: 300 }}
+            fullWidth
+            defaultValue={servicesInformation && servicesInformation.AreaResponsable}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Seleccionar Área"
+                variant="outlined"
+                required
+              />
+            )}
+            onChange={(e, newValue) => {
+              handleChangeServicesInformation(newValue);
+            }}
           />
         </FormGroup>
 
