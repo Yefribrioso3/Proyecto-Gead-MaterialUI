@@ -7,7 +7,26 @@ import { Pagination } from "@material-ui/lab";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 
-const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeFinancialInfo, financialInformation, backForm, fecha }) => {
+const FinancialInfo = ({
+    light,
+    setEditing,
+    setEditingServiceInfo,
+    handleChangeFinancialInfo,
+    financialInformation,
+    backForm,
+    errorActivoFijo,
+    setErrorActivoFijo,
+    leyendaActivoFijo,
+    setLeyendaActivoFijo,
+    errorValorContable,
+    setErrorValorContable,
+    leyendaValorContable,
+    setLeyendaValorContable,
+    errorMoneda,
+    setErrorMoneda,
+    leyendaMoneda,
+    setLeyendaMoneda
+}) => {
 
     const theme = createTheme({
         palette: {
@@ -53,10 +72,19 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
                         className="form-control"
                         inputProps={{ min: 0 }}
                         variant="outlined"
+                        error={errorValorContable}
+                        helperText={leyendaValorContable}
                         type="number"
                         name="Valor_Contable"
+                        required
                         value={financialInformation && financialInformation.Valor_Contable}
-                        onChange={handleChangeFinancialInfo}
+                        onChange={(e) => {
+                            handleChangeFinancialInfo(e)
+                            if (e.target.value !== "null") {
+                                setErrorValorContable(false);
+                                setLeyendaValorContable("");
+                            }
+                        }}
                     />
 
                     {/* <label>Valor en Libros:</label>
@@ -75,9 +103,18 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
                         label="Moneda"
                         className="form-control"
                         variant="outlined"
+                        error={errorMoneda}
+                        helperText={leyendaMoneda}
                         name="Moneda"
+                        required
                         value={financialInformation && financialInformation.Moneda}
-                        onChange={handleChangeFinancialInfo}
+                        onChange={(e) => {
+                            handleChangeFinancialInfo(e)
+                            if (e.target.value !== "null") {
+                                setErrorMoneda(false);
+                                setLeyendaMoneda("");
+                            }
+                        }}
                     />
                 </FormGroup>
 
@@ -88,10 +125,19 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
                         inputProps={{ min: 0 }}
                         className="form-control"
                         type="number"
+                        error={errorActivoFijo}
+                        helperText={leyendaActivoFijo}
+                        required
                         variant="outlined"
                         name="Activo_fijo"
                         value={financialInformation && financialInformation.Activo_fijo}
-                        onChange={handleChangeFinancialInfo}
+                        onChange={(e) => {
+                            handleChangeFinancialInfo(e)
+                            if (e.target.value !== "null") {
+                                setErrorActivoFijo(false);
+                                setLeyendaActivoFijo("");
+                            }
+                        }}
                     />
                 </FormGroup>
 
@@ -117,7 +163,7 @@ const FinancialInfo = ({ light, setEditing, setEditingServiceInfo, handleChangeF
                         type="number"
                         variant="outlined"
                         name="Amortizacion_acumulada"
-                        value={ financialInformation && financialInformation.Amortizacion_acumulada }
+                        value={financialInformation && financialInformation.Amortizacion_acumulada}
                         onChange={handleChangeFinancialInfo}
                     />
                 </FormGroup>

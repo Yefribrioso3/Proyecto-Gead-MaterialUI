@@ -112,7 +112,7 @@ export function FiveStar() {
     </Grid>
   );
 }
-export const Calification = ({ light, technicalInformation, setTechnicalInformation }) => {
+export const Calification = ({ light, technicalInformation, setTechnicalInformation, errorCurrendConditions, leyendaCurrendConditions }) => {
   
   const [icon, setIcon] = useState(false);
 
@@ -226,6 +226,7 @@ export const Calification = ({ light, technicalInformation, setTechnicalInformat
           style={{ display: "inline-flex" }}
         >
           <h5
+            onError={errorCurrendConditions}
             style={{
               color:
                 theme.palette.type === "dark"
@@ -242,7 +243,7 @@ export const Calification = ({ light, technicalInformation, setTechnicalInformat
                 <ArrowDropDown />
               </IconButton>
             )}
-            Condición actual del equipo:
+            Condición actual del equipo: *
           </h5>
         </a>
       </div>
