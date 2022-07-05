@@ -112,8 +112,9 @@ export function FiveStar() {
     </Grid>
   );
 }
-export const Calification = ({ light, technicalInformation, setTechnicalInformation, errorCurrendConditions, leyendaCurrendConditions }) => {
-  
+export const Calification = ({ light, technicalInformation, setTechnicalInformation,
+  errorCurrendConditions, leyendaCurrendConditions, setErrorCurrendConditions, setLeyendaCurrendConditions }) => {
+
   const [icon, setIcon] = useState(false);
 
   const [calificationInfo, setCalificationInfo] = useState(false);
@@ -125,13 +126,17 @@ export const Calification = ({ light, technicalInformation, setTechnicalInformat
   };
 
   const [state, setState] = React.useState({
-    checkedA: technicalInformation.CurrentConditions === "To be disposed"? true : false,
-    checkedB: technicalInformation.CurrentConditions === "Bad"? true : false,
-    checkedC: technicalInformation.CurrentConditions === "Regular"? true : false,
-    checkedD: technicalInformation.CurrentConditions === "Good"? true : false,
-    checkedE: technicalInformation.CurrentConditions === "Excellent"? true : false,
+    checkedA: technicalInformation.CurrentConditions === "To be disposed" ? true : false,
+    checkedB: technicalInformation.CurrentConditions === "Bad" ? true : false,
+    checkedC: technicalInformation.CurrentConditions === "Regular" ? true : false,
+    checkedD: technicalInformation.CurrentConditions === "Good" ? true : false,
+    checkedE: technicalInformation.CurrentConditions === "Excellent" ? true : false,
   });
   const handleChange = (event) => {
+    if (event.target.value !== "false") {
+      setErrorCurrendConditions(false);
+      setLeyendaCurrendConditions("");
+    }
     let equipo = technicalInformation;
     if (event.target.name === "checkedA") {
       setState({
@@ -141,7 +146,7 @@ export const Calification = ({ light, technicalInformation, setTechnicalInformat
         checkedD: false,
         checkedE: false,
       });
-      equipo.CurrentConditions = state.checkedA !== true? "To be disposed" : "NO DATA AVAILABLE";
+      equipo.CurrentConditions = state.checkedA !== true ? "To be disposed" : "NO DATA AVAILABLE";
       setTechnicalInformation(equipo)
 
     } else if (event.target.name === "checkedB") {
@@ -152,7 +157,7 @@ export const Calification = ({ light, technicalInformation, setTechnicalInformat
         checkedD: false,
         checkedE: false,
       });
-      equipo.CurrentConditions = state.checkedB !== true? "Bad" : "NO DATA AVAILABLE"; 
+      equipo.CurrentConditions = state.checkedB !== true ? "Bad" : "NO DATA AVAILABLE";
       setTechnicalInformation(equipo)
 
     } else if (event.target.name === "checkedC") {
@@ -163,7 +168,7 @@ export const Calification = ({ light, technicalInformation, setTechnicalInformat
         checkedD: false,
         checkedE: false,
       });
-      equipo.CurrentConditions = state.checkedC !== true? "Regular" : "NO DATA AVAILABLE";  
+      equipo.CurrentConditions = state.checkedC !== true ? "Regular" : "NO DATA AVAILABLE";
       setTechnicalInformation(equipo)
 
     } else if (event.target.name === "checkedD") {
@@ -174,7 +179,7 @@ export const Calification = ({ light, technicalInformation, setTechnicalInformat
         checkedD: event.target.checked,
         checkedE: false,
       });
-      equipo.CurrentConditions = state.checkedD !== true? "Good" : "NO DATA AVAILABLE"; 
+      equipo.CurrentConditions = state.checkedD !== true ? "Good" : "NO DATA AVAILABLE";
       setTechnicalInformation(equipo)
 
     } else if (event.target.name === "checkedE") {
@@ -185,7 +190,7 @@ export const Calification = ({ light, technicalInformation, setTechnicalInformat
         checkedD: false,
         checkedE: event.target.checked,
       });
-      equipo.CurrentConditions = state.checkedE !== true? "Excellent" : "NO DATA AVAILABLE";  
+      equipo.CurrentConditions = state.checkedE !== true ? "Excellent" : "NO DATA AVAILABLE";
       // console.log(state.checkedE)
       setTechnicalInformation(equipo)
     }
@@ -226,12 +231,13 @@ export const Calification = ({ light, technicalInformation, setTechnicalInformat
           style={{ display: "inline-flex" }}
         >
           <h5
-            onError={errorCurrendConditions}
             style={{
               color:
-                theme.palette.type === "dark"
-                  ? theme.palette.primary.light
-                  : theme.palette.secondary,
+                errorCurrendConditions
+                  ? "red"
+                  : theme.palette.type === "dark"
+                    ? theme.palette.primary.light
+                    : theme.palette.secondary,
             }}
           >
             {icon ? (
@@ -243,10 +249,15 @@ export const Calification = ({ light, technicalInformation, setTechnicalInformat
                 <ArrowDropDown />
               </IconButton>
             )}
-            Condición actual del equipo: *
+            Condición actual del equipo: * <br />
+            {leyendaCurrendConditions ? <span style={{ color: "#d32f2f", fontSize: "14px" }} >Campo Requerido</span> : null}
           </h5>
+          {/* <h6 className="ml-2 mt-3 mr-4 col-4">
+
+          </h6> */}
         </a>
       </div>
+
 
       {calificationInfo ? (
         <>
@@ -297,8 +308,8 @@ export const Calification = ({ light, technicalInformation, setTechnicalInformat
                   onChange={handleChange}
                   name="checkedD"
                   color="primary"
-                  // TechnicalSpecification
-                  // CurrentConditions
+                // TechnicalSpecification
+                // CurrentConditions
                 />
               }
               label={<FourStar />}

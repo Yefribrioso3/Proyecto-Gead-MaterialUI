@@ -83,7 +83,7 @@ export const OptionalInfo = ({
 
       {optionalInfoService ? (
         <>
-          <FormGroup className="col-12 mt-3 animate__animated animate__fadeInDown">
+          {/* <FormGroup className="col-12 mt-3 animate__animated animate__fadeInDown">
             <TextField
               label="Motivo de Baja"
               className="form-control"
@@ -92,7 +92,7 @@ export const OptionalInfo = ({
               value={optionalTechInfo && optionalTechInfo.MotivodeBaja}
               onChange={handleChangeOptionalInfo}
             />
-          </FormGroup>
+          </FormGroup> */}
 
           <FormGroup className="col-6 mt-2 animate__animated animate__fadeInDown">
             <TextField

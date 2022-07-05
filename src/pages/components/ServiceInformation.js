@@ -7,8 +7,8 @@ import { Grid, TextField } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-import { Autocomplete } from "@mui/material";
-import { select } from "./select";
+import { Responsable } from "./Responsable";
+
 // , { useState } 
 // import { useForm } from "react-hook-form";
 // import { v4 as uuidv4 } from "uuid";
@@ -19,12 +19,16 @@ import { select } from "./select";
 
 const ServiceInformation = ({
   handleChangeServicesInformation,
+  handleChangeServicesInfoPlanta,
+  handleChangeServicesInfoArea,
+  PlantaResponsable,
+  AreaResponsable,
   servicesInformation,
   light,
   backForm,
   nextForm,
   handleChangeOperations,
-handleChangeAreas
+  handleChangeAreas
   // setEditing,
   // setEditingServiceInfo,
   // setEditingTechInfo,
@@ -222,76 +226,58 @@ handleChangeAreas
       </div>
 
       <ModalBody className="row animate__animated animate__fadeIn">
-        <FormGroup className="col-4">
-          {/* <label>Fecha de Instalación:</label>
-          <input
-            className="form-control"
-            type="text text-align=center"
-            name="DateOfInstallation"
-            value={
-              servicesInformation && servicesInformation.DateOfInstallation
-            }
-            onChange={handleChangeServicesInformation}
-          /> */}
-          <TextField
-            label="Fecha de Instalación"
-            className="form-control"
-            variant="outlined"
-            name="DateOfInstallation"
-            // required
-            value={
-              servicesInformation && servicesInformation.DateOfInstallation
-            }
-            onChange={handleChangeServicesInformation}
-          />
-        </FormGroup>
-
-        <FormGroup className="col-4">
-          {/* <label>Fecha de Desinstalación:</label>
-          <input
-            className="form-control"
-            type="text text-align=center"
-            name="DateOfDesintallation"
-            value={
-              servicesInformation && servicesInformation.DateOfDesintallation
-            }
-            onChange={handleChangeServicesInformation}
-          /> */}
-          <TextField
-            label="Fecha de Desinstalación"
-            className="form-control"
-            variant="outlined"
-            name="DateOfDesintallation"
-            // required
-            value={
-              servicesInformation && servicesInformation.DateOfDesintallation
-            }
-            onChange={handleChangeServicesInformation}
-          />
-        </FormGroup>
-
-        <FormGroup className="col-4">
-          {/* <label>Razón de Desuso:</label>
-          <input
-            className="form-control"
-            type="text text-align=center"
-            name="DesuseReason"
-            value={servicesInformation && servicesInformation.DesuseReason}
-            onChange={handleChangeServicesInformation}
-          /> */}
-          <TextField
-            label="Razón de Desuso"
-            className="form-control"
-            variant="outlined"
-            name="DesuseReason"
-            // required
-            value={servicesInformation && servicesInformation.DesuseReason}
-            onChange={handleChangeServicesInformation}
-          />
-        </FormGroup>
-
         <FormGroup className="col-8">
-          {/* <label>Motivo de Desinstalación:</label>
+          <div className="row">
+            <FormGroup className="col-6">
+              {/* <label>Fecha de Instalación:</label>
+          <input
+            className="form-control"
+            type="text text-align=center"
+            name="DateOfInstallation"
+            value={
+              servicesInformation && servicesInformation.DateOfInstallation
+            }
+            onChange={handleChangeServicesInformation}
+          /> */}
+              <TextField
+                label="Fecha de Instalación"
+                className="form-control"
+                variant="outlined"
+                name="DateOfInstallation"
+                // required
+                value={
+                  servicesInformation && servicesInformation.DateOfInstallation
+                }
+                onChange={handleChangeServicesInformation}
+              />
+            </FormGroup>
+
+            <FormGroup className="col-6">
+              {/* <label>Fecha de Desinstalación:</label>
+          <input
+            className="form-control"
+            type="text text-align=center"
+            name="DateOfDesintallation"
+            value={
+              servicesInformation && servicesInformation.DateOfDesintallation
+            }
+            onChange={handleChangeServicesInformation}
+          /> */}
+              <TextField
+                label="Fecha de Desinstalación"
+                className="form-control"
+                variant="outlined"
+                name="DateOfDesintallation"
+                // required
+                value={
+                  servicesInformation && servicesInformation.DateOfDesintallation
+                }
+                onChange={handleChangeServicesInformation}
+              />
+            </FormGroup>
+
+            <FormGroup className="col-12">
+              {/* <label>Motivo de Desinstalación:</label>
           <input
             className="form-control"
             type="text text-align=center"
@@ -301,21 +287,50 @@ handleChangeAreas
             }
             onChange={handleChangeServicesInformation}
           /> */}
-          <TextField
-            label="Motivo de Desinstalación"
-            className="form-control"
-            variant="outlined"
-            name="DesinstallationReason"
-            // required
-            value={
-              servicesInformation && servicesInformation.DesinstallationReason
-            }
-            onChange={handleChangeServicesInformation}
-          />
+              <TextField
+                label="Motivo de Desinstalación"
+                className="form-control"
+                variant="outlined"
+                multiline
+                rows={5}
+                name="DesinstallationReason"
+                // required
+                value={
+                  servicesInformation && servicesInformation.DesinstallationReason
+                }
+                onChange={handleChangeServicesInformation}
+              />
+            </FormGroup>
+
+
+          </div>
         </FormGroup>
 
         <FormGroup className="col-4">
-          {/* <label>Orden de adquisición</label>
+          <FormGroup className="">
+            {/* <label>Razón de Desuso:</label>
+            <input
+            className="form-control"
+            type="text text-align=center"
+            name="DesuseReason"
+            value={servicesInformation && servicesInformation.DesuseReason}
+            onChange={handleChangeServicesInformation}
+            /> */}
+            <TextField
+              label="Razón de Desuso"
+              className="form-control"
+              variant="outlined"
+              multiline
+              rows={5}
+              name="DesuseReason"
+              // required
+              value={servicesInformation && servicesInformation.DesuseReason}
+              onChange={handleChangeServicesInformation}
+            />
+          </FormGroup>
+
+          <FormGroup className="">
+            {/* <label>Orden de adquisición</label>
           <input
             className="form-control"
             type="text text-align=center"
@@ -323,73 +338,30 @@ handleChangeAreas
             value={servicesInformation && servicesInformation.ProcurementOrder}
             onChange={handleChangeServicesInformation}
           /> */}
-          <TextField
-            label="Orden de adquisición"
-            className="form-control"
-            variant="outlined"
-            name="ProcurementOrder"
-            // required
-            value={servicesInformation && servicesInformation.ProcurementOrder}
-            onChange={handleChangeServicesInformation}
-          />
+            <TextField
+              label="Orden de adquisición"
+              className="form-control"
+              variant="outlined"
+              name="ProcurementOrder"
+              // required
+              value={servicesInformation && servicesInformation.ProcurementOrder}
+              onChange={handleChangeServicesInformation}
+            />
+          </FormGroup>
         </FormGroup>
 
-        <FormGroup className="col-4">
-          <TextField
-            label="Responsable de Equipo"
-            className="form-control"
-            variant="outlined"
-            name="ResponsableEquipo"
-            value={servicesInformation && servicesInformation.ResponsableEquipo}
-            onChange={handleChangeServicesInformation}
-          />
-        </FormGroup>
 
-        <FormGroup className="col-4">
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={select.Planta}
-            // sx={{ width: 300 }}
-            fullWidth
-            defaultValue={servicesInformation && servicesInformation.PlantaResponsable}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Seleccionar Planta"
-                variant="outlined"
-                required
-              />
-            )}
-            onChange={(e, newValue) => {
-              handleChangeServicesInformation(newValue);
-            }}
-          />
-        </FormGroup>
-
-        <FormGroup className="col-4">
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={select.Areas}
-            // sx={{ width: 300 }}
-            fullWidth
-            defaultValue={servicesInformation && servicesInformation.AreaResponsable}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Seleccionar Área"
-                variant="outlined"
-                required
-              />
-            )}
-            onChange={(e, newValue) => {
-              handleChangeServicesInformation(newValue);
-            }}
-          />
-        </FormGroup>
 
         <hr />
+        <Responsable
+          light={light}
+          servicesInformation={servicesInformation}
+          handleChangeServicesInformation={handleChangeServicesInformation}
+          handleChangeServicesInfoPlanta={handleChangeServicesInfoPlanta}
+          handleChangeServicesInfoArea={handleChangeServicesInfoArea}
+          PlantaResponsable={PlantaResponsable}
+          AreaResponsable={AreaResponsable}
+        />
 
         {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
         <FormGroup className="row align-items-center justify-content-between">

@@ -481,6 +481,9 @@ const ConsultaEquipos = ({ history }) => {
       DesinstallationReason: "",
       ProcurementOrder: "",
       Id_Equipment: null,
+      ResponsableEquipo: "",
+      PlantaResponsable: "",
+      AreaResponsable: "",
       newServicesInformation: [
         {
           Id_NewServInfo: null,
@@ -546,6 +549,7 @@ const ConsultaEquipos = ({ history }) => {
         LaboratoryEquipment: "",
         Id_TechnicalSpecification: "",
         MotivodeBaja: "",
+        MotivodeBajaOtro: ""
       },
     },
   });
@@ -558,6 +562,9 @@ const ConsultaEquipos = ({ history }) => {
     DesinstallationReason: "",
     ProcurementOrder: "",
     Id_Equipment: "",
+    ResponsableEquipo: "",
+    PlantaResponsable: "",
+    AreaResponsable: "",
     newServicesInformation: [
       {
         Id_NewServInfo: "",
@@ -627,6 +634,7 @@ const ConsultaEquipos = ({ history }) => {
     LaboratoryEquipment: "",
     Id_TechnicalSpecification: null,
     MotivodeBaja: "",
+    MotivodeBajaOtro: ""
   });
 
   const [financialInformation, setFinancialInformation] = useState({
@@ -697,6 +705,18 @@ const ConsultaEquipos = ({ history }) => {
     },
   });
 
+  const [PlantaResponsable, setPlantaResponsable] = useState({
+    Name: "",
+  });
+
+  const [AreaResponsable, setAreaResponsable] = useState({
+    Name: "",
+  });
+
+  //   ResponsableEquipo
+  // PlantaResponsable
+  // AreaResponsable
+
   const [countries, setCountries] = useState({
     Id_Countries: "",
     Name: "",
@@ -729,8 +749,16 @@ const ConsultaEquipos = ({ history }) => {
   const seleccionarEquipo = (elemento, caso) => {
     setTechnicalInformation(elemento.TechnicalSpecification);
     setOptionalTechInfo(elemento.TechnicalSpecification.OptionalTechInfo);
-    setServicesInformation(elemento.ServicesInformation);
     setFinancialInformation(elemento.FinancialInformation);
+    setServicesInformation(elemento.ServicesInformation);
+    setPlantaResponsable((prevState) => ({
+      ...prevState,
+      Name: elemento.ServicesInformation.PlantaResponsable,
+    }));
+    setAreaResponsable((prevState) => ({
+      ...prevState,
+      Name: elemento.ServicesInformation.AreaResponsable,
+    }));
     setareas(elemento.Procedencia.areas);
     setSubArea(elemento.Procedencia.areas.SubArea);
     setOperations(elemento.Procedencia.areas.operations);
@@ -738,7 +766,6 @@ const ConsultaEquipos = ({ history }) => {
     setBu(elemento.Procedencia.areas.operations.countries.bu);
     setLine(elemento.Procedencia.line);
     setLineTypes(elemento.Procedencia.line.lineTypes);
-
     setEquipoSeleccionado(elemento);
     camposVacios(elemento);
 
@@ -799,7 +826,7 @@ const ConsultaEquipos = ({ history }) => {
 
 
 
-  const camposVacios = (elemento) => {
+  const camposVacios = (elemento) => {    // Avisar cuales campos vacios siguen requeridos
     if ([null, "NO DATA AVAILABLE", ""].includes(elemento.Name)) {
       setErrorName(true)
       setLeyendaName("Campo Requerido")
@@ -849,7 +876,7 @@ const ConsultaEquipos = ({ history }) => {
       setLeyendaErrorSubArea("Campo Requerido")
     }
 
-    if ([null, "NO DATA AVAILABLE", ""].includes(elemento.TechnicalSpecification.CurrendConditions)) {
+    if ([null, "NO DATA AVAILABLE", "", undefined].includes(elemento.TechnicalSpecification.CurrentConditions)) {
       setErrorCurrendConditions(true)
       setLeyendaCurrendConditions("Campo Requerido")
     }
@@ -880,16 +907,9 @@ const ConsultaEquipos = ({ history }) => {
     setLeyendaErrorAreas("")
     setErrorSubArea(false)
     setLeyendaErrorSubArea("")
+    setErrorCurrendConditions(false)
+    setLeyendaCurrendConditions("")
   }
-
-
-
-
-
-
-
-
-
 
   // ----------------            HANDLE CHANGE       -------------------
 
@@ -936,6 +956,23 @@ const ConsultaEquipos = ({ history }) => {
     setServicesInformation((prevState) => ({
       ...prevState,
       [name]: value,
+    }));
+  };
+
+  const handleChangeServicesInfoPlanta = (e) => {
+    const { label } = e ? e : (e = { label: "null" });
+
+    setPlantaResponsable((prevState) => ({
+      ...prevState,
+      Name: label,
+    }));
+  };
+  const handleChangeServicesInfoArea = (e) => {
+    const { label } = e ? e : (e = { label: "null" });
+
+    setAreaResponsable((prevState) => ({
+      ...prevState,
+      Name: label,
     }));
   };
 
@@ -1067,6 +1104,9 @@ const ConsultaEquipos = ({ history }) => {
     // equipo.TechnicalSpecification.newTechnicalSpecification = equipoSeleccionado.TechnicalSpecification.newTechnicalSpecification
     equipo.TechnicalSpecification.OptionalTechInfo = optionalTechInfo;
     equipo.ServicesInformation = servicesInformation;
+    equipo.ServicesInformation.PlantaResponsable = PlantaResponsable.Name;
+    equipo.ServicesInformation.AreaResponsable = AreaResponsable.Name;
+
     equipo.FinancialInformation = financialInformation;
     equipo.FinancialInformation.FechaActualizacion = fecha;
     equipo.FinancialInformation.EncargadoActualizacion = `${userByToken.Name} ${userByToken.LastName}`;
@@ -1104,8 +1144,6 @@ const ConsultaEquipos = ({ history }) => {
 
     await putEquipment(equipo);
     // console.log(equipo);
-    // console.log(equipoSeleccionado);
-
     // //  Actualizar todas las inforamciones tecnicas en el DB
     // equipo.TechnicalSpecification.newTechnicalSpecification.map(async NTS => {
     //     await updateNewTechSpec(NTS);
@@ -1195,6 +1233,9 @@ const ConsultaEquipos = ({ history }) => {
         DesinstallationReason: Equipo.ServicesInformation.DesinstallationReason,
         ProcurementOrder: Equipo.ServicesInformation.ProcurementOrder,
         Id_Equipment: Equipo.Id_Equipment,
+        ResponsableEquipo: Equipo.ServicesInformation.ResponsableEquipo,
+        PlantaResponsable: Equipo.ServicesInformation.PlantaResponsable,
+        AreaResponsable: Equipo.ServicesInformation.AreaResponsable,
       }
     );
 
@@ -1308,6 +1349,7 @@ const ConsultaEquipos = ({ history }) => {
         Id_TechnicalSpecification:
           Equipo.TechnicalSpecification.Id_TechnicalSpecification,
         MotivodeBaja: Equipo.TechnicalSpecification.OptionalTechInfo.MotivodeBaja,
+        MotivodeBajaOtro: Equipo.TechnicalSpecification.OptionalTechInfo.MotivodeBajaOtro,
       }
     ).then(() => {
       alert("Successful Updated");
@@ -1355,17 +1397,40 @@ const ConsultaEquipos = ({ history }) => {
   const eliminar = () => {
     // setData(data.filter((equipo) => equipo.id !== equipoSeleccionado.id));
 
-    const equipo = equipoSeleccionado;
-    equipo.Estado = false;
+    if (optionalTechInfo.MotivodeBaja === null) {
+      setErrorMotivoBaja(true);
+      setLeyendaErrorMotivoBaja("Campo Requerido");
+    } else if (optionalTechInfo.MotivodeBaja === "Otro") {
+      if (optionalTechInfo.MotivodeBajaOtro === null) {
+        setErrorMotivoBajaOtro(true);
+        setLeyendaErrorMotivoBajaOtro("Campo Requerido");
+      } else {
+        const equipo = equipoSeleccionado;
+        equipo.Estado = false;
+        equipo.TechnicalSpecification.OptionalTechInfo = optionalTechInfo;
 
-    setGetAllList(
-      getAllList.filter(
-        (equipo) => equipo.Id_Equipment !== equipoSeleccionado.Id_Equipment
-      )
-    );
+        setGetAllList(
+          getAllList.filter(
+            (equipo) => equipo.Id_Equipment !== equipoSeleccionado.Id_Equipment
+          )
+        );
+        EliminarEquipment(equipo);
+        setModalEliminar(false);
+      }
+    } else {
+      const equipo = equipoSeleccionado;
+      equipo.Estado = false;
+      equipo.TechnicalSpecification.OptionalTechInfo = optionalTechInfo;
+      equipo.TechnicalSpecification.OptionalTechInfo.MotivodeBajaOtro = null;
 
-    EliminarEquipment(equipo);
-    setModalEliminar(false);
+      setGetAllList(
+        getAllList.filter(
+          (equipo) => equipo.Id_Equipment !== equipoSeleccionado.Id_Equipment
+        )
+      );
+      EliminarEquipment(equipo);
+      setModalEliminar(false);
+    }
   };
 
   const EliminarEquipment = async (Equipo) => {
@@ -1375,6 +1440,15 @@ const ConsultaEquipos = ({ history }) => {
       img: Equipo.img,
       Id_Procedencia: Equipo.Id_Procedencia,
       Estado: Equipo.Estado,
+    });
+    await Axios.put(
+      `${globalApi}/optionalTechInfo/${Equipo.TechnicalSpecification.Id_TechnicalSpecification}`,
+      {
+        MotivodeBaja: Equipo.TechnicalSpecification.OptionalTechInfo.MotivodeBaja,
+        MotivodeBajaOtro: Equipo.TechnicalSpecification.OptionalTechInfo.MotivodeBajaOtro,
+      }
+    ).then(() => {
+      alert("Successful Remove");
     });
   };
 
@@ -1513,6 +1587,9 @@ const ConsultaEquipos = ({ history }) => {
       DesinstallationReason: "",
       ProcurementOrder: "",
       Id_Equipment: "",
+      ResponsableEquipo: "",
+      PlantaResponsable: "",
+      AreaResponsable: "",
       newServicesInformation: [
         {
           Id_NewServInfo: "",
@@ -1616,6 +1693,7 @@ const ConsultaEquipos = ({ history }) => {
       LaboratoryEquipment: "",
       Id_TechnicalSpecification: null,
       MotivodeBaja: "",
+      MotivodeBajaOtro: "",
     });
     setLine({
       Id_Line: null,
@@ -1691,6 +1769,12 @@ const ConsultaEquipos = ({ history }) => {
       Id_LineTypes: "",
       Name: "",
     });
+    setAreaResponsable({
+      Name: "",
+    })
+    setPlantaResponsable({
+      Name: "",
+    })
 
     seteditingNewServInfo(false);
     setModalInsertar(true);
@@ -1763,6 +1847,15 @@ const ConsultaEquipos = ({ history }) => {
       // editingServiceInfo
       setErrorNombre(true);
       setLeyendaErrorNombre("Campo requerido");
+    } else if (technicalInformation.currentWorking === "") {
+      setErrorCurrentWorking(true);
+      setLeyendaCurrentWorking("Campo requerido");
+    } else if (technicalInformation.EquipmentType === "") {
+      setErrorEquipmentType(true);
+      setLeyendaEquipmentType("Campo requerido");
+    } else if (technicalInformation.Description === "") {
+      setErrorDescription(true);
+      setLeyendaDescription("Campo requerido");
     } else {
       setLeyendaErrorLineNumber("");
       setLeyendaErrorPlanta("");
@@ -1778,6 +1871,7 @@ const ConsultaEquipos = ({ history }) => {
       setErrorBU(false);
       setErrorAreas(false);
       setErrorSubArea(false);
+
 
       let valorInsertar = equipoSeleccionado; //Variable auxiliar para modificar el equipo seleccionado
 
@@ -1863,6 +1957,9 @@ const ConsultaEquipos = ({ history }) => {
       valorInsertar.TechnicalSpecification.newTechnicalSpecification =
         newTechicInformationAll;
       valorInsertar.ServicesInformation = servicesInformation;
+      valorInsertar.ServicesInformation.PlantaResponsable = PlantaResponsable.Name;
+      valorInsertar.ServicesInformation.AreaResponsable = AreaResponsable.Name;
+
       valorInsertar.FinancialInformation = financialInformation;
       valorInsertar.FinancialInformation.FechaActualizacion = fecha;
       valorInsertar.FinancialInformation.EncargadoActualizacion = `${userByToken.Name} ${userByToken.LastName}`;
@@ -1906,7 +2003,7 @@ const ConsultaEquipos = ({ history }) => {
       // console.log(getAllList);
 
       // await sendData(valorInsertar);
-      console.log(valorInsertar);
+      // console.log(valorInsertar);
 
       await insertAll(valorInsertar);
 
@@ -1918,6 +2015,7 @@ const ConsultaEquipos = ({ history }) => {
       setEditingTechInfo(false);
       setEditingServiceInfo(false);
       setFormStepInsertar(0);
+      desetCamposVacios();
     }
   };
 
@@ -3092,6 +3190,18 @@ const ConsultaEquipos = ({ history }) => {
 
 
 
+  const [Otros, setOtros] = useState("");
+  const [ErrorMotivoBaja, setErrorMotivoBaja] = useState(false);
+  const [LeyendaErrorMotivoBaja, setLeyendaErrorMotivoBaja] = useState("");
+  const [ErrorMotivoBajaOtro, setErrorMotivoBajaOtro] = useState(false);
+  const [LeyendaErrorMotivoBajaOtro, setLeyendaErrorMotivoBajaOtro] = useState("");
+
+  const [ConteoDescripcion, setConteoDescripcion] = useState(300);
+  const RestConteoDescripcion = 300;
+
+
+
+
 
 
 
@@ -4098,6 +4208,10 @@ const ConsultaEquipos = ({ history }) => {
           {formStep === 3 && ( // Informacion de servicio
             <ServiceInformation
               handleChangeServicesInformation={handleChangeServicesInformation}
+              handleChangeServicesInfoPlanta={handleChangeServicesInfoPlanta}
+              handleChangeServicesInfoArea={handleChangeServicesInfoArea}
+              PlantaResponsable={PlantaResponsable}
+              AreaResponsable={AreaResponsable}
               servicesInformation={servicesInformation}
               light={light}
               backForm={backForm}
@@ -4223,29 +4337,114 @@ const ConsultaEquipos = ({ history }) => {
 
         {/*============================= Modal Eliminar =========================================*/}
 
-        <Modal isOpen={modalEliminar}>
-          <ModalBody
-            className="text-center"
-            style={{
-              fontSize: "1.2rem",
-              color:
-                theme.palette.type === "dark"
-                  ? theme.palette.primary.light
-                  : theme.palette.secondary.dark,
-              backgroundColor:
-                theme.palette.type === "dark" ? "#3F3857" : "#FFFFFF",
-            }}
-          >
-            Estás seguro que deseas eliminar el equipo: <br />
-            {equipoSeleccionado && equipoSeleccionado.Name}
+        <Modal isOpen={modalEliminar}
+          className={`modalForm ${theme.palette.type}`}
+          style={{ maxWidth: 500 }}
+        >
+          <ModalHeader>
+            <div>
+              <h5
+                style={{
+                  color:
+                    theme.palette.type === "dark"
+                      ? theme.palette.primary.light
+                      : theme.palette.secondary,
+                }}
+              >
+                Estás seguro que deseas eliminar el equipo: <br />
+
+              </h5>
+              <h6 style={{
+                color:
+                  theme.palette.type === "dark"
+                    ? theme.palette.primary.light
+                    : theme.palette.secondary,
+              }}>
+                {equipoSeleccionado && equipoSeleccionado.Name}
+              </h6>
+            </div>
+
+          </ModalHeader>
+
+          <ModalBody className="row text-align-center" >
+
+            <FormGroup className="col-12 mt-2">
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select">
+                  Motivo de Baja*
+                </InputLabel>
+                <Select
+                  name="MotivodeBaja"
+                  labelId="demo-simple-select"
+                  value={optionalTechInfo && optionalTechInfo.MotivodeBaja}
+                  error={ErrorMotivoBaja}
+                  label="Motivo de Baja *"
+                  variant="outlined"
+                  required={true}
+                  onChange={(e) => {
+                    handleChangeOptionalInfo(e)
+                    if (e.target.value !== "null") {
+                      setErrorMotivoBaja(false);
+                      setLeyendaErrorMotivoBaja("");
+                      if (e.target.value === "Otro") {
+                        setOtros("1");
+                      } else {
+                        setOtros("");
+                      }
+                    }
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value="Venta del equipo">Venta del equipo</MenuItem>
+                  <MenuItem value="Traslado del equipo a otra planta">Traslado del equipo a otra planta</MenuItem>
+                  <MenuItem value="Equipo puesto en operación">Equipo puesto en operación</MenuItem>
+                  <MenuItem value="Equipo Chatarrizado">Equipo Chatarrizado</MenuItem>
+                  <MenuItem value="Otro">Otro</MenuItem>
+                </Select>
+                {LeyendaErrorMotivoBaja ? <span style={{ color: "#d32f2f", fontSize: "14px" }} >Campo Requerido</span> : null}
+              </FormControl>
+            </FormGroup>
+
+            {
+              Otros && (
+                <FormGroup className="col-12">
+                  <TextField
+                    label={`Descripción - ${ConteoDescripcion}`}
+                    error={ErrorMotivoBajaOtro}
+                    helperText={LeyendaErrorMotivoBajaOtro}
+                    multiline
+                    rows={3}
+                    className="form-control"
+                    variant="outlined"
+                    name="MotivodeBajaOtro"
+                    value={optionalTechInfo && optionalTechInfo.MotivodeBajaOtro}
+                    onChange={(e) => {
+                      let value = e.target.value.length;
+                      if (value <= 300) {
+                        setConteoDescripcion(RestConteoDescripcion - value);
+                        handleChangeOptionalInfo(e);
+                        if (e.target.value !== "null") {
+                          setErrorMotivoBajaOtro(false);
+                          setLeyendaErrorMotivoBajaOtro("")
+                        }
+                      }
+                    }
+                    }
+                  />
+                </FormGroup>
+              )
+            }
+
           </ModalBody>
 
           <ModalFooter
-            className="justify-content-center"
-            style={{
-              backgroundColor:
-                theme.palette.type === "dark" ? "#3F3857" : "#FFFFFF",
-            }}
+          // className="justify-content-center"
+          // style={{
+          //   backgroundColor:
+          //     theme.palette.type === "dark" ? "#3F3857" : "#FFFFFF",
+          // }}
           >
             <Button
               style={{
@@ -5047,6 +5246,7 @@ const ConsultaEquipos = ({ history }) => {
                       name="currentWorking"
                       labelId="demo-simple-select"
                       // id="demo-simple-select"
+                      error={errorCurrentWorking}
                       value={
                         technicalInformation &&
                         technicalInformation.currentWorking
@@ -5054,7 +5254,13 @@ const ConsultaEquipos = ({ history }) => {
                       label="Trabajo actual"
                       variant="outlined"
                       required
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        handleChange(e)
+                        if (e.target.value !== "null") {
+                          setErrorCurrentWorking(false);
+                          setLeyendaCurrentWorking("");
+                        }
+                      }}
                     // className="form-control"
                     // renderValue={(value) => `⭐  - ${value}` }
                     >
@@ -5072,6 +5278,7 @@ const ConsultaEquipos = ({ history }) => {
                         No instalado
                       </MenuItem>
                     </Select>
+                    {leyendaCurrentWorking ? <span style={{ color: "#d32f2f", fontSize: "14px" }} >Campo Requerido</span> : null}
                     {/* <FormHelperText>Error</FormHelperText> */}
                   </FormControl>
                 </FormGroup>
@@ -5165,6 +5372,7 @@ const ConsultaEquipos = ({ history }) => {
                       name="EquipmentType"
                       labelId="demo-simple-select"
                       // id="demo-simple-select"
+                      error={errorEquipmentType}
                       value={
                         technicalInformation &&
                         technicalInformation.EquipmentType
@@ -5172,7 +5380,13 @@ const ConsultaEquipos = ({ history }) => {
                       label="Tipo de equipo"
                       variant="outlined"
                       required
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        handleChange(e)
+                        if (e.target.value !== "null") {
+                          setErrorEquipmentType(false);
+                          setLeyendaEquipmentType("");
+                        }
+                      }}
                     // className="form-control"
                     // renderValue={(value) => `⭐  - ${value}` }
                     >
@@ -5186,6 +5400,7 @@ const ConsultaEquipos = ({ history }) => {
                       <MenuItem value="ELECTRICAL">Electrical</MenuItem>
                       <MenuItem value="MECHANICAL">Mechanical</MenuItem>
                     </Select>
+                    {leyendaEquipmentType ? <span style={{ color: "#d32f2f", fontSize: "14px" }} >Campo Requerido</span> : null}
                     {/* <FormHelperText>Error</FormHelperText> */}
                   </FormControl>
 
@@ -5337,6 +5552,8 @@ const ConsultaEquipos = ({ history }) => {
                 <FormGroup className="col-8">
                   <TextField
                     label="Descripción"
+                    error={errorDescription}
+                    helperText={leyendaDescription}
                     className="form-control"
                     variant="outlined"
                     name="Description"
@@ -5346,9 +5563,14 @@ const ConsultaEquipos = ({ history }) => {
                     value={
                       technicalInformation && technicalInformation.Description
                     }
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      handleChange(e)
+                      if (e.target.value !== "null") {
+                        setErrorDescription(false);
+                        setLeyendaDescription("");
+                      }
+                    }}
                   />
-
                   {/* <label>Descripción:</label>
                         <input
                           className="form-control"
@@ -5563,6 +5785,10 @@ const ConsultaEquipos = ({ history }) => {
           {formStepInsertar === 3 && ( // --------- Información de servicio
             <ServiceInformation
               handleChangeServicesInformation={handleChangeServicesInformation}
+              handleChangeServicesInfoPlanta={handleChangeServicesInfoPlanta}
+              handleChangeServicesInfoArea={handleChangeServicesInfoArea}
+              PlantaResponsable={PlantaResponsable}
+              AreaResponsable={AreaResponsable}
               servicesInformation={servicesInformation}
               light={light}
               backForm={backForm}
@@ -5625,6 +5851,7 @@ const ConsultaEquipos = ({ history }) => {
               onClick={() => {
                 setModalInsertar(false);
                 setFormStepInsertar(0);
+                desetCamposVacios();
                 // seteditingNewServInfo(true);
                 // setModalEditar(false);
                 // setEditing(false);
@@ -5702,7 +5929,7 @@ const ConsultaEquipos = ({ history }) => {
                 </ModalFooter>
             </Modal > */}
       </div>
-    </ThemeProvider>
+    </ThemeProvider >
   );
 };
 export const UserToken = userToken;
