@@ -15,7 +15,16 @@ export const Responsable = ({
     handleChangeServicesInfoPlanta,
     handleChangeServicesInfoArea,
     PlantaResponsable,
-    AreaResponsable
+    AreaResponsable,
+    errorResponsable,
+    setErrorResponsable,
+    leyendaResponsable,
+    setLeyendaResponsable,
+    errorPlantaResponsable,
+    leyendaPlantaResponsable,
+    errorAreaResponsable,
+    leyendaAreaResponsable,
+    
 }) => {
 
     const [icon, setIcon] = useState(false);
@@ -61,9 +70,11 @@ export const Responsable = ({
                     <h5
                         style={{
                             color:
-                                theme.palette.type === "dark"
-                                    ? theme.palette.primary.light
-                                    : theme.palette.secondary,
+                            errorResponsable || errorPlantaResponsable || errorAreaResponsable
+                                    ? "red"
+                                    : theme.palette.type === "dark"
+                                        ? theme.palette.primary.light
+                                        : theme.palette.secondary,
                         }}
                     >
                         {icon ? (
@@ -75,7 +86,9 @@ export const Responsable = ({
                                 <ArrowDropDown />
                             </IconButton>
                         )}
-                        Responsable de Equipo *.
+                        Responsable de Equipo *. <br />
+                        {leyendaResponsable || leyendaPlantaResponsable || leyendaAreaResponsable ? <span style={{ color: "#d32f2f", fontSize: "14px" }} >Campo Requerido</span> : null}
+
                     </h5>
                 </a>
             </div>
@@ -86,11 +99,19 @@ export const Responsable = ({
                         <FormGroup className="col-4 animate__animated animate__fadeInDown">
                             <TextField
                                 label="Responsable de Equipo"
+                                error={errorResponsable}
+                                helperText={leyendaResponsable}
                                 className="form-control"
                                 variant="outlined"
                                 name="ResponsableEquipo"
                                 value={servicesInformation && servicesInformation.ResponsableEquipo}
-                                onChange={handleChangeServicesInformation}
+                                onChange={(e) => {
+                                    handleChangeServicesInformation(e)
+                                    if (e.target.value !== "null") {
+                                        setErrorResponsable(false);
+                                        setLeyendaResponsable("");
+                                    }
+                                }}
                             />
                         </FormGroup>
 
@@ -106,6 +127,8 @@ export const Responsable = ({
                                     <TextField
                                         {...params}
                                         label="Seleccionar Planta"
+                                        error={errorPlantaResponsable}
+                                        helperText={leyendaPlantaResponsable}
                                         variant="outlined"
                                         required
                                     />
@@ -129,6 +152,8 @@ export const Responsable = ({
                                         {...params}
                                         label="Seleccionar Área"
                                         variant="outlined"
+                                        error={errorAreaResponsable}
+                                        helperText={leyendaAreaResponsable}
                                         required
                                     />
                                 )}

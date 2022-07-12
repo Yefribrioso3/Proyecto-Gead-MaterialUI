@@ -28,7 +28,15 @@ const ServiceInformation = ({
   backForm,
   nextForm,
   handleChangeOperations,
-  handleChangeAreas
+  handleChangeAreas,
+  errorResponsable,
+  setErrorResponsable,
+  leyendaResponsable,
+  setLeyendaResponsable,
+  errorPlantaResponsable,
+  leyendaPlantaResponsable,
+  errorAreaResponsable,
+  leyendaAreaResponsable,
   // setEditing,
   // setEditingServiceInfo,
   // setEditingTechInfo,
@@ -361,6 +369,20 @@ const ServiceInformation = ({
           handleChangeServicesInfoArea={handleChangeServicesInfoArea}
           PlantaResponsable={PlantaResponsable}
           AreaResponsable={AreaResponsable}
+          errorResponsable={errorResponsable}
+          setErrorResponsable={setErrorResponsable}
+          leyendaResponsable={leyendaResponsable}
+          setLeyendaResponsable={setLeyendaResponsable}
+          errorPlantaResponsable={errorPlantaResponsable}
+          leyendaPlantaResponsable={leyendaPlantaResponsable}
+          errorAreaResponsable={errorAreaResponsable}
+          leyendaAreaResponsable={leyendaAreaResponsable}
+          
+          
+          // setErrorPlantaResponsable={setErrorPlantaResponsable}
+          // setLeyendaPlantaResponsable={setLeyendaPlantaResponsable}
+          // setErrorAreaResponsable={setErrorAreaResponsable}
+          // setLeyendaAreaResponsable={setLeyendaAreaResponsable}
         />
 
         {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}
