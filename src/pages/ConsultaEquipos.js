@@ -823,6 +823,15 @@ const ConsultaEquipos = ({ history }) => {
   const [errorCurrendConditions, setErrorCurrendConditions] = useState(false);
   const [leyendaCurrendConditions, setLeyendaCurrendConditions] = useState("")
 
+  const [errorResponsable, setErrorResponsable] = useState(false);
+  const [leyendaResponsable, setLeyendaResponsable] = useState("")
+
+  const [errorPlantaResponsable, setErrorPlantaResponsable] = useState(false);
+  const [leyendaPlantaResponsable, setLeyendaPlantaResponsable] = useState("")
+
+  const [errorAreaResponsable, setErrorAreaResponsable] = useState(false);
+  const [leyendaAreaResponsable, setLeyendaAreaResponsable] = useState("")
+
 
 
 
@@ -875,13 +884,25 @@ const ConsultaEquipos = ({ history }) => {
       setErrorSubArea(true)
       setLeyendaErrorSubArea("Campo Requerido")
     }
-
     if ([null, "NO DATA AVAILABLE", "", undefined].includes(elemento.TechnicalSpecification.CurrentConditions)) {
       setErrorCurrendConditions(true)
       setLeyendaCurrendConditions("Campo Requerido")
     }
 
+    if ([null, "NO DATA AVAILABLE", "", undefined].includes(elemento.ServicesInformation.ResponsableEquipo)) {
+      setErrorResponsable(true)
+      setLeyendaResponsable("Campo Requerido")
+    }
+    if ([null, "NO DATA AVAILABLE", "", undefined].includes(elemento.ServicesInformation.PlantaResponsable)) {
+      setErrorPlantaResponsable(true)
+      setLeyendaPlantaResponsable("Campo Requerido")
+    }
+    if ([null, "NO DATA AVAILABLE", "", undefined].includes(elemento.ServicesInformation.AreaResponsable)) {
+      setErrorAreaResponsable(true)
+      setLeyendaAreaResponsable("Campo Requerido")
+    }
   }
+
   const desetCamposVacios = () => {
     setErrorName(false)
     setLeyendaName("")
@@ -909,6 +930,12 @@ const ConsultaEquipos = ({ history }) => {
     setLeyendaErrorSubArea("")
     setErrorCurrendConditions(false)
     setLeyendaCurrendConditions("")
+    setErrorResponsable(false)
+    setLeyendaResponsable("")
+    setErrorPlantaResponsable(false)
+    setLeyendaPlantaResponsable("")
+    setErrorAreaResponsable(false)
+    setLeyendaAreaResponsable("")
   }
 
   // ----------------            HANDLE CHANGE       -------------------
@@ -961,6 +988,10 @@ const ConsultaEquipos = ({ history }) => {
 
   const handleChangeServicesInfoPlanta = (e) => {
     const { label } = e ? e : (e = { label: "null" });
+    if (label !== "null") {
+      setErrorPlantaResponsable(false);
+      setLeyendaPlantaResponsable("");
+    }
 
     setPlantaResponsable((prevState) => ({
       ...prevState,
@@ -969,6 +1000,10 @@ const ConsultaEquipos = ({ history }) => {
   };
   const handleChangeServicesInfoArea = (e) => {
     const { label } = e ? e : (e = { label: "null" });
+    if (label !== "null") {
+      setErrorAreaResponsable(false);
+      setLeyendaAreaResponsable("");
+    }
 
     setAreaResponsable((prevState) => ({
       ...prevState,
@@ -4216,6 +4251,14 @@ const ConsultaEquipos = ({ history }) => {
               light={light}
               backForm={backForm}
               nextForm={nextForm}
+              errorResponsable={errorResponsable}
+              setErrorResponsable={setErrorResponsable}
+              leyendaResponsable={leyendaResponsable}
+              setLeyendaResponsable={setLeyendaResponsable}
+              errorPlantaResponsable={errorPlantaResponsable}
+              leyendaPlantaResponsable={leyendaPlantaResponsable}
+              errorAreaResponsable={errorAreaResponsable}
+              leyendaAreaResponsable={leyendaAreaResponsable}
             // casoServInfo={casoServInfo}
             // setEditingTechInfo={setEditingTechInfo}
             // equipoSeleccionado={equipoSeleccionado}
@@ -5793,6 +5836,14 @@ const ConsultaEquipos = ({ history }) => {
               light={light}
               backForm={backForm}
               nextForm={nextForm}
+              errorResponsable={errorResponsable}
+              setErrorResponsable={setErrorResponsable}
+              leyendaResponsable={leyendaResponsable}
+              setLeyendaResponsable={setLeyendaResponsable}
+              errorPlantaResponsable={errorPlantaResponsable}
+              leyendaPlantaResponsable={leyendaPlantaResponsable}
+              errorAreaResponsable={errorAreaResponsable}
+              leyendaAreaResponsable={leyendaAreaResponsable}
             />
           )}
           {formStepInsertar === 4 && ( // -------- Información Financiera
