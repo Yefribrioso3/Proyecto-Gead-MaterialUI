@@ -186,9 +186,9 @@ const Registro = ({ history }) => {
         .then((response) => {
           setUserByToken(response.data.data);
           console.log(response);
-          // if (response.data.data.Roles?.Name !== "ADMIN") {
-          //   history.replace("/ConsultaEquipos");
-          // }
+          if (response.data.data.Roles?.Name !== "ADMIN") {
+            history.replace("/ConsultaEquipos");
+          }
         })
         .catch((x) => {
           // console.log(x?.response);
