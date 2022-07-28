@@ -440,8 +440,8 @@ export const ModalInsertar = ({
             {/* <Grid style={style.link}> */}
 
             {/* -------------------------------    Agregar Desde Excel    --------------------------------------------- */}
-
-            <ExcelRegistro />
+                        {/* --- Este --- */}
+            {/* <ExcelRegistro /> */}
 
             {/* -------------------------------    Agregar Desde Excel    --------------------------------------------- */}
 

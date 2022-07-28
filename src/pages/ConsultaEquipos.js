@@ -3328,7 +3328,7 @@ const ConsultaEquipos = ({ history }) => {
             {/* -----------------------  Boton para insertar datos desde Excel   ----------------------------------- */}
             {/* -----------------------------------  Carga Masiva  ----------------------------------------------------- */}
 
-            <div id="imagen">
+            {/* <div id="imagen">
               <input
                 id="icon-button-file"
                 type="file"
@@ -3350,7 +3350,8 @@ const ConsultaEquipos = ({ history }) => {
                   <Add style={{ fontSize: 34, fontWeight: '800' }} />
                 </IconButton>
               </label>
-            </div>
+            </div> */}
+            {/* -----------------------------------  Carga Masiva  ----------------------------------------------------- */}
 
           </Toolbar>
 
