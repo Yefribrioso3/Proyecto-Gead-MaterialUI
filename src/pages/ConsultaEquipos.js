@@ -779,8 +779,8 @@ const ConsultaEquipos = ({ history }) => {
         ? (<> {setGuardarPorPlanta(false)} {setDisabled(false)} </>) : (<>{setGuardarPorPlanta(true)} {setDisabled(true)}</>)
 
       caso === "Editar" ? setModalEditar(true) : setModalEliminar(true); //Funcion para abrir el modal
-
-    } else if (userByToken.Roles?.Name === "Maintenance Manager") { // Edita en su Planta.
+      // Maintenance Manager Elaboration
+    } else if (["Maintenance Manager", "Maintenance Manager Elaboration"].includes(userByToken.Roles?.Name)) { // Edita en su Planta.
       userByToken.Location?.ShortName === elemento.Procedencia.areas.operations.countries.bu.Name
         ? userByToken.Location?.Name === elemento.Procedencia.areas.operations.Name ? (<>{setGuardarPorPlanta(false)} {setDisabled(false)}</>)
           : (<>{setGuardarPorPlanta(true)} {setDisabled(true)}</>) : (<>{setGuardarPorPlanta(true)} {setDisabled(true)}</>)

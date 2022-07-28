@@ -98,7 +98,7 @@ const Registro = ({ history }) => {
       margin: "2rem auto",
       borderRadius: "24px",
     },
-    validationPassword: {
+    stylePass: {
       padding: 20,
       height: "60px",
       width: "190px",

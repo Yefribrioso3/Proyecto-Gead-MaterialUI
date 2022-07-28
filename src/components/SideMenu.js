@@ -90,6 +90,7 @@ const optionsMEX = [
   'Cucapá (Craft)',
   'Cebadas y Maltas',
   'Salamanca (Casal)',
+  'MERIDA',
 ];
 
 const optionsCAC = [

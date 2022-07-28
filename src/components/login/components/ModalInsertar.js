@@ -21,6 +21,7 @@ import {
   FormGroup,
 } from "reactstrap";
 import { ThemeProvider } from "@material-ui/styles";
+import ExcelRegistro from "../ExcelRegistro";
 
 export const ModalInsertar = ({
   modalInsertar,
@@ -256,6 +257,7 @@ export const ModalInsertar = ({
                   <MenuItem value={4}>Maintenance Manager</MenuItem>
                   <MenuItem value={5}>Maintenance Coordinator Area</MenuItem>
                   <MenuItem value={6}>Viewer</MenuItem>
+                  <MenuItem value={7}>Maintenance Manager Elaboration</MenuItem>
                 </Select>
               </FormControl>
             </FormGroup>
@@ -288,11 +290,9 @@ export const ModalInsertar = ({
                   {/* CEBADAS Y MALTAS */}
                   {/* MALTERIA ZACATECAS - CONFIRMAR SI ES UNA PLANTA */}
                   {/* SALAMANCA (CASAL) */}
-                  {/* YUCATAN */}
                   {/* CUCAPÁ (CRAFT) */}
                   {/* HUACHIPA */}
                   {/* SAN JUAN (PUCALLPA) */}
-                  {/* SAN MATEO (HUAROCHIRI) */}
                   {/* BARBARIAN (CRAFT) */}
                   {/* BOGOTÁ BREWERY COMPANY (CRAFT) */}
                   <MenuItem value={3}>BARBADOS</MenuItem>
@@ -342,6 +342,7 @@ export const ModalInsertar = ({
                   <MenuItem value={47}>BOGOTÁ BREWERY COMPANY (CRAFT)</MenuItem>
                   <MenuItem value={48}>ENVASES Y TAPAS</MenuItem>
                   <MenuItem value={49}>VIDRIERA POTOSÍ</MenuItem>
+                  <MenuItem value={51}>MERIDA</MenuItem>
                 </Select>
               </FormControl>
             </FormGroup>
@@ -440,7 +441,7 @@ export const ModalInsertar = ({
 
             {/* -------------------------------    Agregar Desde Excel    --------------------------------------------- */}
 
-            {/* <ExcelRegistro /> */}
+            <ExcelRegistro />
 
             {/* -------------------------------    Agregar Desde Excel    --------------------------------------------- */}
 
@@ -462,7 +463,7 @@ export const ModalInsertar = ({
               {
                 passwordEditing ? (
                             <>
-                            <Paper elevation={10} style={style.validationPassword} >
+                            <Paper elevation={10} style={style.stylePass} >
                             <span className="text-danger text-small d-block mb-2">
                             Contraseña incorrecta
                             </span>

@@ -67,7 +67,7 @@ export const ModalEditar = ({
     },
   });
   // const style = createTheme({
-  //   validationPassword: {
+  //   stylePass: {
   //     padding: 20,
   //     height: "60px",
   //     width: "190px",
@@ -294,6 +294,7 @@ export const ModalEditar = ({
                     <MenuItem value={4}>Maintenance Manager</MenuItem>
                     <MenuItem value={5}>Maintenance Coordinator Area</MenuItem>
                     <MenuItem value={6}>Viewer</MenuItem>
+                    <MenuItem value={7}>Maintenance Manager Elaboration</MenuItem>
                   </Select>
                 </FormControl>
               </FormGroup>
@@ -361,6 +362,7 @@ export const ModalEditar = ({
                     <MenuItem value={47}>BOGOTÁ BREWERY COMPANY (CRAFT)</MenuItem>
                     <MenuItem value={48}>ENVASES Y TAPAS</MenuItem>
                     <MenuItem value={49}>VIDRIERA POTOSÍ</MenuItem>
+                    <MenuItem value={51}>MERIDA</MenuItem>
                   </Select>
                 </FormControl>
               </FormGroup>
@@ -377,7 +379,7 @@ export const ModalEditar = ({
                     value={userSeleccionado && userSeleccionado.Area}
                     label="Area"
                     variant="outlined"
-                    required
+                    // required
                     onChange={handleChange}
                   >
                     <MenuItem value={"GENERAL SERVICES"}>GENERAL SERVICES</MenuItem>

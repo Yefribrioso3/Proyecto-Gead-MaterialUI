@@ -17,31 +17,37 @@ const ExcelRegistro = () => {
   });
 
   const send = async (item) => {
-    // console.log(item);
+    console.log(item);
 
     const Excel = item.map((equipo) => {
       return (equipo = {
+        // Name:
+        //   equipo[" user "] === undefined ? "No Data Available" : equipo[" user "],
         Name:
-          equipo[" user "] === undefined
-            ? "No Data Available"
-            : equipo[" user "],
+          equipo.user === undefined ? "No Data Available" : equipo.user,
         LastName:
           equipo.Apellido === undefined ? "No Data Available" : equipo.Apellido,
         email:
           equipo.correo === undefined ? "No Data Available" : equipo.correo,
-        // password: "Prueba@1",
-        roleId: 1,
+        Area:
+          equipo.Area === undefined ? "No Data Available" : equipo.Area.toUpperCase(),
+        operation:
+          equipo.operation === undefined ? "No Data Available" : equipo.operation.toUpperCase(),
+        password: "Prueba@1",
+        Estado: true,
+        roleId: 7,
       });
     });
 
     setUser(Excel);
 
     // console.log(Excel);
+
     await api(Excel);
   };
 
   const api = async (e) => {
-    console.log(e);
+    // console.log(e);
 
     e.map(async (u) => {
       await Axios.post(`${globalApi}/register`, u)
@@ -61,44 +67,44 @@ const ExcelRegistro = () => {
       file === undefined
         ? "undefined"
         : new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.readAsArrayBuffer(file);
+          const fileReader = new FileReader();
+          fileReader.readAsArrayBuffer(file);
 
-            fileReader.onload = (e) => {
-              const bufferArray = e.target.result;
+          fileReader.onload = (e) => {
+            const bufferArray = e.target.result;
 
-              const workbook = XLSX.read(bufferArray, { type: "buffer" });
+            const workbook = XLSX.read(bufferArray, { type: "buffer" });
 
-              const workbookSheetsName = workbook.SheetNames[1];
+            const workbookSheetsName = workbook.SheetNames[0];
 
-              const workbookSheet = workbook.Sheets[workbookSheetsName];
+            const workbookSheet = workbook.Sheets[workbookSheetsName];
 
-              const data = XLSX.utils.sheet_to_json(workbookSheet);
+            const data = XLSX.utils.sheet_to_json(workbookSheet);
 
-              // const jData = [];
-              // for (let i = 0; i < data.length; i++) {
-              //     const dato = data[i];
+            // const jData = [];
+            // for (let i = 0; i < data.length; i++) {
+            //     const dato = data[i];
 
-              //     jData.push({
-              //         ...dato,
-              //         Date_of_Installation: formatearFechaExcel(dato.Date_of_Installation),
-              //         Date_of_Desintallation: formatearFechaExcel(dato.Date_of_Desintallation)
-              //     });
-              // }
+            //     jData.push({
+            //         ...dato,
+            //         Date_of_Installation: formatearFechaExcel(dato.Date_of_Installation),
+            //         Date_of_Desintallation: formatearFechaExcel(dato.Date_of_Desintallation)
+            //     });
+            // }
 
-              resolve(data);
-            };
-            fileReader.onerror = (error) => {
-              reject(error);
-            };
-          });
+            resolve(data);
+          };
+          fileReader.onerror = (error) => {
+            reject(error);
+          };
+        });
 
     promise === "undefined"
       ? console.log("undefined")
       : promise.then((d) => {
-          setItem(d);
-          send(d);
-        });
+        setItem(d);
+        send(d);
+      });
 
     function formatearFechaExcel(fechaExcel) {
       const diasUTC = Math.floor(fechaExcel - 25569);

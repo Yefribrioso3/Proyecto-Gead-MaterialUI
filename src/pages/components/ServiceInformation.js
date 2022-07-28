@@ -306,7 +306,13 @@ const ServiceInformation = ({
                 value={
                   servicesInformation && servicesInformation.DesinstallationReason
                 }
-                onChange={handleChangeServicesInformation}
+                onChange={(e) => {
+                  let value = e.target.value.length;
+                  if (value <= 100) {
+                    handleChangeServicesInformation(e);
+                  }
+                }
+                }
               />
             </FormGroup>
 
@@ -333,7 +339,13 @@ const ServiceInformation = ({
               name="DesuseReason"
               // required
               value={servicesInformation && servicesInformation.DesuseReason}
-              onChange={handleChangeServicesInformation}
+              onChange={(e) => {
+                let value = e.target.value.length;
+                if (value <= 100) {
+                  handleChangeServicesInformation(e);
+                }
+              }
+              }
             />
           </FormGroup>
 
@@ -377,12 +389,12 @@ const ServiceInformation = ({
           leyendaPlantaResponsable={leyendaPlantaResponsable}
           errorAreaResponsable={errorAreaResponsable}
           leyendaAreaResponsable={leyendaAreaResponsable}
-          
-          
-          // setErrorPlantaResponsable={setErrorPlantaResponsable}
-          // setLeyendaPlantaResponsable={setLeyendaPlantaResponsable}
-          // setErrorAreaResponsable={setErrorAreaResponsable}
-          // setLeyendaAreaResponsable={setLeyendaAreaResponsable}
+
+
+        // setErrorPlantaResponsable={setErrorPlantaResponsable}
+        // setLeyendaPlantaResponsable={setLeyendaPlantaResponsable}
+        // setErrorAreaResponsable={setErrorAreaResponsable}
+        // setLeyendaAreaResponsable={setLeyendaAreaResponsable}
         />
 
         {/* -------------------------    BOTONES IZQUIERDA - DERECHA    ------------------------------- */}

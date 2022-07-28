@@ -76,7 +76,7 @@ const LoginScreen = ({ history }) => {
       margin: "2rem auto",
       borderRadius: "24px",
     },
-    validationPassword: {
+    stylePass: {
       padding: 20,
       height: "60px",
       width: "190px",
@@ -374,7 +374,7 @@ const LoginScreen = ({ history }) => {
 
           {passwordEditing ? (
             <>
-              <Paper elevation={10} style={style.validationPassword}>
+              <Paper elevation={10} style={style.stylePass}>
                 <span className="text-danger text-small d-block mb-2">
                   {/* {errors?.equipos?.message} */}
                   Contraseña incorrecta

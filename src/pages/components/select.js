@@ -130,6 +130,7 @@ export const select = {
         { label: "BOGOTÁ BREWERY COMPANY (CRAFT)" },
         { label: "ENVASES Y TAPAS" },
         { label: "VIDRIERA POTOSÍ" },
-        { label: "MAZATLAN" }
+        { label: "MAZATLAN" },
+        { label: "MERIDA" }
     ],
 }
