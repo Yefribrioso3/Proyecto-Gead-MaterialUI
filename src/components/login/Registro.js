@@ -401,6 +401,16 @@ const Registro = ({ history }) => {
       },
     },
     {
+      field: "LastLogin",
+      headerName: "LastLogin",
+      width: 130,
+      hide: true,
+      // flex: 1,
+      valueGetter: (params) => {
+        return params.row.LastLogin;
+      },
+    },
+    {
       field: "actions",
       headerName: "Acciones",
       width: 120,
