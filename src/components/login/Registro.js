@@ -5,7 +5,7 @@ import { DataGrid, esES, GridToolbarContainer, GridToolbarExport } from "@mui/x-
 import Controls from "../controls/Controls";
 import { ModalEditar } from "./components/ModalEditar";
 import { ModalInsertar } from "./components/ModalInsertar";
-import { Delete, Search, Visibility } from "@material-ui/icons";
+import { CloudDownload, Delete, Search, Visibility } from "@material-ui/icons";
 import {
   Button,
   createTheme,
@@ -20,8 +20,10 @@ import {
 import { authAxios } from "../../types/headerToken";
 import Gead from "../../assets/logo.png";
 import GeadWhite from "../../assets/logo-white.png";
-import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import { Modal, ModalBody, ModalFooter } from "reactstrap";
+// ModalHeader
 import { globalApi } from "../../types/api.types";
+import * as XLSX from "xlsx";
 /* eslint-disable react/jsx-pascal-case */
 // import { useForm } from 'react-hook-form';
 // import ExcelRegistro from './ExcelRegistro';
@@ -57,23 +59,62 @@ const Registro = ({ history }) => {
   function CustomToolbar() { // Para descargar Users en excel
     return (
       <GridToolbarContainer>
-        <GridToolbarExport style={{
-          color:
-            theme.palette.type === "dark"
-              ? theme.palette.primary.light
-              : theme.palette.primary.dark,
-          "&:MuiDataGridMenuList": {
-            // &:MuiDataGrid-menuList
-            backgroundColor: theme.palette.primary.dark,
-          },
-        }}
+        <GridToolbarExport
+          style={{
+            color:
+              theme.palette.type === "dark"
+                ? theme.palette.primary.light
+                : theme.palette.primary.dark,
+            "&:MuiDataGridMenuList": {
+              // &:MuiDataGrid-menuList
+              backgroundColor: theme.palette.primary.dark,
+            },
+          }}
           printOptions={{ disableToolbarButton: true }}
+          // onClick={(e) => downloadExcel(e)}
         />
         {/* <GridColumnsToolbarButton />
         <GridFilterToolbarButton /> */}
+
+        {/* <Controls.Button
+          variant="contained"
+          size="large"
+          color="secondary"
+          startIcon={<CloudDownload style={{ fontSize: 16, fontWeight: "800" }} />}
+          onClick={() => downloadExcel(filterFn.fn(allUser))}
+          style={{ fontSize: 12, fontWeight: "600" }}
+          text={"Exportar a Excel"}
+        // disabled={Roles}
+        ></Controls.Button> */}
       </GridToolbarContainer>
     );
   }
+
+  //  ----------------- Descargar desde EXCEL -----------
+  const downloadExcel = (e) => {
+    console.log(e.target)
+    const datos = filterFn.fn(allUser);
+
+    const Json = datos.map((d) => {
+      return (d = {
+        ID: d.Id_Usuario,
+        Name: d.Name,
+        Apellidos: d.LastName,
+        BU: d.Location?.ShortName,
+        Planta: d.Location?.Name,
+        Area: d.Area,
+        Rol: d.Roles?.Name,
+        Email: d.email,
+      })
+    })
+
+    const worksheet = XLSX.utils.json_to_sheet(Json);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
+    //XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
+    XLSX.writeFile(workbook, "Users.xlsx");
+  };
 
   // const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -177,15 +218,15 @@ const Registro = ({ history }) => {
       });
   };
 
-  const [userByToken, setUserByToken] = useState({}); //  -------   Consulta al Api de User
+  // const [userByToken, setUserByToken] = useState({}); //  -------   Consulta al Api de User
 
   const getUserByToken = async () => {
     //  -------   Consulta al Api de User
     if (localStorage?.token) {
       await authAxios.get(`/user/user-data`)
         .then((response) => {
-          setUserByToken(response.data.data);
-          console.log(response);
+          // setUserByToken(response.data.data);
+          // console.log(response);
           if (response.data.data.Roles?.Name !== "ADMIN") {
             history.replace("/ConsultaEquipos");
           }
@@ -249,6 +290,7 @@ const Registro = ({ history }) => {
   };
 
   const abrirModalInsertar = () => {
+    console.log(allUser)
     //Funcion para limpiar los valores y abrir el modal insertar
     setUser({
       Name: "",
@@ -269,10 +311,20 @@ const Registro = ({ history }) => {
 
   const columns = [
     {
+      field: "Id_Usuario",
+      headerName: "Id Usuario",
+      width: 100,
+      hide: true,
+      // flex: 1,
+      valueGetter: (params) => {
+        return params.row.Id_Usuario;
+      },
+    },
+    {
       field: "Name",
       headerName: "Usuario",
-      flex: 1,
-      width: 400,
+      // flex: 1,
+      width: 200,
       // editable: true,
       headerClassName: "header",
       renderCell: (params) => {
@@ -293,8 +345,8 @@ const Registro = ({ history }) => {
     {
       field: "LastName",
       headerName: "Apellido",
-      flex: 1,
-      width: 150,
+      // flex: 1,
+      width: 200,
       valueGetter: (params) => {
         return params.row.LastName;
       },
@@ -302,16 +354,56 @@ const Registro = ({ history }) => {
     {
       field: "email",
       headerName: "Email",
-      width: 210,
-      flex: 1,
+      width: 250,
+      // flex: 1,
       valueGetter: (params) => {
         return params.row.email;
       },
     },
     {
+      field: "ShortName",
+      headerName: "BU",
+      hide: true,
+      width: 100,
+      // flex: 1,
+      valueGetter: (params) => {
+        return params.row.Location?.ShortName;
+      },
+    },
+    {
+      field: "planta",
+      headerName: "Planta",
+      width: 200,
+      hide: true,
+      // flex: 1,
+      valueGetter: (params) => {
+        return params.row.Location?.Name;
+      },
+    },
+    {
+      field: "Area",
+      headerName: "Area",
+      width: 200,
+      hide: true,
+      // flex: 1,
+      valueGetter: (params) => {
+        return params.row.Area;
+      },
+    },
+    {
+      field: "Roles",
+      headerName: "Roles",
+      width: 250,
+      // hide: true,
+      // flex: 1,
+      valueGetter: (params) => {
+        return params.row.Roles?.Name;
+      },
+    },
+    {
       field: "actions",
       headerName: "Acciones",
-      width: 210,
+      width: 120,
       sortable: false,
       disableColumnMenu: true,
       renderCell: (params) => (
@@ -483,11 +575,11 @@ const Registro = ({ history }) => {
             <DataGrid
               localeText={esES.components.MuiDataGrid.defaultProps.localeText}
               rows={filterFn.fn(allUser)}
+              columns={columns}
               loading={allUser.length === 0}
               disableSelectionOnClick
-              columns={columns}
-              pageSize={9}
-              rowsPerPageOptions={[8]}
+              // pageSize={9}
+              // rowsPerPageOptions={[8]}
               components={{
                 Toolbar: CustomToolbar,
               }}
@@ -501,8 +593,18 @@ const Registro = ({ history }) => {
                 "&:nth-of-type(odd)": {
                   backgroundColor: theme.palette.primary.dark,
                 },
+
+
               }}
-            // sx={{ m: 2 }}
+            // hideFooter
+            // sx={{ 
+            // "& .table-title, .first-cell": {
+            //   color: "primary.main",
+            // },
+            // "& .custom-cell": {
+            //   display: { xs: "block", md: "flex" },
+            // }, 
+            // }}
             // style={{ color:"blue"}}
             />
           </div>
